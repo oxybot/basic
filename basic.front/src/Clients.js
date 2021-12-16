@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { IconPlus, IconSearch, IconChevronUp } from "@tabler/icons";
+import { IconPlus, IconSearch, IconChevronUp, IconLoader } from "@tabler/icons";
 import { Link, useOutlet, useNavigate } from "react-router-dom";
 import pluralize from "pluralize";
 import { retries, apiUrl } from "./api";
@@ -10,11 +10,14 @@ function Clients() {
     let withOutlet = outlet !== null && outlet.props.children !== null;
 
     let [clients, setClients] = useState([]);
-
+    let [loading, setLoading] = useState(true);
     useEffect(() => {
         retries(() => fetch(apiUrl("Clients"), { method: "GET" }))
             .then(response => response.json())
-            .then(response => setClients(response))
+            .then(response => {
+                setClients(response);
+                setLoading(false);
+            })
             .catch(err => console.log(err));
     }, []);
 
@@ -60,6 +63,9 @@ function Clients() {
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <tr className={loading ? "" : "d-none"}>
+                                            <td colSpan="2"><IconLoader /> Loading...</td>
+                                        </tr>
                                         {clients.map(client => (
                                             <tr key={client.identifier} onClick={() => navigate("/clients/" + client.identifier)}>
                                                 <td>

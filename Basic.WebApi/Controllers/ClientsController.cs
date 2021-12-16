@@ -96,7 +96,7 @@ namespace Basic.WebApi.Controllers
         }
 
         /// <summary>
-        /// Updates a existing client.
+        /// Updates an existing client.
         /// </summary>
         /// <param name="identifier">The identifier of the client to update.</param>
         /// <param name="client">The client data.</param>
