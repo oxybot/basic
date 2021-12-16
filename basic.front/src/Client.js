@@ -23,7 +23,7 @@ function Client() {
     }, []);
 
     return (
-        <div className="container-xl">
+        <>
             <div className="page-header">
                 <div className="row align-items-center">
                     <div className="col-auto ms-auto d-print-none">
@@ -64,7 +64,7 @@ function Client() {
                         <div id="tab-top-1" className="card tab-pane show active">
                             <div className="card-body">
                                 {definition && objectMap(groupBy(definition.fields, x => x.group), (fields, group, index) => (
-                                    <div key={index}>
+                                    <div key={index} className="mb-3">
                                         <div className="card">
                                             {group !== "null" && (
                                                 <div className="card-header">
@@ -105,7 +105,7 @@ function Client() {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

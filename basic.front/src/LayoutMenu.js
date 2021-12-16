@@ -4,7 +4,7 @@ import LayoutUser from "./LayoutUser";
 
 function LayoutMenu() {
     return (
-        <aside className="navbar navbar-vertical navbar-expand-lg navbar-dark">
+        <aside className="navbar navbar-vertical navbar-expand-lg">
             <div className="container-fluid">
                 <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-menu">
                     <span className="navbar-toggler-icon"></span>
@@ -15,13 +15,13 @@ function LayoutMenu() {
                 <div className="navbar-nav flex-row d-lg-none">
                     <LayoutUser />
                 </div>
-                <div className="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-menu">
+                <div id="offcanvas-menu" className="offcanvas offcanvas-start" tabIndex="-1">
                     <div className="offcanvas-header">
                         <h5 className="offcanvas-title">Menu</h5>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav">
+                    <div className="offcanvas-body">
+                        <ul className="navbar-nav">
                             <li className="nav-item">
                                 <Link className="nav-link justify-content-start" to="/">
                                     <span className="nav-link-icon">

@@ -1,0 +1,4 @@
+/* Extra background for required fields */
+input.form-control.required {
+    background-color: #206bc411;
+}

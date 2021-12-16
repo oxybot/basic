@@ -1,8 +1,8 @@
-import { IconPlus } from "@tabler/icons";
 import { useState, useEffect } from "react";
 import { getDefinition } from "./api";
 import { groupBy, objectMap } from "./helpers";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 function ClientNew() {
     const [inputs, setInputs] = useState({});
@@ -53,8 +53,10 @@ function ClientNew() {
                         </div>
                         <div className="col-auto ms-auto d-print-none">
                             <div className="d-flex">
+                                <Link to="./.." className="btn btn-link me-3">
+                                    Cancel
+                                </Link>
                                 <button type="submit" className="btn btn-primary">
-                                    <IconPlus />
                                     Create
                                 </button>
                             </div>
