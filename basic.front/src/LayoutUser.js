@@ -2,8 +2,10 @@ import { IconMoon, IconSun } from "@tabler/icons";
 import { Link } from "react-router-dom";
 
 function LayoutUser() {
+    document.body.className = localStorage.getItem('theme') || 'theme-light';
     function enableTheme(theme) {
         document.body.className = theme;
+        localStorage.setItem('theme', theme);
     }
 
     return (
