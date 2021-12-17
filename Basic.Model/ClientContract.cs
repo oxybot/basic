@@ -4,8 +4,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Basic.Model
 {
+    /// <summary>
+    /// Represents a client contract.
+    /// </summary>
     public class ClientContract : BaseModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClientContract"/> class.
+        /// </summary>
         public ClientContract()
         {
             this.Services = new List<Service>();
@@ -18,14 +24,36 @@ namespace Basic.Model
         [Required]
         public Client Client { get; set; }
 
+        /// <summary>
+        /// Gets or sets the internal code associated to the contract.
+        /// </summary>
         [Required]
-        public string Code { get; set; }
+        public string InternalCode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the title of the contract.
+        /// </summary>
         [Required]
-        public string Description { get; set; }
+        public string Title { get; set; }
 
+        /// <summary>
+        /// Gets or sets the signature date of the contract.
+        /// </summary>
+        public DateTime? SignatureDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the private notes associated to the contract.
+        /// </summary>
+        public string PrivateNotes { get; set; }
+
+        /// <summary>
+        /// Gets the services associated to the contract.
+        /// </summary>
         public ICollection<Service> Services { get; }
 
+        /// <summary>
+        /// Gets the invoices attached to the contract.
+        /// </summary>
         public ICollection<Invoice> Invoices { get; }
     }
 }
