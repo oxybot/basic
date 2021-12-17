@@ -46,19 +46,6 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         protected ILogger<BaseModelController<TModel, TSimpleDTO, TStandardDTO>> Logger { get; }
 
-        /// <summary>
-        /// Retrieves all instances of this entity.
-        /// </summary>
-        /// <returns>The list of clients.</returns>
-        [HttpGet]
-        [Produces("application/json")]
-        public virtual IEnumerable<TSimpleDTO> GetAll()
-        {
-            return SimpleAddIncludes(Context.Set<TModel>())
-                .ToList()
-                .Select(e => Mapper.Map<TSimpleDTO>(e));
-        }
-
         protected virtual IQueryable<TModel> SimpleAddIncludes(IQueryable<TModel> query)
         {
             return query;

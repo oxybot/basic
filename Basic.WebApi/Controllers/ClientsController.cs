@@ -31,9 +31,11 @@ namespace Basic.WebApi.Controllers
         /// <returns>The list of clients.</returns>
         [HttpGet]
         [Produces("application/json")]
-        public override IEnumerable<SimpleClientDTO> GetAll()
+        public IEnumerable<SimpleClientDTO> GetAll()
         {
-            return base.GetAll();
+            return SimpleAddIncludes(Context.Set<Client>())
+                .ToList()
+                .Select(e => Mapper.Map<SimpleClientDTO>(e));
         }
 
         /// <summary>

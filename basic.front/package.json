@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "clsx": "^1.1.1",
+    "dayjs": "^1.10.7",
     "history": "5",
     "pluralize": "^8.0.0",
     "react": "^17.0.2",

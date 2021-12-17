@@ -29,12 +29,21 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all clients' contracts.
         /// </summary>
+        /// <param name="clientId">The identifier of the client to filter the result list, if any.</param>
         /// <returns>The list of clients' contracts.</returns>
         [HttpGet]
         [Produces("application/json")]
-        public override IEnumerable<SimpleClientContractDTO> GetAll()
+        public IEnumerable<SimpleClientContractDTO> GetAll(Guid? clientId)
         {
-            return base.GetAll();
+            var entities = SimpleAddIncludes(Context.Set<ClientContract>());
+            if (clientId.HasValue)
+            {
+                entities = entities.Where(c => c.Client.Identifier == clientId.Value);
+            }
+
+            return entities
+                .ToList()
+                .Select(e => Mapper.Map<SimpleClientContractDTO>(e));
         }
 
         protected override IQueryable<ClientContract> SimpleAddIncludes(IQueryable<ClientContract> query)
