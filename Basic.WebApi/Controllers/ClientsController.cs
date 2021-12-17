@@ -3,6 +3,7 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Basic.WebApi.Controllers
 {
@@ -92,6 +93,31 @@ namespace Basic.WebApi.Controllers
         public override void Delete(Guid identifier)
         {
             base.Delete(identifier);
+        }
+
+        /// <summary>
+        /// Retrieves the basic information about the linked entities.
+        /// </summary>
+        /// <param name="identifier">The identifier of the client.</param>
+        /// <returns>The linked entities information.</returns>
+        [HttpGet]
+        [Produces("application/json")]
+        [Route("{identifier}/links")]
+        public ClientLinksDTO GetLinks(Guid identifier)
+        {
+            var entity = Context
+                .Set<Client>()
+                .Include(c => c.Contracts)
+                .SingleOrDefault(c => c.Identifier == identifier);
+            if (entity == null)
+            {
+                throw new NotFoundException("Not existing entity");
+            }
+
+            return new ClientLinksDTO()
+            {
+                ClientContracts = entity.Contracts.Count()
+            };
         }
     }
 }
