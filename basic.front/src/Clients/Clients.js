@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { IconPlus, IconSearch, IconChevronUp, IconLoader } from "@tabler/icons";
 import { Link, useOutlet, useNavigate } from "react-router-dom";
 import pluralize from "pluralize";
-import { retries, apiUrl } from "./api";
+import { retries, apiUrl } from "../api";
 
 function Clients() {
     let outlet = useOutlet();

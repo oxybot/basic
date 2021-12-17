@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
-import { retries, apiUrl, getDefinition } from "./api";
-import { objectMap, groupBy } from "./helpers";
+import { retries, apiUrl, getDefinition } from "../api";
+import { objectMap, groupBy } from "../helpers";
+import ClientContractList from "../ClientContracts/ClientContractList";
 
 function Client() {
     const { clientId } = useParams();
@@ -14,7 +15,7 @@ function Client() {
             .then(response => response.json())
             .then(response => setEntity(response))
             .catch(err => console.log(err));
-    }, []);
+    }, [clientId]);
 
     useEffect(() => {
         getDefinition("Client")
@@ -57,7 +58,7 @@ function Client() {
                 <div className="card-tabs">
                     <ul className="nav nav-tabs">
                         <li className="nav-item"><a href="#tab-top-1" className="nav-link active" data-bs-toggle="tab">Details</a></li>
-                        <li className="nav-item"><a href="#tab-top-2" className="nav-link" data-bs-toggle="tab">Projects</a></li>
+                        <li className="nav-item"><a href="#tab-top-2" className="nav-link" data-bs-toggle="tab">Contracts</a></li>
                         <li className="nav-item"><a href="#tab-top-3" className="nav-link" data-bs-toggle="tab">Invoices</a></li>
                     </ul>
                     <div className="tab-content">
@@ -88,10 +89,7 @@ function Client() {
                         </div>
                         <div id="tab-top-2" className="card tab-pane">
                             <div className="card-body">
-                                <div className="card-title">Projects</div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
-                                </p>
+                                <ClientContractList />
                             </div>
                         </div>
                         <div id="tab-top-3" className="card tab-pane">

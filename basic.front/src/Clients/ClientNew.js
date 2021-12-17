@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { getDefinition } from "./api";
-import { groupBy, objectMap } from "./helpers";
+import { getDefinition } from "../api";
+import { groupBy, objectMap } from "../helpers";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 

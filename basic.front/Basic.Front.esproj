@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.4.0-alpha">
+﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.4.0-alpha">
   <PropertyGroup Label="Globals">
     <ProjectGuid>87b79dc1-836b-47c6-ae19-0559d54e1041</ProjectGuid>
   </PropertyGroup>
@@ -9,10 +9,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Script Include="**" Exclude="*.esproj;**\node_modules\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\api\" />
-    <Folder Include="src\helpers\" />
   </ItemGroup>
   <!-- This target is copied from the ASP.NET SPA template in order to ensure node_modules are in place. -->
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

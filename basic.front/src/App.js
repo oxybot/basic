@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
-import Clients from "./Clients";
-import Client from "./Client";
-import ClientNew from "./ClientNew";
+import Clients from "./Clients/Clients";
+import Client from "./Clients/Client";
+import ClientNew from "./Clients/ClientNew";
 import Layout from "./Layout";
 
 function App() {
