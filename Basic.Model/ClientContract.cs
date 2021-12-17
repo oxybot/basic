@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Basic.Model
 {
@@ -39,6 +40,7 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the signature date of the contract.
         /// </summary>
+        [Column(TypeName = "date")]
         public DateTime? SignatureDate { get; set; }
 
         /// <summary>

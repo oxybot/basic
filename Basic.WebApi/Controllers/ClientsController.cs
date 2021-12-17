@@ -11,7 +11,7 @@ namespace Basic.WebApi.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ClientsController : ControllerBase
+    public class ClientsController : BaseModelController<Client, SimpleClientDTO, ClientDTO>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientsController"/> class.
@@ -21,26 +21,9 @@ namespace Basic.WebApi.Controllers
         /// <param name="logger">The associated logger.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public ClientsController(Context context, IMapper mapper, ILogger<ClientsController> logger)
+            : base(context, mapper, logger)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-            Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        /// <summary>
-        /// Gets the datasource context.
-        /// </summary>
-        protected Context Context { get; }
-
-        /// <summary>
-        /// Gets the configured automapper.
-        /// </summary>
-        protected IMapper Mapper { get; }
-
-        /// <summary>
-        /// Gets the associated logger.
-        /// </summary>
-        protected ILogger<ClientsController> Logger { get; }
 
         /// <summary>
         /// Retrieves all clients.
@@ -48,9 +31,9 @@ namespace Basic.WebApi.Controllers
         /// <returns>The list of clients.</returns>
         [HttpGet]
         [Produces("application/json")]
-        public IEnumerable<SimpleClientDTO> GetAll()
+        public override IEnumerable<SimpleClientDTO> GetAll()
         {
-            return Context.Set<Client>().ToList().Select(e => Mapper.Map<SimpleClientDTO>(e));
+            return base.GetAll();
         }
 
         /// <summary>
@@ -62,15 +45,9 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public ClientDTO GetOne(Guid identifier)
+        public override ClientDTO GetOne(Guid identifier)
         {
-            var entity = Context.Set<Client>().SingleOrDefault(c => c.Identifier == identifier);
-            if (entity == null)
-            {
-                throw new NotFoundException("Not existing entity");
-            }
-
-            return Mapper.Map<ClientDTO>(entity);
+            return base.GetOne(identifier);
         }
 
         /// <summary>
@@ -81,22 +58,13 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [Produces("application/json")]
-        public ClientDTO Post(ClientDTO client)
+        public override SimpleClientDTO Post(ClientDTO client)
         {
-            if (!ModelState.IsValid)
-            {
-                throw new BadRequestException("Invalid data");
-            }
-
-            Client entity = Mapper.Map<Client>(client);
-            Context.Set<Client>().Add(entity);
-            Context.SaveChanges();
-
-            return Mapper.Map<ClientDTO>(entity);
+            return base.Post(client);
         }
 
         /// <summary>
-        /// Updates an existing client.
+        /// Updates a specific client.
         /// </summary>
         /// <param name="identifier">The identifier of the client to update.</param>
         /// <param name="client">The client data.</param>
@@ -106,23 +74,9 @@ namespace Basic.WebApi.Controllers
         [HttpPut]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public ClientDTO Put(Guid identifier, ClientDTO client)
+        public override SimpleClientDTO Put(Guid identifier, ClientDTO client)
         {
-            if (!ModelState.IsValid)
-            {
-                throw new BadRequestException("Invalid data");
-            }
-
-            var entity = Context.Set<Client>().SingleOrDefault(e => e.Identifier == identifier);
-            if (entity == null)
-            {
-                throw new NotFoundException("Not existing entity");
-            }
-
-            Mapper.Map(client, entity);
-            Context.SaveChanges();
-
-            return Mapper.Map<ClientDTO>(entity);
+            return base.Put(identifier, client);
         }
 
         /// <summary>
@@ -133,16 +87,9 @@ namespace Basic.WebApi.Controllers
         [HttpDelete]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public void Delete(Guid identifier)
+        public override void Delete(Guid identifier)
         {
-            var entity = Context.Set<Client>().SingleOrDefault(e => e.Identifier == identifier);
-            if (entity == null)
-            {
-                throw new NotFoundException($"Not existing entity");
-            }
-
-            Context.Set<Client>().Remove(entity);
-            Context.SaveChanges();
+            base.Delete(identifier);
         }
     }
 }

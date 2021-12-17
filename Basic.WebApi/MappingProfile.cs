@@ -9,7 +9,12 @@ namespace Basic.WebApi
         public MappingProfile()
         {
             CreateMap<Client, ClientDTO>().ReverseMap();
-            CreateMap<Client, SimpleClientDTO>().ReverseMap();
+            CreateMap<Client, SimpleClientDTO>();
+
+            CreateMap<ClientContract, ClientContractDTO>()
+                .ReverseMap()
+                .ForMember(c => c.Client, options => options.Ignore());
+            CreateMap<ClientContract, SimpleClientContractDTO>();
         }
     }
 }
