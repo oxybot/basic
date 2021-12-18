@@ -1,4 +1,4 @@
-import { IconDashboard, IconConfetti } from '@tabler/icons';
+import { IconDashboard, IconConfetti, IconNotebook } from '@tabler/icons';
 import { Link } from "react-router-dom";
 import LayoutUser from "./LayoutUser";
 
@@ -39,6 +39,16 @@ function LayoutMenu() {
                                     </span>
                                     <span className="nav-link-title">
                                         Clients
+                                    </span>
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link justify-content-start" to="/clientcontracts">
+                                    <span className="nav-link-icon">
+                                        <IconNotebook />
+                                    </span>
+                                    <span className="nav-link-title">
+                                        Client Contracts
                                     </span>
                                 </Link>
                             </li>

@@ -3,35 +3,24 @@ import { useParams, Link } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
 import { retries, apiUrl, getDefinition } from "../api";
 import { objectMap, groupBy } from "../helpers";
-import ClientContractInitializedList from "../ClientContracts/ClientContractInitializedList";
 
-function Client() {
-  const { clientId } = useParams();
+export default function ClientContract() {
+  const { contractId } = useParams();
   const [definition, setDefinition] = useState(null);
   const [entity, setEntity] = useState({});
-  const [links, setLinks] = useState({});
 
   useEffect(() => {
-    getDefinition("Client")
+    getDefinition("ClientContract")
       .then((definition) => setDefinition(definition))
       .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
-    retries(() => fetch(apiUrl("Clients", clientId), { method: "GET" }))
+    retries(() => fetch(apiUrl("ClientContracts", contractId), { method: "GET" }))
       .then((response) => response.json())
       .then((response) => setEntity(response))
       .catch((err) => console.log(err));
-  }, [clientId]);
-
-  useEffect(() => {
-    retries(() =>
-      fetch(apiUrl("Clients", clientId, "links"), { method: "GET" })
-    )
-      .then((response) => response.json())
-      .then((response) => setLinks(response))
-      .catch((err) => console.log(err));
-  }, [clientId]);
+  }, [contractId]);
 
   return (
     <>
@@ -40,19 +29,19 @@ function Client() {
           <div className="col-auto ms-auto d-print-none">
             <div className="d-flex">
               <Link
-                to="/clients"
+                to="/clientcontracts"
                 className="btn btn-outline-primary btn-icon d-none d-lg-block"
               >
                 <IconChevronRight />
               </Link>
-              <Link to="/clients" className="btn btn-outline-primary d-lg-none">
+              <Link to="/clientcontracts" className="btn btn-outline-primary d-lg-none">
                 <IconChevronLeft />
                 Back
               </Link>
             </div>
           </div>
           <div className="col">
-            <h2 className="page-title">{entity.displayName}</h2>
+            <h2 className="page-title">{entity.internalCode} - {entity.title}</h2>
           </div>
           <div className="col-auto ms-auto d-print-none">
             <div className="d-flex">
@@ -77,16 +66,6 @@ function Client() {
             <li className="nav-item">
               <a href="#tab-top-1" className="nav-link active" data-bs-toggle="tab">
                 Details
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#tab-top-2" className="nav-link" data-bs-toggle="tab">
-                Contracts <span class="badge bg-green ms-2">{links.clientContracts}</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#tab-top-3" className="nav-link" data-bs-toggle="tab">
-                Invoices
               </a>
             </li>
           </ul>
@@ -122,26 +101,9 @@ function Client() {
                   )}
               </div>
             </div>
-            <div id="tab-top-2" className="card tab-pane">
-              <div className="card-body">
-                <ClientContractInitializedList />
-              </div>
-            </div>
-            <div id="tab-top-3" className="card tab-pane">
-              <div className="card-body">
-                <div className="card-title">Invoices</div>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Adipisci, alias aliquid distinctio dolorem expedita, fugiat
-                  hic magni molestiae molestias odit.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </>
   );
 }
-
-export default Client;

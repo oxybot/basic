@@ -1,29 +1,9 @@
 import { IconChevronUp, IconLoader } from "@tabler/icons";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { apiUrl, retries } from "../api";
+import { useNavigate } from "react-router-dom";
 
-export default function ClientContractList() {
+export default function ClientContractList({ loading, contracts }) {
   const navigate = useNavigate();
-  const { clientId } = useParams();
-  const [loading, setLoading] = useState(true);
-  const [contracts, setContracts] = useState([]);
-
-  useEffect(() => {
-    if (!clientId) {
-      return;
-    }
-    const url = apiUrl("ClientContracts");
-    url.searchParams.set("clientId", clientId);
-    retries(() => fetch(url, { method: "GET" }))
-      .then((response) => response.json())
-      .then((response) => {
-        setContracts(response);
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
-  }, [clientId]);
 
   return (
     <div className="table-responsive">
