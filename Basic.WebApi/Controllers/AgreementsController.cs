@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 namespace Basic.WebApi.Controllers
 {
     /// <summary>
-    /// Provides API to retrieve and manage client's contract data.
+    /// Provides API to retrieve and manage agreements data.
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ClientContractsController : BaseModelController<ClientContract, SimpleClientContractDTO, ClientContractDTO>
+    public class AgreementsController : BaseModelController<Agreement, SimpleAgreementDTO, AgreementDTO>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientsController"/> class.
@@ -21,21 +21,21 @@ namespace Basic.WebApi.Controllers
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public ClientContractsController(Context context, IMapper mapper, ILogger<ClientContractsController> logger)
+        public AgreementsController(Context context, IMapper mapper, ILogger<AgreementsController> logger)
             : base(context, mapper, logger)
         {
         }
 
         /// <summary>
-        /// Retrieves all clients' contracts.
+        /// Retrieves all agreements.
         /// </summary>
         /// <param name="clientId">The identifier of the client to filter the result list, if any.</param>
-        /// <returns>The list of clients' contracts.</returns>
+        /// <returns>The list of agreements.</returns>
         [HttpGet]
         [Produces("application/json")]
-        public IEnumerable<SimpleClientContractDTO> GetAll(Guid? clientId)
+        public IEnumerable<SimpleAgreementDTO> GetAll(Guid? clientId)
         {
-            var entities = SimpleAddIncludes(Context.Set<ClientContract>());
+            var entities = SimpleAddIncludes(Context.Set<Agreement>());
             if (clientId.HasValue)
             {
                 entities = entities.Where(c => c.Client.Identifier == clientId.Value);
@@ -43,81 +43,81 @@ namespace Basic.WebApi.Controllers
 
             return entities
                 .ToList()
-                .Select(e => Mapper.Map<SimpleClientContractDTO>(e));
+                .Select(e => Mapper.Map<SimpleAgreementDTO>(e));
         }
 
-        protected override IQueryable<ClientContract> SimpleAddIncludes(IQueryable<ClientContract> query)
+        protected override IQueryable<Agreement> SimpleAddIncludes(IQueryable<Agreement> query)
         {
             return query.Include(c => c.Client);
         }
 
-        protected override IQueryable<ClientContract> StandardAddIncludes(IQueryable<ClientContract> query)
+        protected override IQueryable<Agreement> StandardAddIncludes(IQueryable<Agreement> query)
         {
             return query.Include(c => c.Client);
         }
 
         /// <summary>
-        /// Retrieves a specific client's contract.
+        /// Retrieves a specific agreement.
         /// </summary>
-        /// <param name="identifier">The identifier of the client's contract.</param>
-        /// <returns>The detailed data about the client's contract identified by <paramref name="identifier"/>.</returns>
-        /// <response code="404">No contract is associated to the provided <paramref name="identifier"/>.</response>
+        /// <param name="identifier">The identifier of the agreement.</param>
+        /// <returns>The detailed data about the agreement identified by <paramref name="identifier"/>.</returns>
+        /// <response code="404">No agreement is associated to the provided <paramref name="identifier"/>.</response>
         [HttpGet]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public override ClientContractDTO GetOne(Guid identifier)
+        public override AgreementDTO GetOne(Guid identifier)
         {
             return base.GetOne(identifier);
         }
 
         /// <summary>
-        /// Creates a new client's contract.
+        /// Creates a new agreement.
         /// </summary>
-        /// <param name="contract">The client's contract data.</param>
-        /// <returns>The client's contract data after creation.</returns>
+        /// <param name="agreement">The agreement data.</param>
+        /// <returns>The agreement data after creation.</returns>
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [Produces("application/json")]
-        public override SimpleClientContractDTO Post(ClientContractDTO contract)
+        public override SimpleAgreementDTO Post(AgreementDTO agreement)
         {
             if (!ModelState.IsValid)
             {
                 throw new BadRequestException("Invalid data");
             }
 
-            var client = Context.Set<Client>().SingleOrDefault(c => c.Identifier == contract.ClientIdentifier);
+            var client = Context.Set<Client>().SingleOrDefault(c => c.Identifier == agreement.ClientIdentifier);
             if (client == null)
             {
                 throw new BadRequestException("Invalid client identifier");
             }
 
-            ClientContract model = Mapper.Map<ClientContract>(contract);
+            Agreement model = Mapper.Map<Agreement>(agreement);
             model.Client = client;
 
             return base.PostCore(model);
         }
 
         /// <summary>
-        /// Updates a specific client.
+        /// Updates a specific agreement.
         /// </summary>
-        /// <param name="identifier">The identifier of the client to update.</param>
-        /// <param name="contract">The client data.</param>
-        /// <returns>The client data after update.</returns>
+        /// <param name="identifier">The identifier of the agreement to update.</param>
+        /// <param name="agreement">The agreement data.</param>
+        /// <returns>The agreement data after update.</returns>
         /// <response code="400">The provided data are invalid.</response>
-        /// <response code="404">No client is associated to the provided <paramref name="identifier"/>.</response>
+        /// <response code="404">No agreement is associated to the provided <paramref name="identifier"/>.</response>
         [HttpPut]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public override SimpleClientContractDTO Put(Guid identifier, ClientContractDTO contract)
+        public override SimpleAgreementDTO Put(Guid identifier, AgreementDTO agreement)
         {
-            return base.Put(identifier, contract);
+            return base.Put(identifier, agreement);
         }
 
         /// <summary>
-        /// Deletes a specific client.
+        /// Deletes a specific agreement.
         /// </summary>
-        /// <param name="identifier">The identifier of the client to delete.</param>
-        /// <response code="404">No client is associated to the provided <paramref name="identifier"/>.</response>
+        /// <param name="identifier">The identifier of the agreement to delete.</param>
+        /// <response code="404">No agreement is associated to the provided <paramref name="identifier"/>.</response>
         [HttpDelete]
         [Produces("application/json")]
         [Route("{identifier}")]

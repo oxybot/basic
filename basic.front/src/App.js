@@ -4,8 +4,8 @@ import Clients from "./Clients/Clients";
 import Client from "./Clients/Client";
 import ClientNew from "./Clients/ClientNew";
 import Layout from "./Layout";
-import ClientContract from "./ClientContracts/ClientContract";
-import ClientContracts from "./ClientContracts/ClientContracts";
+import Agreement from "./Agreements/Agreement";
+import Agreements from "./Agreements/Agreements";
 
 function App() {
   return (
@@ -16,8 +16,8 @@ function App() {
           <Route path=":clientId" element={<Client />} />
         </Route>
         <Route path="/clients/new" element={<ClientNew />} />
-        <Route path="/clientcontracts" element={<ClientContracts />}>
-          <Route path=":contractId" element={<ClientContract />} />
+        <Route path="/agreements" element={<Agreements />}>
+          <Route path=":agreementId" element={<Agreement />} />
         </Route>
       </Routes>
     </Layout>

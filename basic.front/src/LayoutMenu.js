@@ -43,12 +43,12 @@ function LayoutMenu() {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link justify-content-start" to="/clientcontracts">
+                                <Link className="nav-link justify-content-start" to="/agreements">
                                     <span className="nav-link-icon">
                                         <IconNotebook />
                                     </span>
                                     <span className="nav-link-title">
-                                        Client Contracts
+                                        Agreements
                                     </span>
                                 </Link>
                             </li>

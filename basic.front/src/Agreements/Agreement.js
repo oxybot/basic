@@ -4,23 +4,23 @@ import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
 import { retries, apiUrl, getDefinition } from "../api";
 import { objectMap, groupBy } from "../helpers";
 
-export default function ClientContract() {
-  const { contractId } = useParams();
+export default function Agreement() {
+  const { agreementId } = useParams();
   const [definition, setDefinition] = useState(null);
   const [entity, setEntity] = useState({});
 
   useEffect(() => {
-    getDefinition("ClientContract")
+    getDefinition("Agreement")
       .then((definition) => setDefinition(definition))
       .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
-    retries(() => fetch(apiUrl("ClientContracts", contractId), { method: "GET" }))
+    retries(() => fetch(apiUrl("Agreements", agreementId), { method: "GET" }))
       .then((response) => response.json())
       .then((response) => setEntity(response))
       .catch((err) => console.log(err));
-  }, [contractId]);
+  }, [agreementId]);
 
   return (
     <>
@@ -29,19 +29,24 @@ export default function ClientContract() {
           <div className="col-auto ms-auto d-print-none">
             <div className="d-flex">
               <Link
-                to="/clientcontracts"
+                to="/agreements"
                 className="btn btn-outline-primary btn-icon d-none d-lg-block"
               >
                 <IconChevronRight />
               </Link>
-              <Link to="/clientcontracts" className="btn btn-outline-primary d-lg-none">
+              <Link
+                to="/agreements"
+                className="btn btn-outline-primary d-lg-none"
+              >
                 <IconChevronLeft />
                 Back
               </Link>
             </div>
           </div>
           <div className="col">
-            <h2 className="page-title">{entity.internalCode} - {entity.title}</h2>
+            <h2 className="page-title">
+              {entity.internalCode} - {entity.title}
+            </h2>
           </div>
           <div className="col-auto ms-auto d-print-none">
             <div className="d-flex">
@@ -64,7 +69,11 @@ export default function ClientContract() {
         <div className="card-tabs">
           <ul className="nav nav-tabs">
             <li className="nav-item">
-              <a href="#tab-top-1" className="nav-link active" data-bs-toggle="tab">
+              <a
+                href="#tab-top-1"
+                className="nav-link active"
+                data-bs-toggle="tab"
+              >
                 Details
               </a>
             </li>

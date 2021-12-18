@@ -2,7 +2,7 @@ import { IconChevronUp, IconLoader } from "@tabler/icons";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
-export default function ClientContractList({ loading, contracts }) {
+export default function AgreementList({ loading, agreements }) {
   const navigate = useNavigate();
 
   return (
@@ -23,19 +23,19 @@ export default function ClientContractList({ loading, contracts }) {
               <IconLoader /> Loading...
             </td>
           </tr>
-          {contracts.map((contract) => (
+          {agreements.map((agreement) => (
             <tr
-              key={contract.identifier}
+              key={agreement.identifier}
               onClick={() =>
-                navigate("/clientcontracts/" + contract.identifier)
+                navigate("/agreements/" + agreement.identifier)
               }
             >
-              <td>{contract.internalCode}</td>
-              <td>{contract.title}</td>
-              <td>{dayjs(contract.signatureDate).format("DD MMM YYYY")}</td>
+              <td>{agreement.internalCode}</td>
+              <td>{agreement.title}</td>
+              <td>{dayjs(agreement.signatureDate).format("DD MMM YYYY")}</td>
             </tr>
           ))}
-          {!loading && contracts.length === 0 && (
+          {!loading && agreements.length === 0 && (
             <tr>
               <td colSpan="3">
                 <em>No results</em>

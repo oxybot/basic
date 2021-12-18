@@ -32,12 +32,12 @@ export function getDefinition(type) {
   ).then((response) => response.json());
 }
 
-export function useApiClientContracts(clientId = null) {
+export function useApiAgreements(clientId = null) {
   const [loading, setLoading] = useState(true);
-  const [contracts, setContracts] = useState([]);
+  const [agreements, setAgreements] = useState([]);
 
   useEffect(() => {
-    const url = apiUrl("ClientContracts");
+    const url = apiUrl("Agreements");
     if (clientId) {
       url.searchParams.set("clientId", clientId);
     }
@@ -45,11 +45,11 @@ export function useApiClientContracts(clientId = null) {
     retries(() => fetch(url, { method: "GET" }))
       .then((response) => response.json())
       .then((response) => {
-        setContracts(response);
+        setAgreements(response);
         setLoading(false);
       })
       .catch((err) => console.log(err));
   }, [clientId]);
 
-  return [loading, contracts];
+  return [loading, agreements];
 }

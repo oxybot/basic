@@ -13,7 +13,7 @@ namespace Basic.Model
         /// </summary>
         public Client()
         {
-            this.Contracts = new List<ClientContract>();
+            this.Agreements = new List<Agreement>();
         }
 
         /// <summary>
@@ -34,8 +34,8 @@ namespace Basic.Model
         public StreetAddress Address { get; set; }
 
         /// <summary>
-        /// Gets the associated contracts.
+        /// Gets the associated agreements.
         /// </summary>
-        public ICollection<ClientContract> Contracts { get; }
+        public ICollection<Agreement> Agreements { get; }
     }
 }

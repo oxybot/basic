@@ -3,34 +3,20 @@
   <Class Name="Basic.Model.Client">
     <Position X="1.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <HashCode>AAAAEAAAAAAAAIAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Client.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Contracts" />
-    </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="Basic.Model.ClientContract">
-    <Position X="3.25" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>gAAAAAAAAAAgAAAAAAAgAAAAAAAAAAAAAAAAACAAAAQ=</HashCode>
-      <FileName>ClientContract.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Client" />
-    </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="Services" />
+      <Property Name="Agreements" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Basic.Model.Service">
     <Position X="3.25" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAACAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAIgAAAAAA=</HashCode>
+      <HashCode>IAACAAAAAAAgAAAAAAACAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
       <FileName>Service.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Contract" />
       <Property Name="Product" />
     </ShowAsAssociation>
   </Class>
@@ -40,6 +26,16 @@
       <HashCode>AAAAEAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAACBAAAA=</HashCode>
       <FileName>Product.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Basic.Model.Agreement">
+    <Position X="4.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAgAAAAAAEAAEAAAQAAAAAAAAAAAAAAAACAAAAQ=</HashCode>
+      <FileName>Agreement.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Client" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

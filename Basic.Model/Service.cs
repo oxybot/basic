@@ -6,10 +6,10 @@ namespace Basic.Model
     public class Service : BaseModel
     {
         /// <summary>
-        /// Gets or sets the parent contract.
+        /// Gets or sets the parent agreement.
         /// </summary>
         [Required]
-        public ClientContract Contract { get; set; }
+        public Agreement Agreement { get; set; }
 
         /// <summary>
         /// Gets or sets the linked product, if any.

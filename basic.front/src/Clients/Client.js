@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
 import { retries, apiUrl, getDefinition } from "../api";
 import { objectMap, groupBy } from "../helpers";
-import ClientContractInitializedList from "../ClientContracts/ClientContractInitializedList";
+import AgreementInitializedList from "../Agreements/AgreementInitializedList";
 
 function Client() {
   const { clientId } = useParams();
@@ -81,7 +81,7 @@ function Client() {
             </li>
             <li className="nav-item">
               <a href="#tab-top-2" className="nav-link" data-bs-toggle="tab">
-                Contracts <span class="badge bg-green ms-2">{links.clientContracts}</span>
+                Agreements <span class="badge bg-green ms-2">{links.agreements}</span>
               </a>
             </li>
             <li className="nav-item">
@@ -124,7 +124,7 @@ function Client() {
             </div>
             <div id="tab-top-2" className="card tab-pane">
               <div className="card-body">
-                <ClientContractInitializedList />
+                <AgreementInitializedList />
               </div>
             </div>
             <div id="tab-top-3" className="card tab-pane">

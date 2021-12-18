@@ -1,13 +1,13 @@
 import { IconPlus, IconSearch } from "@tabler/icons";
 import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";
-import { useApiClientContracts } from "../api";
-import ClientContractList from "./ClientContractList";
+import { useApiAgreements } from "../api";
+import AgreementList from "./AgreementList";
 
-export default function ClientContracts() {
+export default function Agreements() {
   const outlet = useOutlet();
   const withOutlet = outlet !== null && outlet.props.children !== null;
-  const [loading, contracts] = useApiClientContracts();
+  const [loading, agreements] = useApiAgreements();
 
   return (
     <div className="container-xl">
@@ -16,9 +16,9 @@ export default function ClientContracts() {
           <div className="page-header">
             <div className="row align-items-center">
               <div className="col">
-                <h2 className="page-title">Contracts</h2>
+                <h2 className="page-title">Agreements</h2>
                 <div className="text-muted mt-1">
-                  {pluralize("entry", contracts.length, true)}
+                  {pluralize("entry", agreements.length, true)}
                 </div>
               </div>
               <div className="col-auto ms-auto d-print-none">
@@ -37,12 +37,12 @@ export default function ClientContracts() {
                   </div>
                   <Link to="new" className="btn btn-primary d-none d-md-block">
                     <IconPlus />
-                    Add contract
+                    Add agreement
                   </Link>
                   <Link
                     to="new"
                     className="btn btn-primary btn-icon d-md-none"
-                    aria-label="Add contract"
+                    aria-label="Add agreement"
                   >
                     <IconPlus />
                   </Link>
@@ -52,7 +52,7 @@ export default function ClientContracts() {
           </div>
           <div className="page-body">
             <div className="card">
-              <ClientContractList loading={loading} contracts={contracts} />
+              <AgreementList loading={loading} agreements={agreements} />
               <div className="card-footer">
                 <div className="btn-group">
                   <button className="btn btn-primary">Active</button>

@@ -107,7 +107,7 @@ namespace Basic.WebApi.Controllers
         {
             var entity = Context
                 .Set<Client>()
-                .Include(c => c.Contracts)
+                .Include(c => c.Agreements)
                 .SingleOrDefault(c => c.Identifier == identifier);
             if (entity == null)
             {
@@ -116,7 +116,7 @@ namespace Basic.WebApi.Controllers
 
             return new ClientLinksDTO()
             {
-                ClientContracts = entity.Contracts.Count()
+                Agreements = entity.Agreements.Count
             };
         }
     }
