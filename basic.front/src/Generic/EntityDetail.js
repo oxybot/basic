@@ -18,7 +18,7 @@ function Field({ type, value }) {
         <div className="d-flex align-items-start">
           {value.displayName}
           <Link
-            className="ms-auto btn btn-sm btn-outline-primary"
+            className="ms-auto btn btn-sm btn-outline-secondary"
             to={`/client/${value.identifier}`}
           >
             <IconChevronRight /> See details
@@ -61,12 +61,12 @@ export default function EntityDetail({ definitionName, entity }) {
                   {fields.map((field, index) => (
                     <div key={index} className="mb-3">
                       <div className="field-label">{field.displayName}</div>
-                      <p className="lead">
+                      <div className="lead">
                         <Field
                           type={field.type}
                           value={entity[field.name] || "-"}
                         />
-                      </p>
+                      </div>
                     </div>
                   ))}
                 </div>
