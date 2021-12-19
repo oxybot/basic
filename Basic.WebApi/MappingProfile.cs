@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Basic.Model;
-using Basic.WebApi.Models;
+using Basic.WebApi.DTOs;
 
 namespace Basic.WebApi
 {
@@ -14,13 +14,16 @@ namespace Basic.WebApi
         /// </summary>
         public MappingProfile()
         {
-            CreateMap<Client, ClientDTO>().ReverseMap();
-            CreateMap<Client, SimpleClientDTO>();
+            CreateMap<Client, EntityReference>()
+                .ConvertUsing(c => new EntityReference() { Identifier = c.Identifier, DisplayName = c.DisplayName });
 
-            CreateMap<Agreement, AgreementDTO>()
-                .ReverseMap()
-                .ForMember(c => c.Client, options => options.Ignore());
-            CreateMap<Agreement, SimpleAgreementDTO>();
+            CreateMap<Client, ClientForList>();
+            CreateMap<Client, ClientForView>();
+            CreateMap<Client, ClientForEdit>().ReverseMap();
+
+            CreateMap<Agreement, AgreementForList>();
+            CreateMap<Agreement, AgreementForView>();
+            CreateMap<Agreement, AgreementForEdit>().ReverseMap();
         }
     }
 }

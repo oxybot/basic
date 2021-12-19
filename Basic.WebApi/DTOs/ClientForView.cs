@@ -1,13 +1,12 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
-namespace Basic.WebApi.Models
+namespace Basic.WebApi.DTOs
 {
     /// <summary>
     /// Represents the data of a client.
     /// </summary>
-    [SwaggerSchema(Title = "Client")]
-    public class ClientDTO : BaseEntityDTO
+    public class ClientForView : BaseEntityDTO
     {
         /// <summary>
         /// Gets or sets the name of the client as displayed in the interface.

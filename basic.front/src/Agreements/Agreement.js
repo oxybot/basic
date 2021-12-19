@@ -10,7 +10,7 @@ export default function Agreement() {
   const [entity, setEntity] = useState({});
 
   useEffect(() => {
-    getDefinition("Agreement")
+    getDefinition("AgreementForView")
       .then((definition) => setDefinition(definition))
       .catch((err) => console.log(err));
   }, []);

@@ -1,13 +1,12 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
-namespace Basic.WebApi.Models
+namespace Basic.WebApi.DTOs
 {
     /// <summary>
     /// Represents the summarised data of a client.
     /// </summary>
-    [SwaggerSchema(Title = "SimpleClient")]
-    public class SimpleClientDTO : BaseEntityDTO
+    public class ClientForList : BaseEntityDTO
     {
         /// <summary>
         /// Gets or sets the unique identifier of the client.

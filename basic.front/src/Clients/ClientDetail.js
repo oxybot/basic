@@ -6,7 +6,7 @@ export default function ClientDetail({ entity }) {
   const [definition, setDefinition] = useState(null);
 
   useEffect(() => {
-    getDefinition("Client")
+    getDefinition("ClientForView")
       .then((definition) => setDefinition(definition))
       .catch((err) => console.log(err));
   }, []);

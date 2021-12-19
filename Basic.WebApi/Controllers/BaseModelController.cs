@@ -1,9 +1,8 @@
 using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
-using Basic.WebApi.Models;
+using Basic.WebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Basic.WebApi.Controllers
 {
@@ -12,10 +11,11 @@ namespace Basic.WebApi.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public abstract class BaseModelController<TModel, TSimpleDTO, TStandardDTO> : ControllerBase
+    public abstract class BaseModelController<TModel, TForList, TForView, TForEdit> : ControllerBase
         where TModel : BaseModel
-        where TSimpleDTO : BaseEntityDTO
-        where TStandardDTO : BaseEntityDTO
+        where TForList : BaseEntityDTO
+        where TForView : BaseEntityDTO
+        where TForEdit : BaseEntityDTO
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseModelController{TModel, TItemDTO, TStandardDTO}"/> class.
@@ -24,7 +24,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public BaseModelController(Context context, IMapper mapper, ILogger<BaseModelController<TModel, TSimpleDTO, TStandardDTO>> logger)
+        public BaseModelController(Context context, IMapper mapper, ILogger logger)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
             Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -44,7 +44,7 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Gets the associated logger.
         /// </summary>
-        protected ILogger<BaseModelController<TModel, TSimpleDTO, TStandardDTO>> Logger { get; }
+        protected ILogger Logger { get; }
 
         protected virtual IQueryable<TModel> SimpleAddIncludes(IQueryable<TModel> query)
         {
@@ -60,7 +60,7 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public virtual TStandardDTO GetOne(Guid identifier)
+        public virtual TForView GetOne(Guid identifier)
         {
             var entity = StandardAddIncludes(Context.Set<TModel>()).SingleOrDefault(c => c.Identifier == identifier);
             if (entity == null)
@@ -68,7 +68,7 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Not existing entity");
             }
 
-            return Mapper.Map<TStandardDTO>(entity);
+            return Mapper.Map<TForView>(entity);
         }
 
         protected virtual IQueryable<TModel> StandardAddIncludes(IQueryable<TModel> query)
@@ -84,7 +84,7 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [Produces("application/json")]
-        public virtual TSimpleDTO Post(TStandardDTO entity)
+        public virtual TForList Post(TForEdit entity)
         {
             if (!ModelState.IsValid)
             {
@@ -95,12 +95,12 @@ namespace Basic.WebApi.Controllers
             return PostCore(model);
         }
 
-        protected TSimpleDTO PostCore(TModel model)
+        protected TForList PostCore(TModel model)
         {
             Context.Set<TModel>().Add(model);
             Context.SaveChanges();
 
-            return Mapper.Map<TSimpleDTO>(model);
+            return Mapper.Map<TForList>(model);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Basic.WebApi.Controllers
         [HttpPut]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public virtual TSimpleDTO Put(Guid identifier, TStandardDTO entity)
+        public virtual TForList Put(Guid identifier, TForEdit entity)
         {
             if (!ModelState.IsValid)
             {
@@ -130,7 +130,7 @@ namespace Basic.WebApi.Controllers
             Mapper.Map(entity, model);
             Context.SaveChanges();
 
-            return Mapper.Map<TSimpleDTO>(model);
+            return Mapper.Map<TForList>(model);
         }
 
         /// <summary>

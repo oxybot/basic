@@ -1,6 +1,7 @@
 using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
+using Basic.WebApi.DTOs;
 using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace Basic.WebApi.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ClientsController : BaseModelController<Client, SimpleClientDTO, ClientDTO>
+    public class ClientsController : BaseModelController<Client, ClientForList, ClientForView, ClientForEdit>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientsController"/> class.
@@ -32,11 +33,11 @@ namespace Basic.WebApi.Controllers
         /// <returns>The list of clients.</returns>
         [HttpGet]
         [Produces("application/json")]
-        public IEnumerable<SimpleClientDTO> GetAll()
+        public IEnumerable<ClientForList> GetAll()
         {
             return SimpleAddIncludes(Context.Set<Client>())
                 .ToList()
-                .Select(e => Mapper.Map<SimpleClientDTO>(e));
+                .Select(e => Mapper.Map<ClientForList>(e));
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public override ClientDTO GetOne(Guid identifier)
+        public override ClientForView GetOne(Guid identifier)
         {
             return base.GetOne(identifier);
         }
@@ -61,7 +62,7 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [Produces("application/json")]
-        public override SimpleClientDTO Post(ClientDTO client)
+        public override ClientForList Post(ClientForEdit client)
         {
             return base.Post(client);
         }
@@ -77,7 +78,7 @@ namespace Basic.WebApi.Controllers
         [HttpPut]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public override SimpleClientDTO Put(Guid identifier, ClientDTO client)
+        public override ClientForList Put(Guid identifier, ClientForEdit client)
         {
             return base.Put(identifier, client);
         }
@@ -103,7 +104,7 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [Produces("application/json")]
         [Route("{identifier}/links")]
-        public ClientLinksDTO GetLinks(Guid identifier)
+        public ClientLinks GetLinks(Guid identifier)
         {
             var entity = Context
                 .Set<Client>()
@@ -114,7 +115,7 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Not existing entity");
             }
 
-            return new ClientLinksDTO()
+            return new ClientLinks()
             {
                 Agreements = entity.Agreements.Count
             };

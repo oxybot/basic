@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, Link, Routes, Route, NavLink } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
 import { retries, apiUrl } from "../api";
 import AgreementInitializedList from "../Agreements/AgreementInitializedList";
@@ -79,7 +79,7 @@ function Client() {
             <li className="nav-item">
               <a href="#tab-top-2" className="nav-link" data-bs-toggle="tab">
                 Agreements
-                <span class="badge bg-green ms-2">{links.agreements}</span>
+                <span className="badge bg-green ms-2">{links.agreements}</span>
               </a>
             </li>
           </ul>

@@ -1,7 +1,7 @@
 using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
-using Basic.WebApi.Models;
+using Basic.WebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +12,7 @@ namespace Basic.WebApi.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class AgreementsController : BaseModelController<Agreement, SimpleAgreementDTO, AgreementDTO>
+    public class AgreementsController : BaseModelController<Agreement, AgreementForList, AgreementForView, AgreementForEdit>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientsController"/> class.
@@ -33,7 +33,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The list of agreements.</returns>
         [HttpGet]
         [Produces("application/json")]
-        public IEnumerable<SimpleAgreementDTO> GetAll(Guid? clientId)
+        public IEnumerable<AgreementForList> GetAll(Guid? clientId)
         {
             var entities = SimpleAddIncludes(Context.Set<Agreement>());
             if (clientId.HasValue)
@@ -43,7 +43,7 @@ namespace Basic.WebApi.Controllers
 
             return entities
                 .ToList()
-                .Select(e => Mapper.Map<SimpleAgreementDTO>(e));
+                .Select(e => Mapper.Map<AgreementForList>(e));
         }
 
         protected override IQueryable<Agreement> SimpleAddIncludes(IQueryable<Agreement> query)
@@ -65,7 +65,7 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public override AgreementDTO GetOne(Guid identifier)
+        public override AgreementForView GetOne(Guid identifier)
         {
             return base.GetOne(identifier);
         }
@@ -78,7 +78,7 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [Produces("application/json")]
-        public override SimpleAgreementDTO Post(AgreementDTO agreement)
+        public override AgreementForList Post(AgreementForEdit agreement)
         {
             if (!ModelState.IsValid)
             {
@@ -108,7 +108,7 @@ namespace Basic.WebApi.Controllers
         [HttpPut]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public override SimpleAgreementDTO Put(Guid identifier, AgreementDTO agreement)
+        public override AgreementForList Put(Guid identifier, AgreementForEdit agreement)
         {
             return base.Put(identifier, agreement);
         }

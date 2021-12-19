@@ -1,13 +1,12 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
-namespace Basic.WebApi.Models
+namespace Basic.WebApi.DTOs
 {
     /// <summary>
     /// Represents the data of an agreement.
     /// </summary>
-    [SwaggerSchema(Title = "SimpleAgreement")]
-    public class SimpleAgreementDTO : BaseEntityDTO
+    public class AgreementForList : BaseEntityDTO
     {
         /// <summary>
         /// Gets or sets the unique identifier of the agreement.
@@ -16,16 +15,9 @@ namespace Basic.WebApi.Models
         public Guid Identifier { get; set; }
 
         /// <summary>
-        /// Gets or sets the identifier of the associated client.
+        /// Gets or sets the reference to the associated client.
         /// </summary>
-        [Required]
-        public Guid ClientIdentifier { get; set; }
-
-        /// <summary>
-        /// Gets or sets the display name of the associated client.
-        /// </summary>
-        [Required]
-        public string ClientDisplayName { get; set; }
+        public EntityReference Client { get; set; }
 
         /// <summary>
         /// Gets or sets the internal code of the agreement.

@@ -35,7 +35,7 @@ function ClientNew() {
     }
 
     useEffect(() => {
-        getDefinition("Client")
+        getDefinition("ClientForEdit")
             .then(definition => setDefinition(definition))
             .catch(err => {
                 console.log(err);
