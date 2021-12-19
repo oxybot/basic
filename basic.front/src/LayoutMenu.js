@@ -1,5 +1,5 @@
 import { IconDashboard, IconConfetti, IconNotebook } from '@tabler/icons';
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import LayoutUser from "./LayoutUser";
 
 function LayoutMenu() {
@@ -23,34 +23,34 @@ function LayoutMenu() {
                     <div className="offcanvas-body">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link justify-content-start" to="/">
+                                <NavLink className="nav-link justify-content-start" to="/">
                                     <span className="nav-link-icon">
                                         <IconDashboard />
                                     </span>
                                     <span className="nav-link-title">
                                         Dashboard
                                     </span>
-                                </Link>
+                                </NavLink>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link justify-content-start" to="/clients">
+                                <NavLink className="nav-link justify-content-start" to="/clients">
                                     <span className="nav-link-icon">
                                         <IconConfetti />
                                     </span>
                                     <span className="nav-link-title">
                                         Clients
                                     </span>
-                                </Link>
+                                </NavLink>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link justify-content-start" to="/agreements">
+                                <NavLink className="nav-link justify-content-start" to="/agreements">
                                     <span className="nav-link-icon">
                                         <IconNotebook />
                                     </span>
                                     <span className="nav-link-title">
                                         Agreements
                                     </span>
-                                </Link>
+                                </NavLink>
                             </li>
                         </ul>
                     </div>

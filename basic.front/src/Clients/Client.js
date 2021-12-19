@@ -1,21 +1,14 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Routes, Route, NavLink } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
-import { retries, apiUrl, getDefinition } from "../api";
-import { objectMap, groupBy } from "../helpers";
+import { retries, apiUrl } from "../api";
 import AgreementInitializedList from "../Agreements/AgreementInitializedList";
+import ClientDetail from "./ClientDetail";
 
 function Client() {
   const { clientId } = useParams();
-  const [definition, setDefinition] = useState(null);
   const [entity, setEntity] = useState({});
   const [links, setLinks] = useState({});
-
-  useEffect(() => {
-    getDefinition("Client")
-      .then((definition) => setDefinition(definition))
-      .catch((err) => console.log(err));
-  }, []);
 
   useEffect(() => {
     retries(() => fetch(apiUrl("Clients", clientId), { method: "GET" }))
@@ -75,66 +68,30 @@ function Client() {
         <div className="card-tabs">
           <ul className="nav nav-tabs">
             <li className="nav-item">
-              <a href="#tab-top-1" className="nav-link active" data-bs-toggle="tab">
+              <a
+                href="#tab-top-1"
+                className="nav-link active"
+                data-bs-toggle="tab"
+              >
                 Details
               </a>
             </li>
             <li className="nav-item">
               <a href="#tab-top-2" className="nav-link" data-bs-toggle="tab">
-                Agreements <span class="badge bg-green ms-2">{links.agreements}</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#tab-top-3" className="nav-link" data-bs-toggle="tab">
-                Invoices
+                Agreements
+                <span class="badge bg-green ms-2">{links.agreements}</span>
               </a>
             </li>
           </ul>
           <div className="tab-content">
             <div id="tab-top-1" className="card tab-pane show active">
               <div className="card-body">
-                {definition &&
-                  objectMap(
-                    groupBy(definition.fields, (x) => x.group),
-                    (fields, group, index) => (
-                      <div key={index} className="mb-3">
-                        <div className="card">
-                          {group !== "null" && (
-                            <div className="card-header">
-                              <h3 className="card-title">{group}</h3>
-                            </div>
-                          )}
-                          <div className="card-body">
-                            {fields.map((field, index) => (
-                              <div key={index} className="mb-3">
-                                <div className="small text-muted">
-                                  {field.displayName}
-                                </div>
-                                <div className="lead">
-                                  {entity[field.name] || "-"}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  )}
+                <ClientDetail entity={entity} />
               </div>
             </div>
             <div id="tab-top-2" className="card tab-pane">
               <div className="card-body">
                 <AgreementInitializedList />
-              </div>
-            </div>
-            <div id="tab-top-3" className="card tab-pane">
-              <div className="card-body">
-                <div className="card-title">Invoices</div>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Adipisci, alias aliquid distinctio dolorem expedita, fugiat
-                  hic magni molestiae molestias odit.
-                </p>
               </div>
             </div>
           </div>
