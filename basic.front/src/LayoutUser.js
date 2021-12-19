@@ -28,7 +28,7 @@ function LayoutUser() {
                 </a>
                 <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <Link to="/account" className="dropdown-item">Profile &amp; account</Link>
-                    <a href="/account/logout" className="dropdown-item">Logout</a>
+                    <Link to="/account/logout" className="dropdown-item">Logout</Link>
                 </div>
             </div>
         </>
