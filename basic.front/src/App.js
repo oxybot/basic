@@ -8,7 +8,7 @@ import Layout from "./Layout";
 import Agreement from "./Agreements/Agreement";
 import Agreements from "./Agreements/Agreements";
 
-function App() {
+export default function App() {
   return (
     <Layout>
       <Routes>
@@ -25,5 +25,3 @@ function App() {
     </Layout>
   );
 }
-
-export default App;

@@ -5,7 +5,7 @@ import { retries, apiUrl } from "../api";
 import AgreementInitializedList from "../Agreements/AgreementInitializedList";
 import EntityDetail from "../Generic/EntityDetail";
 
-function Client() {
+export default function Client() {
   const { clientId } = useParams();
   const [entity, setEntity] = useState({});
   const [links, setLinks] = useState({});
@@ -100,5 +100,3 @@ function Client() {
     </>
   );
 }
-
-export default Client;

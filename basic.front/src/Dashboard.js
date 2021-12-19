@@ -1,18 +1,14 @@
-function Dashboard() {
-    return (
-        <div className="container-xl">
-            <div className="page-header d-print-none">
-                <div className="row align-items-center">
-                    <div className="col">
-                        <div className="page-pretitle">
-                            Overview
-                        </div>
-                        <h2 className="page-title">
-                            Dashboard
-                        </h2>
-                    </div>
+export default function Dashboard() {
+  return (
+    <div className="container-xl">
+      <div className="page-header d-print-none">
+        <div className="row align-items-center">
+          <div className="col">
+            <div className="page-pretitle">Overview</div>
+            <h2 className="page-title">Dashboard</h2>
+          </div>
 
-                    {/*
+          {/*
                     <div className="col-auto ms-auto d-print-none">
                         <div className="btn-list">
                             <span className="d-none d-sm-inline">
@@ -29,12 +25,9 @@ function Dashboard() {
                         </div>
                     </div>
                     */}
-                </div>
-            </div>
-            <div className="page-body">
-                </div>
         </div>
-    );
+      </div>
+      <div className="page-body"></div>
+    </div>
+  );
 }
-
-export default Dashboard;

@@ -5,7 +5,7 @@ import pluralize from "pluralize";
 import { retries, apiUrl } from "../api";
 import clsx from "clsx";
 
-function Clients() {
+export default function Clients() {
   const outlet = useOutlet();
   const navigate = useNavigate();
   const { clientId } = useParams();
@@ -113,5 +113,3 @@ function Clients() {
     </div>
   );
 }
-
-export default Clients;

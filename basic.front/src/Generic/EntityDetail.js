@@ -60,9 +60,7 @@ export default function EntityDetail({ definitionName, entity }) {
                 <div className="card-body">
                   {fields.map((field, index) => (
                     <div key={index} className="mb-3">
-                      <div className="field-label">
-                        {field.displayName}
-                      </div>
+                      <div className="field-label">{field.displayName}</div>
                       <p className="lead">
                         <Field
                           type={field.type}

@@ -74,7 +74,10 @@ export default function Agreement() {
           <div className="tab-content">
             <div id="tab-top-1" className="card tab-pane show active">
               <div className="card-body">
-                <EntityDetail definitionName="AgreementForView" entity={entity} />
+                <EntityDetail
+                  definitionName="AgreementForView"
+                  entity={entity}
+                />
               </div>
             </div>
           </div>

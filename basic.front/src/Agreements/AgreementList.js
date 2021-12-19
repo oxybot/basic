@@ -26,9 +26,7 @@ export default function AgreementList({ loading, agreements }) {
           {agreements.map((agreement) => (
             <tr
               key={agreement.identifier}
-              onClick={() =>
-                navigate("/agreements/" + agreement.identifier)
-              }
+              onClick={() => navigate("/agreements/" + agreement.identifier)}
             >
               <td>{agreement.internalCode}</td>
               <td>{agreement.title}</td>

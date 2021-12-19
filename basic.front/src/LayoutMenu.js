@@ -2,7 +2,7 @@ import { IconDashboard, IconConfetti, IconNotebook } from "@tabler/icons";
 import { Link, NavLink } from "react-router-dom";
 import LayoutUser from "./LayoutUser";
 
-function LayoutMenu() {
+export default function LayoutMenu() {
   function closeMenu(event) {
     if (window.bootstrap) {
       var menu = window.bootstrap.Offcanvas.getInstance("#offcanvas-menu");
@@ -92,5 +92,3 @@ function LayoutMenu() {
     </aside>
   );
 }
-
-export default LayoutMenu;
