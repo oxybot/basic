@@ -6,10 +6,6 @@ import { getDefinition } from "../api";
 import { groupBy, objectMap } from "../helpers";
 
 function Field({ type, value }) {
-  console.log(type);
-  console.log(value);
-  console.log("--");
-
   switch (type) {
     case "datetime":
       return dayjs(value).format("DD MMM YYYY hh:mm:ss");

@@ -18,7 +18,10 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         builder =>
         {
-            builder.WithOrigins("http://localhost:3000").WithHeaders("content-type");
+            builder
+                .WithOrigins("http://localhost:3000")
+                .WithHeaders("content-type")
+                .WithMethods("GET", "POST", "PUT", "DELETE");
         });
 });
 
@@ -28,7 +31,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     // Use xml comments
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-   options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
     // Override xml comments with annotations
     options.EnableAnnotations();
