@@ -1,19 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
-import { retries, apiUrl, getDefinition } from "../api";
-import { objectMap, groupBy } from "../helpers";
+import { retries, apiUrl } from "../api";
+import EntityDetail from "../Generic/EntityDetail";
 
 export default function Agreement() {
   const { agreementId } = useParams();
-  const [definition, setDefinition] = useState(null);
   const [entity, setEntity] = useState({});
-
-  useEffect(() => {
-    getDefinition("AgreementForView")
-      .then((definition) => setDefinition(definition))
-      .catch((err) => console.log(err));
-  }, []);
 
   useEffect(() => {
     retries(() => fetch(apiUrl("Agreements", agreementId), { method: "GET" }))
@@ -81,33 +74,7 @@ export default function Agreement() {
           <div className="tab-content">
             <div id="tab-top-1" className="card tab-pane show active">
               <div className="card-body">
-                {definition &&
-                  objectMap(
-                    groupBy(definition.fields, (x) => x.group),
-                    (fields, group, index) => (
-                      <div key={index} className="mb-3">
-                        <div className="card">
-                          {group !== "null" && (
-                            <div className="card-header">
-                              <h3 className="card-title">{group}</h3>
-                            </div>
-                          )}
-                          <div className="card-body">
-                            {fields.map((field, index) => (
-                              <div key={index} className="mb-3">
-                                <div className="small text-muted">
-                                  {field.displayName}
-                                </div>
-                                <div className="lead">
-                                  {entity[field.name] || "-"}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  )}
+                <EntityDetail definitionName="AgreementForView" entity={entity} />
               </div>
             </div>
           </div>

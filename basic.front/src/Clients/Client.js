@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
 import { retries, apiUrl } from "../api";
 import AgreementInitializedList from "../Agreements/AgreementInitializedList";
-import ClientDetail from "./ClientDetail";
+import EntityDetail from "../Generic/EntityDetail";
 
 function Client() {
   const { clientId } = useParams();
@@ -86,7 +86,7 @@ function Client() {
           <div className="tab-content">
             <div id="tab-top-1" className="card tab-pane show active">
               <div className="card-body">
-                <ClientDetail entity={entity} />
+                <EntityDetail definitionName="ClientForView" entity={entity} />
               </div>
             </div>
             <div id="tab-top-2" className="card tab-pane">

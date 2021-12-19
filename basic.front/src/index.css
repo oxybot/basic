@@ -2,3 +2,17 @@
 input.form-control.required {
     background-color: #206bc411;
 }
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+.field-label {
+    font-size: .625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    line-height: 1.6;
+    color: #626976;
+}

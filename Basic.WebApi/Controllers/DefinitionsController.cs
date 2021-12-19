@@ -143,9 +143,17 @@ namespace Basic.WebApi.Controllers
                     return "datetime";
                 }
             }
-            else if (typeof(BaseModel).IsAssignableFrom(type))
+            else if (type == typeof(EntityReference))
             {
-                return "reference";
+                var attribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
+                if (attribute != null && !string.IsNullOrEmpty(attribute.Format))
+                {
+                    return attribute.Format;
+                }
+                else
+                {
+                    return "reference";
+                }
             }
             else
             {
