@@ -1,4 +1,5 @@
 ﻿using Basic.DataAccess;
+using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Models;
 using Humanizer;
@@ -48,7 +49,7 @@ namespace Basic.WebApi.Controllers
 
         [HttpGet]
         [Route("{name}")]
-        public EntityDefinition GetOne(string name)
+        public Definition GetOne(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -76,10 +77,10 @@ namespace Basic.WebApi.Controllers
                 });
         }
 
-        private EntityDefinition Build(Type entityType)
+        private Definition Build(Type entityType)
         {
             var schemaAttribute = entityType.GetCustomAttribute<SwaggerSchemaAttribute>();
-            var definition = new EntityDefinition
+            var definition = new Definition
             {
                 Name = schemaAttribute?.Title ?? entityType.Name,
             };
@@ -110,20 +111,46 @@ namespace Basic.WebApi.Controllers
             yield return reference;
         }
 
-        private EntityFieldDefinition Build(PropertyInfo property)
+        private DefinitionField Build(PropertyInfo property)
         {
             var schemaAttribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
             var requiredAttribute = property.GetCustomAttribute<RequiredAttribute>();
             var displayAttribute = property.GetCustomAttribute<DisplayAttribute>();
 
-            return new EntityFieldDefinition
+            return new DefinitionField
             {
                 Name = schemaAttribute?.Title ?? property.Name.ToJsonFieldName(),
                 DisplayName = property.Name.Humanize(LetterCasing.Title),
                 Required = requiredAttribute != null,
                 Placeholder = displayAttribute?.Prompt,
                 Group = displayAttribute?.GroupName,
+                Type = BuildFieldType(property),
             };
+        }
+
+        private string BuildFieldType(PropertyInfo property)
+        {
+            var type = property.PropertyType;
+            if (type == typeof(DateTime) || type == typeof(DateTime?))
+            {
+                var attribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
+                if (attribute != null && !string.IsNullOrEmpty(attribute.Format))
+                {
+                    return attribute.Format;
+                }
+                else
+                {
+                    return "datetime";
+                }
+            }
+            else if (typeof(BaseModel).IsAssignableFrom(type))
+            {
+                return "reference";
+            }
+            else
+            {
+                return "string";
+            }
         }
     }
 }
