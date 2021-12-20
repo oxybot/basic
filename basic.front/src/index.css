@@ -16,3 +16,60 @@ input.form-control.required {
   line-height: 1.6;
   color: #626976;
 }
+
+body {
+  background-color: #f8fafc;
+}
+
+.offcanvas-header {
+  padding: 0.5rem 1.5rem;
+}
+
+.theme-dark .offcanvas-header {
+  background: #1b2434;
+}
+
+.navbar-vertical {
+  background: white;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+  padding-left: 0;
+}
+
+.navbar-vertical button.nav-link {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.navbar-vertical .dropdown-toggle.collapsed:after {
+  transform: rotate(-135deg);
+}
+
+.navbar-vertical .navbar-nav .navbar-nav .nav-link {
+  padding-left: 1.75rem;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Megrim&text=B");
+
+.basic-logo {
+  display: inline-flex;
+  font-family: "Megrim";
+  background-color: #206bc4;
+  color: #ffffff;
+  border-radius: 100rem;
+  padding: 0.5em;
+  height: 1.75em;
+  width: 1.75em;
+  font-size: 1.25em;
+  border: 1px solid transparent;
+  justify-content: center;
+  align-items: center;
+}
+
+.basic-title {
+  padding: 1rem 0rem;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+}
