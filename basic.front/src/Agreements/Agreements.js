@@ -3,8 +3,10 @@ import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";
 import { useApiAgreements } from "../api";
 import AgreementList from "./AgreementList";
+import { usePageTitle } from "../PageTitleContext";
 
 export default function Agreements() {
+  const pageTitle = usePageTitle("Agreements");
   const outlet = useOutlet();
   const withOutlet = outlet !== null && outlet.props.children !== null;
   const [loading, agreements] = useApiAgreements();
@@ -16,7 +18,7 @@ export default function Agreements() {
           <div className="page-header">
             <div className="row align-items-center">
               <div className="col">
-                <h2 className="page-title">Agreements</h2>
+                <h2 className="page-title">{pageTitle}</h2>
                 <div className="text-muted mt-1">
                   {pluralize("entry", agreements.length, true)}
                 </div>

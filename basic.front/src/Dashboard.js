@@ -1,11 +1,15 @@
+import { usePageTitle } from "./PageTitleContext";
+
 export default function Dashboard() {
+  const pageTitle = usePageTitle("Dashboard");
+
   return (
     <div className="container-xl">
       <div className="page-header d-print-none">
         <div className="row align-items-center">
           <div className="col">
             <div className="page-pretitle">Overview</div>
-            <h2 className="page-title">Dashboard</h2>
+            <h2 className="page-title">{pageTitle}</h2>
           </div>
 
           {/*
