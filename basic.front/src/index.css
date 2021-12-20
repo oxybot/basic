@@ -21,6 +21,10 @@ body {
   background-color: #f8fafc;
 }
 
+.navbar-brand {
+  padding: 1rem;
+}
+
 .offcanvas-header {
   padding: 0.5rem 1.5rem;
 }

@@ -1,8 +1,11 @@
 import { IconDashboard, IconConfetti, IconNotebook } from "@tabler/icons";
 import { NavLink } from "react-router-dom";
 import LayoutTheme from "./LayoutTheme";
+import { usePageTitle } from "./PageTitleContext";
 
 export default function LayoutMenu() {
+  const pageTitle = usePageTitle();
+
   function closeMenu(event) {
     if (window.bootstrap) {
       var menu = window.bootstrap.Offcanvas.getInstance("#offcanvas-menu");
@@ -12,7 +15,7 @@ export default function LayoutMenu() {
 
   return (
     <aside className="navbar navbar-vertical navbar-light navbar-expand-lg">
-      <div className="container-fluid">
+      <div className="container-fluid justify-content-start">
         <button
           className="navbar-toggler"
           type="button"
@@ -21,6 +24,8 @@ export default function LayoutMenu() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+        <div className="navbar-brand d-lg-none">{pageTitle}</div>
+
         <div
           id="offcanvas-menu"
           className="offcanvas offcanvas-start"

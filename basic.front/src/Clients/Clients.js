@@ -4,10 +4,13 @@ import { Link, useOutlet, useNavigate, useParams } from "react-router-dom";
 import pluralize from "pluralize";
 import { retries, apiUrl } from "../api";
 import clsx from "clsx";
+import { usePageTitle } from "../PageTitleContext";
 
 export default function Clients() {
   const outlet = useOutlet();
   const navigate = useNavigate();
+  const pageTitle = usePageTitle("Clients");
+
   const { clientId } = useParams();
   const withOutlet = outlet !== null && outlet.props.children !== null;
 
@@ -30,9 +33,11 @@ export default function Clients() {
           <div className="page-header">
             <div className="row align-items-center">
               <div className="col">
-                <h2 className="page-title">Clients</h2>
+                <h2 className="page-title">{pageTitle}</h2>
                 <div className="text-muted mt-1">
-                  {pluralize("entry", clients.length, true)}
+                  {clients
+                    ? pluralize("entry", clients.length, true)
+                    : "- entry"}
                 </div>
               </div>
               <div className="col-auto ms-auto d-print-none">
