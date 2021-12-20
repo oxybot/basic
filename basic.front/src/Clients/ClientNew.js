@@ -3,10 +3,12 @@ import { getDefinition } from "../api";
 import { groupBy, objectMap } from "../helpers";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
+import { usePageTitle } from "../PageTitleContext";
 
 export default function ClientNew() {
   const [inputs, setInputs] = useState({});
   const [definition, setDefinition] = useState(null);
+  const pageTitle = usePageTitle("Clients");
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -48,7 +50,7 @@ export default function ClientNew() {
         <div className="page-header">
           <div className="row align-items-center">
             <div className="col">
-              <h2 className="page-title">Clients</h2>
+              <h2 className="page-title">{pageTitle}</h2>
               <div className="text-muted mt-1">Add a new Client</div>
             </div>
             <div className="col-auto ms-auto d-print-none">
