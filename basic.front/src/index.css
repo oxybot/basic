@@ -21,6 +21,13 @@ body {
   background-color: #f8fafc;
 }
 
+/* Hide navbar on small screens */
+.navbar-hidden {
+  min-height: auto;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
 .navbar-brand {
   padding: 1rem;
 }

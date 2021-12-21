@@ -3,12 +3,11 @@ import { getDefinition } from "../api";
 import { groupBy, objectMap } from "../helpers";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import { usePageTitle } from "../PageTitleContext";
+import MobilePageTitle from "../Generic/MobilePageTitle";
 
 export default function ClientNew() {
   const [inputs, setInputs] = useState({});
   const [definition, setDefinition] = useState(null);
-  const pageTitle = usePageTitle("Clients");
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -45,12 +44,16 @@ export default function ClientNew() {
   }, []);
 
   return (
+    <>
+    <MobilePageTitle>
+      <div className="navbar-brand">New Client</div>
+    </MobilePageTitle>
     <div className="container-xl">
       <form onSubmit={handleSubmit}>
         <div className="page-header">
           <div className="row align-items-center">
             <div className="col">
-              <h2 className="page-title">{pageTitle}</h2>
+              <h2 className="page-title">Clients</h2>
               <div className="text-muted mt-1">Add a new Client</div>
             </div>
             <div className="col-auto ms-auto d-print-none">
@@ -111,5 +114,6 @@ export default function ClientNew() {
         </div>
       </form>
     </div>
+    </>
   );
 }
