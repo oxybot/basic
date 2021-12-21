@@ -12,7 +12,6 @@ export default function Clients() {
   const pageTitle = usePageTitle("Clients");
 
   const { clientId } = useParams();
-  const withOutlet = outlet !== null && outlet.props.children !== null;
 
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +28,7 @@ export default function Clients() {
   return (
     <div className="container-xl">
       <div className="row">
-        <div className={withOutlet ? "d-none d-lg-block col-lg-6" : "col-12"}>
+        <div className={outlet ? "d-none d-lg-block col-lg-6" : "col-12"}>
           <div className="page-header">
             <div className="row align-items-center">
               <div className="col">
@@ -107,7 +106,7 @@ export default function Clients() {
             </div>
           </div>
         </div>
-        {withOutlet && <div className="col-12 col-lg-6">{outlet}</div>}
+        {outlet && <div className="col-12 col-lg-6">{outlet}</div>}
       </div>
     </div>
   );

@@ -6,8 +6,8 @@ import AgreementList from "./AgreementList";
 import { usePageTitle } from "../PageTitleContext";
 
 export default function Agreements() {
-  const pageTitle = usePageTitle("Agreements");
   const outlet = useOutlet();
+  const pageTitle = usePageTitle("Agreements");
   const withOutlet = outlet !== null && outlet.props.children !== null;
   const [loading, agreements] = useApiAgreements();
 
