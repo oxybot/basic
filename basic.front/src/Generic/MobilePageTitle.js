@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function MobilePageTitle({ back, children }) {
   return (
-    <aside className="navbar navbar-light d-lg-none sticky-top">
+    <aside className="navbar navbar-light d-lg-none sticky-top mobile-page-title">
       <div className="container-fluid justify-content-start">
         {!back && (
           <button

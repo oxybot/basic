@@ -3,11 +3,12 @@ import { apiUrl, getDefinition, retries } from "../api";
 import { groupBy, objectMap } from "../helpers";
 import clsx from "clsx";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import MobilePageTitle from "../Generic/MobilePageTitle";
 
 export default function ClientEdit() {
   const navigate = useNavigate();
   const { clientId } = useParams();
-  const [entity, setEntity] = useState(null);
+  const [entity, setEntity] = useState({});
   const [definition, setDefinition] = useState(null);
 
   useEffect(() => {
@@ -53,72 +54,76 @@ export default function ClientEdit() {
   };
 
   return (
-    <div className="container-xl">
-      <form onSubmit={handleSubmit}>
-        <div className="page-header">
-          <div className="row align-items-center">
-            <div className="col">
-              <h2 className="page-title">{entity && entity.displayName}</h2>
-              <div className="text-muted mt-1">Edit a Client</div>
-            </div>
-            <div className="col-auto ms-auto d-print-none">
-              <div className="d-flex">
-                <Link to="./.." className="btn btn-link me-3">
-                  Cancel
-                </Link>
-                <button type="submit" className="btn btn-primary">
-                  Save
-                </button>
-              </div>
+    <form onSubmit={handleSubmit}>
+      <MobilePageTitle back="./..">
+        <div className="navbar-brand flex-fill">{entity.displayName}</div>
+        <button type="submit" className="btn btn-primary">
+          Update
+        </button>
+      </MobilePageTitle>
+      <div className="page-header d-none d-lg-block">
+        <div className="row align-items-center">
+          <div className="col">
+            <h2 className="page-title">{entity.displayName}</h2>
+            <div className="text-muted mt-1">Edit a Client</div>
+          </div>
+          <div className="col-auto ms-auto d-print-none">
+            <div className="d-flex">
+              <Link to="./.." className="btn btn-link me-3">
+                Cancel
+              </Link>
+              <button type="submit" className="btn btn-primary">
+                Update
+              </button>
             </div>
           </div>
         </div>
-        <div className="page-body">
-          <div className="row row-cards">
-            {entity &&
-              definition &&
-              objectMap(
-                groupBy(definition.fields, (x) => x.group),
-                (fields, group, index) => (
-                  <div key={index} className="col-lg-6">
-                    <div className="card">
-                      {group !== "null" && (
-                        <div className="card-header">
-                          <h3 className="card-title">{group}</h3>
-                        </div>
-                      )}
-                      <div className="card-body">
-                        {fields.map((field, index) => (
-                          <div key={index} className="mb-3">
-                            <label
-                              className={clsx("form-label", {
-                                required: field.required,
-                              })}
-                              htmlFor={field.name}
-                            >
-                              {field.displayName}
-                            </label>
-                            <input
-                              type="text"
-                              className={clsx("form-control", {
-                                required: field.required,
-                              })}
-                              id={field.name}
-                              name={field.name}
-                              placeholder={field.placeholder}
-                              value={entity[field.name] || ""}
-                              onChange={handleChange}
-                            />
-                          </div>
-                        ))}
+      </div>
+      <div className="page-body">
+        <div className="row row-cards">
+          {entity &&
+            definition &&
+            objectMap(
+              groupBy(definition.fields, (x) => x.group),
+              (fields, group, index) => (
+                <div key={index} className="col-lg-12">
+                  <div className="card">
+                    {group !== "null" && (
+                      <div className="card-header">
+                        <h3 className="card-title">{group}</h3>
                       </div>
+                    )}
+                    <div className="card-body">
+                      {fields.map((field, index) => (
+                        <div key={index} className="mb-3">
+                          <label
+                            className={clsx("form-label", {
+                              required: field.required,
+                            })}
+                            htmlFor={field.name}
+                          >
+                            {field.displayName}
+                          </label>
+                          <input
+                            type="text"
+                            className={clsx("form-control", {
+                              required: field.required,
+                            })}
+                            id={field.name}
+                            name={field.name}
+                            placeholder={field.placeholder}
+                            value={entity[field.name] || ""}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
-                )
-              )}
-          </div>
+                </div>
+              )
+            )}
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 }

@@ -4,6 +4,7 @@ import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
 import { retries, apiUrl } from "../api";
 import AgreementInitializedList from "../Agreements/AgreementInitializedList";
 import EntityDetail from "../Generic/EntityDetail";
+import MobilePageTitle from "../Generic/MobilePageTitle";
 
 export default function Client() {
   const { clientId } = useParams();
@@ -28,7 +29,14 @@ export default function Client() {
 
   return (
     <>
-      <div className="page-header">
+      <MobilePageTitle back="/clients">
+        <div className="navbar-brand flex-fill">{entity.displayName}</div>
+        <Link to="edit" className="btn btn-primary">
+          <IconEdit />
+          Edit
+        </Link>
+      </MobilePageTitle>
+      <div className="page-header d-none d-lg-block">
         <div className="row align-items-center">
           <div className="col-auto ms-auto d-print-none">
             <div className="d-flex">
