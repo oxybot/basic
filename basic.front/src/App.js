@@ -12,10 +12,9 @@ import { useState } from "react";
 
 export default function App() {
   const [pageTitle, setPageTitle] = useState("");
-  const providerValue = [pageTitle, setPageTitle];
 
   return (
-    <PageTitleContext.Provider value={providerValue}>
+    <PageTitleContext.Provider value={[pageTitle, setPageTitle]}>
       <Layout>
         <Routes>
           <Route path="/" element={<Dashboard />} />
