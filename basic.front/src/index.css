@@ -28,6 +28,13 @@ body {
   padding-bottom: 0px;
 }
 
+/* Adjust icon size in navbar */
+.navbar-toggler .icon {
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+}
+
 .navbar-brand {
   padding: 1rem;
 }

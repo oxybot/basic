@@ -44,13 +44,15 @@ export default function ClientNew() {
   }, []);
 
   return (
-    <>
-    <MobilePageTitle>
-      <div className="navbar-brand">New Client</div>
-    </MobilePageTitle>
-    <div className="container-xl">
-      <form onSubmit={handleSubmit}>
-        <div className="page-header">
+    <form onSubmit={handleSubmit}>
+      <MobilePageTitle back="/clients">
+        <div className="navbar-brand flex-fill">Create Client</div>
+        <button type="submit" className="btn btn-primary">
+          Create
+        </button>
+      </MobilePageTitle>
+      <div className="container-xl">
+        <div className="page-header d-none d-lg-block">
           <div className="row align-items-center">
             <div className="col">
               <h2 className="page-title">Clients</h2>
@@ -112,8 +114,7 @@ export default function ClientNew() {
               )}
           </div>
         </div>
-      </form>
-    </div>
-    </>
+      </div>
+    </form>
   );
 }
