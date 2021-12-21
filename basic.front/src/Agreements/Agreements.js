@@ -55,12 +55,6 @@ export default function Agreements() {
           <div className="page-body">
             <div className="card">
               <AgreementList loading={loading} agreements={agreements} />
-              <div className="card-footer">
-                <div className="btn-group">
-                  <button className="btn btn-primary">Active</button>
-                  <button className="btn btn-outline-primary">Archived</button>
-                </div>
-              </div>
             </div>
           </div>
         </div>

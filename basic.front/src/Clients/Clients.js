@@ -104,12 +104,6 @@ export default function Clients() {
                   </tbody>
                 </table>
               </div>
-              <div className="card-footer">
-                <div className="btn-group">
-                  <button className="btn btn-primary">Active</button>
-                  <button className="btn btn-outline-primary">Archived</button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
