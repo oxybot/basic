@@ -131,29 +131,24 @@ namespace Basic.WebApi.Controllers
         private string BuildFieldType(PropertyInfo property)
         {
             var type = property.PropertyType;
-            if (type == typeof(DateTime) || type == typeof(DateTime?))
+            var swaggerAttribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
+            if (swaggerAttribute != null && !string.IsNullOrEmpty(swaggerAttribute.Format))
             {
-                var attribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
-                if (attribute != null && !string.IsNullOrEmpty(attribute.Format))
-                {
-                    return attribute.Format;
-                }
-                else
-                {
-                    return "datetime";
-                }
+                return swaggerAttribute.Format;
+            }
+
+            var keyAttribute = property.GetCustomAttribute<KeyAttribute>();
+            if (keyAttribute != null)
+            {
+                return "key";
+            }
+            else if (type == typeof(DateTime) || type == typeof(DateTime?))
+            {
+                return "datetime";
             }
             else if (type == typeof(EntityReference))
             {
-                var attribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
-                if (attribute != null && !string.IsNullOrEmpty(attribute.Format))
-                {
-                    return attribute.Format;
-                }
-                else
-                {
-                    return "reference";
-                }
+                return "reference";
             }
             else
             {

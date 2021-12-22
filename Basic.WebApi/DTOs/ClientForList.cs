@@ -11,6 +11,7 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the unique identifier of the client.
         /// </summary>
+        [Key]
         [SwaggerSchema("The unique identifier of the client")]
         public Guid Identifier { get; set; }
 

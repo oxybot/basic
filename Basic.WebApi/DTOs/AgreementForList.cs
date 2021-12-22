@@ -11,6 +11,7 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the unique identifier of the agreement.
         /// </summary>
+        [Key]
         [SwaggerSchema("The unique identifier of the agreement")]
         public Guid Identifier { get; set; }
 
