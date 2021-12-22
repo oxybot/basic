@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 // Based on: https://stackoverflow.com/a/44577075/17681099
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -23,7 +23,7 @@ export function retries(operation, delay = 300, calls = 2) {
 const rootApiUrl = "https://localhost:7268";
 
 export function apiUrl(...relative) {
-  return new URL(relative.join("/"), rootApiUrl);
+  return new URL(relative.join("/"), rootApiUrl).href;
 }
 
 export function getDefinition(type) {
@@ -49,23 +49,29 @@ export function useApiFetch(url, options, defaultState = null) {
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState(defaultState);
   useEffect(() => {
-    retries(() => fetch(uri, options))
+    const uri = typeof url === "string" ? apiUrl(url) : url;
+    retries(() => fetch(apiUrl(uri), options))
       .then((response) => response.json())
       .then((response) => {
         setResponse(response);
         setLoading(false);
       })
       .catch((err) => console.log(err));
-  }, [uri, options]);
+  }, [url, options]);
 
   return [loading, response];
 }
 
 export function useApiAgreements(clientId = null) {
-  const url = apiUrl("Agreements");
+  let url = apiUrl("Agreements");
   if (clientId) {
-    url.searchParams.set("clientId", clientId);
+    let temp = new URL(url).searchParams.set("clientId", clientId);
+    url = temp.href;
   }
 
-  return useApiFetch(url, { method: "GET" }, []);
+  const options = useMemo(() => {
+    return { method: "GET" };
+  }, []);
+
+  return useApiFetch(url, options, []);
 }

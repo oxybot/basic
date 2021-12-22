@@ -1,39 +1,6 @@
 import { useDefinition } from "../api";
-import { IconChevronRight } from "@tabler/icons";
-import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { groupBy, objectMap } from "../helpers";
-
-function Field({ type, value }) {
-  switch (type) {
-    case "datetime":
-      return dayjs(value).format("DD MMM YYYY hh:mm:ss");
-
-    case "date":
-      return dayjs(value).format("DD MMM YYYY");
-
-    case "ref/client":
-      return (
-        <div className="d-flex align-items-start">
-          {value.displayName}
-          <Link
-            className="ms-auto btn btn-sm btn-outline-secondary"
-            to={`/client/${value.identifier}`}
-          >
-            <IconChevronRight /> See details
-          </Link>
-        </div>
-      );
-
-    case "string":
-      return value;
-
-    default:
-      console.warn("unknown field type: " + type + " - rendered as string");
-      return value;
-  }
-}
+import EntityField from "./EntityField";
 
 export default function EntityDetail({ definitionName, entity }) {
   const definition = useDefinition(definitionName);
@@ -56,9 +23,9 @@ export default function EntityDetail({ definitionName, entity }) {
                     <div key={index} className="mb-3">
                       <div className="field-label">{field.displayName}</div>
                       <div className="lead">
-                        <Field
+                        <EntityField
                           type={field.type}
-                          value={entity[field.name] || "-"}
+                          value={entity[field.name]}
                         />
                       </div>
                     </div>

@@ -5,11 +5,12 @@ import AgreementInitializedList from "../Agreements/AgreementInitializedList";
 import EntityDetail from "../Generic/EntityDetail";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 
+const get = {
+  method: "GET",
+};
+
 export default function Client() {
   const { clientId } = useParams();
-  const get = {
-    method: "GET",
-  };
   const [, entity] = useApiFetch(apiUrl("Clients", clientId), get, {});
   const [, links] = useApiFetch(apiUrl("Clients", clientId, "links"), get, {});
 

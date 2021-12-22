@@ -1,16 +1,17 @@
-import { IconPlus, IconSearch, IconChevronUp, IconLoader } from "@tabler/icons";
-import { Link, useOutlet, useNavigate, useParams } from "react-router-dom";
+import { IconPlus, IconSearch } from "@tabler/icons";
+import { Link, useOutlet, useParams } from "react-router-dom";
 import pluralize from "pluralize";
-import { useApiFetch } from "../api";
-import clsx from "clsx";
+import { useApiFetch, useDefinition } from "../api";
 import MobilePageTitle from "../Generic/MobilePageTitle";
+import EntityList from "../Generic/EntityList";
+
+const options = { method: "GET" };
 
 export default function Clients() {
   const outlet = useOutlet();
-  const navigate = useNavigate();
   const { clientId } = useParams();
-
-  const [loading, clients] = useApiFetch("Clients", { method: "GET" }, []);
+  const definition = useDefinition("ClientForList");
+  const [loading, clients] = useApiFetch("Clients", options, []);
 
   return (
     <div className="container-xl">
@@ -72,39 +73,13 @@ export default function Clients() {
           </div>
           <div className="page-body">
             <div className="card">
-              <div className="table-responsive">
-                <table className="table card-table table-vcenter text-nowrap datatable table-hover">
-                  <thead>
-                    <tr>
-                      <th>
-                        Display Name <IconChevronUp />
-                      </th>
-                      <th>Full Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className={loading ? "" : "d-none"}>
-                      <td colSpan="2">
-                        <IconLoader /> Loading...
-                      </td>
-                    </tr>
-                    {clients.map((client) => (
-                      <tr
-                        key={client.identifier}
-                        className={clsx({
-                          "table-active": client.identifier === clientId,
-                        })}
-                        onClick={() =>
-                          navigate("/clients/" + client.identifier)
-                        }
-                      >
-                        <td>{client.displayName}</td>
-                        <td>{client.fullName}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <EntityList
+                loading={loading}
+                definition={definition}
+                entities={clients}
+                baseTo="/clients"
+                selectedId={clientId}
+              />
             </div>
           </div>
         </div>
