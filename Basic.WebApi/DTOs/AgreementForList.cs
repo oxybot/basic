@@ -18,6 +18,7 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the reference to the associated client.
         /// </summary>
+        [SwaggerSchema(Format = "ref/client")]
         public EntityReference Client { get; set; }
 
         /// <summary>
