@@ -44,7 +44,6 @@ export default function ClientEdit() {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         navigate("./..");
       })
       .catch((err) => {

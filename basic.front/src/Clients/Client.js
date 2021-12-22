@@ -1,31 +1,17 @@
-import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
-import { retries, apiUrl } from "../api";
+import { apiUrl, useApiFetch } from "../api";
 import AgreementInitializedList from "../Agreements/AgreementInitializedList";
 import EntityDetail from "../Generic/EntityDetail";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 
 export default function Client() {
   const { clientId } = useParams();
-  const [entity, setEntity] = useState({});
-  const [links, setLinks] = useState({});
-
-  useEffect(() => {
-    retries(() => fetch(apiUrl("Clients", clientId), { method: "GET" }))
-      .then((response) => response.json())
-      .then((response) => setEntity(response))
-      .catch((err) => console.log(err));
-  }, [clientId]);
-
-  useEffect(() => {
-    retries(() =>
-      fetch(apiUrl("Clients", clientId, "links"), { method: "GET" })
-    )
-      .then((response) => response.json())
-      .then((response) => setLinks(response))
-      .catch((err) => console.log(err));
-  }, [clientId]);
+  const get = {
+    method: "GET",
+  };
+  const [, entity] = useApiFetch(apiUrl("Clients", clientId), get, {});
+  const [, links] = useApiFetch(apiUrl("Clients", clientId, "links"), get, {});
 
   return (
     <>

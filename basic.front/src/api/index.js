@@ -32,24 +32,28 @@ export function getDefinition(type) {
   ).then((response) => response.json());
 }
 
-export function useApiAgreements(clientId = null) {
+export function useApiFetch(url, options, defaultState = null) {
+  const uri = typeof url === "string" ? apiUrl(url) : url;
   const [loading, setLoading] = useState(true);
-  const [agreements, setAgreements] = useState([]);
-
+  const [response, setResponse] = useState(defaultState);
   useEffect(() => {
-    const url = apiUrl("Agreements");
-    if (clientId) {
-      url.searchParams.set("clientId", clientId);
-    }
-
-    retries(() => fetch(url, { method: "GET" }))
+    retries(() => fetch(uri, options))
       .then((response) => response.json())
       .then((response) => {
-        setAgreements(response);
+        setResponse(response);
         setLoading(false);
       })
       .catch((err) => console.log(err));
-  }, [clientId]);
+  }, [uri, options]);
 
-  return [loading, agreements];
+  return [loading, response];
+}
+
+export function useApiAgreements(clientId = null) {
+  const url = apiUrl("Agreements");
+  if (clientId) {
+    url.searchParams.set("clientId", clientId);
+  }
+
+  return useApiFetch(url, { method: "GET" }, []);
 }

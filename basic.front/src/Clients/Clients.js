@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
 import { IconPlus, IconSearch, IconChevronUp, IconLoader } from "@tabler/icons";
 import { Link, useOutlet, useNavigate, useParams } from "react-router-dom";
 import pluralize from "pluralize";
-import { retries, apiUrl } from "../api";
+import { useApiFetch } from "../api";
 import clsx from "clsx";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 
@@ -11,17 +10,7 @@ export default function Clients() {
   const navigate = useNavigate();
   const { clientId } = useParams();
 
-  const [clients, setClients] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    retries(() => fetch(apiUrl("Clients"), { method: "GET" }))
-      .then((response) => response.json())
-      .then((response) => {
-        setClients(response);
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const [loading, clients] = useApiFetch("Clients", { method: "GET" }, []);
 
   return (
     <div className="container-xl">
