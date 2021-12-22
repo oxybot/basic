@@ -5,13 +5,11 @@ import { useApiFetch, useDefinition } from "../api";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import EntityList from "../Generic/EntityList";
 
-const options = { method: "GET" };
-
 export default function Clients() {
   const outlet = useOutlet();
   const { clientId } = useParams();
   const definition = useDefinition("ClientForList");
-  const [loading, clients] = useApiFetch("Clients", options, []);
+  const [loading, clients] = useApiFetch("Clients", { method: "GET" }, []);
 
   return (
     <div className="container-xl">

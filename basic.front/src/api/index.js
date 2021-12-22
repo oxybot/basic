@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 // Based on: https://stackoverflow.com/a/44577075/17681099
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -23,7 +23,7 @@ export function retries(operation, delay = 300, calls = 2) {
 const rootApiUrl = "https://localhost:7268";
 
 export function apiUrl(...relative) {
-  return new URL(relative.join("/"), rootApiUrl).href;
+  return new URL(relative.join("/"), rootApiUrl);
 }
 
 export function getDefinition(type) {
@@ -57,7 +57,7 @@ export function useApiFetch(url, options, defaultState = null) {
         setLoading(false);
       })
       .catch((err) => console.log(err));
-  }, [url, options]);
+  }, [url.toString(), options.toString()]);
 
   return [loading, response];
 }
@@ -65,13 +65,9 @@ export function useApiFetch(url, options, defaultState = null) {
 export function useApiAgreements(clientId = null) {
   let url = apiUrl("Agreements");
   if (clientId) {
-    let temp = new URL(url).searchParams.set("clientId", clientId);
-    url = temp.href;
+    url.searchParams.set("clientId", clientId);
   }
 
-  const options = useMemo(() => {
-    return { method: "GET" };
-  }, []);
-
+  const options = { method: "GET" };
   return useApiFetch(url, options, []);
 }
