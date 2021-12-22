@@ -1,15 +1,15 @@
 import { IconPlus, IconSearch } from "@tabler/icons";
-import { Link, useOutlet, useParams } from "react-router-dom";
 import pluralize from "pluralize";
+import { Link, useOutlet, useParams } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
-import MobilePageTitle from "../Generic/MobilePageTitle";
 import EntityList from "../Generic/EntityList";
+import MobilePageTitle from "../Generic/MobilePageTitle";
 
 export default function Clients() {
   const outlet = useOutlet();
   const { clientId } = useParams();
   const definition = useDefinition("ClientForList");
-  const [loading, clients] = useApiFetch("Clients", { method: "GET" }, []);
+  const [loading, elements] = useApiFetch("Clients", { method: "GET" }, []);
 
   return (
     <div className="container-xl">
@@ -30,8 +30,8 @@ export default function Clients() {
               <div className="col">
                 <h2 className="page-title">Clients</h2>
                 <div className="text-muted mt-1">
-                  {clients
-                    ? pluralize("entry", clients.length, true)
+                  {elements
+                    ? pluralize("entry", elements.length, true)
                     : "- entry"}
                 </div>
               </div>
@@ -66,7 +66,7 @@ export default function Clients() {
           </div>
           <div className="page-header d-lg-none">
             <div className="text-muted">
-              {clients ? pluralize("entry", clients.length, true) : "- entry"}
+              {elements ? pluralize("entry", elements.length, true) : "- entry"}
             </div>
           </div>
           <div className="page-body">
@@ -74,7 +74,7 @@ export default function Clients() {
               <EntityList
                 loading={loading}
                 definition={definition}
-                entities={clients}
+                entities={elements}
                 baseTo="/clients"
                 selectedId={clientId}
               />

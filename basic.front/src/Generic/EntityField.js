@@ -2,7 +2,7 @@ import { IconChevronRight } from "@tabler/icons";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
-export default function EntityField({ type, value }) {
+export default function EntityField({ type, value, list = false }) {
   if (value === undefined || value === null) {
     return "-";
   }
@@ -15,17 +15,21 @@ export default function EntityField({ type, value }) {
       return dayjs(value).format("DD MMM YYYY");
 
     case "ref/client":
-      return (
-        <div className="d-flex align-items-start">
-          {value.displayName}
-          <Link
-            className="ms-auto btn btn-sm btn-outline-secondary"
-            to={`/client/${value.identifier}`}
-          >
-            <IconChevronRight /> See details
-          </Link>
-        </div>
-      );
+      if (list) {
+        return value.displayName;
+      } else {
+        return (
+          <div className="d-flex align-items-start">
+            {value.displayName}
+            <Link
+              className="ms-auto btn btn-sm btn-outline-secondary"
+              to={`/client/${value.identifier}`}
+            >
+              <IconChevronRight /> See details
+            </Link>
+          </div>
+        );
+      }
 
     case "string":
       return value;

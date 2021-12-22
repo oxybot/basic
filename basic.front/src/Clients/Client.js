@@ -1,9 +1,9 @@
 import { useParams, Link } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
 import { apiUrl, useApiFetch } from "../api";
-import AgreementInitializedList from "../Agreements/AgreementInitializedList";
 import EntityDetail from "../Generic/EntityDetail";
 import MobilePageTitle from "../Generic/MobilePageTitle";
+import EntityList from "../Generic/EntityList";
 
 export default function Client() {
   const { clientId } = useParams();
@@ -82,9 +82,7 @@ export default function Client() {
               </div>
             </div>
             <div id="tab-top-2" className="card tab-pane">
-              <div className="card-body">
-                <AgreementInitializedList />
-              </div>
+              <div className="card-body"></div>
             </div>
           </div>
         </div>

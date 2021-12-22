@@ -1,13 +1,15 @@
 import { IconPlus, IconSearch } from "@tabler/icons";
 import pluralize from "pluralize";
-import { Link, useOutlet } from "react-router-dom";
-import { useApiAgreements } from "../api";
-import AgreementList from "./AgreementList";
+import { Link, useOutlet, useParams } from "react-router-dom";
+import { useApiFetch, useDefinition } from "../api";
+import EntityList from "../Generic/EntityList";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 
 export default function Agreements() {
   const outlet = useOutlet();
-  const [loading, elements] = useApiAgreements();
+  const { agreementId } = useParams();
+  const definition = useDefinition("AgreementForList");
+  const [loading, elements] = useApiFetch("Agreements", { method: "GET" }, []);
 
   return (
     <div className="container-xl">
@@ -67,7 +69,13 @@ export default function Agreements() {
           </div>
           <div className="page-body">
             <div className="card">
-              <AgreementList loading={loading} agreements={elements} />
+              <EntityList
+                loading={loading}
+                definition={definition}
+                entities={elements}
+                baseTo="/agreements"
+                selectedId={agreementId}
+              />
             </div>
           </div>
         </div>

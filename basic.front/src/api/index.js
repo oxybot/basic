@@ -57,17 +57,8 @@ export function useApiFetch(url, options, defaultState = null) {
         setLoading(false);
       })
       .catch((err) => console.log(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url.toString(), options.toString()]);
 
   return [loading, response];
-}
-
-export function useApiAgreements(clientId = null) {
-  let url = apiUrl("Agreements");
-  if (clientId) {
-    url.searchParams.set("clientId", clientId);
-  }
-
-  const options = { method: "GET" };
-  return useApiFetch(url, options, []);
 }

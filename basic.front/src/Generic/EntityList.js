@@ -50,7 +50,11 @@ export default function EntityList({
                 fields &&
                 fields.map((field, index) => (
                   <td key={index}>
-                    <EntityField type={field.type} value={entity[field.name]} />
+                    <EntityField
+                      type={field.type}
+                      value={entity[field.name]}
+                      list
+                    />
                   </td>
                 ))}
             </tr>
