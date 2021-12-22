@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { getDefinition } from "../api";
+import { useState } from "react";
+import { useDefinition } from "../api";
 import { groupBy, objectMap } from "../helpers";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import MobilePageTitle from "../Generic/MobilePageTitle";
 
 export default function ClientNew() {
   const [inputs, setInputs] = useState({});
-  const [definition, setDefinition] = useState(null);
+  const definition = useDefinition("ClientForEdit");
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -34,14 +34,6 @@ export default function ClientNew() {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    getDefinition("ClientForEdit")
-      .then((definition) => setDefinition(definition))
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   return (
     <form onSubmit={handleSubmit}>

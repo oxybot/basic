@@ -1,8 +1,8 @@
+import { useDefinition } from "../api";
 import { IconChevronRight } from "@tabler/icons";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getDefinition } from "../api";
 import { groupBy, objectMap } from "../helpers";
 
 function Field({ type, value }) {
@@ -36,13 +36,7 @@ function Field({ type, value }) {
 }
 
 export default function EntityDetail({ definitionName, entity }) {
-  const [definition, setDefinition] = useState(null);
-
-  useEffect(() => {
-    getDefinition(definitionName)
-      .then((definition) => setDefinition(definition))
-      .catch((err) => console.log(err));
-  }, [definitionName]);
+  const definition = useDefinition(definitionName);
 
   return (
     <>

@@ -32,8 +32,20 @@ export function getDefinition(type) {
   ).then((response) => response.json());
 }
 
+export function useDefinition(type) {
+  const [definition, setDefinition] = useState(null);
+  useEffect(() => {
+    getDefinition(type)
+      .then((definition) => setDefinition(definition))
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [type]);
+
+  return definition;
+}
+
 export function useApiFetch(url, options, defaultState = null) {
-  const uri = typeof url === "string" ? apiUrl(url) : url;
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState(defaultState);
   useEffect(() => {

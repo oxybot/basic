@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { apiUrl, getDefinition, retries } from "../api";
+import { apiUrl, retries, useDefinition } from "../api";
 import { groupBy, objectMap } from "../helpers";
 import clsx from "clsx";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -9,15 +9,7 @@ export default function ClientEdit() {
   const navigate = useNavigate();
   const { clientId } = useParams();
   const [entity, setEntity] = useState({});
-  const [definition, setDefinition] = useState(null);
-
-  useEffect(() => {
-    getDefinition("ClientForEdit")
-      .then((definition) => setDefinition(definition))
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const definition = useDefinition("ClientForEdit");
 
   useEffect(() => {
     retries(() => fetch(apiUrl("Clients", clientId), { method: "GET" }))
