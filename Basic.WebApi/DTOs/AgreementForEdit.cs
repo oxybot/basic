@@ -9,12 +9,6 @@ namespace Basic.WebApi.DTOs
     public class AgreementForEdit : BaseEntityDTO
     {
         /// <summary>
-        /// Gets or sets the identifier of the associated client.
-        /// </summary>
-        [Required]
-        public Guid ClientIdentifier { get; set; }
-
-        /// <summary>
         /// Gets or sets the internal code of the agreement.
         /// </summary>
         [Required]
@@ -25,6 +19,12 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         [Required]
         public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the identifier of the associated client.
+        /// </summary>
+        [Required]
+        public Guid ClientIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the signature date of the agreement.

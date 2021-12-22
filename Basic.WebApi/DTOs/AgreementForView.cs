@@ -9,13 +9,6 @@ namespace Basic.WebApi.DTOs
     public class AgreementForView : BaseEntityDTO
     {
         /// <summary>
-        /// Gets or sets the refence to the associated client.
-        /// </summary>
-        [Required]
-        [SwaggerSchema(Format = "ref/client")]
-        public EntityReference Client { get; set; }
-
-        /// <summary>
         /// Gets or sets the internal code of the agreement.
         /// </summary>
         [Required]
@@ -26,6 +19,13 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         [Required]
         public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the refence to the associated client.
+        /// </summary>
+        [Required]
+        [SwaggerSchema(Format = "ref/client")]
+        public EntityReference Client { get; set; }
 
         /// <summary>
         /// Gets or sets the signature date of the agreement.

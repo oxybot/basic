@@ -16,12 +16,6 @@ namespace Basic.WebApi.DTOs
         public Guid Identifier { get; set; }
 
         /// <summary>
-        /// Gets or sets the reference to the associated client.
-        /// </summary>
-        [SwaggerSchema(Format = "ref/client")]
-        public EntityReference Client { get; set; }
-
-        /// <summary>
         /// Gets or sets the internal code of the agreement.
         /// </summary>
         [Required]
@@ -32,6 +26,12 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         [Required]
         public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference to the associated client.
+        /// </summary>
+        [SwaggerSchema(Format = "ref/client")]
+        public EntityReference Client { get; set; }
 
         /// <summary>
         /// Gets or sets the signature date of the agreement.
