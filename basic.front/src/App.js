@@ -5,7 +5,7 @@ import ClientList from "./Clients/ClientList";
 import ClientNew from "./Clients/ClientNew";
 import ClientView from "./Clients/ClientView";
 import Layout from "./Layout";
-import Agreement from "./Agreements/Agreement";
+import AgreementView from "./Agreements/AgreementView";
 import AgreementList from "./Agreements/AgreementList";
 
 export default function App() {
@@ -23,7 +23,10 @@ export default function App() {
         <Route path="/clients/new" element={<ClientNew />} />
 
         <Route path="/agreements" element={<AgreementList />}>
-          <Route path=":agreementId" element={<Agreement />} />
+          <Route
+            path=":agreementId"
+            element={<AgreementView backTo="/agreements" />}
+          />
         </Route>
       </Routes>
     </Layout>

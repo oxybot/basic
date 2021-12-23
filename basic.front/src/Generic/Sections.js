@@ -2,9 +2,18 @@ import clsx from "clsx";
 import { useState } from "react";
 
 export default function Sections({ children }) {
-  const [current, setCurrent] = useState(
-    children.length === 0 ? null : children[0].props.code
-  );
+  if (children === null) {
+    children = [];
+  } else if (!Array.isArray(children)) {
+    children = [children];
+  }
+
+  let defaultCurrent = null;
+  if (children.length > 0) {
+    defaultCurrent = children[0].props.code;
+  }
+
+  const [current, setCurrent] = useState(defaultCurrent);
 
   return (
     <>
