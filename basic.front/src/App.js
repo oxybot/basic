@@ -6,13 +6,14 @@ import ClientNew from "./Clients/ClientNew";
 import ClientView from "./Clients/ClientView";
 import Layout from "./Layout";
 import Agreement from "./Agreements/Agreement";
-import Agreements from "./Agreements/Agreements";
+import AgreementList from "./Agreements/AgreementList";
 
 export default function App() {
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<Dashboard />} />
+
         <Route path="/client/:clientId" element={<ClientView />} />
         <Route path="/client/:clientId/edit" element={<ClientEdit />} />
         <Route path="/clients" element={<ClientList />}>
@@ -20,7 +21,8 @@ export default function App() {
           <Route path=":clientId/edit" element={<ClientEdit />} />
         </Route>
         <Route path="/clients/new" element={<ClientNew />} />
-        <Route path="/agreements" element={<Agreements />}>
+
+        <Route path="/agreements" element={<AgreementList />}>
           <Route path=":agreementId" element={<Agreement />} />
         </Route>
       </Routes>
