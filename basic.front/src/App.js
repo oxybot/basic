@@ -13,8 +13,10 @@ export default function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        <Route path="/client/:clientId" element={<Client />} />
+        <Route path="/client/:clientId/edit" element={<ClientEdit />} />
         <Route path="/clients" element={<Clients />}>
-          <Route path=":clientId" element={<Client />} />
+          <Route path=":clientId" element={<Client backTo="/clients" />} />
           <Route path=":clientId/edit" element={<ClientEdit />} />
         </Route>
         <Route path="/clients/new" element={<ClientNew />} />

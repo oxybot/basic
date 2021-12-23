@@ -3,17 +3,23 @@ import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
 import { apiUrl, useApiFetch } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import MobilePageTitle from "../Generic/MobilePageTitle";
-import EntityList from "../Generic/EntityList";
+import clsx from "clsx";
+import { useState } from "react";
 
-export default function Client() {
+export default function Client({ backTo = null }) {
   const { clientId } = useParams();
   const get = { method: "GET" };
   const [, entity] = useApiFetch(apiUrl("Clients", clientId), get, {});
   const [, links] = useApiFetch(apiUrl("Clients", clientId, "links"), get, {});
 
+  const [section, setSection] = useState("detail");
+  function enableSection(name) {
+    setSection(name);
+  }
+
   return (
-    <>
-      <MobilePageTitle back="/clients">
+    <div className={clsx({ "container-xl": !backTo })}>
+      <MobilePageTitle back={backTo}>
         <div className="navbar-brand flex-fill">{entity.displayName}</div>
         <Link to="edit" className="btn btn-primary">
           <IconEdit />
@@ -57,36 +63,40 @@ export default function Client() {
         </div>
       </div>
       <div className="page-body">
-        <div className="card-tabs">
-          <ul className="nav nav-tabs">
-            <li className="nav-item">
-              <a
-                href="#tab-top-1"
-                className="nav-link active"
-                data-bs-toggle="tab"
-              >
-                Details
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#tab-top-2" className="nav-link" data-bs-toggle="tab">
-                Agreements
-                <span className="badge bg-green ms-2">{links.agreements}</span>
-              </a>
-            </li>
-          </ul>
-          <div className="tab-content">
-            <div id="tab-top-1" className="card tab-pane show active">
-              <div className="card-body">
-                <EntityDetail definitionName="ClientForView" entity={entity} />
-              </div>
-            </div>
-            <div id="tab-top-2" className="card tab-pane">
-              <div className="card-body"></div>
-            </div>
+        <ul className="nav mb-3 justify-content-center">
+          <li className="nav-item">
+            <button
+              className={clsx("nav-link btn btn-nav", {
+                active: section === "detail",
+              })}
+              type="button"
+              onClick={() => enableSection("detail")}
+            >
+              Detail
+            </button>
+          </li>
+          <li className="nav-item">
+            <button
+              className={clsx("nav-link btn btn-nav", {
+                active: section === "agreements",
+              })}
+              type="button"
+              onClick={() => enableSection("agreements")}
+            >
+              Agreements
+              <span className="badge bg-green ms-2">{links.agreements}</span>
+            </button>
+          </li>
+        </ul>
+        {section === "detail" && (
+          <EntityDetail definitionName="ClientForView" entity={entity} />
+        )}
+        {section === "agreements" && (
+          <div className="card">
+            <div className="card-body"></div>
           </div>
-        </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }

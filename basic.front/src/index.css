@@ -75,6 +75,26 @@ body {
   padding-left: 1.75rem;
 }
 
+/* Special style for nav buttons */
+.btn.btn-nav {
+  color: #206bc4;
+  background-color: transparent;
+  border-color: transparent;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.btn.btn-nav:focus {
+  box-shadow: none;
+  border-color: transparent !important;
+}
+
+.btn.btn-nav.active {
+  border-radius: 0px;
+  border-bottom: 2px solid;
+  border-bottom-color: #206bc4 !important;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Megrim&text=B");
 
 .basic-logo {
