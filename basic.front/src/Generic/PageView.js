@@ -40,7 +40,7 @@ export default function PageView({
             </div>
           )}
           <div className="col">
-            <h2 className="page-title">{entity.displayName}</h2>
+            <h2 className="page-title">{title}</h2>
           </div>
           <div className="col-auto ms-auto d-print-none">
             <div className="d-flex">
