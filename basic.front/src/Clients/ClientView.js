@@ -1,12 +1,33 @@
 import { useParams, Link } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
-import { apiUrl, useApiFetch } from "../api";
+import { apiUrl, useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import clsx from "clsx";
 import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
+import EntityList from "../Generic/EntityList";
 
+function ClientViewDetail({ entity }) {
+  return <EntityDetail definitionName="ClientForView" entity={entity} />;
+}
+
+function ClientViewAgreements({ clientId }) {
+  const definition = useDefinition("AgreementForList");
+  const url = apiUrl("Agreements");
+  url.searchParams.set("clientId", clientId);
+  const [loading, elements] = useApiFetch(url, { method: "GET" }, []);
+  return (
+    <div className="card">
+      <EntityList
+        loading={loading}
+        definition={definition}
+        entities={elements}
+        baseTo="/agreement"
+      />
+    </div>
+  );
+}
 export default function ClientView({ backTo = null }) {
   const { clientId } = useParams();
   const get = { method: "GET" };
@@ -17,9 +38,8 @@ export default function ClientView({ backTo = null }) {
     <div className={clsx({ "container-xl": !backTo })}>
       <MobilePageTitle back={backTo}>
         <div className="navbar-brand flex-fill">{entity.displayName}</div>
-        <Link to="edit" className="btn btn-primary">
+        <Link to="edit" className="btn btn-primary btn-icon" arial-label="Edit">
           <IconEdit />
-          Edit
         </Link>
       </MobilePageTitle>
       <div className="page-header d-none d-lg-block">
@@ -62,24 +82,17 @@ export default function ClientView({ backTo = null }) {
       </div>
       <div className="page-body">
         <Sections>
-          <Section
-            code="detail"
-            element={
-              <EntityDetail definitionName="ClientForView" entity={entity} />
-            }
-          >
+          <Section code="detail" element={<ClientViewDetail entity={entity} />}>
             Detail
           </Section>
           <Section
             code="agreements"
-            element={
-              <div className="card">
-                <div className="card-body"></div>
-              </div>
-            }
+            element={<ClientViewAgreements clientId={clientId} />}
           >
             Agreements
-            <span className="badge bg-green ms-2">{links.agreements}</span>
+            <span className="badge ms-2 bg-green">
+              {links.agreements || ""}
+            </span>
           </Section>
         </Sections>
       </div>
