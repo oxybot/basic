@@ -5,7 +5,7 @@ import { useApiFetch, useDefinition } from "../api";
 import EntityList from "../Generic/EntityList";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 
-export default function Clients() {
+export default function ClientList() {
   const outlet = useOutlet();
   const { clientId } = useParams();
   const definition = useDefinition("ClientForList");

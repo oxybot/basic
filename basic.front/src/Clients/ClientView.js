@@ -7,7 +7,7 @@ import clsx from "clsx";
 import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
 
-export default function Client({ backTo = null }) {
+export default function ClientView({ backTo = null }) {
   const { clientId } = useParams();
   const get = { method: "GET" };
   const [, entity] = useApiFetch(apiUrl("Clients", clientId), get, {});
