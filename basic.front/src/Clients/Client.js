@@ -4,18 +4,14 @@ import { apiUrl, useApiFetch } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import clsx from "clsx";
-import { useState } from "react";
+import Sections from "../Generic/Sections";
+import Section from "../Generic/Section";
 
 export default function Client({ backTo = null }) {
   const { clientId } = useParams();
   const get = { method: "GET" };
   const [, entity] = useApiFetch(apiUrl("Clients", clientId), get, {});
   const [, links] = useApiFetch(apiUrl("Clients", clientId, "links"), get, {});
-
-  const [section, setSection] = useState("detail");
-  function enableSection(name) {
-    setSection(name);
-  }
 
   return (
     <div className={clsx({ "container-xl": !backTo })}>
@@ -28,20 +24,22 @@ export default function Client({ backTo = null }) {
       </MobilePageTitle>
       <div className="page-header d-none d-lg-block">
         <div className="row align-items-center">
-          <div className="col-auto ms-auto d-print-none">
-            <div className="d-flex">
-              <Link
-                to="/clients"
-                className="btn btn-outline-primary btn-icon d-none d-lg-block"
-              >
-                <IconChevronRight />
-              </Link>
-              <Link to="/clients" className="btn btn-outline-primary d-lg-none">
-                <IconChevronLeft />
-                Back
-              </Link>
+          {backTo && (
+            <div className="col-auto ms-auto d-print-none">
+              <div className="d-flex">
+                <Link
+                  to={backTo}
+                  className="btn btn-outline-primary btn-icon d-none d-lg-block"
+                >
+                  <IconChevronRight />
+                </Link>
+                <Link to={backTo} className="btn btn-outline-primary d-lg-none">
+                  <IconChevronLeft />
+                  Back
+                </Link>
+              </div>
             </div>
-          </div>
+          )}
           <div className="col">
             <h2 className="page-title">{entity.displayName}</h2>
           </div>
@@ -63,39 +61,27 @@ export default function Client({ backTo = null }) {
         </div>
       </div>
       <div className="page-body">
-        <ul className="nav mb-3 justify-content-center">
-          <li className="nav-item">
-            <button
-              className={clsx("nav-link btn btn-nav", {
-                active: section === "detail",
-              })}
-              type="button"
-              onClick={() => enableSection("detail")}
-            >
-              Detail
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              className={clsx("nav-link btn btn-nav", {
-                active: section === "agreements",
-              })}
-              type="button"
-              onClick={() => enableSection("agreements")}
-            >
-              Agreements
-              <span className="badge bg-green ms-2">{links.agreements}</span>
-            </button>
-          </li>
-        </ul>
-        {section === "detail" && (
-          <EntityDetail definitionName="ClientForView" entity={entity} />
-        )}
-        {section === "agreements" && (
-          <div className="card">
-            <div className="card-body"></div>
-          </div>
-        )}
+        <Sections>
+          <Section
+            code="detail"
+            element={
+              <EntityDetail definitionName="ClientForView" entity={entity} />
+            }
+          >
+            Detail
+          </Section>
+          <Section
+            code="agreements"
+            element={
+              <div className="card">
+                <div className="card-body"></div>
+              </div>
+            }
+          >
+            Agreements
+            <span className="badge bg-green ms-2">{links.agreements}</span>
+          </Section>
+        </Sections>
       </div>
     </div>
   );
