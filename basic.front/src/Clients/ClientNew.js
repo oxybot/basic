@@ -2,12 +2,13 @@ import { useState } from "react";
 import { useDefinition } from "../api";
 import { groupBy, objectMap } from "../helpers";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 
 export default function ClientNew() {
   const [inputs, setInputs] = useState({});
   const definition = useDefinition("ClientForEdit");
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -28,6 +29,7 @@ export default function ClientNew() {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        navigate("/clients");
       })
       .catch((err) => {
         alert(err);
