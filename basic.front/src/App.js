@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import AgreementView from "./Agreements/AgreementView";
 import AgreementEdit from "./Agreements/AgreementEdit";
 import AgreementList from "./Agreements/AgreementList";
+import AgreementNew from "./Agreements/AgreementNew";
+import AgreementView from "./Agreements/AgreementView";
 import ClientEdit from "./Clients/ClientEdit";
 import ClientList from "./Clients/ClientList";
 import ClientNew from "./Clients/ClientNew";
@@ -35,6 +36,7 @@ export default function App() {
           />
           <Route path=":agreementId/edit" element={<AgreementEdit />} />
         </Route>
+        <Route path="/agreements/new" element={<AgreementNew />} />
       </Routes>
     </Layout>
   );
