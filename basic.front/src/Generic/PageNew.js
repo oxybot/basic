@@ -1,27 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiUrl, retries } from "../api";
+import { apiUrl } from "../api";
 import EntityForm from "./EntityForm";
 
-export default function PageEdit({
-  definition,
-  baseApiUrl,
-  entityId,
-  texts,
-  transform = (e) => e,
-}) {
+export default function PageNew({ definition, baseApiUrl, texts }) {
   const navigate = useNavigate();
   const [entity, setEntity] = useState({});
-  texts["form-action"] = "Update";
-
-  useEffect(() => {
-    retries(() => fetch(apiUrl(baseApiUrl, entityId), { method: "GET" }))
-      .then((response) => response.json())
-      .then((response) => {
-        setEntity(transform(response));
-      })
-      .catch((err) => console.log(err));
-  }, [baseApiUrl, entityId, transform]);
+  texts["form-action"] = "Create";
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -31,8 +16,8 @@ export default function PageEdit({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch(apiUrl(baseApiUrl, entityId), {
-      method: "PUT",
+    fetch(apiUrl(baseApiUrl), {
+      method: "POST",
       headers: {
         "content-type": "application/json",
         accept: "application/json",
@@ -41,6 +26,7 @@ export default function PageEdit({
     })
       .then((response) => response.json())
       .then((response) => {
+        console.log("ici");
         navigate("./..");
       })
       .catch((err) => {
@@ -56,6 +42,7 @@ export default function PageEdit({
       texts={texts}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
+      container
     />
   );
 }
