@@ -15,7 +15,7 @@ namespace Basic.Model
         /// </summary>
         public Agreement()
         {
-            this.Services = new List<Service>();
+            this.Items = new List<AgreementItem>();
             this.Invoices = new List<Invoice>();
         }
 
@@ -56,7 +56,7 @@ namespace Basic.Model
         /// <summary>
         /// Gets the items associated to the agreement.
         /// </summary>
-        public ICollection<Service> Services { get; }
+        public ICollection<AgreementItem> Items { get; }
 
         /// <summary>
         /// Gets the invoices attached to the agreement.

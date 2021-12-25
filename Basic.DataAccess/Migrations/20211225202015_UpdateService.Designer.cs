@@ -4,6 +4,7 @@ using Basic.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Basic.DataAccess.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20211225202015_UpdateService")]
+    partial class UpdateService
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,37 +57,6 @@ namespace Basic.DataAccess.Migrations
                     b.HasIndex("OwnerIdentifier");
 
                     b.ToTable("Agreement");
-                });
-
-            modelBuilder.Entity("Basic.Model.AgreementItem", b =>
-                {
-                    b.Property<Guid>("Identifier")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AgreementIdentifier")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("ProductIdentifier")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18,6)");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,6)");
-
-                    b.HasKey("Identifier");
-
-                    b.HasIndex("AgreementIdentifier");
-
-                    b.HasIndex("ProductIdentifier");
-
-                    b.ToTable("AgreementItem");
                 });
 
             modelBuilder.Entity("Basic.Model.Client", b =>
@@ -147,6 +118,32 @@ namespace Basic.DataAccess.Migrations
                     b.ToTable("Product");
                 });
 
+            modelBuilder.Entity("Basic.Model.Service", b =>
+                {
+                    b.Property<Guid>("Identifier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AgreementIdentifier")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.HasKey("Identifier");
+
+                    b.HasIndex("AgreementIdentifier");
+
+                    b.ToTable("Service");
+                });
+
             modelBuilder.Entity("Basic.Model.User", b =>
                 {
                     b.Property<Guid>("Identifier")
@@ -184,23 +181,6 @@ namespace Basic.DataAccess.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("Basic.Model.AgreementItem", b =>
-                {
-                    b.HasOne("Basic.Model.Agreement", "Agreement")
-                        .WithMany("Items")
-                        .HasForeignKey("AgreementIdentifier")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Basic.Model.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductIdentifier");
-
-                    b.Navigation("Agreement");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Basic.Model.Client", b =>
@@ -244,11 +224,22 @@ namespace Basic.DataAccess.Migrations
                         .HasForeignKey("AgreementIdentifier");
                 });
 
+            modelBuilder.Entity("Basic.Model.Service", b =>
+                {
+                    b.HasOne("Basic.Model.Agreement", "Agreement")
+                        .WithMany("Services")
+                        .HasForeignKey("AgreementIdentifier")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Agreement");
+                });
+
             modelBuilder.Entity("Basic.Model.Agreement", b =>
                 {
                     b.Navigation("Invoices");
 
-                    b.Navigation("Items");
+                    b.Navigation("Services");
                 });
 
             modelBuilder.Entity("Basic.Model.Client", b =>

@@ -6,7 +6,7 @@ namespace Basic.Model
     /// <summary>
     /// Represents a detail item part of an agreement.
     /// </summary>
-    public class Service : BaseModel
+    public class AgreementItem : BaseModel
     {
         /// <summary>
         /// Gets or sets the parent agreement.
