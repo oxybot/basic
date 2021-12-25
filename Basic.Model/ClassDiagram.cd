@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Basic.Model.Client">
-    <Position X="1.5" Y="1.5" Width="1.5" />
+    <Position X="1.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAAAIAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Client.cs</FileName>
@@ -10,32 +10,44 @@
       <Property Name="Agreements" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Basic.Model.Service">
-    <Position X="3.25" Y="6.75" Width="1.5" />
+  <Class Name="Basic.Model.AgreementItem">
+    <Position X="7.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAACAAAAAAAgAAAAAAACAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
-      <FileName>Service.cs</FileName>
+      <FileName>AgreementItem.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Product" />
+      <Property Name="Agreement" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Basic.Model.Product">
-    <Position X="6.75" Y="6.75" Width="1.5" />
+    <Position X="10" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAACBAAAA=</HashCode>
+      <HashCode>AAAAEAAAAAAAAAAAIAEAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>Product.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Basic.Model.Agreement">
-    <Position X="4.25" Y="1.5" Width="1.5" />
+    <Position X="4.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAAAAAgAAAAAAEAAEAAAQAAAAAAAAAAAAAAAACAAAAQ=</HashCode>
+      <HashCode>AAAAAAiAAAAACEAAEAAAQAAAAAAAAAAAAAAAACAAAAQ=</HashCode>
       <FileName>Agreement.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Client" />
+      <Property Name="Owner" />
     </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Items" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Basic.Model.User">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAEAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>User.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

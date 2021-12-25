@@ -38,6 +38,11 @@ namespace Basic.Model
         public string Title { get; set; }
 
         /// <summary>
+        /// Gets or sets the owner of the agreement.
+        /// </summary>
+        public User Owner { get; set; }
+
+        /// <summary>
         /// Gets or sets the signature date of the agreement.
         /// </summary>
         [Column(TypeName = "date")]
@@ -49,7 +54,7 @@ namespace Basic.Model
         public string PrivateNotes { get; set; }
 
         /// <summary>
-        /// Gets the services associated to the agreement.
+        /// Gets the items associated to the agreement.
         /// </summary>
         public ICollection<Service> Services { get; }
 

@@ -31,6 +31,7 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the address of the client.
         /// </summary>
+        [Required]
         public StreetAddress Address { get; set; }
 
         /// <summary>
