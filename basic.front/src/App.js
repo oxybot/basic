@@ -1,12 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "./Dashboard";
+import AgreementView from "./Agreements/AgreementView";
+import AgreementEdit from "./Agreements/AgreementEdit";
+import AgreementList from "./Agreements/AgreementList";
 import ClientEdit from "./Clients/ClientEdit";
 import ClientList from "./Clients/ClientList";
 import ClientNew from "./Clients/ClientNew";
 import ClientView from "./Clients/ClientView";
+import Dashboard from "./Dashboard";
 import Layout from "./Layout";
-import AgreementView from "./Agreements/AgreementView";
-import AgreementList from "./Agreements/AgreementList";
 
 export default function App() {
   return (
@@ -22,11 +23,17 @@ export default function App() {
         </Route>
         <Route path="/clients/new" element={<ClientNew />} />
 
+        <Route path="/agreement/:agreementId" element={<AgreementView />} />
+        <Route
+          path="/agreement/:agreementId/edit"
+          element={<AgreementEdit />}
+        />
         <Route path="/agreements" element={<AgreementList />}>
           <Route
             path=":agreementId"
             element={<AgreementView backTo="/agreements" />}
           />
+          <Route path=":agreementId/edit" element={<AgreementEdit />} />
         </Route>
       </Routes>
     </Layout>

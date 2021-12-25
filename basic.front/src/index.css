@@ -17,6 +17,15 @@ input.form-control.required {
   color: #626976;
 }
 
+.form-label {
+  color: #626976;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+}
+
 body {
   background-color: #f8fafc;
 }
@@ -54,10 +63,6 @@ body {
   padding-bottom: calc(0.5rem + 1px);
 }
 
-.theme-dark .offcanvas-header {
-  background: #1b2434;
-}
-
 .navbar-vertical {
   background: white;
 }
@@ -83,6 +88,42 @@ body {
   min-height: 3rem;
 }
 
+/* Update of the theme-dark default */
+.theme-dark .offcanvas-header {
+  background: #1b2434;
+}
+
+.theme-dark ::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+/* react-select styling */
+.required .react-select__control,
+.theme-dark .required .react-select__control {
+  background-color: #206bc411;
+}
+
+.required .react-select__control--is-focused {
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgb(32 107 196 / 25%);
+}
+
+.theme-dark .react-select__control,
+.theme-dark .react-select__menu {
+  background-color: #1b2434;
+  color: #f8fafc;
+  border-color: #2c3c56;
+}
+.theme-dark .react-select__option:hover {
+  background-color: #1a569d;
+}
+.theme-dark .react-select__menu {
+  border: 1px solid #2c3c56;
+}
+.theme-dark .react-select__single-value {
+  color: #f8fafc;
+}
+
 /* Special style for nav buttons */
 .btn.btn-nav {
   color: #206bc4;
@@ -103,6 +144,7 @@ body {
   border-bottom-color: #206bc4 !important;
 }
 
+/* Logo of the application */
 @import url("https://fonts.googleapis.com/css2?family=Megrim&text=B");
 
 .basic-logo {

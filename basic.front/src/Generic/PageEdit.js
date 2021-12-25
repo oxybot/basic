@@ -1,11 +1,106 @@
 import clsx from "clsx";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { apiUrl, retries } from "../api";
+import { apiUrl, retries, useApiFetch } from "../api";
 import { groupBy, objectMap } from "../helpers";
 import MobilePageTitle from "./MobilePageTitle";
+import Select from "react-select";
 
-export default function PageEdit({ definition, baseApiUrl, entityId, texts }) {
+function EntityInputClient({ field, value, onChange }) {
+  const [loading, clients] = useApiFetch(
+    "Clients",
+    { method: "GET" },
+    [],
+    (clients) =>
+      clients.map((c) => ({
+        value: c.identifier,
+        label: c.displayName,
+      }))
+  );
+  return (
+    !loading && (
+      <Select
+        name={field.name}
+        className={clsx({
+          required: field.required,
+        })}
+        classNamePrefix="react-select"
+        placeholder={field.placeholder}
+        options={clients}
+        value={clients.filter((s) => s.value === value)}
+        onChange={(s) =>
+          onChange({ target: { name: field.name, value: s.value } })
+        }
+      />
+    )
+  );
+}
+
+function EntityInput({ field, value, onChange }) {
+  switch (field.type) {
+    case "date":
+      return (
+        <div className="input-icon">
+          <input
+            type="date"
+            className={clsx("form-control", {
+              required: field.required,
+            })}
+            id={field.name}
+            name={field.name}
+            placeholder={field.placeholder}
+            value={dayjs(value).format("YYYY-MM-DD")}
+            onChange={onChange}
+          />
+        </div>
+      );
+
+    case "string":
+      return (
+        <input
+          type="text"
+          className={clsx("form-control", {
+            required: field.required,
+          })}
+          id={field.name}
+          name={field.name}
+          placeholder={field.placeholder}
+          value={value}
+          onChange={onChange}
+        />
+      );
+
+    case "ref/client":
+      return (
+        <EntityInputClient field={field} value={value} onChange={onChange} />
+      );
+
+    default:
+      console.warn("Unknown field type: " + field.type);
+      return (
+        <input
+          type="text"
+          className={clsx("form-control", {
+            required: field.required,
+          })}
+          id={field.name}
+          name={field.name}
+          placeholder={field.placeholder}
+          value={value}
+          onChange={onChange}
+        />
+      );
+  }
+}
+
+export default function PageEdit({
+  definition,
+  baseApiUrl,
+  entityId,
+  texts,
+  transform = (e) => e,
+}) {
   const navigate = useNavigate();
   const [entity, setEntity] = useState({});
 
@@ -13,15 +108,15 @@ export default function PageEdit({ definition, baseApiUrl, entityId, texts }) {
     retries(() => fetch(apiUrl(baseApiUrl, entityId), { method: "GET" }))
       .then((response) => response.json())
       .then((response) => {
-        setEntity(response);
+        setEntity(transform(response));
       })
       .catch((err) => console.log(err));
-  }, [baseApiUrl, entityId]);
+  }, [baseApiUrl, entityId, transform]);
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setEntity((values) => ({ ...values, [name]: value }));
+    setEntity({ ...entity, [name]: value });
   };
 
   const handleSubmit = (event) => {
@@ -39,15 +134,24 @@ export default function PageEdit({ definition, baseApiUrl, entityId, texts }) {
         navigate("./..");
       })
       .catch((err) => {
+        console.error(err);
         alert(err);
-        console.log(err);
       });
   };
+
+  function t(code) {
+    const text = texts[code];
+    if (typeof text === "function") {
+      return text(entity);
+    } else {
+      return text;
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit}>
       <MobilePageTitle back="./..">
-        <div className="navbar-brand flex-fill">{texts.title}</div>
+        <div className="navbar-brand flex-fill">{t("title")}</div>
         <button type="submit" className="btn btn-primary">
           Update
         </button>
@@ -55,8 +159,8 @@ export default function PageEdit({ definition, baseApiUrl, entityId, texts }) {
       <div className="page-header d-none d-lg-block">
         <div className="row align-items-center">
           <div className="col">
-            <h2 className="page-title">{texts.title}</h2>
-            <div className="text-muted mt-1">{texts.subTitle}</div>
+            <h2 className="page-title">{t("title")}</h2>
+            <div className="text-muted mt-1">{t("subTitle")}</div>
           </div>
           <div className="col-auto ms-auto d-print-none">
             <div className="d-flex">
@@ -88,21 +192,15 @@ export default function PageEdit({ definition, baseApiUrl, entityId, texts }) {
                       {fields.map((field, index) => (
                         <div key={index} className="mb-3">
                           <label
+                            htmlFor={field.name}
                             className={clsx("form-label", {
                               required: field.required,
                             })}
-                            htmlFor={field.name}
                           >
                             {field.displayName}
                           </label>
-                          <input
-                            type="text"
-                            className={clsx("form-control", {
-                              required: field.required,
-                            })}
-                            id={field.name}
-                            name={field.name}
-                            placeholder={field.placeholder}
+                          <EntityInput
+                            field={field}
                             value={entity[field.name] || ""}
                             onChange={handleChange}
                           />

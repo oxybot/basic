@@ -45,7 +45,12 @@ export function useDefinition(type) {
   return definition;
 }
 
-export function useApiFetch(url, options, defaultState = null) {
+export function useApiFetch(
+  url,
+  options,
+  defaultState = null,
+  transform = (e) => e
+) {
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState(defaultState);
   useEffect(() => {
@@ -53,7 +58,7 @@ export function useApiFetch(url, options, defaultState = null) {
     retries(() => fetch(apiUrl(uri), options))
       .then((response) => response.json())
       .then((response) => {
-        setResponse(response);
+        setResponse(transform(response));
         setLoading(false);
       })
       .catch((err) => console.log(err));
