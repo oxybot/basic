@@ -23,7 +23,9 @@ namespace Basic.WebApi
 
             CreateMap<Agreement, AgreementForList>();
             CreateMap<Agreement, AgreementForView>();
-            CreateMap<Agreement, AgreementForEdit>().ReverseMap();
+            CreateMap<Agreement, AgreementForEdit>()
+                .ReverseMap()
+                    .ForMember(a => a.Client, options => options.Ignore());
         }
     }
 }

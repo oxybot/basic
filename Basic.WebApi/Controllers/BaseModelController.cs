@@ -92,11 +92,8 @@ namespace Basic.WebApi.Controllers
             }
 
             TModel model = Mapper.Map<TModel>(entity);
-            return PostCore(model);
-        }
+            CheckDependencies(entity, model);
 
-        protected TForList PostCore(TModel model)
-        {
             Context.Set<TModel>().Add(model);
             Context.SaveChanges();
 
@@ -128,9 +125,21 @@ namespace Basic.WebApi.Controllers
             }
 
             Mapper.Map(entity, model);
+            CheckDependencies(entity, model);
+
             Context.SaveChanges();
 
             return Mapper.Map<TForList>(model);
+        }
+
+        /// <summary>
+        /// Overriden to check and map the dependencies of the entity.
+        /// </summary>
+        /// <param name="entity">The entity data.</param>
+        /// <param name="model">THe associated model instance.</param>
+        /// <exception cref="BadRequestException">Thrown if one of the dependencies is invalid.</exception>
+        protected virtual void CheckDependencies(TForEdit entity, TModel model)
+        {
         }
 
         /// <summary>

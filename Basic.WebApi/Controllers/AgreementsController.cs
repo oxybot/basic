@@ -80,21 +80,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public override AgreementForList Post(AgreementForEdit agreement)
         {
-            if (!ModelState.IsValid)
-            {
-                throw new BadRequestException("Invalid data");
-            }
-
-            var client = Context.Set<Client>().SingleOrDefault(c => c.Identifier == agreement.ClientIdentifier);
-            if (client == null)
-            {
-                throw new BadRequestException("Invalid client identifier");
-            }
-
-            Agreement model = Mapper.Map<Agreement>(agreement);
-            model.Client = client;
-
-            return base.PostCore(model);
+            return base.Post(agreement);
         }
 
         /// <summary>
@@ -111,6 +97,21 @@ namespace Basic.WebApi.Controllers
         public override AgreementForList Put(Guid identifier, AgreementForEdit agreement)
         {
             return base.Put(identifier, agreement);
+        }
+
+        /// <summary>
+        /// Checks and maps Client info.
+        /// </summary>
+        /// <param name="agreement">The agreement data.</param>
+        /// <param name="model">The agreement model instance.</param>
+        /// <exception cref="BadRequestException"></exception>
+        protected override void CheckDependencies(AgreementForEdit agreement, Agreement model)
+        {
+            model.Client = Context.Set<Client>().SingleOrDefault(c => c.Identifier == agreement.ClientIdentifier);
+            if (model.Client == null)
+            {
+                throw new BadRequestException("Invalid client identifier");
+            }
         }
 
         /// <summary>
