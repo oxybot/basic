@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
 
-export default function AgreementEdit() {
+export default function AgreementEdit({ full = false }) {
   const { agreementId } = useParams();
   const definition = useDefinition("AgreementForEdit");
 
@@ -22,6 +22,7 @@ export default function AgreementEdit() {
       definition={definition}
       baseApiUrl="Agreements"
       entityId={agreementId}
+      full={full}
       texts={texts}
       transform={transform}
     />

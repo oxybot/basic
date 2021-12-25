@@ -7,6 +7,7 @@ export default function PageEdit({
   definition,
   baseApiUrl,
   entityId,
+  full = false,
   texts,
   transform = (e) => e,
 }) {
@@ -53,6 +54,7 @@ export default function PageEdit({
     <EntityForm
       definition={definition}
       entity={entity}
+      full={full}
       texts={texts}
       handleChange={handleChange}
       handleSubmit={handleSubmit}

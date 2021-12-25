@@ -27,14 +27,14 @@ function ClientViewAgreements({ clientId }) {
   );
 }
 
-export default function ClientView({ backTo = null }) {
+export default function ClientView({ backTo = null, full = false }) {
   const { clientId } = useParams();
   const get = { method: "GET" };
   const [, entity] = useApiFetch(apiUrl("Clients", clientId), get, {});
   const [, links] = useApiFetch(apiUrl("Clients", clientId, "links"), get, {});
 
   return (
-    <PageView backTo={backTo} entity={entity}>
+    <PageView backTo={backTo} full={full} entity={entity}>
       <Sections>
         <Section code="detail" element={<ClientViewDetail entity={entity} />}>
           Detail

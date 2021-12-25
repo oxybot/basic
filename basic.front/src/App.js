@@ -16,18 +16,21 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
 
-        <Route path="/client/:clientId" element={<ClientView />} />
-        <Route path="/client/:clientId/edit" element={<ClientEdit />} />
+        <Route path="/client/:clientId" element={<ClientView full />} />
+        <Route path="/client/:clientId/edit" element={<ClientEdit full />} />
         <Route path="/clients" element={<ClientList />}>
           <Route path=":clientId" element={<ClientView backTo="/clients" />} />
           <Route path=":clientId/edit" element={<ClientEdit />} />
+          <Route path="new" element={<ClientNew />} />
         </Route>
-        <Route path="/clients/new" element={<ClientNew />} />
 
-        <Route path="/agreement/:agreementId" element={<AgreementView />} />
+        <Route
+          path="/agreement/:agreementId"
+          element={<AgreementView full />}
+        />
         <Route
           path="/agreement/:agreementId/edit"
-          element={<AgreementEdit />}
+          element={<AgreementEdit full />}
         />
         <Route path="/agreements" element={<AgreementList />}>
           <Route
@@ -35,8 +38,8 @@ export default function App() {
             element={<AgreementView backTo="/agreements" />}
           />
           <Route path=":agreementId/edit" element={<AgreementEdit />} />
+          <Route path="new" element={<AgreementNew />} />
         </Route>
-        <Route path="/agreements/new" element={<AgreementNew />} />
       </Routes>
     </Layout>
   );

@@ -6,6 +6,7 @@ import clsx from "clsx";
 export default function PageView({
   backTo = null,
   entity,
+  full = false,
   title = null,
   children,
 }) {
@@ -14,7 +15,7 @@ export default function PageView({
   }
 
   return (
-    <div className={clsx({ "container-xl": !backTo })}>
+    <div className={clsx({ "container-xl": full })}>
       <MobilePageTitle back={backTo}>
         <div className="navbar-brand flex-fill">{title}</div>
         <Link to="edit" className="btn btn-primary btn-icon" arial-label="Edit">

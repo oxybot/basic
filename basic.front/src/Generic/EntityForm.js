@@ -99,7 +99,7 @@ export default function EntityForm({
   texts,
   handleChange,
   handleSubmit,
-  container = false,
+  full = false,
 }) {
   function t(code) {
     const text = texts[code];
@@ -111,10 +111,7 @@ export default function EntityForm({
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={clsx({ "container-xl": container })}
-    >
+    <form onSubmit={handleSubmit} className={clsx({ "container-xl": full })}>
       <MobilePageTitle back="./..">
         <div className="navbar-brand flex-fill">{t("title")}</div>
         <button type="submit" className="btn btn-primary">

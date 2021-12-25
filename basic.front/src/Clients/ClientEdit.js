@@ -2,7 +2,7 @@ import { apiUrl, useApiFetch, useDefinition } from "../api";
 import { useParams } from "react-router-dom";
 import PageEdit from "../Generic/PageEdit";
 
-export default function ClientEdit() {
+export default function ClientEdit({full = false}) {
   const { clientId } = useParams();
   const definition = useDefinition("ClientForEdit");
   const [, entity] = useApiFetch(
@@ -20,6 +20,7 @@ export default function ClientEdit() {
       definition={definition}
       entity={entity}
       texts={texts}
+      full={full}
       baseApiUrl="Clients"
       entityId={clientId}
     />
