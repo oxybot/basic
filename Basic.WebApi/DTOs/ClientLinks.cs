@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Basic.WebApi.DTOs
+﻿namespace Basic.WebApi.DTOs
 {
     /// <summary>
     /// Contains the count of elements linked to a specific client.

@@ -1,5 +1,4 @@
 ﻿using Basic.DataAccess;
-using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Models;
 using Humanizer;
@@ -10,6 +9,9 @@ using System.Reflection;
 
 namespace Basic.WebApi.Controllers
 {
+    /// <summary>
+    /// Provides the API that describes the various DTO for the UI.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class DefinitionsController : ControllerBase
@@ -47,6 +49,12 @@ namespace Basic.WebApi.Controllers
             return types.Keys.OrderBy(k => k);
         }
 
+        /// <summary>
+        /// Retrieves one detailed entity definition.
+        /// </summary>
+        /// <param name="name">The name of the entity.</param>
+        /// <returns>The associated definition.</returns>
+        /// <exception cref="NotFoundException">The <paramref name="name"/> is invalid.</exception>
         [HttpGet]
         [Route("{name}")]
         public Definition GetOne(string name)

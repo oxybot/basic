@@ -20,7 +20,7 @@ namespace Basic.WebApi.Controllers
         where TForEdit : BaseEntityDTO
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseModelController{TModel, TItemDTO, TStandardDTO}"/> class.
+        /// Initializes a new instance of the <see cref="BaseModelController{TModel, TForList, TForView, TForEdit}"/> class.
         /// </summary>
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
@@ -59,35 +59,13 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}")]
         public virtual TForView GetOne(Guid identifier)
         {
-            var entity = StandardAddIncludes(Context.Set<TModel>()).SingleOrDefault(c => c.Identifier == identifier);
+            var entity = AddIncludesForView(Context.Set<TModel>()).SingleOrDefault(c => c.Identifier == identifier);
             if (entity == null)
             {
                 throw new NotFoundException("Not existing entity");
             }
 
             return Mapper.Map<TForView>(entity);
-        }
-
-        /// <summary>
-        /// Overriden to add <see cref="EntityFrameworkQueryableExtensions.Include{TEntity, TProperty}(IQueryable{TEntity}, Expression{Func{TEntity, TProperty}})"/>
-        /// calls when calling <c>GetAll</c>.
-        /// </summary>
-        /// <param name="query">The current GetAll query.</param>
-        /// <returns>The updated query.</returns>
-        protected virtual IQueryable<TModel> SimpleAddIncludes(IQueryable<TModel> query)
-        {
-            return query;
-        }
-
-        /// <summary>
-        /// Overriden to add <see cref="EntityFrameworkQueryableExtensions.Include{TEntity, TProperty}(IQueryable{TEntity}, Expression{Func{TEntity, TProperty}})"/>
-        /// calls when calling <see cref="GetOne(Guid)"/>.
-        /// </summary>
-        /// <param name="query">The current GetOne query.</param>
-        /// <returns>The updated query.</returns>
-        protected virtual IQueryable<TModel> StandardAddIncludes(IQueryable<TModel> query)
-        {
-            return query;
         }
 
         /// <summary>
@@ -132,7 +110,7 @@ namespace Basic.WebApi.Controllers
                 throw new BadRequestException("Invalid data");
             }
 
-            var model = SimpleAddIncludes(Context.Set<TModel>()).SingleOrDefault(e => e.Identifier == identifier);
+            var model = AddIncludesForList(Context.Set<TModel>()).SingleOrDefault(e => e.Identifier == identifier);
             if (model == null)
             {
                 throw new NotFoundException("Not existing entity");
@@ -144,16 +122,6 @@ namespace Basic.WebApi.Controllers
             Context.SaveChanges();
 
             return Mapper.Map<TForList>(model);
-        }
-
-        /// <summary>
-        /// Overriden to check and map the dependencies of the entity.
-        /// </summary>
-        /// <param name="entity">The entity data.</param>
-        /// <param name="model">THe associated model instance.</param>
-        /// <exception cref="BadRequestException">Thrown if one of the dependencies is invalid.</exception>
-        protected virtual void CheckDependencies(TForEdit entity, TModel model)
-        {
         }
 
         /// <summary>
@@ -174,6 +142,38 @@ namespace Basic.WebApi.Controllers
 
             Context.Set<TModel>().Remove(entity);
             Context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Overriden to add <see cref="EntityFrameworkQueryableExtensions.Include{TEntity, TProperty}(IQueryable{TEntity}, Expression{Func{TEntity, TProperty}})"/>
+        /// calls when calling <c>GetAll</c>.
+        /// </summary>
+        /// <param name="query">The current GetAll query.</param>
+        /// <returns>The updated query.</returns>
+        protected virtual IQueryable<TModel> AddIncludesForList(IQueryable<TModel> query)
+        {
+            return query;
+        }
+
+        /// <summary>
+        /// Overriden to add <see cref="EntityFrameworkQueryableExtensions.Include{TEntity, TProperty}(IQueryable{TEntity}, Expression{Func{TEntity, TProperty}})"/>
+        /// calls when calling <see cref="GetOne(Guid)"/>.
+        /// </summary>
+        /// <param name="query">The current GetOne query.</param>
+        /// <returns>The updated query.</returns>
+        protected virtual IQueryable<TModel> AddIncludesForView(IQueryable<TModel> query)
+        {
+            return query;
+        }
+
+        /// <summary>
+        /// Overriden to check and map the dependencies of the entity.
+        /// </summary>
+        /// <param name="entity">The entity data.</param>
+        /// <param name="model">THe associated model instance.</param>
+        /// <exception cref="BadRequestException">Thrown if one of the dependencies is invalid.</exception>
+        protected virtual void CheckDependencies(TForEdit entity, TModel model)
+        {
         }
     }
 }

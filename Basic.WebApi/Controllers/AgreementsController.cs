@@ -34,7 +34,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<AgreementForList> GetAll(Guid? clientId)
         {
-            var entities = SimpleAddIncludes(Context.Set<Agreement>());
+            var entities = AddIncludesForList(Context.Set<Agreement>());
             if (clientId.HasValue)
             {
                 entities = entities.Where(c => c.Client.Identifier == clientId.Value);
@@ -43,16 +43,6 @@ namespace Basic.WebApi.Controllers
             return entities
                 .ToList()
                 .Select(e => Mapper.Map<AgreementForList>(e));
-        }
-
-        protected override IQueryable<Agreement> SimpleAddIncludes(IQueryable<Agreement> query)
-        {
-            return query.Include(c => c.Client);
-        }
-
-        protected override IQueryable<Agreement> StandardAddIncludes(IQueryable<Agreement> query)
-        {
-            return query.Include(c => c.Client);
         }
 
         /// <summary>
@@ -124,6 +114,26 @@ namespace Basic.WebApi.Controllers
         public override void Delete(Guid identifier)
         {
             base.Delete(identifier);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="Client"/> values.
+        /// </summary>
+        /// <param name="query">The current query.</param>
+        /// <returns>The updated query.</returns>
+        protected override IQueryable<Agreement> AddIncludesForList(IQueryable<Agreement> query)
+        {
+            return query.Include(c => c.Client);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="Client"/> values.
+        /// </summary>
+        /// <param name="query">The current query.</param>
+        /// <returns>The updated query.</returns>
+        protected override IQueryable<Agreement> AddIncludesForView(IQueryable<Agreement> query)
+        {
+            return query.Include(c => c.Client);
         }
     }
 }

@@ -2,7 +2,6 @@ using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
-using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,7 +34,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<ClientForList> GetAll()
         {
-            return SimpleAddIncludes(Context.Set<Client>())
+            return AddIncludesForList(Context.Set<Client>())
                 .ToList()
                 .Select(e => Mapper.Map<ClientForList>(e));
         }
