@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { apiUrl, retries } from "../api";
 import EntityForm from "./EntityForm";
 
+const defaultTransform = (e) => e;
+
 export default function PageEdit({
   definition,
   baseApiUrl,
   entityId,
   full = false,
   texts,
-  transform = (e) => e,
+  transform = defaultTransform,
 }) {
   const navigate = useNavigate();
   const [entity, setEntity] = useState({});
