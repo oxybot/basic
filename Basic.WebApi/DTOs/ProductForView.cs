@@ -26,6 +26,7 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the default unit price of the product.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "currency")]
         public decimal DefaultUnitPrice { get; set; }
 
         /// <summary>

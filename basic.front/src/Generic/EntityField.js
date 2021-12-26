@@ -31,6 +31,12 @@ export default function EntityField({ type, value, list = false }) {
         );
       }
 
+    case "currency":
+      return value.toLocaleString("en-US", {
+        style: "currency",
+        currency: "EUR",
+      });
+
     case "string":
       return value;
 
