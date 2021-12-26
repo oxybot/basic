@@ -6,6 +6,7 @@ import EntityForm from "./EntityForm";
 export default function PageNew({ definition, baseApiUrl, texts }) {
   const navigate = useNavigate();
   const [entity, setEntity] = useState({});
+  const [validated, setValidated] = useState(false);
   texts["form-action"] = "Create";
 
   const handleChange = (event) => {
@@ -16,6 +17,7 @@ export default function PageNew({ definition, baseApiUrl, texts }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setValidated(true);
     fetch(apiUrl(baseApiUrl), {
       method: "POST",
       headers: {
@@ -24,10 +26,10 @@ export default function PageNew({ definition, baseApiUrl, texts }) {
       },
       body: JSON.stringify(entity),
     })
-      .then((response) => response.json())
       .then((response) => {
-        console.log("ici");
-        navigate("./..");
+        if (response.status === 200) {
+          navigate("./..");
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -42,6 +44,7 @@ export default function PageNew({ definition, baseApiUrl, texts }) {
       texts={texts}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
+      validated={validated}
       container
     />
   );

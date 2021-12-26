@@ -15,6 +15,7 @@ export default function PageEdit({
 }) {
   const navigate = useNavigate();
   const [entity, setEntity] = useState({});
+  const [validated, setValidated] = useState(false);
   texts["form-action"] = "Update";
 
   useEffect(() => {
@@ -34,6 +35,7 @@ export default function PageEdit({
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setValidated(true);
     fetch(apiUrl(baseApiUrl, entityId), {
       method: "PUT",
       headers: {
@@ -42,9 +44,10 @@ export default function PageEdit({
       },
       body: JSON.stringify(entity),
     })
-      .then((response) => response.json())
       .then((response) => {
-        navigate("./..");
+        if (response.status === 200) {
+          navigate("./..");
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -60,6 +63,7 @@ export default function PageEdit({
       texts={texts}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
+      validated={validated}
     />
   );
 }

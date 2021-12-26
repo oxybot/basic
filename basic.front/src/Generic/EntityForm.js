@@ -22,9 +22,7 @@ function EntityInputClient({ field, value, onChange }) {
     !loading && (
       <Select
         name={field.name}
-        className={clsx({
-          required: field.required,
-        })}
+        required={field.required}
         classNamePrefix="react-select"
         placeholder={field.placeholder}
         options={clients}
@@ -43,13 +41,12 @@ function EntityInput({ field, value, onChange }) {
       return (
         <input
           type="date"
-          className={clsx("form-control", {
-            required: field.required,
-          })}
+          className="form-control"
+          required={field.required}
           id={field.name}
           name={field.name}
           placeholder={field.placeholder}
-          value={dayjs(value).format("YYYY-MM-DD")}
+          value={value ? dayjs(value).format("YYYY-MM-DD") : ""}
           onChange={onChange}
         />
       );
@@ -63,9 +60,8 @@ function EntityInput({ field, value, onChange }) {
       return (
         <input
           type="text"
-          className={clsx("form-control", {
-            required: field.required,
-          })}
+          className="form-control"
+          required={field.required}
           id={field.name}
           name={field.name}
           placeholder={field.placeholder}
@@ -79,9 +75,8 @@ function EntityInput({ field, value, onChange }) {
         <div className="input-icon">
           <input
             type="text"
-            className={clsx("form-control", {
-              required: field.required,
-            })}
+            className="form-control"
+            required={field.required}
             id={field.name}
             name={field.name}
             placeholder={field.placeholder}
@@ -99,9 +94,8 @@ function EntityInput({ field, value, onChange }) {
       return (
         <input
           type="text"
-          className={clsx("form-control", {
-            required: field.required,
-          })}
+          className="form-control"
+          required={field.required}
           id={field.name}
           name={field.name}
           placeholder={field.placeholder}
@@ -119,6 +113,7 @@ export default function EntityForm({
   handleChange,
   handleSubmit,
   full = false,
+  validated = false,
 }) {
   function t(code) {
     const text = texts[code];
@@ -130,7 +125,11 @@ export default function EntityForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className={clsx({ "container-xl": full })}>
+    <form
+      onSubmit={handleSubmit}
+      noValidate={true}
+      className={clsx({ "container-xl": full, "was-validated": validated })}
+    >
       <MobilePageTitle back="./..">
         <div className="navbar-brand flex-fill">{t("title")}</div>
         <button type="submit" className="btn btn-primary">
