@@ -14,8 +14,8 @@ namespace Basic.WebApi
         /// </summary>
         public MappingProfile()
         {
-            CreateMap<Client, EntityReference>()
-                .ConvertUsing(c => new EntityReference() { Identifier = c.Identifier, DisplayName = c.DisplayName });
+            CreateMap<Client, EntityReference>();
+            CreateMap<Product, EntityReference>();
 
             CreateMap<Client, ClientForList>();
             CreateMap<Client, ClientForView>();
@@ -26,6 +26,12 @@ namespace Basic.WebApi
             CreateMap<Agreement, AgreementForEdit>()
                 .ReverseMap()
                     .ForMember(a => a.Client, options => options.Ignore());
+
+            CreateMap<AgreementItem, AgreementItemForList>();
+            CreateMap<AgreementItem, AgreementItemForEdit>()
+                .ReverseMap()
+                    .ForMember(i => i.Agreement, options => options.Ignore())
+                    .ForMember(i => i.Product, options => options.Ignore());
         }
     }
 }

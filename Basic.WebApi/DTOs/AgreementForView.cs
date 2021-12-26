@@ -38,5 +38,10 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         public string PrivateNotes { get; set; }
 
+        /// <summary>
+        /// Gets or sets the items of the agreement.
+        /// </summary>
+        [Display(GroupName = "Items")]
+        public IEnumerable<AgreementItemForList> Items { get; set; }
     }
 }

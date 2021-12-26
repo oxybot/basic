@@ -3,6 +3,8 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Basic.WebApi.Controllers
 {
@@ -46,11 +48,6 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         protected ILogger Logger { get; }
 
-        protected virtual IQueryable<TModel> SimpleAddIncludes(IQueryable<TModel> query)
-        {
-            return query;
-        }
-
         /// <summary>
         /// Retrieves a specific entity.
         /// </summary>
@@ -71,6 +68,23 @@ namespace Basic.WebApi.Controllers
             return Mapper.Map<TForView>(entity);
         }
 
+        /// <summary>
+        /// Overriden to add <see cref="EntityFrameworkQueryableExtensions.Include{TEntity, TProperty}(IQueryable{TEntity}, Expression{Func{TEntity, TProperty}})"/>
+        /// calls when calling <c>GetAll</c>.
+        /// </summary>
+        /// <param name="query">The current GetAll query.</param>
+        /// <returns>The updated query.</returns>
+        protected virtual IQueryable<TModel> SimpleAddIncludes(IQueryable<TModel> query)
+        {
+            return query;
+        }
+
+        /// <summary>
+        /// Overriden to add <see cref="EntityFrameworkQueryableExtensions.Include{TEntity, TProperty}(IQueryable{TEntity}, Expression{Func{TEntity, TProperty}})"/>
+        /// calls when calling <see cref="GetOne(Guid)"/>.
+        /// </summary>
+        /// <param name="query">The current GetOne query.</param>
+        /// <returns>The updated query.</returns>
         protected virtual IQueryable<TModel> StandardAddIncludes(IQueryable<TModel> query)
         {
             return query;

@@ -15,12 +15,11 @@ namespace Basic.WebApi.Controllers
     public class AgreementsController : BaseModelController<Agreement, AgreementForList, AgreementForView, AgreementForEdit>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClientsController"/> class.
+        /// Initializes a new instance of the <see cref="AgreementsController"/> class.
         /// </summary>
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public AgreementsController(Context context, IMapper mapper, ILogger<AgreementsController> logger)
             : base(context, mapper, logger)
         {
