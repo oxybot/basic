@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import PageList from "../Generic/PageList";
 
-export default function ClientList() {
+export function ClientList() {
   const { clientId } = useParams();
   const definition = useDefinition("ClientForList");
   const [loading, elements] = useApiFetch("Clients", { method: "GET" }, []);

@@ -27,7 +27,7 @@ function ClientViewAgreements({ clientId }) {
   );
 }
 
-export default function ClientView({ backTo = null, full = false }) {
+export function ClientView({ backTo = null, full = false }) {
   const { clientId } = useParams();
   const get = { method: "GET" };
   const [, entity] = useApiFetch(apiUrl("Clients", clientId), get, {});

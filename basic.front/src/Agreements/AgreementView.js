@@ -9,7 +9,7 @@ function AgreementViewDetail({ entity }) {
   return <EntityDetail definitionName="AgreementForView" entity={entity} />;
 }
 
-export default function AgreementView({ backTo = null, full = false }) {
+export function AgreementView({ backTo = null, full = false }) {
   const { agreementId } = useParams();
   const [, entity] = useApiFetch(
     apiUrl("Agreements", agreementId),

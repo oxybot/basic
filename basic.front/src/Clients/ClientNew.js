@@ -1,7 +1,7 @@
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
 
-export default function ClientNew() {
+export function ClientNew() {
   const definition = useDefinition("ClientForEdit");
   const texts = {
     title: "Clients",

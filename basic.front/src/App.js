@@ -1,12 +1,11 @@
 import { Routes, Route } from "react-router-dom";
-import AgreementEdit from "./Agreements/AgreementEdit";
-import AgreementList from "./Agreements/AgreementList";
-import AgreementNew from "./Agreements/AgreementNew";
-import AgreementView from "./Agreements/AgreementView";
-import ClientEdit from "./Clients/ClientEdit";
-import ClientList from "./Clients/ClientList";
-import ClientNew from "./Clients/ClientNew";
-import ClientView from "./Clients/ClientView";
+import {
+  AgreementEdit,
+  AgreementList,
+  AgreementNew,
+  AgreementView,
+} from "./Agreements";
+import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
 import Dashboard from "./Dashboard";
 import Layout from "./Layout";
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
@@ -15,8 +14,10 @@ export default function App() {
   return (
     <Layout>
       <Routes>
+        {/* Dashboard */}
         <Route path="/" element={<Dashboard />} />
 
+        {/* Clients */}
         <Route path="/client/:clientId" element={<ClientView full />} />
         <Route path="/client/:clientId/edit" element={<ClientEdit full />} />
         <Route path="/clients" element={<ClientList />}>
@@ -25,14 +26,19 @@ export default function App() {
           <Route path="new" element={<ClientNew />} />
         </Route>
 
+        {/* Products */}
         <Route path="/product/:productId" element={<ProductView full />} />
         <Route path="/product/:productId/edit" element={<ProductEdit full />} />
         <Route path="/products" element={<ProductList />}>
-          <Route path=":productId" element={<ProductView backTo="/products" />} />
+          <Route
+            path=":productId"
+            element={<ProductView backTo="/products" />}
+          />
           <Route path=":productId/edit" element={<ProductEdit />} />
           <Route path="new" element={<ProductNew />} />
         </Route>
 
+        {/* Agreements */}
         <Route
           path="/agreement/:agreementId"
           element={<AgreementView full />}

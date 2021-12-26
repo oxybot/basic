@@ -1,7 +1,7 @@
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
 
-export default function AgreementNew() {
+export function AgreementNew() {
   const definition = useDefinition("AgreementForEdit");
 
   const texts = {
