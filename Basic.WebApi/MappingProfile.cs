@@ -32,6 +32,10 @@ namespace Basic.WebApi
                 .ReverseMap()
                     .ForMember(i => i.Agreement, options => options.Ignore())
                     .ForMember(i => i.Product, options => options.Ignore());
+
+            CreateMap<Product, ProductForList>();
+            CreateMap<Product, ProductForView>();
+            CreateMap<Product, ProductForEdit>().ReverseMap();
         }
     }
 }

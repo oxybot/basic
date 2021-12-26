@@ -19,7 +19,6 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the default description of the product as displayed in agreement items.
         /// </summary>
-        [Required]
         [SwaggerSchema("The default description associated with the product")]
         public string Description { get; set; }
 
