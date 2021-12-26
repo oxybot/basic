@@ -9,6 +9,7 @@ import ClientNew from "./Clients/ClientNew";
 import ClientView from "./Clients/ClientView";
 import Dashboard from "./Dashboard";
 import Layout from "./Layout";
+import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
 
 export default function App() {
   return (
@@ -22,6 +23,14 @@ export default function App() {
           <Route path=":clientId" element={<ClientView backTo="/clients" />} />
           <Route path=":clientId/edit" element={<ClientEdit />} />
           <Route path="new" element={<ClientNew />} />
+        </Route>
+
+        <Route path="/product/:productId" element={<ProductView full />} />
+        <Route path="/product/:productId/edit" element={<ProductEdit full />} />
+        <Route path="/products" element={<ProductList />}>
+          <Route path=":productId" element={<ProductView backTo="/products" />} />
+          <Route path=":productId/edit" element={<ProductEdit />} />
+          <Route path="new" element={<ProductNew />} />
         </Route>
 
         <Route

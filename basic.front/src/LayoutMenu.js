@@ -1,4 +1,4 @@
-import { IconDashboard, IconConfetti, IconNotebook } from "@tabler/icons";
+import { IconDashboard, IconConfetti, IconNotebook, IconPackage } from "@tabler/icons";
 import { NavLink } from "react-router-dom";
 import LayoutTheme from "./LayoutTheme";
 
@@ -99,7 +99,7 @@ export default function LayoutMenu() {
             <hr className="my-2" />
             {/* Client */}
             <ul className="navbar-nav">
-              <li className="nav-item">
+            <li className="nav-item">
                 <NavLink
                   className="nav-link justify-content-start"
                   to="/clients"
@@ -109,6 +109,18 @@ export default function LayoutMenu() {
                     <IconConfetti />
                   </span>
                   <span className="nav-link-title">Clients</span>
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link justify-content-start"
+                  to="/products"
+                  onClick={closeMenu}
+                >
+                  <span className="nav-link-icon">
+                    <IconPackage />
+                  </span>
+                  <span className="nav-link-title">Products</span>
                 </NavLink>
               </li>
               <li className="nav-item">
