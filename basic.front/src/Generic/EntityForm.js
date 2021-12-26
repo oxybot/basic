@@ -1,3 +1,4 @@
+import { IconCurrencyEuro } from "@tabler/icons";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
@@ -40,19 +41,22 @@ function EntityInput({ field, value, onChange }) {
   switch (field.type) {
     case "date":
       return (
-        <div className="input-icon">
-          <input
-            type="date"
-            className={clsx("form-control", {
-              required: field.required,
-            })}
-            id={field.name}
-            name={field.name}
-            placeholder={field.placeholder}
-            value={dayjs(value).format("YYYY-MM-DD")}
-            onChange={onChange}
-          />
-        </div>
+        <input
+          type="date"
+          className={clsx("form-control", {
+            required: field.required,
+          })}
+          id={field.name}
+          name={field.name}
+          placeholder={field.placeholder}
+          value={dayjs(value).format("YYYY-MM-DD")}
+          onChange={onChange}
+        />
+      );
+
+    case "ref/client":
+      return (
+        <EntityInputClient field={field} value={value} onChange={onChange} />
       );
 
     case "string":
@@ -70,9 +74,24 @@ function EntityInput({ field, value, onChange }) {
         />
       );
 
-    case "ref/client":
+    case "currency":
       return (
-        <EntityInputClient field={field} value={value} onChange={onChange} />
+        <div className="input-icon">
+          <input
+            type="text"
+            className={clsx("form-control", {
+              required: field.required,
+            })}
+            id={field.name}
+            name={field.name}
+            placeholder={field.placeholder}
+            value={value}
+            onChange={onChange}
+          />
+          <span className="input-icon-addon">
+            <IconCurrencyEuro />
+          </span>
+        </div>
       );
 
     default:
