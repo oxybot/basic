@@ -7,20 +7,20 @@ const initialState = {
   values: [],
 };
 
-export const getAll = createAsyncThunk("clients/getAll", async () => {
-  const response = await apiFetch("Clients", { method: "GET" });
+export const getAll = createAsyncThunk("agreements/getAll", async () => {
+  const response = await apiFetch("Agreements", { method: "GET" });
   return response;
 });
 
 export const refresh = () => (dispatch, getState) => {
-  const { connected, loading } = clientsState(getState());
+  const { connected, loading } = agreementsState(getState());
   if (connected && !loading) {
     dispatch(getAll());
   }
 };
 
-export const clientsSlice = createSlice({
-  name: "clients",
+export const slice = createSlice({
+  name: "agreements",
   initialState,
   reducers: {
     disconnect: (state) => {
@@ -45,8 +45,8 @@ export const clientsSlice = createSlice({
   },
 });
 
-export const { disconnect } = clientsSlice.actions;
+export const { disconnect } = slice.actions;
 
-export const clientsState = (state) => state.clients;
+export const agreementsState = (state) => state.agreements;
 
-export default clientsSlice.reducer;
+export default slice.reducer;

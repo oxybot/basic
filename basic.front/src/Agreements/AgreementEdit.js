@@ -1,8 +1,11 @@
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
+import { refresh } from "./slice";
 
 export function AgreementEdit({ full = false }) {
+  const dispatch = useDispatch();
   const { agreementId } = useParams();
   const definition = useDefinition("AgreementForEdit");
 
@@ -17,6 +20,10 @@ export function AgreementEdit({ full = false }) {
     subTitle: "Edit an Agreement",
   };
 
+  function handleUpdate() {
+    dispatch(refresh());
+  }
+
   return (
     <PageEdit
       definition={definition}
@@ -25,6 +32,7 @@ export function AgreementEdit({ full = false }) {
       full={full}
       texts={texts}
       transform={transform}
+      onUpdate={handleUpdate}
     />
   );
 }

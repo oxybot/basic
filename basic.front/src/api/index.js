@@ -45,6 +45,19 @@ export function useDefinition(type) {
   return definition;
 }
 
+export function apiFetch(url, options) {
+  const uri = typeof url === "string" ? apiUrl(url) : url;
+  return retries(() => fetch(apiUrl(uri), options)).then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      console.error("Can't retrieve data");
+      console.log(response);
+      throw new Error("Can't retrieve data");
+    }
+  });
+}
+
 export function useApiFetch(
   url,
   options,
@@ -54,14 +67,13 @@ export function useApiFetch(
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState(defaultState);
   useEffect(() => {
-    const uri = typeof url === "string" ? apiUrl(url) : url;
-    retries(() => fetch(apiUrl(uri), options))
-      .then((response) => response.json())
+    apiFetch(url, options)
       .then((response) => {
         setResponse(transform(response));
         setLoading(false);
       })
       .catch((err) => console.log(err));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url.toString(), options.toString()]);
 

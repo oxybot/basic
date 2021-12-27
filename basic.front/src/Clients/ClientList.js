@@ -6,9 +6,9 @@ import { clientsState, disconnect, getAll } from "./slice";
 import PageList from "../Generic/PageList";
 
 export function ClientList() {
+  const dispatch = useDispatch();
   const { clientId } = useParams();
   const definition = useDefinition("ClientForList");
-  const dispatch = useDispatch();
   const texts = {
     title: "Clients",
     add: "Add client",

@@ -14,6 +14,7 @@ export function ClientNew() {
   function handleCreate() {
     dispatch(refresh());
   }
+
   return (
     <PageNew
       definition={definition}
