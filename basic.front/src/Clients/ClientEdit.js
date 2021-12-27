@@ -8,11 +8,7 @@ export function ClientEdit({ full = false }) {
   const dispatch = useDispatch();
   const { clientId } = useParams();
   const definition = useDefinition("ClientForEdit");
-  const [, entity] = useApiFetch(
-    apiUrl("Clients", clientId),
-    { method: "GET" },
-    {}
-  );
+  const [, entity] = useApiFetch(apiUrl("Clients", clientId), { method: "GET" }, {});
   const texts = {
     title: entity.displayName,
     subTitle: "Edit a Client",

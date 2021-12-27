@@ -1,3 +1,3 @@
-export default function Section({element}) {
+export default function Section({ element }) {
   return element;
 }

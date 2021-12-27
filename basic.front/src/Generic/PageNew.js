@@ -5,12 +5,7 @@ import EntityForm from "./EntityForm";
 
 const defaultOnCreate = () => {};
 
-export default function PageNew({
-  definition,
-  baseApiUrl,
-  texts,
-  onCreate = defaultOnCreate,
-}) {
+export default function PageNew({ definition, baseApiUrl, texts, onCreate = defaultOnCreate }) {
   const navigate = useNavigate();
   const [entity, setEntity] = useState({});
   const [validated, setValidated] = useState(false);

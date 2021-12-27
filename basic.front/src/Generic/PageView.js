@@ -3,13 +3,7 @@ import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import clsx from "clsx";
 
-export default function PageView({
-  backTo = null,
-  entity,
-  full = false,
-  title = null,
-  children,
-}) {
+export default function PageView({ backTo = null, entity, full = false, title = null, children }) {
   if (title === null) {
     title = entity.displayName;
   }
@@ -27,10 +21,7 @@ export default function PageView({
           {backTo && (
             <div className="col-auto ms-auto d-print-none">
               <div className="d-flex">
-                <Link
-                  to={backTo}
-                  className="btn btn-outline-primary btn-icon d-none d-lg-block"
-                >
+                <Link to={backTo} className="btn btn-outline-primary btn-icon d-none d-lg-block">
                   <IconChevronRight />
                 </Link>
                 <Link to={backTo} className="btn btn-outline-primary d-lg-none">
@@ -49,11 +40,7 @@ export default function PageView({
                 <IconEdit />
                 Edit
               </Link>
-              <Link
-                to="edit"
-                className="btn btn-primary btn-icon d-md-none"
-                aria-label="Edit"
-              >
+              <Link to="edit" className="btn btn-primary btn-icon d-md-none" aria-label="Edit">
                 <IconEdit />
               </Link>
             </div>

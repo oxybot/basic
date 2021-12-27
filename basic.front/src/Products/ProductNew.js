@@ -15,12 +15,5 @@ export function ProductNew() {
     dispatch(refresh());
   }
 
-  return (
-    <PageNew
-      definition={definition}
-      baseApiUrl="Products"
-      texts={texts}
-      onCreate={handleCreate}
-    />
-  );
+  return <PageNew definition={definition} baseApiUrl="Products" texts={texts} onCreate={handleCreate} />;
 }

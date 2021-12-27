@@ -1,10 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import {
-  AgreementEdit,
-  AgreementList,
-  AgreementNew,
-  AgreementView,
-} from "./Agreements";
+import { AgreementEdit, AgreementList, AgreementNew, AgreementView } from "./Agreements";
 import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
 import Dashboard from "./Dashboard";
 import Layout from "./Layout";
@@ -30,28 +25,16 @@ export default function App() {
         <Route path="/product/:productId" element={<ProductView full />} />
         <Route path="/product/:productId/edit" element={<ProductEdit full />} />
         <Route path="/products" element={<ProductList />}>
-          <Route
-            path=":productId"
-            element={<ProductView backTo="/products" />}
-          />
+          <Route path=":productId" element={<ProductView backTo="/products" />} />
           <Route path=":productId/edit" element={<ProductEdit />} />
           <Route path="new" element={<ProductNew />} />
         </Route>
 
         {/* Agreements */}
-        <Route
-          path="/agreement/:agreementId"
-          element={<AgreementView full />}
-        />
-        <Route
-          path="/agreement/:agreementId/edit"
-          element={<AgreementEdit full />}
-        />
+        <Route path="/agreement/:agreementId" element={<AgreementView full />} />
+        <Route path="/agreement/:agreementId/edit" element={<AgreementEdit full />} />
         <Route path="/agreements" element={<AgreementList />}>
-          <Route
-            path=":agreementId"
-            element={<AgreementView backTo="/agreements" />}
-          />
+          <Route path=":agreementId" element={<AgreementView backTo="/agreements" />} />
           <Route path=":agreementId/edit" element={<AgreementEdit />} />
           <Route path="new" element={<AgreementNew />} />
         </Route>

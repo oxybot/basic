@@ -27,9 +27,7 @@ export function apiUrl(...relative) {
 }
 
 export function getDefinition(type) {
-  return retries(() =>
-    fetch(apiUrl("Definitions", type), { method: "GET" })
-  ).then((response) => response.json());
+  return retries(() => fetch(apiUrl("Definitions", type), { method: "GET" })).then((response) => response.json());
 }
 
 export function useDefinition(type) {
@@ -58,12 +56,7 @@ export function apiFetch(url, options) {
   });
 }
 
-export function useApiFetch(
-  url,
-  options,
-  defaultState = null,
-  transform = (e) => e
-) {
+export function useApiFetch(url, options, defaultState = null, transform = (e) => e) {
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState(defaultState);
   useEffect(() => {

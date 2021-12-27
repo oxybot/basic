@@ -16,12 +16,5 @@ export function AgreementNew() {
     dispatch(refresh());
   }
 
-  return (
-    <PageNew
-      definition={definition}
-      baseApiUrl="Agreements"
-      texts={texts}
-      onCreate={handleCreate}
-    />
-  );
+  return <PageNew definition={definition} baseApiUrl="Agreements" texts={texts} onCreate={handleCreate} />;
 }

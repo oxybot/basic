@@ -11,13 +11,7 @@ function filtered(fields) {
   return fields.filter((i) => i.type !== "key");
 }
 
-export default function EntityList({
-  loading,
-  definition,
-  entities,
-  baseTo,
-  selectedId,
-}) {
+export default function EntityList({ loading, definition, entities, baseTo, selectedId }) {
   const navigate = useNavigate();
   const fields = filtered(definition?.fields);
 
@@ -25,12 +19,7 @@ export default function EntityList({
     <div className="table-responsive">
       <table className="table card-table table-vcenter text-nowrap datatable table-hover">
         <thead>
-          <tr>
-            {fields &&
-              fields.map((field, index) => (
-                <th key={index}>{field.displayName}</th>
-              ))}
-          </tr>
+          <tr>{fields && fields.map((field, index) => <th key={index}>{field.displayName}</th>)}</tr>
         </thead>
         <tbody>
           <tr className={loading ? "" : "d-none"}>
@@ -44,19 +33,13 @@ export default function EntityList({
               className={clsx({
                 "table-active": entity.identifier === selectedId,
               })}
-              onClick={() =>
-                navigate([baseTo, entity.identifier].filter((i) => i).join("/"))
-              }
+              onClick={() => navigate([baseTo, entity.identifier].filter((i) => i).join("/"))}
             >
               {entity &&
                 fields &&
                 fields.map((field, index) => (
                   <td key={index}>
-                    <EntityField
-                      type={field.type}
-                      value={entity[field.name]}
-                      list
-                    />
+                    <EntityField type={field.type} value={entity[field.name]} list />
                   </td>
                 ))}
             </tr>

@@ -15,12 +15,5 @@ export function ClientNew() {
     dispatch(refresh());
   }
 
-  return (
-    <PageNew
-      definition={definition}
-      baseApiUrl="Clients"
-      texts={texts}
-      onCreate={handleCreate}
-    />
-  );
+  return <PageNew definition={definition} baseApiUrl="Clients" texts={texts} onCreate={handleCreate} />;
 }

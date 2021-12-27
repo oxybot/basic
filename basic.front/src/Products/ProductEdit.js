@@ -8,11 +8,7 @@ export function ProductEdit({ full = false }) {
   const dispatch = useDispatch();
   const { productId } = useParams();
   const definition = useDefinition("ProductForEdit");
-  const [, entity] = useApiFetch(
-    apiUrl("Products", productId),
-    { method: "GET" },
-    {}
-  );
+  const [, entity] = useApiFetch(apiUrl("Products", productId), { method: "GET" }, {});
   const texts = {
     title: entity.displayName,
     subTitle: "Edit a Product",

@@ -23,10 +23,7 @@ export default function EntityDetail({ definitionName, entity }) {
                     <div key={index} className="mb-3">
                       <div className="field-label">{field.displayName}</div>
                       <div className="lead">
-                        <EntityField
-                          type={field.type}
-                          value={entity[field.name]}
-                        />
+                        <EntityField type={field.type} value={entity[field.name]} />
                       </div>
                     </div>
                   ))}

@@ -17,12 +17,7 @@ function ClientViewAgreements({ clientId }) {
   const [loading, elements] = useApiFetch(url, { method: "GET" }, []);
   return (
     <div className="card">
-      <EntityList
-        loading={loading}
-        definition={definition}
-        entities={elements}
-        baseTo="/agreement"
-      />
+      <EntityList loading={loading} definition={definition} entities={elements} baseTo="/agreement" />
     </div>
   );
 }
@@ -39,10 +34,7 @@ export function ClientView({ backTo = null, full = false }) {
         <Section code="detail" element={<ClientViewDetail entity={entity} />}>
           Detail
         </Section>
-        <Section
-          code="agreements"
-          element={<ClientViewAgreements clientId={clientId} />}
-        >
+        <Section code="agreements" element={<ClientViewAgreements clientId={clientId} />}>
           Agreements
           <span className="badge ms-2 bg-green">{links.agreements || ""}</span>
         </Section>

@@ -8,15 +8,11 @@ import { groupBy, objectMap } from "../helpers";
 import MobilePageTitle from "./MobilePageTitle";
 
 function EntityInputClient({ field, value, onChange }) {
-  const [loading, clients] = useApiFetch(
-    "Clients",
-    { method: "GET" },
-    [],
-    (clients) =>
-      clients.map((c) => ({
-        value: c.identifier,
-        label: c.displayName,
-      }))
+  const [loading, clients] = useApiFetch("Clients", { method: "GET" }, [], (clients) =>
+    clients.map((c) => ({
+      value: c.identifier,
+      label: c.displayName,
+    }))
   );
   return (
     !loading && (
@@ -27,9 +23,7 @@ function EntityInputClient({ field, value, onChange }) {
         placeholder={field.placeholder}
         options={clients}
         value={clients.filter((s) => s.value === value)}
-        onChange={(s) =>
-          onChange({ target: { name: field.name, value: s.value } })
-        }
+        onChange={(s) => onChange({ target: { name: field.name, value: s.value } })}
       />
     )
   );
@@ -52,9 +46,7 @@ function EntityInput({ field, value, onChange }) {
       );
 
     case "ref/client":
-      return (
-        <EntityInputClient field={field} value={value} onChange={onChange} />
-      );
+      return <EntityInputClient field={field} value={value} onChange={onChange} />;
 
     case "string":
       return (
@@ -178,11 +170,7 @@ export default function EntityForm({
                           >
                             {field.displayName}
                           </label>
-                          <EntityInput
-                            field={field}
-                            value={entity[field.name] || ""}
-                            onChange={handleChange}
-                          />
+                          <EntityInput field={field} value={entity[field.name] || ""} onChange={handleChange} />
                         </div>
                       ))}
                     </div>

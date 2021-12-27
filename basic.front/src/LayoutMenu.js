@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import LayoutTheme from "./LayoutTheme";
 
 export default function LayoutMenu() {
-
   function closeMenu(event) {
     if (window.bootstrap) {
       var menu = window.bootstrap.Offcanvas.getInstance("#offcanvas-menu");
@@ -14,11 +13,7 @@ export default function LayoutMenu() {
   return (
     <aside className="navbar navbar-vertical navbar-light navbar-expand-lg navbar-hidden">
       <div className="container-fluid justify-content-start">
-        <div
-          id="offcanvas-menu"
-          className="offcanvas offcanvas-start"
-          tabIndex="-1"
-        >
+        <div id="offcanvas-menu" className="offcanvas offcanvas-start" tabIndex="-1">
           <div className="offcanvas-header">
             <h5 className="offcanvas-title flex-fill">
               <div className="basic-logo">B</div>
@@ -48,10 +43,7 @@ export default function LayoutMenu() {
                   data-bs-target="#menu-user"
                   aria-label="Open user menu"
                 >
-                  <span
-                    className="avatar avatar-sm"
-                    style={{ backgroundImage: "url(/logo192.png)" }}
-                  ></span>
+                  <span className="avatar avatar-sm" style={{ backgroundImage: "url(/logo192.png)" }}></span>
                   <div className="ps-2 flex-fill text-start">
                     <div>Ano Nymous</div>
                     <div className="mt-1 small text-muted">UX Designer</div>
@@ -59,21 +51,12 @@ export default function LayoutMenu() {
                 </button>
                 <ul id="menu-user" className="navbar-nav collapse">
                   <li className="nav-item">
-                    <NavLink
-                      to="/account"
-                      end
-                      className="nav-link justify-content-start"
-                      onClick={closeMenu}
-                    >
+                    <NavLink to="/account" end className="nav-link justify-content-start" onClick={closeMenu}>
                       Profile &amp; account
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink
-                      to="/account/logout"
-                      className="nav-link justify-content-start"
-                      onClick={closeMenu}
-                    >
+                    <NavLink to="/account/logout" className="nav-link justify-content-start" onClick={closeMenu}>
                       Logout
                     </NavLink>
                   </li>
@@ -84,11 +67,7 @@ export default function LayoutMenu() {
             {/* Dashboard */}
             <ul className="navbar-nav">
               <li className="nav-item">
-                <NavLink
-                  className="nav-link justify-content-start"
-                  to="/"
-                  onClick={closeMenu}
-                >
+                <NavLink className="nav-link justify-content-start" to="/" onClick={closeMenu}>
                   <span className="nav-link-icon">
                     <IconDashboard />
                   </span>
@@ -99,12 +78,8 @@ export default function LayoutMenu() {
             <hr className="my-2" />
             {/* Client */}
             <ul className="navbar-nav">
-            <li className="nav-item">
-                <NavLink
-                  className="nav-link justify-content-start"
-                  to="/clients"
-                  onClick={closeMenu}
-                >
+              <li className="nav-item">
+                <NavLink className="nav-link justify-content-start" to="/clients" onClick={closeMenu}>
                   <span className="nav-link-icon">
                     <IconConfetti />
                   </span>
@@ -112,11 +87,7 @@ export default function LayoutMenu() {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink
-                  className="nav-link justify-content-start"
-                  to="/products"
-                  onClick={closeMenu}
-                >
+                <NavLink className="nav-link justify-content-start" to="/products" onClick={closeMenu}>
                   <span className="nav-link-icon">
                     <IconPackage />
                   </span>
@@ -124,11 +95,7 @@ export default function LayoutMenu() {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink
-                  className="nav-link justify-content-start"
-                  to="/agreements"
-                  onClick={closeMenu}
-                >
+                <NavLink className="nav-link justify-content-start" to="/agreements" onClick={closeMenu}>
                   <span className="nav-link-icon">
                     <IconNotebook />
                   </span>

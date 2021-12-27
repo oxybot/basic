@@ -11,19 +11,12 @@ function AgreementViewDetail({ entity }) {
 
 export function AgreementView({ backTo = null, full = false }) {
   const { agreementId } = useParams();
-  const [, entity] = useApiFetch(
-    apiUrl("Agreements", agreementId),
-    { method: "GET" },
-    {}
-  );
+  const [, entity] = useApiFetch(apiUrl("Agreements", agreementId), { method: "GET" }, {});
 
   return (
     <PageView backTo={backTo} full={full} entity={entity} title={entity.title}>
       <Sections>
-        <Section
-          code="detail"
-          element={<AgreementViewDetail entity={entity} />}
-        >
+        <Section code="detail" element={<AgreementViewDetail entity={entity} />}>
           Detail
         </Section>
       </Sections>

@@ -6,12 +6,7 @@ export default function MobilePageTitle({ back, children }) {
     <aside className="navbar navbar-light d-lg-none sticky-top mobile-page-title">
       <div className="container-fluid justify-content-start">
         {!back && (
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvas-menu"
-          >
+          <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-menu">
             <span className="navbar-toggler-icon"></span>
           </button>
         )}
