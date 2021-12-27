@@ -23,5 +23,10 @@ namespace Basic.Model
         /// Gets or sets the title of the user.
         /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the avatar of the user.
+        /// </summary>
+        public File Avatar { get; set; }
     }
 }
