@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import "@tabler/core/dist/css/tabler.min.css";
-import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "@tabler/core/dist/js/tabler.min.js";
 import { store } from "./store";
-import { Provider } from "react-redux";
+import "@tabler/core/dist/css/tabler.min.css";
+import "./index.css";
+import "@tabler/core/dist/js/tabler.min.js";
 
 ReactDOM.render(
   <React.StrictMode>
