@@ -1,8 +1,11 @@
-import { apiUrl, useApiFetch, useDefinition } from "../api";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { refresh } from "./slice";
+import { apiUrl, useApiFetch, useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
 
-export function ProductEdit({full = false}) {
+export function ProductEdit({ full = false }) {
+  const dispatch = useDispatch();
   const { productId } = useParams();
   const definition = useDefinition("ProductForEdit");
   const [, entity] = useApiFetch(
@@ -15,6 +18,10 @@ export function ProductEdit({full = false}) {
     subTitle: "Edit a Product",
   };
 
+  function handleUpdate() {
+    dispatch(refresh());
+  }
+
   return (
     <PageEdit
       definition={definition}
@@ -23,6 +30,7 @@ export function ProductEdit({full = false}) {
       full={full}
       baseApiUrl="Products"
       entityId={productId}
+      onUpdate={handleUpdate}
     />
   );
 }
