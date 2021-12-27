@@ -4,6 +4,7 @@ import { apiUrl, retries } from "../api";
 import EntityForm from "./EntityForm";
 
 const defaultTransform = (e) => e;
+const defaultOnUpdate = () => {};
 
 export default function PageEdit({
   definition,
@@ -11,6 +12,7 @@ export default function PageEdit({
   entityId,
   full = false,
   texts,
+  onUpdate = defaultOnUpdate,
   transform = defaultTransform,
 }) {
   const navigate = useNavigate();
@@ -45,8 +47,11 @@ export default function PageEdit({
       body: JSON.stringify(entity),
     })
       .then((response) => {
-        if (response.status === 200) {
+        if (response.ok) {
           navigate("./..");
+          onUpdate();
+        } else {
+          throw new Error(response);
         }
       })
       .catch((err) => {

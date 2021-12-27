@@ -3,7 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { apiUrl } from "../api";
 import EntityForm from "./EntityForm";
 
-export default function PageNew({ definition, baseApiUrl, texts }) {
+const defaultOnCreate = () => {};
+
+export default function PageNew({
+  definition,
+  baseApiUrl,
+  texts,
+  onCreate = defaultOnCreate,
+}) {
   const navigate = useNavigate();
   const [entity, setEntity] = useState({});
   const [validated, setValidated] = useState(false);
@@ -27,8 +34,11 @@ export default function PageNew({ definition, baseApiUrl, texts }) {
       body: JSON.stringify(entity),
     })
       .then((response) => {
-        if (response.status === 200) {
+        if (response.ok) {
           navigate("./..");
+          onCreate();
+        } else {
+          throw new Error(response);
         }
       })
       .catch((err) => {

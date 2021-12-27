@@ -1,8 +1,11 @@
-import { apiUrl, useApiFetch, useDefinition } from "../api";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { apiUrl, useApiFetch, useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
+import { refresh } from "./slice";
 
-export function ClientEdit({full = false}) {
+export function ClientEdit({ full = false }) {
+  const dispatch = useDispatch();
   const { clientId } = useParams();
   const definition = useDefinition("ClientForEdit");
   const [, entity] = useApiFetch(
@@ -15,6 +18,10 @@ export function ClientEdit({full = false}) {
     subTitle: "Edit a Client",
   };
 
+  function handleUpdate() {
+    dispatch(refresh());
+  }
+
   return (
     <PageEdit
       definition={definition}
@@ -23,6 +30,7 @@ export function ClientEdit({full = false}) {
       full={full}
       baseApiUrl="Clients"
       entityId={clientId}
+      onUpdate={handleUpdate}
     />
   );
 }
