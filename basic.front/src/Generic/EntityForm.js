@@ -50,10 +50,10 @@ function EntityInputImage({ field, value, onChange }) {
   }
 
   return (
-    <div class="d-flex">
+    <div className="d-flex">
       {value && <img className="avatar avatar-lg me-2" src={`data:${value.mimeType};base64,${value.data}`} />}
       {!value && <div className="avatar avatar-lg me-2"></div>}
-      <div class="d-flex flex-column align-items-start justify-content-between">
+      <div className="d-flex flex-column align-items-start justify-content-between">
         <input
           type="file"
           className="form-control"
