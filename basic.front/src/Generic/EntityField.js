@@ -1,4 +1,5 @@
 import { IconChevronRight } from "@tabler/icons";
+import clsx from "clsx";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
@@ -25,6 +26,16 @@ export default function EntityField({ type, value, list = false }) {
               <IconChevronRight /> See details
             </Link>
           </div>
+        );
+      }
+
+    case "image":
+      if (value) {
+        return (
+          <img
+            className={clsx("avatar", { "avatar-sm": list }, { "avatar-lg": !list })}
+            src={`data:${value.mimeType};base64,${value.data}`}
+          />
         );
       }
 

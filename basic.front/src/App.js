@@ -4,6 +4,7 @@ import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
 import Dashboard from "./Dashboard";
 import Layout from "./Layout";
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
+import { UserEdit, UserList, UserNew, UserView } from "./Users";
 
 export default function App() {
   return (
@@ -37,6 +38,15 @@ export default function App() {
           <Route path=":agreementId" element={<AgreementView backTo="/agreements" />} />
           <Route path=":agreementId/edit" element={<AgreementEdit />} />
           <Route path="new" element={<AgreementNew />} />
+        </Route>
+
+        {/* Users */}
+        <Route path="/user/:userId" element={<UserView full />} />
+        <Route path="/user/:userId/edit" element={<UserEdit full />} />
+        <Route path="/users" element={<UserList />}>
+          <Route path=":userId" element={<UserView backTo="/users" />} />
+          <Route path=":userId/edit" element={<UserEdit />} />
+          <Route path="new" element={<UserNew />} />
         </Route>
       </Routes>
     </Layout>
