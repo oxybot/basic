@@ -158,6 +158,10 @@ namespace Basic.WebApi.Controllers
             {
                 return "reference";
             }
+            else if (type == typeof(Base64File))
+            {
+                return "file";
+            }
             else
             {
                 return "string";

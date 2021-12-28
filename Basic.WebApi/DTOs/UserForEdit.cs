@@ -31,6 +31,7 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the avatar of the user.
         /// </summary>
+        [SwaggerSchema(Format = "image")]
         public Base64File Avatar { get; set; }
     }
 }
