@@ -73,7 +73,7 @@ namespace Basic.WebApi.Controllers
             return Build(types[name]);
         }
 
-        private IDictionary<string, Type> ExtractEntityTypes()
+        private static IDictionary<string, Type> ExtractEntityTypes()
         {
             return typeof(BaseEntityDTO).Assembly.GetTypes()
                 .Where(t => typeof(BaseEntityDTO).IsAssignableFrom(t))
@@ -85,7 +85,7 @@ namespace Basic.WebApi.Controllers
                 });
         }
 
-        private Definition Build(Type entityType)
+        private static Definition Build(Type entityType)
         {
             var schemaAttribute = entityType.GetCustomAttribute<SwaggerSchemaAttribute>();
             var definition = new Definition
@@ -96,7 +96,9 @@ namespace Basic.WebApi.Controllers
             var types = GetInheritance(entityType);
             foreach (Type inheritance in types)
             {
-                var properties = inheritance.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+                var properties = inheritance
+                    .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+                    .OrderBy(p => GetOrder(p), OrderComparer.Default);
                 foreach (var property in properties)
                 {
                     definition.Fields.Add(Build(property));
@@ -106,7 +108,7 @@ namespace Basic.WebApi.Controllers
             return definition;
         }
 
-        private IEnumerable<Type> GetInheritance(Type reference)
+        private static IEnumerable<Type> GetInheritance(Type reference)
         {
             if (typeof(BaseEntityDTO).IsAssignableFrom(reference.BaseType))
             {
@@ -119,7 +121,13 @@ namespace Basic.WebApi.Controllers
             yield return reference;
         }
 
-        private DefinitionField Build(PropertyInfo property)
+        private static int? GetOrder(PropertyInfo property)
+        {
+            var display = property.GetCustomAttribute<DisplayAttribute>();
+            return display?.GetOrder();
+        }
+
+        private static DefinitionField Build(PropertyInfo property)
         {
             var schemaAttribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
             var requiredAttribute = property.GetCustomAttribute<RequiredAttribute>();
@@ -136,7 +144,7 @@ namespace Basic.WebApi.Controllers
             };
         }
 
-        private string BuildFieldType(PropertyInfo property)
+        private static string BuildFieldType(PropertyInfo property)
         {
             var type = property.PropertyType;
             var swaggerAttribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
