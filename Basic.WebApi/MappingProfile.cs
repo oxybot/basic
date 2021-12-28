@@ -14,6 +14,12 @@ namespace Basic.WebApi
         /// </summary>
         public MappingProfile()
         {
+            CreateMap<byte[], string>()
+                .ConvertUsing((bytes) => Convert.ToBase64String(bytes));
+            CreateMap<string, byte[]>()
+                .ConvertUsing((text) => Convert.FromBase64String(text));
+            CreateMap<TypedFile, Base64File>().ReverseMap();
+
             CreateMap<Client, EntityReference>();
             CreateMap<Product, EntityReference>();
 
@@ -36,6 +42,10 @@ namespace Basic.WebApi
             CreateMap<Product, ProductForList>();
             CreateMap<Product, ProductForView>();
             CreateMap<Product, ProductForEdit>().ReverseMap();
+
+            CreateMap<User, UserForList>();
+            CreateMap<User, UserForView>();
+            CreateMap<User, UserForEdit>().ReverseMap();
         }
     }
 }

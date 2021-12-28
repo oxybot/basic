@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Basic.Model
 {
     [Owned]
-    public class File
+    public class TypedFile
     {
         [Required]
         public byte[] Data { get; set; }
