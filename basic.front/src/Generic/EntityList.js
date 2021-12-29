@@ -19,7 +19,14 @@ export default function EntityList({ loading, definition, entities, baseTo, sele
     <div className="table-responsive">
       <table className="table card-table table-vcenter text-nowrap datatable table-hover">
         <thead>
-          <tr>{fields && fields.map((field, index) => <th key={index}>{field.displayName}</th>)}</tr>
+          <tr>
+            {fields &&
+              fields.map((field, index) => (
+                <th key={index} className={clsx({ "w-1": index === 0 })}>
+                  {field.displayName}
+                </th>
+              ))}
+          </tr>
         </thead>
         <tbody>
           <tr className={loading ? "" : "d-none"}>

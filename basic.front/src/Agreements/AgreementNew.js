@@ -73,7 +73,7 @@ export function AgreementNew() {
       validated={validated}
       container
     >
-      <div className="card col-lg-12">
+      <div className="card pb-3 col-lg-12">
         <div className="card-header">
           <h3 className="card-title me-auto">Items</h3>
           <button type="button" className="btn btn-icon btn-primary" onClick={handleAddItem}>
