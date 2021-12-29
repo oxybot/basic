@@ -24,6 +24,7 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the identifier of the associated client.
         /// </summary>
         [Required]
+        [Display(Name = "Client")]
         [SwaggerSchema(Format = "ref/client")]
         public Guid ClientIdentifier { get; set; }
 

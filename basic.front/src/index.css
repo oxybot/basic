@@ -111,9 +111,19 @@ body {
 }
 
 /* react-select styling */
+.react-select__control {
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+}
+
+.react-select__menu {
+  min-width: 20rem;
+}
+
 .required .react-select__control,
 .theme-dark .required .react-select__control {
   background-color: #206bc411;
+  flex-wrap: nowrap;
 }
 
 .required .react-select__control--is-focused {

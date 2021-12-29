@@ -136,10 +136,10 @@ namespace Basic.WebApi.Controllers
             return new DefinitionField
             {
                 Name = schemaAttribute?.Title ?? property.Name.ToJsonFieldName(),
-                DisplayName = property.Name.Humanize(LetterCasing.Title),
+                DisplayName = displayAttribute?.GetName() ?? property.Name.Humanize(LetterCasing.Title),
                 Required = requiredAttribute != null,
-                Placeholder = displayAttribute?.Prompt,
-                Group = displayAttribute?.GroupName,
+                Placeholder = displayAttribute?.GetPrompt(),
+                Group = displayAttribute?.GetGroupName(),
                 Type = BuildFieldType(property),
             };
         }

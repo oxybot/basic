@@ -11,6 +11,7 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the identifier of the linked product, if any.
         /// </summary>
+        [Display(Name = "Product")]
         [SwaggerSchema(Format = "ref/product")]
         public Guid? ProductIdentifier { get; set; }
 

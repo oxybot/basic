@@ -1,148 +1,8 @@
-import { IconCurrencyEuro } from "@tabler/icons";
 import clsx from "clsx";
-import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import Select from "react-select";
-import { useApiFetch } from "../api";
 import { groupBy, objectMap } from "../helpers";
+import EntityFieldEdit from "./EntityFieldEdit";
 import MobilePageTitle from "./MobilePageTitle";
-
-function EntityInputClient({ field, value, onChange }) {
-  const [loading, clients] = useApiFetch("Clients", { method: "GET" }, [], (clients) =>
-    clients.map((c) => ({
-      value: c.identifier,
-      label: c.displayName,
-    }))
-  );
-  return (
-    !loading && (
-      <Select
-        name={field.name}
-        required={field.required}
-        classNamePrefix="react-select"
-        placeholder={field.placeholder}
-        options={clients}
-        value={clients.filter((s) => s.value === value)}
-        onChange={(s) => onChange({ target: { name: field.name, value: s.value } })}
-      />
-    )
-  );
-}
-
-function EntityInputImage({ field, value, onChange }) {
-  function handleRemove() {
-    onChange({ target: { name: field.name, value: null } });
-  }
-
-  function handleFileChange(e) {
-    if (e.target.files.length === 0) {
-      // Do nothing: User clicked 'cancel'
-      return;
-    }
-
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const data = e.target.result.replace(/^data:.+;base64,/, "");
-      onChange({ target: { name: field.name, value: { mimeType: file.type, data: data } } });
-    };
-    reader.readAsDataURL(file);
-  }
-
-  return (
-    <div className="d-flex">
-      {value && <img className="avatar avatar-lg me-2" alt="" src={`data:${value.mimeType};base64,${value.data}`} />}
-      {!value && <div className="avatar avatar-lg me-2"></div>}
-      <div className="d-flex flex-column align-items-start justify-content-between">
-        <input
-          type="file"
-          className="form-control"
-          name={field.name}
-          required={field.required}
-          accept="image/*"
-          onChange={handleFileChange}
-        />
-        {value && (
-          <button type="button" className="btn btn-secondary mt-1" onClick={handleRemove}>
-            Remove
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function EntityInput({ field, value, onChange }) {
-  switch (field.type) {
-    case "date":
-      return (
-        <input
-          type="date"
-          className="form-control"
-          required={field.required}
-          id={field.name}
-          name={field.name}
-          placeholder={field.placeholder}
-          value={value ? dayjs(value).format("YYYY-MM-DD") : ""}
-          onChange={onChange}
-        />
-      );
-
-    case "ref/client":
-      return <EntityInputClient field={field} value={value} onChange={onChange} />;
-
-    case "image":
-      return <EntityInputImage field={field} value={value} onChange={onChange} />;
-
-    case "string":
-      return (
-        <input
-          type="text"
-          className="form-control"
-          required={field.required}
-          id={field.name}
-          name={field.name}
-          placeholder={field.placeholder}
-          value={value}
-          onChange={onChange}
-        />
-      );
-
-    case "currency":
-      return (
-        <div className="input-icon">
-          <input
-            type="text"
-            className="form-control"
-            required={field.required}
-            id={field.name}
-            name={field.name}
-            placeholder={field.placeholder}
-            value={value}
-            onChange={onChange}
-          />
-          <span className="input-icon-addon">
-            <IconCurrencyEuro />
-          </span>
-        </div>
-      );
-
-    default:
-      console.warn("Unknown field type: " + field.type);
-      return (
-        <input
-          type="text"
-          className="form-control"
-          required={field.required}
-          id={field.name}
-          name={field.name}
-          placeholder={field.placeholder}
-          value={value}
-          onChange={onChange}
-        />
-      );
-  }
-}
 
 export default function EntityForm({
   definition,
@@ -152,6 +12,7 @@ export default function EntityForm({
   handleSubmit,
   full = false,
   validated = false,
+  children,
 }) {
   function t(code) {
     const text = texts[code];
@@ -198,32 +59,31 @@ export default function EntityForm({
             objectMap(
               groupBy(definition.fields, (x) => x.group),
               (fields, group, index) => (
-                <div key={index} className="col-lg-12">
-                  <div className="card">
-                    {group !== "null" && (
-                      <div className="card-header">
-                        <h3 className="card-title">{group}</h3>
-                      </div>
-                    )}
-                    <div className="card-body">
-                      {fields.map((field, index) => (
-                        <div key={index} className="mb-3">
-                          <label
-                            htmlFor={field.name}
-                            className={clsx("form-label", {
-                              required: field.required,
-                            })}
-                          >
-                            {field.displayName}
-                          </label>
-                          <EntityInput field={field} value={entity[field.name] || ""} onChange={handleChange} />
-                        </div>
-                      ))}
+                <div key={index} className="card col-lg-12">
+                  {group !== "null" && (
+                    <div className="card-header">
+                      <h3 className="card-title">{group}</h3>
                     </div>
+                  )}
+                  <div className="card-body">
+                    {fields.map((field, index) => (
+                      <div key={index} className="mb-3">
+                        <label
+                          htmlFor={field.name}
+                          className={clsx("form-label", {
+                            required: field.required,
+                          })}
+                        >
+                          {field.displayName}
+                        </label>
+                        <EntityFieldEdit field={field} value={entity[field.name] || ""} onChange={handleChange} />
+                      </div>
+                    ))}
                   </div>
                 </div>
               )
             )}
+          {children}
         </div>
       </div>
     </form>
