@@ -31,10 +31,15 @@ namespace Basic.WebApi
             CreateMap<Agreement, AgreementForView>();
             CreateMap<Agreement, AgreementForEdit>()
                 .ReverseMap()
-                    .ForMember(a => a.Client, options => options.Ignore());
+                    .ForMember(a => a.Client, options => options.Ignore())
+                    .ForMember(a => a.Items, options => options.Ignore());
 
             CreateMap<AgreementItem, AgreementItemForList>();
             CreateMap<AgreementItem, AgreementItemForEdit>()
+                .ReverseMap()
+                    .ForMember(i => i.Agreement, options => options.Ignore())
+                    .ForMember(i => i.Product, options => options.Ignore());
+            CreateMap<AgreementItem, AgreementItemForEditWithIdentifier>()
                 .ReverseMap()
                     .ForMember(i => i.Agreement, options => options.Ignore())
                     .ForMember(i => i.Product, options => options.Ignore());

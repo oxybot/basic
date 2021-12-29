@@ -38,5 +38,10 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         public string PrivateNotes { get; set; }
 
+        /// <summary>
+        /// Gets the associated items.
+        /// </summary>
+        [SwaggerSchema(ReadOnly = false)]
+        public ICollection<AgreementItemForEditWithIdentifier> Items { get; set; }
     }
 }

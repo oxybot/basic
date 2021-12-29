@@ -110,7 +110,7 @@ namespace Basic.WebApi.Controllers
                 throw new BadRequestException("Invalid data");
             }
 
-            var model = AddIncludesForList(Context.Set<TModel>()).SingleOrDefault(e => e.Identifier == identifier);
+            var model = AddIncludesForView(Context.Set<TModel>()).SingleOrDefault(e => e.Identifier == identifier);
             if (model == null)
             {
                 throw new NotFoundException("Not existing entity");

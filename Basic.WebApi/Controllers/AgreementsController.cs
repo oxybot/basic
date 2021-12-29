@@ -101,6 +101,50 @@ namespace Basic.WebApi.Controllers
             {
                 throw new BadRequestException("Invalid client identifier");
             }
+
+            // Updated items
+            foreach (var item in agreement.Items.Where(i => i.Identifier.HasValue))
+            {
+                var modelItem = model.Items.SingleOrDefault(i => i.Identifier == item.Identifier.Value);
+                if (modelItem == null)
+                {
+                    throw new BadRequestException("Unknown item identified by: " + item.Identifier.Value);
+                }
+
+                Mapper.Map(item, modelItem);
+                if (item.ProductIdentifier.HasValue)
+                {
+                    modelItem.Product = Context.Set<Product>().SingleOrDefault(i => i.Identifier == item.ProductIdentifier);
+                    if (modelItem.Product == null)
+                    {
+                        throw new BadRequestException("Unknown product identified by: " + item.ProductIdentifier.Value);
+                    }
+                }
+            }
+
+            // Deleted items
+            var keys = agreement.Items.Where(i => i.Identifier.HasValue).Select(i => i.Identifier).ToList();
+            foreach (var modelItem in model.Items.Where(i => !keys.Contains(i.Identifier)).ToArray())
+            {
+                model.Items.Remove(modelItem);
+            }
+
+            // New items
+            foreach (var item in agreement.Items.Where(i => !i.Identifier.HasValue))
+            {
+                var modelItem = Mapper.Map<AgreementItem>(item);
+                modelItem.Agreement = model;
+                if (item.ProductIdentifier.HasValue)
+                {
+                    modelItem.Product = Context.Set<Product>().SingleOrDefault(i => i.Identifier == item.ProductIdentifier);
+                    if (modelItem.Product == null)
+                    {
+                        throw new BadRequestException("Unknown product identified by: " + item.ProductIdentifier.Value);
+                    }
+                }
+
+                model.Items.Add(modelItem);
+            }
         }
 
         /// <summary>
@@ -114,29 +158,6 @@ namespace Basic.WebApi.Controllers
         public override void Delete(Guid identifier)
         {
             base.Delete(identifier);
-        }
-
-        /// <summary>
-        /// Retrieves all agreement items for a specific agreement.
-        /// </summary>
-        /// <param name="agreementId">The identifier of the agreement.</param>
-        /// <returns>The list of associated agreement items.</returns>
-        /// <response code="404">The <paramref name="agreementId"/> is not associated to any agreement.</response>
-        [HttpGet]
-        [Route("{agreementId}/items")]
-        [Produces("application/json")]
-        public IEnumerable<AgreementItemForList> GetAllItems([FromRoute] Guid agreementId)
-        {
-            var agreement = Context.Set<Agreement>().SingleOrDefault(e => e.Identifier == agreementId);
-            if (agreement == null)
-            {
-                throw new NotFoundException("Unknown agreement");
-            }
-
-            var items = Context.Set<AgreementItem>().Where(i => i.Agreement == agreement);
-
-            return items
-                .Select(e => Mapper.Map<AgreementItemForList>(e));
         }
 
         /// <summary>
