@@ -35,9 +35,12 @@ export default function EntityField({ type, value, list = false }) {
         return (
           <img
             className={clsx("avatar", { "avatar-sm": list }, { "avatar-lg": !list })}
+            alt=""
             src={`data:${value.mimeType};base64,${value.data}`}
           />
         );
+      } else {
+        return null;
       }
 
     case "currency":
