@@ -8,23 +8,21 @@ export default function EntityDetail({ definition, entity }) {
         objectMap(
           groupBy(definition.fields, (x) => x.group),
           (fields, group, index) => (
-            <div key={index} className="mb-3">
-              <div className="card">
-                {group !== "null" && (
-                  <div className="card-header">
-                    <h3 className="card-title">{group}</h3>
-                  </div>
-                )}
-                <div className="card-body">
-                  {fields.map((field, index) => (
-                    <div key={index} className="mb-3">
-                      <div className="field-label">{field.displayName}</div>
-                      <div className="lead">
-                        <EntityField type={field.type} value={entity[field.name]} />
-                      </div>
-                    </div>
-                  ))}
+            <div key={index} className="card mb-3">
+              {group !== "null" && (
+                <div className="card-header">
+                  <h3 className="card-title">{group}</h3>
                 </div>
+              )}
+              <div className="card-body">
+                {fields.map((field, index) => (
+                  <div key={index} className="mb-3">
+                    <div className="field-label">{field.displayName}</div>
+                    <div className="lead">
+                      <EntityField type={field.type} value={entity[field.name]} />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )

@@ -17,3 +17,10 @@ export function groupBy(xs, key) {
 export function objectMap(obj, fn) {
   return Object.entries(obj).map(([k, v], i) => fn(v, k, i));
 }
+
+export function toCurrency(value) {
+  return value?.toLocaleString("en-US", {
+    style: "currency",
+    currency: "EUR",
+  });
+}

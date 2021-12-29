@@ -30,15 +30,17 @@ export function getDefinition(type) {
   return retries(() => fetch(apiUrl("Definitions", type), { method: "GET" })).then((response) => response.json());
 }
 
-export function useDefinition(type) {
+const defaultTransform = (e) => e;
+export function useDefinition(type, transform = defaultTransform) {
   const [definition, setDefinition] = useState(null);
   useEffect(() => {
     getDefinition(type)
+      .then((definition) => transform(definition))
       .then((definition) => setDefinition(definition))
       .catch((err) => {
         console.log(err);
       });
-  }, [type]);
+  }, [type, transform]);
 
   return definition;
 }

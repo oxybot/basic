@@ -37,6 +37,14 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the unit price associated.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "currency")]
         public decimal UnitPrice { get; set; }
+
+        /// <summary>
+        /// Gets the total price associated.
+        /// </summary>
+        [Required]
+        [SwaggerSchema(Format = "currency")]
+        public decimal TotalPrice { get => Quantity * UnitPrice; }
     }
 }

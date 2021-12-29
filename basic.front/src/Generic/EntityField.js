@@ -2,6 +2,7 @@ import { IconChevronRight } from "@tabler/icons";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { toCurrency } from "../helpers";
 
 export default function EntityField({ type, value, list = false }) {
   if (value === undefined || value === null) {
@@ -40,10 +41,7 @@ export default function EntityField({ type, value, list = false }) {
       }
 
     case "currency":
-      return value.toLocaleString("en-US", {
-        style: "currency",
-        currency: "EUR",
-      });
+      return toCurrency(value);
 
     case "string":
       return value;

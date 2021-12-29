@@ -133,7 +133,10 @@ namespace Basic.WebApi.Controllers
         /// <returns>The updated query.</returns>
         protected override IQueryable<Agreement> AddIncludesForView(IQueryable<Agreement> query)
         {
-            return query.Include(c => c.Client);
+            return query
+                .Include(c => c.Client)
+                .Include(c => c.Items)
+                    .ThenInclude(i => i.Product);
         }
     }
 }
