@@ -6,7 +6,8 @@ import Section from "../Generic/Section";
 import PageView from "../Generic/PageView";
 
 function UserViewDetail({ entity }) {
-  return <EntityDetail definitionName="UserForView" entity={entity} />;
+  const definition = useDefinition("UserForView");
+  return <EntityDetail definition={definition} entity={entity} />;
 }
 
 export function UserView({ backTo = null, full = false }) {

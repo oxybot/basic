@@ -1,10 +1,7 @@
-import { useDefinition } from "../api";
 import { groupBy, objectMap } from "../helpers";
 import EntityField from "./EntityField";
 
-export default function EntityDetail({ definitionName, entity }) {
-  const definition = useDefinition(definitionName);
-
+export default function EntityDetail({ definition, entity }) {
   return (
     <>
       {definition &&

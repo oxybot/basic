@@ -7,7 +7,8 @@ import EntityList from "../Generic/EntityList";
 import PageView from "../Generic/PageView";
 
 function ClientViewDetail({ entity }) {
-  return <EntityDetail definitionName="ClientForView" entity={entity} />;
+  const definition = useDefinition("ClientForView");
+  return <EntityDetail definition={definition} entity={entity} />;
 }
 
 function ClientViewAgreements({ clientId }) {
