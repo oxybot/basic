@@ -1,13 +1,13 @@
-import { IconChevronLeft, IconChevronRight, IconLoader } from "@tabler/icons";
+import { IconChevronLeft, IconChevronRight, IconLoader, IconPlus } from "@tabler/icons";
+import clsx from "clsx";
 import dayjs from "dayjs";
 import { Link, useSearchParams } from "react-router-dom";
-import { useApiFetch } from "./api";
-import MobilePageTitle from "./Generic/MobilePageTitle";
+import { useApiFetch } from "../api";
+import MobilePageTitle from "../Generic/MobilePageTitle";
 import "./Calendar.css";
-import clsx from "clsx";
 
-export default function Calendar() {
-  const [searchParams, setSearchParams] = useSearchParams();
+export function Calendar() {
+  const [searchParams] = useSearchParams();
   const monthText = searchParams.get("month");
   const month = monthText ? dayjs(monthText, "YYYY-MM") : dayjs().startOf("month");
 
@@ -18,12 +18,26 @@ export default function Calendar() {
     <div className="container-xl">
       <MobilePageTitle>
         <div className="navbar-brand">Calendar</div>
+        <Link to="request" className="btn btn-primary btn-icon" aria-label="Add event">
+          <IconPlus />
+        </Link>
       </MobilePageTitle>
       <div className="page-header d-print-none d-none d-lg-block">
         <div className="row align-items-center">
           <div className="col">
             <div className="page-pretitle">People</div>
             <h2 className="page-title">Calendar</h2>
+          </div>
+          <div className="col-auto ms-auto d-print-none">
+            <div className="d-flex">
+              <Link to="request" className="btn btn-primary d-none d-md-block">
+                <IconPlus />
+                Add event
+              </Link>
+              <Link to="request" className="btn btn-primary btn-icon d-md-none" aria-label="Add event">
+                <IconPlus />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -78,7 +92,7 @@ export default function Calendar() {
                         <tr key={index}>
                           <td>{entry.user.displayName}</td>
                           {days.map((i) => (
-                            <td key={i} className={clsx({ "calendar-off": entry.lines[0].days.contains(i) })}></td>
+                            <td key={i} className={clsx({ "bg-orange": entry.lines[0].days.contains(i) })}></td>
                           ))}
                         </tr>
                       );
@@ -87,7 +101,7 @@ export default function Calendar() {
                         <tr key={index}>
                           {lineIndex === 0 && <td rowSpan={entry.lines.length}>{entry.user.displayName}</td>}
                           {days.map((i) => (
-                            <td key={i} className={clsx({ "calendar-off": line.days.contains(i) })}></td>
+                            <td key={i} className={clsx({ "bg-orange": line.days.contains(i) })}></td>
                           ))}
                         </tr>
                       ));

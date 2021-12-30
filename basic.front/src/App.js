@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { AgreementEdit, AgreementList, AgreementNew, AgreementView } from "./Agreements";
-import Calendar from "./Calendar";
+import { Calendar, CalendarRequest } from "./Calendar";
 import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
 import Dashboard from "./Dashboard";
 import { EventCategoryEdit, EventCategoryList, EventCategoryNew } from "./EventCategories";
@@ -61,7 +61,10 @@ export default function App() {
           <Route path="new" element={<UserNew />} />
         </Route>
 
-        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/calendar">
+          <Route index element={<Calendar />} />
+          <Route path="request" element={<CalendarRequest />} />
+        </Route>
       </Routes>
     </Layout>
   );
