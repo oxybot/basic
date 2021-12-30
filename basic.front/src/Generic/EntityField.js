@@ -30,6 +30,18 @@ export default function EntityField({ type, value, list = false }) {
         );
       }
 
+    case "ref/eventtimemapping":
+      switch (value) {
+        case "Active":
+          return value;
+        case "StandardTimeOff":
+          return "Standard Time-off";
+        case "ExtraTimeOff":
+          return "Extra Time-off";
+        default:
+          throw new Error("Unknown value: " + value);
+      }
+
     case "image":
       if (value) {
         return (
@@ -42,6 +54,9 @@ export default function EntityField({ type, value, list = false }) {
       } else {
         return null;
       }
+
+    case "boolean":
+      return value ? "Yes" : "No";
 
     case "currency":
       return toCurrency(value);

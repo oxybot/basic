@@ -162,6 +162,10 @@ namespace Basic.WebApi.Controllers
             {
                 return "datetime";
             }
+            else if (type == typeof(bool))
+            {
+                return "boolean";
+            }
             else if (type == typeof(EntityReference))
             {
                 return "reference";

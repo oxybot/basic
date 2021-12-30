@@ -4,49 +4,49 @@ import Select from "react-select";
 import { useApiFetch } from "../api";
 
 function EntityInputClient({ field, value, onChange }) {
-    const [loading, clients] = useApiFetch("Clients", { method: "GET" }, [], (clients) =>
-      clients.map((c) => ({
-        value: c.identifier,
-        label: c.displayName,
-      }))
-    );
-    return (
-      !loading && (
-        <Select
-          name={field.name}
-          required={field.required}
-          classNamePrefix="react-select"
-          placeholder={field.placeholder}
-          options={clients}
-          value={clients.filter((s) => s.value === value)}
-          onChange={(s) => onChange({ target: { name: field.name, value: s.value } })}
-        />
-      )
-    );
-  }
+  const [loading, clients] = useApiFetch("Clients", { method: "GET" }, [], (clients) =>
+    clients.map((c) => ({
+      value: c.identifier,
+      label: c.displayName,
+    }))
+  );
+  return (
+    !loading && (
+      <Select
+        name={field.name}
+        required={field.required}
+        classNamePrefix="react-select"
+        placeholder={field.placeholder}
+        options={clients}
+        value={clients.filter((s) => s.value === value)}
+        onChange={(s) => onChange({ target: { name: field.name, value: s.value } })}
+      />
+    )
+  );
+}
 
-  function EntityInputProduct({ field, value, onChange }) {
-    const [loading, products] = useApiFetch("Products", { method: "GET" }, [], (products) =>
-      products.map((c) => ({
-        value: c.identifier,
-        label: c.displayName,
-      }))
-    );
-    return (
-      !loading && (
-        <Select
-          name={field.name}
-          required={field.required}
-          classNamePrefix="react-select"
-          placeholder={field.placeholder}
-          options={products}
-          value={products.filter((s) => s.value === value)}
-          onChange={(s) => onChange({ target: { name: field.name, value: s.value } })}
-        />
-      )
-    );
-  }
-    
+function EntityInputProduct({ field, value, onChange }) {
+  const [loading, products] = useApiFetch("Products", { method: "GET" }, [], (products) =>
+    products.map((c) => ({
+      value: c.identifier,
+      label: c.displayName,
+    }))
+  );
+  return (
+    !loading && (
+      <Select
+        name={field.name}
+        required={field.required}
+        classNamePrefix="react-select"
+        placeholder={field.placeholder}
+        options={products}
+        value={products.filter((s) => s.value === value)}
+        onChange={(s) => onChange({ target: { name: field.name, value: s.value } })}
+      />
+    )
+  );
+}
+
 function EntityInputImage({ field, value, onChange }) {
   function handleRemove() {
     onChange({ target: { name: field.name, value: null } });
@@ -112,8 +112,39 @@ export default function EntityFieldEdit({ field, value, onChange }) {
     case "ref/product":
       return <EntityInputProduct field={field} value={value} onChange={onChange} />;
 
+    case "ref/eventtimemapping":
+      return (
+        <select class="form-select" id={field.name} name={field.name} value={value} onChange={onChange}>
+          <option value="Active">Active</option>
+          <option value="StandardTimeOff">Standard Time-off</option>
+          <option value="ExtraTimeOff">Extra Time-off</option>
+        </select>
+      );
+
     case "image":
       return <EntityInputImage field={field} value={value} onChange={onChange} />;
+
+    case "boolean":
+      function handleChange(e) {
+        onChange({ target: { name: field.name, value: e.target.checked } });
+      }
+
+      return (
+        <div className="form-check form-switch">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            role="switch"
+            id={field.name}
+            name={field.name}
+            checked={value}
+            onChange={handleChange}
+          />
+          <label className="form-check-label" htmlFor={field.name}>
+            {field.description || "Yes"}
+          </label>
+        </div>
+      );
 
     case "string":
       return (

@@ -32,6 +32,7 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets how the time booked on this category should be considered.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "ref/eventtimemapping")]
         public EventTimeMapping Mapping { get; set; }
     }
 }

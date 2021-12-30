@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { AgreementEdit, AgreementList, AgreementNew, AgreementView } from "./Agreements";
 import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
 import Dashboard from "./Dashboard";
+import { EventCategoryEdit, EventCategoryList, EventCategoryNew } from "./EventCategories";
 import Layout from "./Layout";
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
 import Settings from "./Settings";
@@ -15,7 +16,13 @@ export default function App() {
         <Route path="/" element={<Dashboard />} />
 
         {/* Settings */}
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/settings">
+          <Route index element={<Settings />} />
+          <Route path="event-categories" element={<EventCategoryList />}>
+            <Route path=":categoryId" element={<EventCategoryEdit />} />
+            <Route path="new" element={<EventCategoryNew />} />
+          </Route>
+        </Route>
 
         {/* Clients */}
         <Route path="/client/:clientId" element={<ClientView full />} />
