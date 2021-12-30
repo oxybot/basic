@@ -4,6 +4,7 @@ import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
 import Dashboard from "./Dashboard";
 import Layout from "./Layout";
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
+import Settings from "./Settings";
 import { UserEdit, UserList, UserNew, UserView } from "./Users";
 
 export default function App() {
@@ -12,6 +13,9 @@ export default function App() {
       <Routes>
         {/* Dashboard */}
         <Route path="/" element={<Dashboard />} />
+
+        {/* Settings */}
+        <Route path="/settings" element={<Settings />} />
 
         {/* Clients */}
         <Route path="/client/:clientId" element={<ClientView full />} />

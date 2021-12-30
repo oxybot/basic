@@ -1,4 +1,4 @@
-import { IconDashboard, IconConfetti, IconNotebook, IconPackage, IconFriends } from "@tabler/icons";
+import { IconDashboard, IconConfetti, IconNotebook, IconPackage, IconFriends, IconSettings } from "@tabler/icons";
 import { NavLink } from "react-router-dom";
 import LayoutTheme from "./LayoutTheme";
 
@@ -63,8 +63,8 @@ export default function LayoutMenu() {
                 </ul>
               </li>
             </ul>
-            <hr className="my-2" />
             {/* Dashboard */}
+            <hr className="my-2" />
             <ul className="navbar-nav">
               <li className="nav-item">
                 <NavLink className="nav-link justify-content-start" to="/" onClick={closeMenu}>
@@ -75,8 +75,8 @@ export default function LayoutMenu() {
                 </NavLink>
               </li>
             </ul>
-            <hr className="my-2" />
             {/* Client */}
+            <hr className="my-2" />
             <ul className="navbar-nav">
               <li className="nav-item">
                 <NavLink className="nav-link justify-content-start" to="/clients" onClick={closeMenu}>
@@ -103,8 +103,8 @@ export default function LayoutMenu() {
                 </NavLink>
               </li>
             </ul>
-            <hr className="my-2" />
             {/* User */}
+            <hr className="my-2" />
             <ul className="navbar-nav">
               <li className="nav-item">
                 <NavLink className="nav-link justify-content-start" to="/users" onClick={closeMenu}>
@@ -112,6 +112,18 @@ export default function LayoutMenu() {
                     <IconFriends />
                   </span>
                   <span className="nav-link-title">People</span>
+                </NavLink>
+              </li>
+            </ul>
+            {/* Settings */}
+            <hr className="my-2" />
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <NavLink className="nav-link justify-content-start" to="/settings" onClick={closeMenu}>
+                  <span className="nav-link-icon">
+                    <IconSettings />
+                  </span>
+                  <span className="nav-link-title">Settings</span>
                 </NavLink>
               </li>
             </ul>
