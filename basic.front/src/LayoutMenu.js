@@ -1,4 +1,12 @@
-import { IconDashboard, IconConfetti, IconNotebook, IconPackage, IconFriends, IconSettings } from "@tabler/icons";
+import {
+  IconDashboard,
+  IconConfetti,
+  IconNotebook,
+  IconPackage,
+  IconFriends,
+  IconSettings,
+  IconCalendarEvent,
+} from "@tabler/icons";
 import { NavLink } from "react-router-dom";
 import LayoutTheme from "./LayoutTheme";
 
@@ -112,6 +120,14 @@ export default function LayoutMenu() {
                     <IconFriends />
                   </span>
                   <span className="nav-link-title">People</span>
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link justify-content-start" to="/calendar" onClick={closeMenu}>
+                  <span className="nav-link-icon">
+                    <IconCalendarEvent />
+                  </span>
+                  <span className="nav-link-title">Calendar</span>
                 </NavLink>
               </li>
             </ul>

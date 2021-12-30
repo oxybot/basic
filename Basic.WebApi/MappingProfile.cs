@@ -22,6 +22,7 @@ namespace Basic.WebApi
 
             CreateMap<Client, EntityReference>();
             CreateMap<Product, EntityReference>();
+            CreateMap<User, EntityReference>();
 
             CreateMap<Client, ClientForList>();
             CreateMap<Client, ClientForView>();

@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { AgreementEdit, AgreementList, AgreementNew, AgreementView } from "./Agreements";
+import Calendar from "./Calendar";
 import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
 import Dashboard from "./Dashboard";
 import { EventCategoryEdit, EventCategoryList, EventCategoryNew } from "./EventCategories";
@@ -59,6 +60,8 @@ export default function App() {
           <Route path=":userId/edit" element={<UserEdit />} />
           <Route path="new" element={<UserNew />} />
         </Route>
+
+        <Route path="/calendar" element={<Calendar />} />
       </Routes>
     </Layout>
   );
