@@ -51,6 +51,9 @@ namespace Basic.WebApi
             CreateMap<User, UserForList>();
             CreateMap<User, UserForView>();
             CreateMap<User, UserForEdit>().ReverseMap();
+
+            CreateMap<EventCategory, EventCategoryForList>();
+            CreateMap<EventCategory, EventCategoryForEdit>().ReverseMap();
         }
     }
 }

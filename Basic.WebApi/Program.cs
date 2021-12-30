@@ -1,6 +1,7 @@
 using Basic.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,12 @@ builder.Services.AddDbContext<Context>(options =>
     options.UseSqlServer("name=ConnectionStrings:DefaultConnection");
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    // Enable string representation for enums
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddCors(options =>
