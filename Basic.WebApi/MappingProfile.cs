@@ -23,6 +23,9 @@ namespace Basic.WebApi
             CreateMap<Client, EntityReference>();
             CreateMap<Product, EntityReference>();
             CreateMap<User, EntityReference>();
+            CreateMap<EventCategory, EntityReference>();
+
+            CreateMap<User, UserReference>();
 
             CreateMap<Client, ClientForList>();
             CreateMap<Client, ClientForView>();
@@ -45,6 +48,22 @@ namespace Basic.WebApi
                     .ForMember(i => i.Agreement, options => options.Ignore())
                     .ForMember(i => i.Product, options => options.Ignore());
 
+            CreateMap<Balance, BalanceForList>();
+            CreateMap<Balance, BalanceForEdit>()
+                .ReverseMap()
+                    .ForMember(e => e.User, options => options.Ignore())
+                    .ForMember(e => e.Category, options => options.Ignore());
+
+            CreateMap<Event, EventForList>();
+            CreateMap<Event, EventForView>();
+            CreateMap<Event, EventForEdit>()
+                .ReverseMap()
+                    .ForMember(e => e.User, options => options.Ignore())
+                    .ForMember(e => e.Category, options => options.Ignore());
+
+            CreateMap<EventCategory, EventCategoryForList>();
+            CreateMap<EventCategory, EventCategoryForEdit>().ReverseMap();
+
             CreateMap<Product, ProductForList>();
             CreateMap<Product, ProductForView>();
             CreateMap<Product, ProductForEdit>().ReverseMap();
@@ -52,9 +71,6 @@ namespace Basic.WebApi
             CreateMap<User, UserForList>();
             CreateMap<User, UserForView>();
             CreateMap<User, UserForEdit>().ReverseMap();
-
-            CreateMap<EventCategory, EventCategoryForList>();
-            CreateMap<EventCategory, EventCategoryForEdit>().ReverseMap();
         }
     }
 }
