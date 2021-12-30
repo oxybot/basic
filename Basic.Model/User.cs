@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Basic.Model
 {
@@ -7,6 +8,15 @@ namespace Basic.Model
     /// </summary>
     public class User : BaseModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="User"/> class.
+        /// </summary>
+        public User()
+        {
+            this.Events = new List<Event>();
+            this.Balances = new List<Balance>();
+        }
+
         /// <summary>
         /// Gets or sets the display name of the user.
         /// </summary>
@@ -28,5 +38,15 @@ namespace Basic.Model
         /// Gets or sets the avatar of the user.
         /// </summary>
         public TypedFile Avatar { get; set; }
+
+        /// <summary>
+        /// Gets the associated events.
+        /// </summary>
+        public ICollection<Event> Events { get; }
+
+        /// <summary>
+        /// Gets the associated balances.
+        /// </summary>
+        public ICollection<Balance> Balances { get; }
     }
 }
