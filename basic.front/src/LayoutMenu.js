@@ -1,4 +1,4 @@
-import { IconDashboard, IconConfetti, IconNotebook, IconPackage, IconUser } from "@tabler/icons";
+import { IconDashboard, IconConfetti, IconNotebook, IconPackage, IconFriends } from "@tabler/icons";
 import { NavLink } from "react-router-dom";
 import LayoutTheme from "./LayoutTheme";
 
@@ -109,9 +109,9 @@ export default function LayoutMenu() {
               <li className="nav-item">
                 <NavLink className="nav-link justify-content-start" to="/users" onClick={closeMenu}>
                   <span className="nav-link-icon">
-                    <IconUser />
+                    <IconFriends />
                   </span>
-                  <span className="nav-link-title">Users</span>
+                  <span className="nav-link-title">People</span>
                 </NavLink>
               </li>
             </ul>
