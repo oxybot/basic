@@ -29,6 +29,9 @@ namespace Basic.DataAccess
             // Define conventions
             builder.Properties().Where(p => p.ClrType == typeof(decimal))
                 .Configure(p => p.SetColumnType("decimal(18,6)"));
+
+            builder.Properties().Where(p => p.ClrType.IsEnum)
+                .Configure(p => p.SetColumnType("nvarchar(24)"));
         }
     }
 }
