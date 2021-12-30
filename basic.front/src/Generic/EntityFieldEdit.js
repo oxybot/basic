@@ -3,9 +3,9 @@ import dayjs from "dayjs";
 import Select from "react-select";
 import { useApiFetch } from "../api";
 
-function EntityInputClient({ field, value, onChange }) {
-  const [loading, clients] = useApiFetch("Clients", { method: "GET" }, [], (clients) =>
-    clients.map((c) => ({
+function EntityInputReference({ baseApiUrl, field, value, onChange }) {
+  const [loading, elements] = useApiFetch(baseApiUrl, { method: "GET" }, [], (elements) =>
+    elements.map((c) => ({
       value: c.identifier,
       label: c.displayName,
     }))
@@ -17,30 +17,8 @@ function EntityInputClient({ field, value, onChange }) {
         required={field.required}
         classNamePrefix="react-select"
         placeholder={field.placeholder}
-        options={clients}
-        value={clients.filter((s) => s.value === value)}
-        onChange={(s) => onChange({ target: { name: field.name, value: s.value } })}
-      />
-    )
-  );
-}
-
-function EntityInputProduct({ field, value, onChange }) {
-  const [loading, products] = useApiFetch("Products", { method: "GET" }, [], (products) =>
-    products.map((c) => ({
-      value: c.identifier,
-      label: c.displayName,
-    }))
-  );
-  return (
-    !loading && (
-      <Select
-        name={field.name}
-        required={field.required}
-        classNamePrefix="react-select"
-        placeholder={field.placeholder}
-        options={products}
-        value={products.filter((s) => s.value === value)}
+        options={elements}
+        value={elements.filter((s) => s.value === value)}
         onChange={(s) => onChange({ target: { name: field.name, value: s.value } })}
       />
     )
@@ -106,11 +84,17 @@ export default function EntityFieldEdit({ field, value, onChange }) {
         />
       );
 
+    case "ref/category":
+      return <EntityInputReference baseApiUrl="EventCategories" field={field} value={value} onChange={onChange} />;
+
     case "ref/client":
-      return <EntityInputClient field={field} value={value} onChange={onChange} />;
+      return <EntityInputReference baseApiUrl="Clients" field={field} value={value} onChange={onChange} />;
 
     case "ref/product":
-      return <EntityInputProduct field={field} value={value} onChange={onChange} />;
+      return <EntityInputReference baseApiUrl="Products" field={field} value={value} onChange={onChange} />;
+
+    case "ref/user":
+      return <EntityInputReference baseApiUrl="Users" field={field} value={value} onChange={onChange} />;
 
     case "ref/eventtimemapping":
       return (

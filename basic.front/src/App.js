@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { AgreementEdit, AgreementList, AgreementNew, AgreementView } from "./Agreements";
+import { BalanceEdit, BalanceList, BalanceNew } from "./Balances";
 import { Calendar, CalendarRequest } from "./Calendar";
 import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
 import Dashboard from "./Dashboard";
@@ -23,6 +24,12 @@ export default function App() {
             <Route path=":categoryId" element={<EventCategoryEdit />} />
             <Route path="new" element={<EventCategoryNew />} />
           </Route>
+        </Route>
+
+        {/* Balances */}
+        <Route path="balances" element={<BalanceList />}>
+          <Route path=":balanceId" element={<BalanceEdit />} />
+          <Route path="new" element={<BalanceNew />} />
         </Route>
 
         {/* Clients */}

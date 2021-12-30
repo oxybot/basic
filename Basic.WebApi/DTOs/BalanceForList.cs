@@ -19,12 +19,14 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the associated user.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "ref/user")]
         public UserReference User { get; set; }
 
         /// <summary>
         /// Gets or sets the associated category.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "ref/category")]
         public EntityReference Category { get; set; }
 
         /// <summary>

@@ -16,6 +16,8 @@ export default function EntityField({ type, value, list = false }) {
     case "date":
       return dayjs(value).format("DD MMM YYYY");
 
+    case "ref/user":
+    case "ref/category":
     case "ref/client":
       if (list) {
         return value.displayName;
