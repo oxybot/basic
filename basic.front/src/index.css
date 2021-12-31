@@ -93,6 +93,10 @@ body {
   min-width: var(--tblr-avatar-size);
 }
 
+.bg-orange {
+  background: #f76707 !important;
+}
+
 /* Update of the theme-dark default */
 .theme-dark .offcanvas-header {
   background: #1b2434;
