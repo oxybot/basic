@@ -16,16 +16,19 @@ export default function EntityField({ type, value, list = false }) {
     case "date":
       return dayjs(value).format("DD MMM YYYY");
 
-    case "ref/user":
     case "ref/category":
+      return value.displayName;
+
     case "ref/client":
+    case "ref/user":
       if (list) {
         return value.displayName;
       } else {
+        const linkTo = type.replace("ref/", "");
         return (
           <div className="d-flex align-items-start">
             {value.displayName}
-            <Link className="ms-auto btn btn-sm btn-outline-secondary" to={`/client/${value.identifier}`}>
+            <Link className="ms-auto btn btn-sm btn-outline-secondary" to={`/${linkTo}/${value.identifier}`}>
               <IconChevronRight /> See details
             </Link>
           </div>

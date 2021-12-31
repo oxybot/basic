@@ -98,7 +98,7 @@ export default function EntityFieldEdit({ field, value, onChange }) {
 
     case "ref/eventtimemapping":
       return (
-        <select class="form-select" id={field.name} name={field.name} value={value} onChange={onChange}>
+        <select className="form-select" id={field.name} name={field.name} value={value} onChange={onChange}>
           <option value="Active">Active</option>
           <option value="StandardTimeOff">Standard Time-off</option>
           <option value="ExtraTimeOff">Extra Time-off</option>
