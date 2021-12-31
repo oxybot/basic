@@ -92,7 +92,7 @@ export function Calendar() {
                         <tr key={index}>
                           <td>{entry.user.displayName}</td>
                           {days.map((i) => (
-                            <td key={i} className={clsx({ "bg-orange": entry.lines[0].days.contains(i) })}></td>
+                            <td key={i} className={clsx({ "bg-orange": entry.lines[0].days.includes(i) })}></td>
                           ))}
                         </tr>
                       );

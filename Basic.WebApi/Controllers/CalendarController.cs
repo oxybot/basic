@@ -3,6 +3,7 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace Basic.WebApi.Controllers
@@ -46,7 +47,9 @@ namespace Basic.WebApi.Controllers
             DateTime startOfMonth = DateTime.ParseExact(month, "yyyy-MM", CultureInfo.InvariantCulture);
             DateTime endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
             var days = (endOfMonth - startOfMonth).TotalDays;
-            var users = Context.Set<User>();
+            var users = Context.Set<User>()
+                .Include(e => e.Events)
+                .ThenInclude(e => e.Category);
 
             foreach (var user in users)
             {
@@ -70,7 +73,7 @@ namespace Basic.WebApi.Controllers
                     }
                 }
 
-                foreach(var activeGroup in active.GroupBy(e => e.Category))
+                foreach (var activeGroup in active.GroupBy(e => e.Category))
                 {
                     var line = new UserCalendar.Line() { Category = activeGroup.Key.DisplayName };
                     calendar.Lines.Add(line);
