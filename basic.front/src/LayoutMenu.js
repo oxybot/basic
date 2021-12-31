@@ -7,6 +7,7 @@ import {
   IconSettings,
   IconCalendarEvent,
   IconChartArrows,
+  IconSunset,
 } from "@tabler/icons";
 import { NavLink } from "react-router-dom";
 import LayoutTheme from "./LayoutTheme";
@@ -137,6 +138,14 @@ export default function LayoutMenu() {
                     <IconChartArrows />
                   </span>
                   <span className="nav-link-title">Balances</span>
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link justify-content-start" to="/events" onClick={closeMenu}>
+                  <span className="nav-link-icon">
+                    <IconSunset />
+                  </span>
+                  <span className="nav-link-title">Events</span>
                 </NavLink>
               </li>
             </ul>

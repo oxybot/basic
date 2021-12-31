@@ -4,6 +4,7 @@ import { BalanceEdit, BalanceList, BalanceNew } from "./Balances";
 import { Calendar, CalendarRequest } from "./Calendar";
 import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
 import Dashboard from "./Dashboard";
+import { EventEdit, EventList, EventNew, EventView } from "./Events";
 import { EventCategoryEdit, EventCategoryList, EventCategoryNew } from "./EventCategories";
 import Layout from "./Layout";
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
@@ -24,12 +25,6 @@ export default function App() {
             <Route path=":categoryId" element={<EventCategoryEdit />} />
             <Route path="new" element={<EventCategoryNew />} />
           </Route>
-        </Route>
-
-        {/* Balances */}
-        <Route path="balances" element={<BalanceList />}>
-          <Route path=":balanceId" element={<BalanceEdit />} />
-          <Route path="new" element={<BalanceNew />} />
         </Route>
 
         {/* Clients */}
@@ -71,6 +66,21 @@ export default function App() {
         <Route path="/calendar">
           <Route index element={<Calendar />} />
           <Route path="request" element={<CalendarRequest />} />
+        </Route>
+
+        {/* Balances */}
+        <Route path="balances" element={<BalanceList />}>
+          <Route path=":balanceId" element={<BalanceEdit />} />
+          <Route path="new" element={<BalanceNew />} />
+        </Route>
+
+        {/* Events */}
+        <Route path="/event/:eventId" element={<EventView full />} />
+        <Route path="/event/:eventId/edit" element={<EventEdit full />} />
+        <Route path="/events" element={<EventList />}>
+          <Route path=":eventId" element={<EventView backTo="/users" />} />
+          <Route path=":eventId/edit" element={<EventEdit />} />
+          <Route path="new" element={<EventNew />} />
         </Route>
       </Routes>
     </Layout>

@@ -19,24 +19,28 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the associated user.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "ref/user")]
         public UserReference User { get; set; }
 
         /// <summary>
         /// Gets or sets the associated category.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "ref/category")]
         public EntityReference Category { get; set; }
 
         /// <summary>
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "date")]
         public DateTime StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "date")]
         public DateTime EndDate { get; set; }
 
         /// <summary>

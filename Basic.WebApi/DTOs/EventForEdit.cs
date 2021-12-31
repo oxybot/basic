@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Basic.WebApi.DTOs
 {
@@ -11,12 +12,16 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the associated user.
         /// </summary>
         [Required]
+        [Display(Name = "User")]
+        [SwaggerSchema(Format = "ref/user")]
         public Guid UserIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the associated category.
         /// </summary>
         [Required]
+        [Display(Name = "Category")]
+        [SwaggerSchema(Format = "ref/category")]
         public Guid CategoryIdentifier { get; set; }
 
         /// <summary>
@@ -28,12 +33,14 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "date")]
         public DateTime StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "date")]
         public DateTime EndDate { get; set; }
 
         /// <summary>
