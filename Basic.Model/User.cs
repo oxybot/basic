@@ -13,6 +13,7 @@ namespace Basic.Model
         /// </summary>
         public User()
         {
+            this.Roles = new List<Role>();
             this.Events = new List<Event>();
             this.Balances = new List<Balance>();
         }
@@ -46,6 +47,11 @@ namespace Basic.Model
         /// Gets or sets the avatar of the user.
         /// </summary>
         public TypedFile Avatar { get; set; }
+
+        /// <summary>
+        /// Gets the associated roles.
+        /// </summary>
+        public virtual ICollection<Role> Roles { get; }
 
         /// <summary>
         /// Gets the associated events.

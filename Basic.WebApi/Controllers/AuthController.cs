@@ -3,6 +3,7 @@ using Basic.Model;
 using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -60,7 +61,10 @@ namespace Basic.WebApi.Controllers
                 throw new UnauthorizedRequestException();
             }
 
-            var user = Context.Set<User>().SingleOrDefault(u => u.Username == signIn.Username && u.Password == signIn.Password);
+            var user = Context.Set<User>()
+                .Include(u => u.Roles)
+                .SingleOrDefault(u => u.Username == signIn.Username && u.Password == signIn.Password);
+
             if (user == null)
             {
                 throw new UnauthorizedRequestException();
@@ -82,10 +86,15 @@ namespace Basic.WebApi.Controllers
             var audience = Configuration["BaseUrl"];
             var jwtValidity = DateTime.Now.AddSeconds(Convert.ToInt32(Configuration["JwtToken:ExpireIn"]));
 
-            var claims = new[] {
+            var claims = new List<Claim> {
                 new Claim(type: "sid:guid", user.Identifier.ToString("D")),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("D")),
             };
+
+            foreach (Role role in user.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.Code));
+            }
 
             var token = new JwtSecurityToken(issuer,
                 audience,
