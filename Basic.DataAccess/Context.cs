@@ -26,6 +26,35 @@ namespace Basic.DataAccess
                 builder.Entity(type);
             }
 
+            builder.Entity<Role>().HasData(new[]
+            {
+                new Role()
+                {
+                    Identifier = new Guid("8087c59d-7db0-4c40-aa35-742f6e11816f"),
+                    Code = Role.ClientRO,
+                },
+                new Role()
+                {
+                    Identifier = new Guid("7a42dca4-c92c-408b-af26-6ac2db418312"),
+                    Code = Role.Client,
+                },
+                new Role()
+                {
+                    Identifier = new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"),
+                    Code = Role.PeopleRO,
+                },
+                new Role()
+                {
+                    Identifier = new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"),
+                    Code = Role.People,
+                },
+                new Role()
+                {
+                    Identifier = new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"),
+                    Code = Role.User,
+                },
+            });
+
             // Define conventions
             builder.Properties().Where(p => p.ClrType == typeof(decimal))
                 .Configure(p => p.SetColumnType("decimal(18,6)"));

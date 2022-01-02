@@ -2,6 +2,7 @@ using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
+using Basic.WebApi.Framework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="clientId">The identifier of the client to filter the result list, if any.</param>
         /// <returns>The list of agreements.</returns>
         [HttpGet]
+        [AuthorizeRoles(Role.ClientRO, Role.Client)]
         [Produces("application/json")]
         public IEnumerable<AgreementForList> GetAll(Guid? clientId)
         {
@@ -54,6 +56,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The detailed data about the agreement identified by <paramref name="identifier"/>.</returns>
         /// <response code="404">No agreement is associated to the provided <paramref name="identifier"/>.</response>
         [HttpGet]
+        [AuthorizeRoles(Role.ClientRO, Role.Client)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override AgreementForView GetOne(Guid identifier)
@@ -68,6 +71,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The agreement data after creation.</returns>
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
+        [AuthorizeRoles(Role.Client)]
         [Produces("application/json")]
         public override AgreementForList Post(AgreementForEdit agreement)
         {
@@ -83,11 +87,147 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         /// <response code="404">No agreement is associated to the provided <paramref name="identifier"/>.</response>
         [HttpPut]
+        [AuthorizeRoles(Role.Client)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override AgreementForList Put(Guid identifier, AgreementForEdit agreement)
         {
             return base.Put(identifier, agreement);
+        }
+
+        /// <summary>
+        /// Deletes a specific agreement.
+        /// </summary>
+        /// <param name="identifier">The identifier of the agreement to delete.</param>
+        /// <response code="404">No agreement is associated to the provided <paramref name="identifier"/>.</response>
+        [HttpDelete]
+        [AuthorizeRoles(Role.Client)]
+        [Produces("application/json")]
+        [Route("{identifier}")]
+        public override void Delete(Guid identifier)
+        {
+            base.Delete(identifier);
+        }
+
+        /// <summary>
+        /// Creates a new agreement item.
+        /// </summary>
+        /// <param name="agreementId">The identifier of the agreement.</param>
+        /// <param name="item">The agreement item data.</param>
+        /// <returns>The agreement item data after creation.</returns>
+        /// <response code="400">The provided data are invalid.</response>
+        /// <response code="404">The <paramref name="agreementId"/> is not associated to any agreement.</response>
+        [HttpPost]
+        [AuthorizeRoles(Role.Client)]
+        [Route("{agreementId}/items")]
+        [Produces("application/json")]
+        public AgreementItemForList PostItem([FromRoute] Guid agreementId, AgreementItemForEdit item)
+        {
+            var agreement = Context.Set<Agreement>().SingleOrDefault(e => e.Identifier == agreementId);
+            if (agreement == null)
+            {
+                throw new NotFoundException("Unknown agreement");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                throw new BadRequestException("Invalid data");
+            }
+
+            AgreementItem model = Mapper.Map<AgreementItem>(item);
+            model.Agreement = agreement;
+            if (item.ProductIdentifier.HasValue)
+            {
+                model.Product = Context.Set<Product>()
+                    .SingleOrDefault(p => p.Identifier == item.ProductIdentifier.Value);
+                if (model.Product == null)
+                {
+                    throw new BadRequestException("Invalid product identifier");
+                }
+            }
+
+            Context.Set<AgreementItem>().Add(model);
+            Context.SaveChanges();
+
+            return Mapper.Map<AgreementItemForList>(model);
+        }
+
+        /// <summary>
+        /// Updates an existing agreement item.
+        /// </summary>
+        /// <param name="agreementId">The identifier of the agreement.</param>
+        /// <param name="itemId">The identifier of the updated item.</param>
+        /// <param name="item">The agreement item data.</param>
+        /// <returns>The agreement item data after update.</returns>
+        /// <response code="400">The provided data are invalid.</response>
+        /// <response code="404">The <paramref name="agreementId"/> is not associated to any agreement.</response>
+        [HttpPut]
+        [AuthorizeRoles(Role.Client)]
+        [Route("{agreementId}/items/{itemId}")]
+        [Produces("application/json")]
+        public AgreementItemForList PutItem([FromRoute] Guid agreementId, Guid itemId, AgreementItemForEdit item)
+        {
+            var agreement = Context.Set<Agreement>().SingleOrDefault(e => e.Identifier == agreementId);
+            if (agreement == null)
+            {
+                throw new NotFoundException("Unknown agreement");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                throw new BadRequestException("Invalid data");
+            }
+
+            var model = Context.Set<AgreementItem>().SingleOrDefault(e => e.Identifier == itemId && e.Agreement == agreement);
+            if (model == null)
+            {
+                throw new BadRequestException("Invalid item identifier");
+            }
+
+            Mapper.Map(item, model);
+            if (item.ProductIdentifier.HasValue)
+            {
+                model.Product = Context.Set<Product>()
+                    .SingleOrDefault(p => p.Identifier == item.ProductIdentifier.Value);
+                if (model.Product == null)
+                {
+                    throw new BadRequestException("Invalid product identifier");
+                }
+            }
+
+            Context.SaveChanges();
+
+            return Mapper.Map<AgreementItemForList>(model);
+        }
+
+        /// <summary>
+        /// Deletes a specific agreement item.
+        /// </summary>
+        /// <param name="agreementId">The identifier of the agreement.</param>
+        /// <param name="itemId">The identifier of the item to delete.</param>
+        /// <response code="404">No item is associated to the provided <paramref name="itemId"/>.</response>
+        [HttpDelete]
+        [AuthorizeRoles(Role.Client)]
+        [Route("{agreementId}/items/{itemId}")]
+        [Produces("application/json")]
+        public void DeleteItem([FromRoute] Guid agreementId, Guid itemId)
+        {
+            var agreement = Context.Set<Agreement>()
+                .SingleOrDefault(e => e.Identifier == agreementId);
+            if (agreement == null)
+            {
+                throw new NotFoundException("Unknown agreement");
+            }
+
+            var entity = Context.Set<AgreementItem>()
+                .SingleOrDefault(e => e.Identifier == itemId && e.Agreement == agreement);
+            if (entity == null)
+            {
+                throw new NotFoundException($"Not existing entity");
+            }
+
+            Context.Set<AgreementItem>().Remove(entity);
+            Context.SaveChanges();
         }
 
         /// <summary>
@@ -147,137 +287,6 @@ namespace Basic.WebApi.Controllers
 
                 model.Items.Add(modelItem);
             }
-        }
-
-        /// <summary>
-        /// Deletes a specific agreement.
-        /// </summary>
-        /// <param name="identifier">The identifier of the agreement to delete.</param>
-        /// <response code="404">No agreement is associated to the provided <paramref name="identifier"/>.</response>
-        [HttpDelete]
-        [Produces("application/json")]
-        [Route("{identifier}")]
-        public override void Delete(Guid identifier)
-        {
-            base.Delete(identifier);
-        }
-
-        /// <summary>
-        /// Creates a new agreement item.
-        /// </summary>
-        /// <param name="agreementId">The identifier of the agreement.</param>
-        /// <param name="item">The agreement item data.</param>
-        /// <returns>The agreement item data after creation.</returns>
-        /// <response code="400">The provided data are invalid.</response>
-        /// <response code="404">The <paramref name="agreementId"/> is not associated to any agreement.</response>
-        [HttpPost]
-        [Route("{agreementId}/items")]
-        [Produces("application/json")]
-        public AgreementItemForList PostItem([FromRoute] Guid agreementId, AgreementItemForEdit item)
-        {
-            var agreement = Context.Set<Agreement>().SingleOrDefault(e => e.Identifier == agreementId);
-            if (agreement == null)
-            {
-                throw new NotFoundException("Unknown agreement");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                throw new BadRequestException("Invalid data");
-            }
-
-            AgreementItem model = Mapper.Map<AgreementItem>(item);
-            model.Agreement = agreement;
-            if (item.ProductIdentifier.HasValue)
-            {
-                model.Product = Context.Set<Product>()
-                    .SingleOrDefault(p => p.Identifier == item.ProductIdentifier.Value);
-                if (model.Product == null)
-                {
-                    throw new BadRequestException("Invalid product identifier");
-                }
-            }
-
-            Context.Set<AgreementItem>().Add(model);
-            Context.SaveChanges();
-
-            return Mapper.Map<AgreementItemForList>(model);
-        }
-
-        /// <summary>
-        /// Updates an existing agreement item.
-        /// </summary>
-        /// <param name="agreementId">The identifier of the agreement.</param>
-        /// <param name="itemId">The identifier of the updated item.</param>
-        /// <param name="item">The agreement item data.</param>
-        /// <returns>The agreement item data after update.</returns>
-        /// <response code="400">The provided data are invalid.</response>
-        /// <response code="404">The <paramref name="agreementId"/> is not associated to any agreement.</response>
-        [HttpPut]
-        [Route("{agreementId}/items/{itemId}")]
-        [Produces("application/json")]
-        public AgreementItemForList PutItem([FromRoute] Guid agreementId, Guid itemId, AgreementItemForEdit item)
-        {
-            var agreement = Context.Set<Agreement>().SingleOrDefault(e => e.Identifier == agreementId);
-            if (agreement == null)
-            {
-                throw new NotFoundException("Unknown agreement");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                throw new BadRequestException("Invalid data");
-            }
-
-            var model = Context.Set<AgreementItem>().SingleOrDefault(e => e.Identifier == itemId && e.Agreement == agreement);
-            if (model == null)
-            {
-                throw new BadRequestException("Invalid item identifier");
-            }
-
-            Mapper.Map(item, model);
-            if (item.ProductIdentifier.HasValue)
-            {
-                model.Product = Context.Set<Product>()
-                    .SingleOrDefault(p => p.Identifier == item.ProductIdentifier.Value);
-                if (model.Product == null)
-                {
-                    throw new BadRequestException("Invalid product identifier");
-                }
-            }
-
-            Context.SaveChanges();
-
-            return Mapper.Map<AgreementItemForList>(model);
-        }
-
-        /// <summary>
-        /// Deletes a specific agreement item.
-        /// </summary>
-        /// <param name="agreementId">The identifier of the agreement.</param>
-        /// <param name="itemId">The identifier of the item to delete.</param>
-        /// <response code="404">No item is associated to the provided <paramref name="itemId"/>.</response>
-        [HttpDelete]
-        [Route("{agreementId}/items/{itemId}")]
-        [Produces("application/json")]
-        public void DeleteItem([FromRoute] Guid agreementId, Guid itemId)
-        {
-            var agreement = Context.Set<Agreement>()
-                .SingleOrDefault(e => e.Identifier == agreementId);
-            if (agreement == null)
-            {
-                throw new NotFoundException("Unknown agreement");
-            }
-
-            var entity = Context.Set<AgreementItem>()
-                .SingleOrDefault(e => e.Identifier == itemId && e.Agreement == agreement);
-            if (entity == null)
-            {
-                throw new NotFoundException($"Not existing entity");
-            }
-
-            Context.Set<AgreementItem>().Remove(entity);
-            Context.SaveChanges();
         }
 
         /// <summary>

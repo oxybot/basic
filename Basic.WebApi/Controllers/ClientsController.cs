@@ -2,6 +2,8 @@ using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
+using Basic.WebApi.Framework;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +13,7 @@ namespace Basic.WebApi.Controllers
     /// Provides API to retrieve and manage client data.
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class ClientsController : BaseModelController<Client, ClientForList, ClientForView, ClientForEdit>
     {
@@ -31,6 +34,7 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <returns>The list of clients.</returns>
         [HttpGet]
+        [AuthorizeRoles(Role.ClientRO, Role.Client)]
         [Produces("application/json")]
         public IEnumerable<ClientForList> GetAll()
         {
@@ -46,6 +50,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The detailed data about the client identified by <paramref name="identifier"/>.</returns>
         /// <response code="404">No client is associated to the provided <paramref name="identifier"/>.</response>
         [HttpGet]
+        [AuthorizeRoles(Role.ClientRO, Role.Client)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override ClientForView GetOne(Guid identifier)
@@ -60,6 +65,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The client data after creation.</returns>
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
+        [AuthorizeRoles(Role.Client)]
         [Produces("application/json")]
         public override ClientForList Post(ClientForEdit client)
         {
@@ -75,6 +81,7 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         /// <response code="404">No client is associated to the provided <paramref name="identifier"/>.</response>
         [HttpPut]
+        [AuthorizeRoles(Role.Client)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override ClientForList Put(Guid identifier, ClientForEdit client)
@@ -88,6 +95,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="identifier">The identifier of the client to delete.</param>
         /// <response code="404">No client is associated to the provided <paramref name="identifier"/>.</response>
         [HttpDelete]
+        [AuthorizeRoles(Role.Client)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override void Delete(Guid identifier)
@@ -101,6 +109,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="identifier">The identifier of the client.</param>
         /// <returns>The linked entities information.</returns>
         [HttpGet]
+        [AuthorizeRoles(Role.ClientRO, Role.Client)]
         [Produces("application/json")]
         [Route("{identifier}/links")]
         public ClientLinks GetLinks(Guid identifier)

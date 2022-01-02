@@ -2,6 +2,8 @@
 using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
+using Basic.WebApi.Framework;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basic.WebApi.Controllers
@@ -10,6 +12,7 @@ namespace Basic.WebApi.Controllers
     /// Provides API to retrieve and manage event category data.
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class EventCategoriesController : BaseModelController<EventCategory, EventCategoryForList, EventCategoryForList, EventCategoryForEdit>
     {
@@ -30,6 +33,7 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <returns>The list of categories.</returns>
         [HttpGet]
+        [AuthorizeRoles(Role.PeopleRO, Role.People)]
         [Produces("application/json")]
         public IEnumerable<EventCategoryForList> GetAll()
         {
@@ -45,6 +49,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The detailed data about the category identified by <paramref name="identifier"/>.</returns>
         /// <response code="404">No category is associated to the provided <paramref name="identifier"/>.</response>
         [HttpGet]
+        [AuthorizeRoles(Role.PeopleRO, Role.People)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override EventCategoryForList GetOne(Guid identifier)
@@ -59,6 +64,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The category data after creation.</returns>
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
+        [AuthorizeRoles(Role.People)]
         [Produces("application/json")]
         public override EventCategoryForList Post(EventCategoryForEdit category)
         {
@@ -74,6 +80,7 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         /// <response code="404">No category is associated to the provided <paramref name="identifier"/>.</response>
         [HttpPut]
+        [AuthorizeRoles(Role.People)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override EventCategoryForList Put(Guid identifier, EventCategoryForEdit category)
@@ -87,6 +94,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="identifier">The identifier of the category to delete.</param>
         /// <response code="404">No category is associated to the provided <paramref name="identifier"/>.</response>
         [HttpDelete]
+        [AuthorizeRoles(Role.People)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override void Delete(Guid identifier)

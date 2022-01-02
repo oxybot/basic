@@ -2,13 +2,19 @@
 using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
+using Basic.WebApi.Framework;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace Basic.WebApi.Controllers
 {
+    /// <summary>
+    /// Provides API to retrieve and manage users calendars.
+    /// </summary>
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class CalendarController : ControllerBase
     {
@@ -40,7 +46,13 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         protected ILogger Logger { get; }
 
+        /// <summary>
+        /// Gets all events to be displayed in the calendar of a specific month.
+        /// </summary>
+        /// <param name="month">The month of reference (format: YYYY-MM)</param>
+        /// <returns>The events to be displayed in the calendar.</returns>
         [HttpGet]
+        [AuthorizeRoles(Role.PeopleRO, Role.People)]
         [Produces("application/json")]
         public IEnumerable<UserCalendar> GetAll(string month)
         {

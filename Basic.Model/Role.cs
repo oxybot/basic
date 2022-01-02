@@ -17,6 +17,31 @@ namespace Basic.Model
         }
 
         /// <summary>
+        /// The right to view all data related to clients.
+        /// </summary>
+        public const string ClientRO = "client-ro";
+
+        /// <summary>
+        /// The right to view and manage all data related to clients.
+        /// </summary>
+        public const string Client = "client";
+
+        /// <summary>
+        /// The right to view people information.
+        /// </summary>
+        public const string PeopleRO = "people-ro";
+
+        /// <summary>
+        /// The right to view and manage people information.
+        /// </summary>
+        public const string People = "people";
+
+        /// <summary>
+        /// The right to view and manage the users.
+        /// </summary>
+        public const string User = "user";
+
+        /// <summary>
         /// Gets or sets the code of the role.
         /// </summary>
         [Required]

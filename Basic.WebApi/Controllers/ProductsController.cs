@@ -2,6 +2,8 @@
 using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
+using Basic.WebApi.Framework;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basic.WebApi.Controllers
@@ -10,6 +12,7 @@ namespace Basic.WebApi.Controllers
     /// Provides API to retrieve and manage products data.
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class ProductsController
         : BaseModelController<Product, ProductForList, ProductForView, ProductForEdit>
@@ -31,6 +34,7 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <returns>The list of products.</returns>
         [HttpGet]
+        [AuthorizeRoles(Role.ClientRO, Role.Client)]
         [Produces("application/json")]
         public IEnumerable<ProductForList> GetAll()
         {
@@ -46,6 +50,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The detailed data about the product identified by <paramref name="identifier"/>.</returns>
         /// <response code="404">No product is associated to the provided <paramref name="identifier"/>.</response>
         [HttpGet]
+        [AuthorizeRoles(Role.ClientRO, Role.Client)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override ProductForView GetOne(Guid identifier)
@@ -60,6 +65,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The product data after creation.</returns>
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
+        [AuthorizeRoles(Role.Client)]
         [Produces("application/json")]
         public override ProductForList Post(ProductForEdit product)
         {
@@ -75,6 +81,7 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         /// <response code="404">No product is associated to the provided <paramref name="identifier"/>.</response>
         [HttpPut]
+        [AuthorizeRoles(Role.Client)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override ProductForList Put(Guid identifier, ProductForEdit product)
@@ -88,6 +95,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="identifier">The identifier of the product to delete.</param>
         /// <response code="404">No product is associated to the provided <paramref name="identifier"/>.</response>
         [HttpDelete]
+        [AuthorizeRoles(Role.Client)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override void Delete(Guid identifier)
