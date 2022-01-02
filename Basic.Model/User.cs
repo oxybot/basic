@@ -24,10 +24,18 @@ namespace Basic.Model
         public string DisplayName { get; set; }
 
         /// <summary>
-        /// Gets or sets the user name of the user.
+        /// Gets or sets the username of the user.
         /// </summary>
         [Required]
-        public string UserName { get; set; }
+        public string Username { get; set; }
+
+        /// <summary>
+        /// Gets or sets the password of the user, if any.
+        /// </summary>
+        /// <remarks>
+        /// A user without a password can't connect to the application.
+        /// </remarks>
+        public string Password { get; set; }
 
         /// <summary>
         /// Gets or sets the title of the user.

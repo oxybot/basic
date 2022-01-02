@@ -2,6 +2,7 @@ using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ namespace Basic.WebApi.Controllers
     /// Provides API to retrieve and manage agreements data.
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class AgreementsController : BaseModelController<Agreement, AgreementForList, AgreementForView, AgreementForEdit>
     {
