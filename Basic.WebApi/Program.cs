@@ -27,10 +27,14 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
-        builder =>
+        policy =>
         {
-            builder
-                .WithOrigins("http://localhost:3000")
+            var origins = builder.Configuration["cors:origins"]
+                .Split(",")
+                .Select(i => i.Trim())
+                .ToArray();
+            policy
+                .WithOrigins(origins)
                 .WithHeaders("content-type")
                 .WithMethods("GET", "POST", "PUT", "DELETE");
         });
@@ -43,10 +47,11 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-    options.SaveToken = true;
+    options.SaveToken = false;
     options.RequireHttpsMetadata = false;
     options.TokenValidationParameters = new TokenValidationParameters()
     {
+        ClockSkew = new TimeSpan(0, 0, 10),
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateIssuerSigningKey = true,
