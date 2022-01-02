@@ -1,4 +1,4 @@
-﻿namespace Basic.WebApi.Controllers
+﻿namespace Basic.WebApi.Framework
 {
     /// <summary>
     /// Raises a <c>404</c> http error code.

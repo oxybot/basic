@@ -1,4 +1,4 @@
-﻿namespace Basic.WebApi.Controllers
+﻿namespace Basic.WebApi.Framework
 {
     /// <summary>
     /// Raises a <c>401 - Unauthorized</c> http error code.

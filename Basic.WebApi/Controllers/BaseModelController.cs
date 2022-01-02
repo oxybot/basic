@@ -2,6 +2,7 @@ using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
+using Basic.WebApi.Framework;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
