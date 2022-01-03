@@ -35,7 +35,7 @@ builder.Services.AddCors(options =>
                 .ToArray();
             policy
                 .WithOrigins(origins)
-                .WithHeaders("content-type")
+                .WithHeaders("content-type", "authorization")
                 .WithMethods("GET", "POST", "PUT", "DELETE");
         });
 });
