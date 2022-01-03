@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { apiUrl } from "../api";
+import { apiFetch, apiUrl } from "../api";
 import LayoutTheme from "../LayoutTheme";
-import { connect } from "./slice";
+import { connect, setRoles, setUser } from "./slice";
 
 export function SignIn() {
   const dispatch = useDispatch();
@@ -36,7 +36,10 @@ export function SignIn() {
         }
       } else {
         response.json().then((response) => {
+          window.cookieStore.set("access-token", response.accessToken);
           dispatch(connect(response));
+          apiFetch("Users/me", { method: "GET" }).then((response) => dispatch(setUser(response)));
+          apiFetch("Roles/mine", { method: "GET" }).then((response) => dispatch(setRoles(response)));
         });
       }
     });

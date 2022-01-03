@@ -45,9 +45,12 @@ export function useDefinition(type, transform = defaultTransform) {
   return definition;
 }
 
-export function apiFetch(url, options) {
+export async function apiFetch(url, options) {
   const uri = typeof url === "string" ? apiUrl(url) : url;
-  return retries(() => fetch(apiUrl(uri), options)).then((response) => {
+  const tokenCookie = await window.cookieStore.get("access-token");
+  const token = tokenCookie.value;
+  const connectedOptions = { ...options, headers: { ...options.headers, Authorization: "Bearer " + token } };
+  return retries(() => fetch(apiUrl(uri), connectedOptions)).then((response) => {
     if (response.ok) {
       return response.json();
     } else {
