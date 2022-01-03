@@ -58,7 +58,7 @@ export default function LayoutMenu() {
                   aria-label="Open user menu"
                 >
                   <span className="avatar avatar-sm">
-                    <img src={`data:${user.avatar.mimeType};base64,${user.avatar.data}`} />
+                    <img src={`data:${user.avatar.mimeType};base64,${user.avatar.data}`} alt="" />
                   </span>
                   <div className="ps-2 flex-fill text-start">
                     <div>{user.displayName}</div>
