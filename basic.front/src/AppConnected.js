@@ -8,6 +8,7 @@ import { EventEdit, EventList, EventNew, EventView } from "./Events";
 import { EventCategoryEdit, EventCategoryList, EventCategoryNew } from "./EventCategories";
 import Layout from "./Layout";
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
+import { ProfileView } from "./Profile";
 import Settings from "./Settings";
 import { UserEdit, UserList, UserNew, UserView } from "./Users";
 
@@ -26,6 +27,9 @@ export default function App() {
             <Route path="new" element={<EventCategoryNew />} />
           </Route>
         </Route>
+
+        {/* Profile*/}
+        <Route path="/profile" element={<ProfileView />} />
 
         {/* Clients */}
         <Route path="/client/:clientId" element={<ClientView full />} />

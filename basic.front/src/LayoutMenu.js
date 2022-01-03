@@ -9,10 +9,14 @@ import {
   IconChartArrows,
   IconSunset,
 } from "@tabler/icons";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { authenticationState } from "./Authentication";
 import LayoutTheme from "./LayoutTheme";
 
 export default function LayoutMenu() {
+  const { user } = useSelector(authenticationState);
+
   function closeMenu(event) {
     if (window.bootstrap) {
       var menu = window.bootstrap.Offcanvas.getInstance("#offcanvas-menu");
@@ -53,20 +57,22 @@ export default function LayoutMenu() {
                   data-bs-target="#menu-user"
                   aria-label="Open user menu"
                 >
-                  <span className="avatar avatar-sm" style={{ backgroundImage: "url(/logo192.png)" }}></span>
+                  <span className="avatar avatar-sm">
+                    <img src={`data:${user.avatar.mimeType};base64,${user.avatar.data}`} />
+                  </span>
                   <div className="ps-2 flex-fill text-start">
-                    <div>Ano Nymous</div>
-                    <div className="mt-1 small text-muted">UX Designer</div>
+                    <div>{user.displayName}</div>
+                    <div className="mt-1 small text-muted">{user.title}</div>
                   </div>
                 </button>
                 <ul id="menu-user" className="navbar-nav collapse">
                   <li className="nav-item">
-                    <NavLink to="/account" end className="nav-link justify-content-start" onClick={closeMenu}>
+                    <NavLink to="/profile" end className="nav-link justify-content-start" onClick={closeMenu}>
                       Profile &amp; account
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="/account/logout" className="nav-link justify-content-start" onClick={closeMenu}>
+                    <NavLink to="/profile/logout" className="nav-link justify-content-start" onClick={closeMenu}>
                       Logout
                     </NavLink>
                   </li>
