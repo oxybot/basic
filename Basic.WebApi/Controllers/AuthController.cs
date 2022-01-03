@@ -79,6 +79,35 @@ namespace Basic.WebApi.Controllers
             };
         }
 
+        /// <summary>
+        /// Renew the access token.
+        /// </summary>
+        /// <returns>The JWT token to be used for this connection.</returns>
+        [HttpPost]
+        [Authorize]
+        [Produces("application/json")]
+        [Route("renew")]
+        public AuthResult Renew()
+        {
+            var userIdClaim = this.User.Claims.SingleOrDefault(c => c.Type == "sid:guid");
+            var userId = Guid.Parse(userIdClaim.Value);
+            var user = Context.Set<User>()
+                .Include(u => u.Roles)
+                .SingleOrDefault(u => u.Password != null && u.Identifier == userId);
+
+            if (user == null)
+            {
+                throw new UnauthorizedRequestException();
+            }
+
+            var token = BuildJWTToken(user);
+            return new AuthResult()
+            {
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                ExpireIn = Convert.ToInt32(Configuration["JwtToken:ExpireIn"]),
+            };
+        }
+
         private JwtSecurityToken BuildJWTToken(User user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtToken:SecretKey"]));
