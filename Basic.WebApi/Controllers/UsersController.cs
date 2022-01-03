@@ -58,6 +58,21 @@ namespace Basic.WebApi.Controllers
         }
 
         /// <summary>
+        /// Retrieves the connected user data.
+        /// </summary>
+        /// <returns>The detailed data about the connected user.</returns>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [Route("me")]
+        public UserForView GetMe()
+        {
+            var userIdClaim = this.User.Claims.SingleOrDefault(c => c.Type == "sid:guid");
+            var userId = Guid.Parse(userIdClaim.Value);
+            return base.GetOne(userId);
+        }
+
+        /// <summary>
         /// Creates a new user.
         /// </summary>
         /// <param name="user">The user data.</param>

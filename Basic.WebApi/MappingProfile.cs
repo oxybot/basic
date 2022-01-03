@@ -68,6 +68,8 @@ namespace Basic.WebApi
             CreateMap<Product, ProductForView>();
             CreateMap<Product, ProductForEdit>().ReverseMap();
 
+            CreateMap<Role, RoleForList>();
+
             CreateMap<User, UserForList>();
             CreateMap<User, UserForView>();
             CreateMap<User, UserForEdit>().ReverseMap();
