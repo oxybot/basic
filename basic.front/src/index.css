@@ -26,6 +26,10 @@ input.form-control.required {
   line-height: 1.6;
 }
 
+.form-check-label {
+  color: #626976;
+}
+
 body {
   background-color: #f8fafc;
 }
@@ -172,7 +176,7 @@ body {
 }
 
 /* Logo of the application */
-@import url("https://fonts.googleapis.com/css2?family=Megrim&text=B");
+@import url("https://fonts.googleapis.com/css2?family=Megrim&text=BASICbasic");
 
 .basic-logo {
   display: inline-flex;
@@ -187,6 +191,16 @@ body {
   border: 1px solid transparent;
   justify-content: center;
   align-items: center;
+}
+
+.basic-text {
+  font-family: "Megrim";
+  color: #206bc4;
+  letter-spacing: .2rem;
+}
+
+.theme-dark .basic-text {
+  color: #ffffff;
 }
 
 .basic-title {
