@@ -2,7 +2,7 @@ import { IconPlus, IconMinus } from "@tabler/icons";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiUrl, retries, useDefinition } from "../api";
+import { apiFetch, retries, useDefinition } from "../api";
 import EntityFieldEdit from "../Generic/EntityFieldEdit";
 import EntityForm from "../Generic/EntityForm";
 import { refresh } from "./slice";
@@ -39,7 +39,7 @@ export function AgreementEdit({ full = false }) {
   }, []);
 
   useEffect(() => {
-    retries(() => apiFetch(apiUrl("Agreements", agreementId), { method: "GET" }))
+    retries(() => apiFetch(["Agreements", agreementId], { method: "GET" }))
       .then((response) => {
         setEntity(transform(response));
       })
@@ -55,7 +55,7 @@ export function AgreementEdit({ full = false }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setValidated(true);
-    apiFetch(apiUrl("Agreements", agreementId), {
+    apiFetch(["Agreements", agreementId], {
       method: "PUT",
       body: JSON.stringify(entity),
     })
