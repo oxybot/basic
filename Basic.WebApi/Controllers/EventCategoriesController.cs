@@ -94,7 +94,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="identifier">The identifier of the category to delete.</param>
         /// <response code="404">No category is associated to the provided <paramref name="identifier"/>.</response>
         [HttpDelete]
-        [AuthorizeRoles(Role.People)]
+        [AuthorizeRoles(Role.Time)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override void Delete(Guid identifier)
