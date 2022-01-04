@@ -26,7 +26,7 @@ namespace Basic.DataAccess
                 builder.Entity(type);
             }
 
-            builder.Entity<Role>().HasData(new[]
+            var roles = new[]
             {
                 new Role()
                 {
@@ -53,7 +53,26 @@ namespace Basic.DataAccess
                     Identifier = new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"),
                     Code = Role.User,
                 },
-            });
+            };
+            builder.Entity<Role>().HasData(roles);
+
+            var demoUser = new User()
+            {
+                Identifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5"),
+                Username = "demo",
+                Password = "demo",
+                DisplayName = "John Doe",
+                Title = "User Group Evangelist",
+            };
+
+            builder.Entity<User>()
+                .HasData(demoUser);
+
+            foreach (var role in roles)
+            {
+                builder.Entity("RoleUser")
+                    .HasData(new { RolesIdentifier = role.Identifier, UsersIdentifier = demoUser.Identifier });
+            }
 
             // Define conventions
             builder.Properties().Where(p => p.ClrType == typeof(decimal))
