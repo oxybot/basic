@@ -41,12 +41,12 @@ namespace Basic.DataAccess
                 new Role()
                 {
                     Identifier = new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"),
-                    Code = Role.PeopleRO,
+                    Code = Role.TimeRO,
                 },
                 new Role()
                 {
                     Identifier = new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"),
-                    Code = Role.People,
+                    Code = Role.Time,
                 },
                 new Role()
                 {

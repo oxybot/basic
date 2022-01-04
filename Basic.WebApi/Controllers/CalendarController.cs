@@ -52,7 +52,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="month">The month of reference (format: YYYY-MM)</param>
         /// <returns>The events to be displayed in the calendar.</returns>
         [HttpGet]
-        [AuthorizeRoles(Role.PeopleRO, Role.People)]
+        [AuthorizeRoles(Role.TimeRO, Role.Time)]
         [Produces("application/json")]
         public IEnumerable<UserCalendar> GetAll(string month)
         {

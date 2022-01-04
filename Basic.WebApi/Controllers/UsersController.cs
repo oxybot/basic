@@ -33,7 +33,7 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <returns>The list of users.</returns>
         [HttpGet]
-        [AuthorizeRoles(Role.PeopleRO, Role.People, Role.User)]
+        [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
         public IEnumerable<UserForList> GetAll()
         {
@@ -49,7 +49,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The detailed data about the user identified by <paramref name="identifier"/>.</returns>
         /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
         [HttpGet]
-        [AuthorizeRoles(Role.PeopleRO, Role.People, Role.User)]
+        [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override UserForView GetOne(Guid identifier)

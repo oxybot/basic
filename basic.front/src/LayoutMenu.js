@@ -11,11 +11,12 @@ import {
 } from "@tabler/icons";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { authenticationState } from "./Authentication";
+import { authenticationState, useInRole } from "./Authentication";
 import LayoutTheme from "./LayoutTheme";
 
 export default function LayoutMenu() {
   const { user } = useSelector(authenticationState);
+  const isInrole = useInRole();
 
   function closeMenu(event) {
     if (window.bootstrap) {
@@ -92,81 +93,93 @@ export default function LayoutMenu() {
               </li>
             </ul>
             {/* Client */}
-            <hr className="my-2" />
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <NavLink className="nav-link justify-content-start" to="/clients" onClick={closeMenu}>
-                  <span className="nav-link-icon">
-                    <IconConfetti />
-                  </span>
-                  <span className="nav-link-title">Clients</span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link justify-content-start" to="/products" onClick={closeMenu}>
-                  <span className="nav-link-icon">
-                    <IconPackage />
-                  </span>
-                  <span className="nav-link-title">Products</span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link justify-content-start" to="/agreements" onClick={closeMenu}>
-                  <span className="nav-link-icon">
-                    <IconNotebook />
-                  </span>
-                  <span className="nav-link-title">Agreements</span>
-                </NavLink>
-              </li>
-            </ul>
+            {isInrole("client", "client-ro") && (
+              <>
+                <hr className="my-2" />
+                <ul className="navbar-nav">
+                  <li className="nav-item">
+                    <NavLink className="nav-link justify-content-start" to="/clients" onClick={closeMenu}>
+                      <span className="nav-link-icon">
+                        <IconConfetti />
+                      </span>
+                      <span className="nav-link-title">Clients</span>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link justify-content-start" to="/products" onClick={closeMenu}>
+                      <span className="nav-link-icon">
+                        <IconPackage />
+                      </span>
+                      <span className="nav-link-title">Products</span>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link justify-content-start" to="/agreements" onClick={closeMenu}>
+                      <span className="nav-link-icon">
+                        <IconNotebook />
+                      </span>
+                      <span className="nav-link-title">Agreements</span>
+                    </NavLink>
+                  </li>
+                </ul>
+              </>
+            )}
             {/* User */}
-            <hr className="my-2" />
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <NavLink className="nav-link justify-content-start" to="/users" onClick={closeMenu}>
-                  <span className="nav-link-icon">
-                    <IconFriends />
-                  </span>
-                  <span className="nav-link-title">People</span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link justify-content-start" to="/calendar" onClick={closeMenu}>
-                  <span className="nav-link-icon">
-                    <IconCalendarEvent />
-                  </span>
-                  <span className="nav-link-title">Calendar</span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link justify-content-start" to="/balances" onClick={closeMenu}>
-                  <span className="nav-link-icon">
-                    <IconChartArrows />
-                  </span>
-                  <span className="nav-link-title">Balances</span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link justify-content-start" to="/events" onClick={closeMenu}>
-                  <span className="nav-link-icon">
-                    <IconSunset />
-                  </span>
-                  <span className="nav-link-title">Events</span>
-                </NavLink>
-              </li>
-            </ul>
+            {isInrole("time", "time-ro", "user") && (
+              <>
+                <hr className="my-2" />
+                <ul className="navbar-nav">
+                  <li className="nav-item">
+                    <NavLink className="nav-link justify-content-start" to="/users" onClick={closeMenu}>
+                      <span className="nav-link-icon">
+                        <IconFriends />
+                      </span>
+                      <span className="nav-link-title">People</span>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link justify-content-start" to="/calendar" onClick={closeMenu}>
+                      <span className="nav-link-icon">
+                        <IconCalendarEvent />
+                      </span>
+                      <span className="nav-link-title">Calendar</span>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link justify-content-start" to="/balances" onClick={closeMenu}>
+                      <span className="nav-link-icon">
+                        <IconChartArrows />
+                      </span>
+                      <span className="nav-link-title">Balances</span>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link justify-content-start" to="/events" onClick={closeMenu}>
+                      <span className="nav-link-icon">
+                        <IconSunset />
+                      </span>
+                      <span className="nav-link-title">Events</span>
+                    </NavLink>
+                  </li>
+                </ul>
+              </>
+            )}
             {/* Settings */}
-            <hr className="my-2" />
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <NavLink className="nav-link justify-content-start" to="/settings" onClick={closeMenu}>
-                  <span className="nav-link-icon">
-                    <IconSettings />
-                  </span>
-                  <span className="nav-link-title">Settings</span>
-                </NavLink>
-              </li>
-            </ul>
+            {isInrole("time", "time-ro") && (
+              <>
+                <hr className="my-2" />
+                <ul className="navbar-nav">
+                  <li className="nav-item">
+                    <NavLink className="nav-link justify-content-start" to="/settings" onClick={closeMenu}>
+                      <span className="nav-link-icon">
+                        <IconSettings />
+                      </span>
+                      <span className="nav-link-title">Settings</span>
+                    </NavLink>
+                  </li>
+                </ul>
+              </>
+            )}
           </div>
         </div>
       </div>

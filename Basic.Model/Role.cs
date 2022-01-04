@@ -27,14 +27,14 @@ namespace Basic.Model
         public const string Client = "client";
 
         /// <summary>
-        /// The right to view people information.
+        /// The right to view time management information.
         /// </summary>
-        public const string PeopleRO = "people-ro";
+        public const string TimeRO = "time-ro";
 
         /// <summary>
-        /// The right to view and manage people information.
+        /// The right to view and manage time management information.
         /// </summary>
-        public const string People = "people";
+        public const string Time = "time";
 
         /// <summary>
         /// The right to view and manage the users.

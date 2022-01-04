@@ -33,7 +33,7 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <returns>The list of balances.</returns>
         [HttpGet]
-        [AuthorizeRoles(Role.PeopleRO, Role.People)]
+        [AuthorizeRoles(Role.TimeRO, Role.Time)]
         [Produces("application/json")]
         public IEnumerable<BalanceForList> GetAll()
         {
@@ -49,7 +49,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The detailed data about the balance identified by <paramref name="identifier"/>.</returns>
         /// <response code="404">No balance is associated to the provided <paramref name="identifier"/>.</response>
         [HttpGet]
-        [AuthorizeRoles(Role.PeopleRO, Role.People)]
+        [AuthorizeRoles(Role.TimeRO, Role.Time)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override BalanceForList GetOne(Guid identifier)
@@ -64,7 +64,7 @@ namespace Basic.WebApi.Controllers
         /// <returns>The balance data after creation.</returns>
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
-        [AuthorizeRoles(Role.People)]
+        [AuthorizeRoles(Role.Time)]
         [Produces("application/json")]
         public override BalanceForList Post(BalanceForEdit balance)
         {
@@ -80,7 +80,7 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         /// <response code="404">No balance is associated to the provided <paramref name="identifier"/>.</response>
         [HttpPut]
-        [AuthorizeRoles(Role.People)]
+        [AuthorizeRoles(Role.Time)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override BalanceForList Put(Guid identifier, BalanceForEdit balance)
@@ -94,7 +94,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="identifier">The identifier of the balance to delete.</param>
         /// <response code="404">No balance is associated to the provided <paramref name="identifier"/>.</response>
         [HttpDelete]
-        [AuthorizeRoles(Role.People)]
+        [AuthorizeRoles(Role.Time)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override void Delete(Guid identifier)
