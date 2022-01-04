@@ -22,6 +22,13 @@ export function ProductList() {
   }, [dispatch]);
 
   return (
-    <PageList definition={definition} loading={loading} elements={elements} selectedId={productId} texts={texts} />
+    <PageList
+      definition={definition}
+      loading={loading}
+      elements={elements}
+      selectedId={productId}
+      texts={texts}
+      newRole="client"
+    />
   );
 }

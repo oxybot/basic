@@ -21,6 +21,13 @@ export function EventCategoryList() {
   }, [dispatch]);
 
   return (
-    <PageList definition={definition} loading={loading} elements={elements} selectedId={categoryId} texts={texts} />
+    <PageList
+      definition={definition}
+      loading={loading}
+      elements={elements}
+      selectedId={categoryId}
+      texts={texts}
+      newRole="time"
+    />
   );
 }

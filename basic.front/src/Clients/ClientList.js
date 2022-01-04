@@ -20,5 +20,14 @@ export function ClientList() {
     return () => dispatch(disconnect());
   }, [dispatch]);
 
-  return <PageList definition={definition} loading={loading} elements={elements} selectedId={clientId} texts={texts} />;
+  return (
+    <PageList
+      definition={definition}
+      loading={loading}
+      elements={elements}
+      selectedId={clientId}
+      texts={texts}
+      newRole="client"
+    />
+  );
 }

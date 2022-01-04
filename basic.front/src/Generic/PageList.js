@@ -1,11 +1,13 @@
 import { IconPlus, IconSearch } from "@tabler/icons";
 import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";
+import { useInRole } from "../Authentication";
 import EntityList from "./EntityList";
 import MobilePageTitle from "./MobilePageTitle";
 
-export default function PageList({ definition, loading, elements, selectedId, texts }) {
+export default function PageList({ definition, loading, elements, selectedId, texts, newRole = null }) {
   const outlet = useOutlet();
+  const isInRole = useInRole();
 
   return (
     <div className="container-xl">
@@ -13,9 +15,11 @@ export default function PageList({ definition, loading, elements, selectedId, te
         <div className={outlet ? "d-none d-lg-block col-lg-6" : "col-12"}>
           <MobilePageTitle>
             <div className="navbar-brand flex-fill">{texts.title}</div>
-            <Link to="new" className="btn btn-primary btn-icon" aria-label={texts.add}>
-              <IconPlus />
-            </Link>
+            {isInRole(newRole) && (
+              <Link to="new" className="btn btn-primary btn-icon" aria-label={texts.add}>
+                <IconPlus />
+              </Link>
+            )}
           </MobilePageTitle>
           <div className="page-header d-none d-lg-block">
             <div className="row align-items-center">
@@ -27,21 +31,23 @@ export default function PageList({ definition, loading, elements, selectedId, te
               </div>
               <div className="col-auto ms-auto d-print-none">
                 <div className="d-flex">
-                  <div className="me-3">
-                    <div className="input-icon">
-                      <input type="text" className="form-control" placeholder="Search&hellip;" />
-                      <span className="input-icon-addon">
-                        <IconSearch />
-                      </span>
-                    </div>
+                  <div className="input-icon">
+                    <input type="text" className="form-control" placeholder="Search&hellip;" />
+                    <span className="input-icon-addon">
+                      <IconSearch />
+                    </span>
                   </div>
-                  <Link to="new" className="btn btn-primary d-none d-md-block">
-                    <IconPlus />
-                    {texts.add}
-                  </Link>
-                  <Link to="new" className="btn btn-primary btn-icon d-md-none" aria-label={texts.add}>
-                    <IconPlus />
-                  </Link>
+                  {isInRole(newRole) && (
+                    <>
+                      <Link to="new" className="ms-3 btn btn-primary d-none d-md-block">
+                        <IconPlus />
+                        {texts.add}
+                      </Link>
+                      <Link to="new" className="ms-3 btn btn-primary btn-icon d-md-none" aria-label={texts.add}>
+                        <IconPlus />
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

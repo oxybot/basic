@@ -21,6 +21,13 @@ export function BalanceList() {
   }, [dispatch]);
 
   return (
-    <PageList definition={definition} loading={loading} elements={elements} selectedId={balanceId} texts={texts} />
+    <PageList
+      definition={definition}
+      loading={loading}
+      elements={elements}
+      selectedId={balanceId}
+      texts={texts}
+      newRole="time"
+    />
   );
 }

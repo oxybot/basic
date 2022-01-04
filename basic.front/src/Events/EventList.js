@@ -21,5 +21,14 @@ export function EventList() {
     return () => dispatch(disconnect());
   }, [dispatch]);
 
-  return <PageList definition={definition} loading={loading} elements={elements} selectedId={eventId} texts={texts} />;
+  return (
+    <PageList
+      definition={definition}
+      loading={loading}
+      elements={elements}
+      selectedId={eventId}
+      texts={texts}
+      newRole="time"
+    />
+  );
 }

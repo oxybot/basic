@@ -20,5 +20,14 @@ export function UserList() {
     return () => dispatch(disconnect());
   }, [dispatch]);
 
-  return <PageList definition={definition} loading={loading} elements={elements} selectedId={userId} texts={texts} />;
+  return (
+    <PageList
+      definition={definition}
+      loading={loading}
+      elements={elements}
+      selectedId={userId}
+      texts={texts}
+      newRole="user"
+    />
+  );
 }

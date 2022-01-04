@@ -22,6 +22,13 @@ export function AgreementList() {
   }, [dispatch]);
 
   return (
-    <PageList definition={definition} loading={loading} elements={elements} selectedId={agreementId} texts={texts} />
+    <PageList
+      definition={definition}
+      loading={loading}
+      elements={elements}
+      selectedId={agreementId}
+      texts={texts}
+      newRole="client"
+    />
   );
 }
