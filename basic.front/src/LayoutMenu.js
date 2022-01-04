@@ -59,7 +59,7 @@ export default function LayoutMenu() {
                   aria-label="Open user menu"
                 >
                   <span className="avatar avatar-sm">
-                    <img src={`data:${user.avatar.mimeType};base64,${user.avatar.data}`} alt="" />
+                    {user.avatar && <img src={`data:${user.avatar.mimeType};base64,${user.avatar.data}`} alt="" />}
                   </span>
                   <div className="ps-2 flex-fill text-start">
                     <div>{user.displayName}</div>
@@ -137,30 +137,34 @@ export default function LayoutMenu() {
                       <span className="nav-link-title">People</span>
                     </NavLink>
                   </li>
-                  <li className="nav-item">
-                    <NavLink className="nav-link justify-content-start" to="/calendar" onClick={closeMenu}>
-                      <span className="nav-link-icon">
-                        <IconCalendarEvent />
-                      </span>
-                      <span className="nav-link-title">Calendar</span>
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink className="nav-link justify-content-start" to="/balances" onClick={closeMenu}>
-                      <span className="nav-link-icon">
-                        <IconChartArrows />
-                      </span>
-                      <span className="nav-link-title">Balances</span>
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink className="nav-link justify-content-start" to="/events" onClick={closeMenu}>
-                      <span className="nav-link-icon">
-                        <IconSunset />
-                      </span>
-                      <span className="nav-link-title">Events</span>
-                    </NavLink>
-                  </li>
+                  {isInrole("time", "time-ro") && (
+                    <>
+                      <li className="nav-item">
+                        <NavLink className="nav-link justify-content-start" to="/calendar" onClick={closeMenu}>
+                          <span className="nav-link-icon">
+                            <IconCalendarEvent />
+                          </span>
+                          <span className="nav-link-title">Calendar</span>
+                        </NavLink>
+                      </li>
+                      <li className="nav-item">
+                        <NavLink className="nav-link justify-content-start" to="/balances" onClick={closeMenu}>
+                          <span className="nav-link-icon">
+                            <IconChartArrows />
+                          </span>
+                          <span className="nav-link-title">Balances</span>
+                        </NavLink>
+                      </li>
+                      <li className="nav-item">
+                        <NavLink className="nav-link justify-content-start" to="/events" onClick={closeMenu}>
+                          <span className="nav-link-icon">
+                            <IconSunset />
+                          </span>
+                          <span className="nav-link-title">Events</span>
+                        </NavLink>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </>
             )}
