@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { apiUrl, useApiFetch, useDefinition } from "../api";
+import { useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
@@ -13,7 +13,7 @@ function ProductViewDetail({ entity }) {
 export function ProductView({ backTo = null, full = false }) {
   const { productId } = useParams();
   const get = { method: "GET" };
-  const [, entity] = useApiFetch(apiUrl("Products", productId), get, {});
+  const [, entity] = useApiFetch(["Products", productId], get, {});
 
   return (
     <PageView backTo={backTo} full={full} entity={entity}>

@@ -23,7 +23,11 @@ export function retries(operation, delay = 300, calls = 2) {
 const rootApiUrl = "https://localhost:7268";
 
 export function apiUrl(...relative) {
-  return new URL(relative.join("/"), rootApiUrl);
+  if (relative.length === 1 && Array.isArray(relative[0])) {
+    return new URL(relative[0].join("/"), rootApiUrl);
+  } else {
+    return new URL(relative.join("/"), rootApiUrl);
+  }
 }
 
 export function getDefinition(type) {

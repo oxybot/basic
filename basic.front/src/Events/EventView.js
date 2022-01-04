@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { apiUrl, useApiFetch, useDefinition } from "../api";
+import { useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import PageView from "../Generic/PageView";
 import Sections from "../Generic/Sections";
@@ -13,7 +13,7 @@ function EventViewDetail({ entity }) {
 export function EventView({ backTo = null, full = false }) {
   const { eventId } = useParams();
   const get = { method: "GET" };
-  const [, entity] = useApiFetch(apiUrl("Events", eventId), get, {});
+  const [, entity] = useApiFetch(["Events", eventId], get, {});
 
   return (
     <PageView backTo={backTo} full={full} entity={entity}>

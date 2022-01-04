@@ -1,6 +1,6 @@
 import pluralize from "pluralize";
 import { useParams } from "react-router-dom";
-import { apiUrl, useApiFetch, useDefinition } from "../api";
+import { useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import EntityField from "../Generic/EntityField";
 import PageView from "../Generic/PageView";
@@ -61,7 +61,7 @@ function AgreementViewDetail({ entity }) {
 
 export function AgreementView({ backTo = null, full = false }) {
   const { agreementId } = useParams();
-  const [, entity] = useApiFetch(apiUrl("Agreements", agreementId), { method: "GET" }, {});
+  const [, entity] = useApiFetch(["Agreements", agreementId], { method: "GET" }, {});
 
   return (
     <PageView backTo={backTo} full={full} entity={entity} title={entity.title}>
