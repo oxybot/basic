@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiUrl, retries } from "../api";
+import { apiFetch, apiUrl, retries } from "../api";
 import EntityForm from "./EntityForm";
 
 const defaultTransform = (e) => e;
@@ -21,12 +21,9 @@ export default function PageEdit({
   texts["form-action"] = "Update";
 
   useEffect(() => {
-    retries(() => fetch(apiUrl(baseApiUrl, entityId), { method: "GET" }))
-      .then((response) => response.json())
-      .then((response) => {
-        setEntity(transform(response));
-      })
-      .catch((err) => console.log(err));
+    apiFetch(apiUrl(baseApiUrl, entityId), { method: "GET" }).then((response) => {
+      setEntity(transform(response));
+    });
   }, [baseApiUrl, entityId, transform]);
 
   const handleChange = (event) => {
@@ -38,21 +35,13 @@ export default function PageEdit({
   const handleSubmit = (event) => {
     event.preventDefault();
     setValidated(true);
-    fetch(apiUrl(baseApiUrl, entityId), {
+    apiFetch(apiUrl(baseApiUrl, entityId), {
       method: "PUT",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-      },
       body: JSON.stringify(entity),
     })
-      .then((response) => {
-        if (response.ok) {
-          navigate("./..");
-          onUpdate();
-        } else {
-          throw new Error(response);
-        }
+      .then(() => {
+        navigate("./..");
+        onUpdate();
       })
       .catch((err) => {
         console.error(err);

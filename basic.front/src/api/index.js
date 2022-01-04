@@ -27,7 +27,12 @@ export function apiUrl(...relative) {
 }
 
 export function getDefinition(type) {
-  return retries(() => fetch(apiUrl("Definitions", type), { method: "GET" })).then((response) => response.json());
+  return retries(() =>
+    fetch(apiUrl("Definitions", type), {
+      method: "GET",
+      headers: { "content-type": "application/json", accept: "application/json" },
+    })
+  ).then((response) => response.json());
 }
 
 const defaultTransform = (e) => e;
@@ -49,7 +54,16 @@ export async function apiFetch(url, options) {
   const uri = typeof url === "string" ? apiUrl(url) : url;
   const tokenCookie = await window.cookieStore.get("access-token");
   const token = tokenCookie.value;
-  const connectedOptions = { ...options, headers: { ...options.headers, Authorization: "Bearer " + token } };
+  const headers = options.headers || {};
+  const connectedOptions = {
+    ...options,
+    headers: {
+      ...headers,
+      "content-type": "application/json",
+      accept: "application/json",
+      authorization: "Bearer " + token,
+    },
+  };
   return retries(() => fetch(apiUrl(uri), connectedOptions)).then((response) => {
     if (response.ok) {
       return response.json();

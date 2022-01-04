@@ -39,8 +39,7 @@ export function AgreementEdit({ full = false }) {
   }, []);
 
   useEffect(() => {
-    retries(() => fetch(apiUrl("Agreements", agreementId), { method: "GET" }))
-      .then((response) => response.json())
+    retries(() => apiFetch(apiUrl("Agreements", agreementId), { method: "GET" }))
       .then((response) => {
         setEntity(transform(response));
       })
@@ -56,21 +55,13 @@ export function AgreementEdit({ full = false }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setValidated(true);
-    fetch(apiUrl("Agreements", agreementId), {
+    apiFetch(apiUrl("Agreements", agreementId), {
       method: "PUT",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-      },
       body: JSON.stringify(entity),
     })
       .then((response) => {
-        if (response.ok) {
-          navigate("./..");
-          dispatch(refresh());
-        } else {
-          throw new Error(response);
-        }
+        navigate("./..");
+        dispatch(refresh());
       })
       .catch((err) => {
         console.error(err);

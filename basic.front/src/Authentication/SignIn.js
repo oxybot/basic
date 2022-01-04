@@ -26,7 +26,11 @@ export function SignIn() {
       } else {
         const response = await fetch(apiUrl("Auth/renew"), {
           method: "POST",
-          headers: { authorization: "Bearer " + cookie.value },
+          headers: {
+            "content-type": "application/json",
+            accept: "application/json",
+            authorization: "Bearer " + cookie.value,
+          },
         });
         if (!response.ok) {
           // previous connection invalid

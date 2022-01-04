@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiUrl } from "../api";
+import { apiFetch, apiUrl } from "../api";
 import EntityForm from "./EntityForm";
 
 const defaultOnCreate = () => {};
@@ -20,21 +20,13 @@ export default function PageNew({ definition, baseApiUrl, texts, onCreate = defa
   const handleSubmit = (event) => {
     event.preventDefault();
     setValidated(true);
-    fetch(apiUrl(baseApiUrl), {
+    apiFetch(apiUrl(baseApiUrl), {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-      },
       body: JSON.stringify(entity),
     })
-      .then((response) => {
-        if (response.ok) {
-          navigate("./..");
-          onCreate();
-        } else {
-          throw new Error(response);
-        }
+      .then(() => {
+        navigate("./..");
+        onCreate();
       })
       .catch((err) => {
         console.error(err);
