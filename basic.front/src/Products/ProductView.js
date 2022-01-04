@@ -16,7 +16,7 @@ export function ProductView({ backTo = null, full = false }) {
   const [, entity] = useApiFetch(["Products", productId], get, {});
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity}>
+    <PageView backTo={backTo} full={full} entity={entity} editRole="client">
       <Sections>
         <Section code="detail" element={<ProductViewDetail entity={entity} />}>
           Detail

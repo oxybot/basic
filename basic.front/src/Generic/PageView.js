@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
+import { useInRole } from "../Authentication";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import clsx from "clsx";
 
-export default function PageView({ backTo = null, entity, full = false, title = null, children }) {
+export default function PageView({ backTo = null, entity, full = false, title = null, editRole = null, children }) {
+  const isInRole = useInRole();
+
   if (title === null) {
     title = entity.displayName;
   }
@@ -12,9 +15,11 @@ export default function PageView({ backTo = null, entity, full = false, title = 
     <div className={clsx({ "container-xl": full })}>
       <MobilePageTitle back={backTo}>
         <div className="navbar-brand flex-fill">{title}</div>
-        <Link to="edit" className="btn btn-primary btn-icon" arial-label="Edit">
-          <IconEdit />
-        </Link>
+        {isInRole(editRole) && (
+          <Link to="edit" className="btn btn-primary btn-icon" arial-label="Edit">
+            <IconEdit />
+          </Link>
+        )}
       </MobilePageTitle>
       <div className="page-header d-none d-lg-block">
         <div className="row align-items-center">
@@ -35,15 +40,17 @@ export default function PageView({ backTo = null, entity, full = false, title = 
             <h2 className="page-title">{title}</h2>
           </div>
           <div className="col-auto ms-auto d-print-none">
-            <div className="d-flex">
-              <Link to="edit" className="btn btn-primary d-none d-md-block">
-                <IconEdit />
-                Edit
-              </Link>
-              <Link to="edit" className="btn btn-primary btn-icon d-md-none" aria-label="Edit">
-                <IconEdit />
-              </Link>
-            </div>
+            {isInRole("client") && (
+              <>
+                <Link to="edit" className="btn btn-primary d-none d-md-block">
+                  <IconEdit />
+                  Edit
+                </Link>
+                <Link to="edit" className="btn btn-primary btn-icon d-md-none" aria-label="Edit">
+                  <IconEdit />
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

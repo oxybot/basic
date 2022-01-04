@@ -30,7 +30,7 @@ export function ClientView({ backTo = null, full = false }) {
   const [, links] = useApiFetch(["Clients", clientId, "links"], get, {});
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity}>
+    <PageView backTo={backTo} full={full} entity={entity} editRole="client">
       <Sections>
         <Section code="detail" element={<ClientViewDetail entity={entity} />}>
           Detail

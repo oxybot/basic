@@ -64,7 +64,7 @@ export function AgreementView({ backTo = null, full = false }) {
   const [, entity] = useApiFetch(["Agreements", agreementId], { method: "GET" }, {});
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity} title={entity.title}>
+    <PageView backTo={backTo} full={full} entity={entity} title={entity.title} editRole="client">
       <Sections>
         <Section code="detail" element={<AgreementViewDetail entity={entity} />}>
           Detail

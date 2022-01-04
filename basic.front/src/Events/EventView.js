@@ -16,7 +16,7 @@ export function EventView({ backTo = null, full = false }) {
   const [, entity] = useApiFetch(["Events", eventId], get, {});
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity}>
+    <PageView backTo={backTo} full={full} entity={entity} editRole="time">
       <Sections>
         <Section code="detail" element={<EventViewDetail entity={entity} />}>
           Detail

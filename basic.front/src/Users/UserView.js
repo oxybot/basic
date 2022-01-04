@@ -16,7 +16,7 @@ export function UserView({ backTo = null, full = false }) {
   const [, entity] = useApiFetch(["Users", userId], get, {});
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity}>
+    <PageView backTo={backTo} full={full} entity={entity} editRole="user">
       <Sections>
         <Section code="detail" element={<UserViewDetail entity={entity} />}>
           Detail
