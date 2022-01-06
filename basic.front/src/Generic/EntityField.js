@@ -1,6 +1,7 @@
 import { IconChevronRight } from "@tabler/icons";
 import clsx from "clsx";
 import dayjs from "dayjs";
+import pluralize from "pluralize";
 import { Link } from "react-router-dom";
 import { toCurrency } from "../helpers";
 
@@ -15,6 +16,9 @@ export default function EntityField({ type, value, list = false }) {
 
     case "date":
       return dayjs(value).format("DD MMM YYYY");
+
+    case "number/hours":
+      return pluralize("hour", value, true);
 
     case "ref/category":
       return value.displayName;

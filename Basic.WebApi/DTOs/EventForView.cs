@@ -45,18 +45,21 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the number of hours associated to the first day.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "number/hours")]
         public int DurationFirstDay { get; set; }
 
         /// <summary>
         /// Gets or sets the number of hours associated to the last day.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "number/hours")]
         public int DurationLastDay { get; set; }
 
         /// <summary>
-        /// Gets or sets the total duration of the event.
+        /// Gets or sets the total duration of the event, in hours.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "number/hours")]
         public int DurationTotal { get; set; }
     }
 }

@@ -84,6 +84,25 @@ export default function EntityFieldEdit({ field, value, onChange }) {
         />
       );
 
+    case "number/hours":
+      return (
+        <div className="input-group">
+          <input
+            type="text"
+            className="form-control"
+            required={field.required}
+            id={field.name}
+            name={field.name}
+            placeholder={field.placeholder}
+            value={value}
+            onChange={onChange}
+          />
+          <span class="input-group-text">
+            hour(s)
+          </span>
+        </div>
+      );
+
     case "ref/category":
       return <EntityInputReference baseApiUrl="EventCategories" field={field} value={value} onChange={onChange} />;
 

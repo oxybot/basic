@@ -44,9 +44,10 @@ namespace Basic.WebApi.DTOs
         public DateTime EndDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the total duration of the event.
+        /// Gets or sets the total duration of the event, in hours.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "number/hours")]
         public int DurationTotal { get; set; }
     }
 }
