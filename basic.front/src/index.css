@@ -101,6 +101,10 @@ body {
   background: #f76707 !important;
 }
 
+.dropdown-toggle:after {
+  min-width: .36em;
+}
+
 /* Update of the theme-dark default */
 .theme-dark .offcanvas-header {
   background: #1b2434;
