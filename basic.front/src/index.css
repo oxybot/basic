@@ -102,7 +102,7 @@ body {
 }
 
 .dropdown-toggle:after {
-  min-width: .36em;
+  min-width: 0.36em;
 }
 
 /* Update of the theme-dark default */
@@ -181,10 +181,16 @@ body {
 
 /* Logo of the application */
 @import url("https://fonts.googleapis.com/css2?family=Megrim&text=BASICbasic");
+@font-face {
+  font-family: "Megrim", "Megrim-Offline";
+  font-style: normal;
+  font-weight: 400;
+  src: url(/font-megrim-basic.woff2) format("woff2");
+}
 
 .basic-logo {
   display: inline-flex;
-  font-family: "Megrim";
+  font-family: "Megrim", "Megrim-Offline";
   background-color: #206bc4;
   color: #ffffff;
   border-radius: 100rem;
@@ -198,9 +204,9 @@ body {
 }
 
 .basic-text {
-  font-family: "Megrim";
+  font-family: "Megrim", "Megrim-Offline";
   color: #206bc4;
-  letter-spacing: .2rem;
+  letter-spacing: 0.2rem;
 }
 
 .theme-dark .basic-text {
