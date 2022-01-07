@@ -64,6 +64,69 @@ export default function EntityField({ type, value, list = false }) {
         return null;
       }
 
+    case "schedule":
+      if (!value) {
+        return value;
+      } else if (list) {
+        if (value.length <= 7) {
+          return pluralize(
+            "hour",
+            value.reduce((a, c) => a + c),
+            true
+          );
+        } else {
+          const odd = value.slice(0, 7).reduce((a, c) => a + c);
+          const even = value.slice(7).reduce((a, c) => a + c);
+          return `${odd} / ${even} hours`;
+        }
+      } else {
+        const days = [0, 1, 2, 3, 4, 5, 6];
+        const complex = value.length > 7;
+        return (
+          <table className="table mt-1 table-sm text-center">
+            <thead>
+              <tr>
+                {complex && <th className="m-0 p-0 w-20"></th>}
+                {days.map((d) => {
+                  const dayShort = dayjs().day(d).format("ddd");
+                  return (
+                    <th key={d} className="m-0 p-0 w-10">
+                      {dayShort}
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {complex && <td className="text-nowrap">Odd weeks</td>}
+                {days.map((d) => {
+                  const dayShort = dayjs().day(d).format("ddd");
+                  return (
+                    <td key={d} className="w-10">
+                      {value[d]}
+                    </td>
+                  );
+                })}
+              </tr>
+              {complex && (
+                <tr>
+                  <td className="text-nowrap">Even weeks</td>
+                  {days.map((d) => {
+                    const dayShort = dayjs().day(d).format("ddd");
+                    return (
+                      <td key={d} className="w-10">
+                        {value[d + 7]}
+                      </td>
+                    );
+                  })}
+                </tr>
+              )}
+            </tbody>
+          </table>
+        );
+      }
+
     case "boolean":
       return value ? "Yes" : "No";
 

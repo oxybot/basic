@@ -18,7 +18,7 @@ export default function EntityDetail({ definition, entity }) {
                 {fields.map((field, index) => (
                   <div key={index} className="mb-3">
                     <div className="field-label">{field.displayName}</div>
-                    <div className="lead">
+                    <div className={field.type !== "schedule" ? "lead" : null}>
                       <EntityField type={field.type} value={entity[field.name]} />
                     </div>
                   </div>

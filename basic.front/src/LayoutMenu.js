@@ -8,6 +8,7 @@ import {
   IconCalendarEvent,
   IconChartArrows,
   IconSunset,
+  IconCalendarTime,
 } from "@tabler/icons";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -153,6 +154,14 @@ export default function LayoutMenu() {
                             <IconChartArrows />
                           </span>
                           <span className="nav-link-title">Balances</span>
+                        </NavLink>
+                      </li>
+                      <li className="nav-item">
+                        <NavLink className="nav-link justify-content-start" to="/schedules" onClick={closeMenu}>
+                          <span className="nav-link-icon">
+                            <IconCalendarTime />
+                          </span>
+                          <span className="nav-link-title">Working Schedules</span>
                         </NavLink>
                       </li>
                       <li className="nav-item">

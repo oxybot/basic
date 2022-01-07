@@ -219,3 +219,29 @@ body {
   font-weight: 500;
   line-height: 1.5rem;
 }
+
+.schedule .col:first-child .form-control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.schedule .col:not(:first-child):not(:last-child) .form-control {
+  border-left: none;
+  border-radius: 0;
+}
+.schedule .col:last-child .form-control {
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.schedule .col .form-control:focus {
+  position: relative;
+  z-index: 100;
+}
+
+.w-10 {
+  width: 10%;
+}
+.w-20 {
+  width: 20%;
+}

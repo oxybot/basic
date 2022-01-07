@@ -9,6 +9,7 @@ import { EventCategoryEdit, EventCategoryList, EventCategoryNew } from "./EventC
 import Layout from "./Layout";
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
 import { ProfileView } from "./Profile";
+import { ScheduleEdit, ScheduleList, ScheduleNew, ScheduleView } from "./Schedules";
 import Settings from "./Settings";
 import { UserEdit, UserList, UserNew, UserView } from "./Users";
 
@@ -76,6 +77,13 @@ export default function App() {
         <Route path="balances" element={<BalanceList />}>
           <Route path=":balanceId" element={<BalanceEdit />} />
           <Route path="new" element={<BalanceNew />} />
+        </Route>
+
+        {/* Schedules */}
+        <Route path="/schedules" element={<ScheduleList />}>
+          <Route path=":scheduleId" element={<ScheduleView backTo="/schedules" />} />
+          <Route path=":scheduleId/edit" element={<ScheduleEdit />} />
+          <Route path="new" element={<ScheduleNew />} />
         </Route>
 
         {/* Events */}

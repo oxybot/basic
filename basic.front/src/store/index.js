@@ -6,6 +6,7 @@ import clientsReducer from "../Clients/slice";
 import eventCategoriesReducer from "../EventCategories/slice";
 import eventsReducer from "../Events/slice";
 import productsReducer from "../Products/slice";
+import scheduleReducer from "../Schedules/slice";
 import usersReducer from "../Users/slice";
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
     eventCategories: eventCategoriesReducer,
     events: eventsReducer,
     products: productsReducer,
+    schedules: scheduleReducer,
     users: usersReducer,
   },
 });
