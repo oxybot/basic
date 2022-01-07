@@ -70,6 +70,13 @@ namespace Basic.WebApi
 
             CreateMap<Role, RoleForList>();
 
+
+            CreateMap<Schedule, ScheduleForList>();
+            CreateMap<Schedule, ScheduleForView>();
+            CreateMap<Schedule, ScheduleForEdit>()
+                .ReverseMap()
+                    .ForMember(s => s.User, options => options.Ignore());
+
             CreateMap<User, UserForList>();
             CreateMap<User, UserForView>();
             CreateMap<User, UserForEdit>().ReverseMap();

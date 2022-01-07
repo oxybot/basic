@@ -26,6 +26,11 @@ namespace Basic.DataAccess
                 builder.Entity(type);
             }
 
+            builder
+                .Entity<Schedule>()
+                .Property(s => s.WorkingSchedule)
+                    .HasConversion<ScheduleConverter, ScheduleComparer>();
+
             var roles = new[]
             {
                 new Role()
