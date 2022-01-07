@@ -1,6 +1,5 @@
 import { IconCurrencyEuro } from "@tabler/icons";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
 import Select from "react-select";
 import { useApiFetch } from "../api";
 

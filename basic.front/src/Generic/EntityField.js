@@ -100,26 +100,20 @@ export default function EntityField({ type, value, list = false }) {
             <tbody>
               <tr>
                 {complex && <td className="text-nowrap">Odd weeks</td>}
-                {days.map((d) => {
-                  const dayShort = dayjs().day(d).format("ddd");
-                  return (
-                    <td key={d} className="w-10">
-                      {value[d]}
-                    </td>
-                  );
-                })}
+                {days.map((d) => (
+                  <td key={d} className="w-10">
+                    {value[d]}
+                  </td>
+                ))}
               </tr>
               {complex && (
                 <tr>
                   <td className="text-nowrap">Even weeks</td>
-                  {days.map((d) => {
-                    const dayShort = dayjs().day(d).format("ddd");
-                    return (
-                      <td key={d} className="w-10">
-                        {value[d + 7]}
-                      </td>
-                    );
-                  })}
+                  {days.map((d) => (
+                    <td key={d} className="w-10">
+                      {value[d + 7]}
+                    </td>
+                  ))}
                 </tr>
               )}
             </tbody>

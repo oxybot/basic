@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { apiUrl, useApiFetch, useDefinition } from "../api";
+import { useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
 import { refresh } from "./slice";
 
