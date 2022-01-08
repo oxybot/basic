@@ -25,6 +25,9 @@ export default function LayoutMenuDemo() {
       case "finance":
         dispatch(setRoles([{ code: "client" }]));
         break;
+
+      default:
+        console.error("Unknown type of user");
     }
   }
 
