@@ -1,4 +1,5 @@
 using Basic.DataAccess;
+using Basic.WebApi.Framework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -78,7 +79,7 @@ builder.Services.AddSwaggerGen(options =>
         Description = "Enter ‘Bearer’ [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
     });
 
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
+    options.OperationFilter<RoleRequirementsOperationFilter>();
 });
 
 var app = builder.Build();
