@@ -126,11 +126,11 @@ export function Calendar() {
           <h3 className="my-auto ms-2">{month.format("MMMM YYYY")}</h3>
         </div>
         <div className="card">
-          <div className="table-responsive">
-            <table className="table card-table table-vcenter text-nowrap">
+          <div className="table-responsive table-calendar">
+            <table className="table table-vcenter text-nowrap">
               <thead>
                 <tr>
-                  <th>User</th>
+                  <th className="w-100"></th>
                   {days.map((i) => (
                     <th key={i}>{i}</th>
                   ))}

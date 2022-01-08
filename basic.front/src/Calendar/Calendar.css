@@ -6,6 +6,10 @@
   background-color: orange;
 }
 
+.bg-off {
+  background-color: #eee;
+}
+
 .calendar-line div,
 .calendar-line-first div {
   border-top-left-radius: 4px;
@@ -15,4 +19,19 @@
 .calendar-line-last div {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
+}
+
+.table-calendar td,
+.table-calendar th {
+  min-width: 2rem;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: center;
+}
+
+.table-calendar td:first-child,
+.table-calendar th:first-child {
+  padding-left: 1rem;
+  padding-right: 0.5rem;
+  text-align: left;
 }
