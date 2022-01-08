@@ -13,6 +13,7 @@ import {
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { authenticationState, useInRole } from "./Authentication";
+import LayoutMenuDemo from "./LayoutMenuDemo";
 import LayoutTheme from "./LayoutTheme";
 
 export default function LayoutMenu() {
@@ -80,6 +81,7 @@ export default function LayoutMenu() {
                   </li>
                 </ul>
               </li>
+              {user.userName === "demo" && <LayoutMenuDemo />}
             </ul>
             {/* Dashboard */}
             <hr className="my-2" />
