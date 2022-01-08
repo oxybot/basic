@@ -75,7 +75,7 @@ namespace Basic.WebApi.Controllers
             return new AuthResult()
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
-                ExpireIn = Convert.ToInt32(Configuration["JwtToken:ExpireIn"]),
+                Expire = new DateTimeOffset(token.ValidTo).ToUnixTimeMilliseconds(),
             };
         }
 
@@ -104,7 +104,7 @@ namespace Basic.WebApi.Controllers
             return new AuthResult()
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
-                ExpireIn = Convert.ToInt32(Configuration["JwtToken:ExpireIn"]),
+                Expire = new DateTimeOffset(token.ValidTo).ToUnixTimeMilliseconds(),
             };
         }
 

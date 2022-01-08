@@ -19,8 +19,12 @@
         public string TokenType { get; set; } = "Bearer";
 
         /// <summary>
-        /// Gets or sets the expiration time of the token in seconds.
+        /// Gets or sets the expiration date of the token.
         /// </summary>
-        public int ExpireIn { get; set; }
+        /// <remarks>
+        /// The provided value as the number of milliseconds elapsed since
+        /// January 1, 1970 00:00:00 UTC.
+        /// </remarks>
+        public long Expire { get; set; }
     }
 }

@@ -18,7 +18,7 @@ export const authenticationSlice = createSlice({
         ...initialState,
         connected: true,
         token: action.payload.token,
-        expire: action.payload.expireIn,
+        expire: action.payload.expire,
       };
     },
     setUser: (state, action) => {

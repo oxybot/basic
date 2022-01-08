@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { AgreementEdit, AgreementList, AgreementNew, AgreementView } from "./Agreements";
+import { usePersistedAuthentication } from "./Authentication";
 import { BalanceEdit, BalanceList, BalanceNew } from "./Balances";
 import { Calendar, CalendarRequest } from "./Calendar";
 import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
@@ -14,6 +15,7 @@ import Settings from "./Settings";
 import { UserEdit, UserList, UserNew, UserView } from "./Users";
 
 export default function App() {
+  usePersistedAuthentication();
   return (
     <Layout>
       <Routes>
