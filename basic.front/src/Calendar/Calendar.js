@@ -1,10 +1,34 @@
 import { IconChevronLeft, IconChevronRight, IconLoader, IconPlus } from "@tabler/icons";
-import clsx from "clsx";
 import dayjs from "dayjs";
 import { Link, useSearchParams } from "react-router-dom";
 import { useApiFetch } from "../api";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import "./Calendar.css";
+
+function CalendarUserLine({ days, entry }) {
+  if (entry.lines.length === 0) {
+    // No data for this user
+    return (
+      <tr>
+        <td>{entry.user.displayName}</td>
+        {days.map((i) => (
+          <td key={i}></td>
+        ))}
+      </tr>
+    );
+  } else {
+    return entry.lines.map((line, lineIndex) => (
+      <tr key={lineIndex}>
+        {lineIndex === 0 && <td rowSpan={entry.lines.length}>{entry.user.displayName}</td>}
+        {days.map((i) => (
+          <td key={i} className="p-0">
+            {line.days.includes(i) && <div className="bg-orange" style={{ height: "0.5rem" }}></div>}
+          </td>
+        ))}
+      </tr>
+    ));
+  }
+}
 
 export function Calendar() {
   const [searchParams] = useSearchParams();
@@ -65,7 +89,7 @@ export function Calendar() {
               <thead>
                 <tr>
                   <th>User</th>
-                  {Array.from({ length: month.daysInMonth() }, (_, i) => i + 1).map((i) => (
+                  {days.map((i) => (
                     <th key={i}>{i}</th>
                   ))}
                 </tr>
@@ -77,36 +101,7 @@ export function Calendar() {
                   </td>
                 </tr>
                 {calendars &&
-                  calendars.map((entry, index) => {
-                    if (entry.lines.length === 0) {
-                      return (
-                        <tr key={index}>
-                          <td>{entry.user.displayName}</td>
-                          {days.map((i) => (
-                            <td key={i}></td>
-                          ))}
-                        </tr>
-                      );
-                    } else if (entry.lines.length === 1) {
-                      return (
-                        <tr key={index}>
-                          <td>{entry.user.displayName}</td>
-                          {days.map((i) => (
-                            <td key={i} className={clsx({ "bg-orange": entry.lines[0].days.includes(i) })}></td>
-                          ))}
-                        </tr>
-                      );
-                    } else {
-                      return entry.lines.map((line, lineIndex) => (
-                        <tr key={index}>
-                          {lineIndex === 0 && <td rowSpan={entry.lines.length}>{entry.user.displayName}</td>}
-                          {days.map((i) => (
-                            <td key={i} className={clsx({ "bg-orange": line.days.contains(i) })}></td>
-                          ))}
-                        </tr>
-                      ));
-                    }
-                  })}
+                  calendars.map((entry, index) => <CalendarUserLine key={index} days={days} entry={entry} />)}
               </tbody>
             </table>
           </div>
