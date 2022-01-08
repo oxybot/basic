@@ -73,7 +73,12 @@ namespace Basic.WebApi.Controllers
                 var calendar = new UserCalendar() { User = Mapper.Map<EntityReference>(user) };
                 if (timeoff.Any())
                 {
-                    var line = new UserCalendar.Line() { Category = "timeoff" };
+                    var line = new UserCalendar.Line()
+                    {
+                        Category = "timeoff",
+                        ColorClass = "bg-timeoff"
+                    };
+
                     calendar.Lines.Add(line);
                     for (int i = 1; i <= days; i++)
                     {
@@ -87,7 +92,12 @@ namespace Basic.WebApi.Controllers
 
                 foreach (var activeGroup in active.GroupBy(e => e.Category))
                 {
-                    var line = new UserCalendar.Line() { Category = activeGroup.Key.DisplayName };
+                    var line = new UserCalendar.Line()
+                    {
+                        Category = activeGroup.Key.DisplayName,
+                        ColorClass = activeGroup.Key.ColorClass
+                    };
+
                     calendar.Lines.Add(line);
                     for (int i = 1; i <= days; i++)
                     {

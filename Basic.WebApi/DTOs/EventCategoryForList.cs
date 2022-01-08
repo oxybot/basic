@@ -34,5 +34,12 @@ namespace Basic.WebApi.DTOs
         [Required]
         [SwaggerSchema(Format = "ref/eventtimemapping")]
         public EventTimeMapping Mapping { get; set; }
+
+        /// <summary>
+        /// Gets or sets the css class associated to the category.
+        /// </summary>
+        [Required]
+        [SwaggerSchema(Format = "color")]
+        public string ColorClass { get; set; }
     }
 }

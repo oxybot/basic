@@ -19,6 +19,12 @@ namespace Basic.Model
         public bool RequireBalance { get; set; }
 
         /// <summary>
+        /// Gets or sets the css class associated to this category.
+        /// </summary>
+        [Required]
+        public string ColorClass { get; set; }
+
+        /// <summary>
         /// Gets or sets how the time booked on this category should be considered.
         /// </summary>
         public EventTimeMapping Mapping { get; set; }

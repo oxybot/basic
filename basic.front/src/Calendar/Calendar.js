@@ -1,5 +1,7 @@
 import { IconChevronLeft, IconChevronRight, IconLoader, IconPlus } from "@tabler/icons";
+import clsx from "clsx";
 import dayjs from "dayjs";
+import { Fragment, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useApiFetch } from "../api";
 import MobilePageTitle from "../Generic/MobilePageTitle";
@@ -17,14 +19,31 @@ function CalendarUserLine({ days, entry }) {
       </tr>
     );
   } else {
-    return entry.lines.map((line, lineIndex) => (
+    return entry.lines.map((line, lineIndex, lines) => (
       <tr key={lineIndex}>
-        {lineIndex === 0 && <td rowSpan={entry.lines.length}>{entry.user.displayName}</td>}
-        {days.map((i) => (
-          <td key={i} className="p-0">
-            {line.days.includes(i) && <div className="bg-orange" style={{ height: "0.5rem" }}></div>}
-          </td>
-        ))}
+        {lineIndex === 0 && <td rowSpan={lines.length}>{entry.user.displayName}</td>}
+        {days.map((i) => {
+          if (line.days.includes(i)) {
+            const min = line.days[0];
+            const max = line.days[line.days.length - 1];
+            return (
+              <td
+                key={i}
+                className={clsx(
+                  "p-0",
+                  { "calendar-line-first": i === min },
+                  { "calendar-line-last": i === max },
+                  { "no-border": lineIndex < lines.length - 1 }
+                )}
+                title={line.category}
+              >
+                <div className={line.colorClass} style={{ height: "0.5rem" }}></div>
+              </td>
+            );
+          } else {
+            return <td key={i} className={clsx({ "no-border": lineIndex < lines.length - 1 })}></td>;
+          }
+        })}
       </tr>
     ));
   }
@@ -37,6 +56,29 @@ export function Calendar() {
 
   const [loading, calendars] = useApiFetch("Calendar?month=" + month.format("YYYY-MM"), { method: "GET" });
   const days = Array.from({ length: month.daysInMonth() }, (_, i) => i + 1);
+
+  const categories = useMemo(() => {
+    if (!calendars) {
+      return [];
+    }
+
+    return calendars.reduce((categories, entry) => {
+      entry.lines.forEach((line) => {
+        if (line.category === "timeoff") {
+          addToCategories(categories, "timeoff", "bg-timeoff");
+        } else {
+          addToCategories(categories, line.category, line.colorClass);
+        }
+      });
+      return categories;
+    }, []);
+  }, [calendars]);
+
+  function addToCategories(categories, category, colorClass) {
+    if (!categories.some((c) => c.category === category)) {
+      categories.push({ category, colorClass });
+    }
+  }
 
   return (
     <div className="container-xl">
@@ -85,7 +127,7 @@ export function Calendar() {
         </div>
         <div className="card">
           <div className="table-responsive">
-            <table className="table card-table table-vcenter text-nowrap datatable">
+            <table className="table card-table table-vcenter text-nowrap">
               <thead>
                 <tr>
                   <th>User</th>
@@ -95,7 +137,7 @@ export function Calendar() {
                 </tr>
               </thead>
               <tbody>
-                <tr className={loading ? "" : "d-none"}>
+                <tr className={clsx({ "d-none": !loading })}>
                   <td colSpan={month.daysInMonth() + 1}>
                     <IconLoader /> Loading...
                   </td>
@@ -105,6 +147,17 @@ export function Calendar() {
               </tbody>
             </table>
           </div>
+        </div>
+        <div className="m-3 d-flex align-items-stretch">
+          {categories &&
+            categories.map((category, index) => (
+              <Fragment key={index}>
+                <div className="my-auto calendar-line me-2">
+                  <div className={category.colorClass} style={{ width: "1.5rem", height: "0.5rem" }}></div>
+                </div>
+                <div className="me-5">{category.category}</div>
+              </Fragment>
+            ))}
         </div>
       </div>
     </div>

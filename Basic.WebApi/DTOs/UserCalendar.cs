@@ -42,6 +42,11 @@
             public string Category { get; set; }
 
             /// <summary>
+            /// Gets or sets the css class for this line.
+            /// </summary>
+            public string ColorClass { get; set; }
+
+            /// <summary>
             /// Gets or sets the days part of this calendar line.
             /// </summary>
             public ICollection<int> Days { get; set; }
