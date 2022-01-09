@@ -83,7 +83,7 @@ export function Calendar() {
   return (
     <div className="container-xl">
       <MobilePageTitle>
-        <div className="navbar-brand">Calendar</div>
+        <div className="navbar-brand flex-fill">Calendar</div>
         <Link to="request" className="btn btn-primary btn-icon" aria-label="Add event">
           <IconPlus />
         </Link>
