@@ -48,6 +48,6 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         [Required]
         [SwaggerSchema(Format = "number/hours")]
-        public int DurationTotal { get; set; }
+        public decimal DurationTotal { get; set; }
     }
 }

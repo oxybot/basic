@@ -41,18 +41,18 @@ namespace Basic.Model
         /// Gets or sets the number of hours associated to the first day.
         /// </summary>
         [Required]
-        public int DurationFirstDay { get; set; }
+        public decimal DurationFirstDay { get; set; }
 
         /// <summary>
         /// Gets or sets the number of hours associated to the last day.
         /// </summary>
         [Required]
-        public int DurationLastDay { get; set; }
+        public decimal DurationLastDay { get; set; }
 
         /// <summary>
         /// Gets or sets the total duration of the event.
         /// </summary>
         [Required]
-        public int DurationTotal { get; set; }
+        public decimal DurationTotal { get; set; }
     }
 }
