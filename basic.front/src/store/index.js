@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import agreementsReducer from "../Agreements/slice";
+import alertsReducer from "../Alerts/slice";
 import authenticationReducer from "../Authentication/slice";
 import balancesReducer from "../Balances/slice";
 import clientsReducer from "../Clients/slice";
@@ -13,6 +14,7 @@ export const store = configureStore({
   reducer: {
     authentication: authenticationReducer,
     agreements: agreementsReducer,
+    alerts: alertsReducer,
     balances: balancesReducer,
     clients: clientsReducer,
     eventCategories: eventCategoriesReducer,

@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { addError, addWarning } from "../Alerts/slice";
 import { apiFetch, apiUrl } from "../api";
 import LayoutTheme from "../LayoutTheme";
 import { connect, setRoles, setUser } from "./slice";
@@ -9,12 +9,10 @@ export function SignIn() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [credentials, setCredentials] = useState({});
-  const [error, setError] = useState(null);
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setError(null);
     setCredentials({ ...credentials, [name]: value });
   };
 
@@ -61,9 +59,9 @@ export function SignIn() {
     }).then((response) => {
       if (!response.ok) {
         if (response.status === 401) {
-          setError("Invalid credentials");
+          dispatch(addWarning("Invalid credentials", "Your username or password seems invalid, review them and retry"));
         } else {
-          setError("System error - try again later");
+          dispatch(addError("System error", "The system doesn't behave properly - try again later"));
         }
       } else {
         response.json().then((response) => {
@@ -137,11 +135,6 @@ export function SignIn() {
               </div>
             </div>
           </form>
-          <div className="m-3 text-center">
-            <div className={clsx({ "card bg-danger text-white": error })}>
-              <div className="card-body px-3 py-2">{error || ""}&nbsp;</div>
-            </div>
-          </div>
         </div>
       </div>
     )
