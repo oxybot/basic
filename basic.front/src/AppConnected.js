@@ -22,6 +22,12 @@ export default function App() {
         {/* Dashboard */}
         <Route path="/" element={<Dashboard />} />
 
+        {/* Calendar */}
+        <Route path="/calendar">
+          <Route index element={<Calendar />} />
+          <Route path="request" element={<CalendarRequest />} />
+        </Route>
+
         {/* Settings */}
         <Route path="/settings">
           <Route index element={<Settings />} />
@@ -68,11 +74,6 @@ export default function App() {
           <Route path=":userId" element={<UserView backTo="/users" />} />
           <Route path=":userId/edit" element={<UserEdit />} />
           <Route path="new" element={<UserNew />} />
-        </Route>
-
-        <Route path="/calendar">
-          <Route index element={<Calendar />} />
-          <Route path="request" element={<CalendarRequest />} />
         </Route>
 
         {/* Balances */}

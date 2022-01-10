@@ -94,6 +94,14 @@ export default function LayoutMenu() {
                   <span className="nav-link-title">Dashboard</span>
                 </NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink className="nav-link justify-content-start" to="/calendar" onClick={closeMenu}>
+                  <span className="nav-link-icon">
+                    <IconCalendarEvent />
+                  </span>
+                  <span className="nav-link-title">Calendar</span>
+                </NavLink>
+              </li>
             </ul>
             {/* Client */}
             {isInrole("client", "client-ro") && (
@@ -142,14 +150,6 @@ export default function LayoutMenu() {
                   </li>
                   {isInrole("time", "time-ro") && (
                     <>
-                      <li className="nav-item">
-                        <NavLink className="nav-link justify-content-start" to="/calendar" onClick={closeMenu}>
-                          <span className="nav-link-icon">
-                            <IconCalendarEvent />
-                          </span>
-                          <span className="nav-link-title">Calendar</span>
-                        </NavLink>
-                      </li>
                       <li className="nav-item">
                         <NavLink className="nav-link justify-content-start" to="/balances" onClick={closeMenu}>
                           <span className="nav-link-icon">
