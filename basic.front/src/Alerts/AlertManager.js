@@ -38,7 +38,7 @@ export default function AlertManager({ children }) {
   return (
     <>
       {alerts.length > 0 && (
-        <div className="alerts position-absolute top-0 start-0 p-3 w-100" style={{ zIndex: 2000 }}>
+        <div className="alerts position-absolute top-0 end-0 p-3 w-100 w-lg-33" style={{ zIndex: 2000 }}>
           {alerts.map((alert) => (
             <Alert key={alert.identifier} alert={alert} />
           ))}

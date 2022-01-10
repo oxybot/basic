@@ -245,3 +245,13 @@ body {
 .w-20 {
   width: 20%;
 }
+@media (min-width: 768px) {
+  .w-md-50 {
+    width: 50% !important;
+  }
+}
+@media (min-width: 992px) {
+  .w-lg-33 {
+    width: 33% !important;
+  }
+}
