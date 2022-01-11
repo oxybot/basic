@@ -181,7 +181,7 @@ export default function EntityFieldEdit({ field, value, onChange }) {
             value={value}
             onChange={onChange}
           />
-          <span class="input-group-text">hour(s)</span>
+          <span className="input-group-text">hour(s)</span>
         </div>
       );
 

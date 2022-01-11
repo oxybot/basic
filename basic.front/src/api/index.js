@@ -91,7 +91,7 @@ export function useApiFetch(url, options, defaultState = null, transform = (e) =
       .catch((err) => console.log(err));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url.toString(), options.toString()]);
+  }, [url.toString(), JSON.stringify(options)]);
 
   return [loading, response];
 }
