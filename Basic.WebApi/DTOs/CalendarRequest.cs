@@ -6,7 +6,7 @@ namespace Basic.WebApi.DTOs
     /// <summary>
     /// Represents a new calendar request for the connected user.
     /// </summary>
-    public class CalendarRequest : BaseEntityDTO, IValidatableObject
+    public class CalendarRequest : BaseEntityDTO
     {
         /// <summary>
         /// Gets or sets the associated category.
@@ -47,7 +47,6 @@ namespace Basic.WebApi.DTOs
         [SwaggerSchema(Format = "number/hours")]
         public int? DurationLastDay { get; set; }
 
-        /// <inheritdoc />
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (CategoryIdentifier == Guid.Empty)

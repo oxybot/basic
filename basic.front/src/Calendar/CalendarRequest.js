@@ -154,11 +154,6 @@ export function CalendarRequest() {
               )}
             </div>
           )}
-          {check && (
-            <div className="col-lg-6">
-              <pre>{JSON.stringify(check, null, 2)}</pre>
-            </div>
-          )}
         </div>
       </div>
     </form>

@@ -176,6 +176,13 @@ namespace Basic.WebApi.Controllers
                 return check;
             }
 
+            var errors = request.Validate(null);
+            if (errors.Any())
+            {
+                check.RequestCompleteMessage = errors.First().ErrorMessage;
+                return check;
+            }
+
             var context = CreateContext(request);
             check.RequestComplete = context.Category != null
                 && request.StartDate != DateTime.MinValue
