@@ -30,6 +30,16 @@ namespace Basic.WebApi.Models
         public string ActiveScheduleMessage { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether there is a conflict with other events.
+        /// </summary>
+        public bool NoConflict { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message relative to the <see cref="NoConflict"/> status, if any.
+        /// </summary>
+        public string NoConflictMessage { get; set; }
+
+        /// <summary>
         /// Gets or sets the number of hours associated to the request.
         /// </summary>
         public decimal? TotalHours { get; set; }

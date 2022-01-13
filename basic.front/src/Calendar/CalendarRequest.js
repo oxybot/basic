@@ -149,8 +149,15 @@ export function CalendarRequest() {
             <div className="col-lg-6 p-3">
               <Status value={check.requestComplete} text="Request complete" message={check.requestCompleteMessage} />
               <Status value={check.activeSchedule} text="Active schedule" message={check.activeScheduleMessage} />
+              <Status value={check.noConflict} text="No conflict" message={check.noConflictMessage} />
               {check.totalHours && (
-                <div className="m-3 lead">Request for: {pluralize("hour", check.totalHours, true)}</div>
+                <div className="m-3 lead">
+                  Request for:
+                  <br />
+                  {pluralize("hour", check.totalHours, true)}
+                  <span> on </span>
+                  {pluralize("business day", check.totalDays, true)}
+                </div>
               )}
             </div>
           )}

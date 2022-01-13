@@ -121,7 +121,7 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [Produces("application/json")]
-        public void Post(CalendarRequest request)
+        public EventForList Post(CalendarRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -152,6 +152,8 @@ namespace Basic.WebApi.Controllers
 
             Context.Set<Event>().Add(model);
             Context.SaveChanges();
+
+            return Mapper.Map<EventForList>(model);
         }
 
         /// <summary>
@@ -193,11 +195,8 @@ namespace Basic.WebApi.Controllers
                 return check;
             }
 
-            if (context.Schedule != null)
-            {
-                check.ActiveSchedule = true;
-            }
-            else
+            check.ActiveSchedule = context.Schedule != null;
+            if (!check.ActiveSchedule)
             {
                 check.ActiveSchedule = false;
                 var schedules = Context.Set<Schedule>()
@@ -206,6 +205,37 @@ namespace Basic.WebApi.Controllers
                 check.ActiveScheduleMessage = schedules.Any()
                     ? "Multiple working schedules are impacted. Please do one request for each."
                     : "No working schedule defined for this period";
+
+                return check;
+            }
+
+            if (context.Category.Mapping != EventTimeMapping.Active)
+            {
+                // Conflicts on time-off
+                var conflicts = Context.Set<Event>()
+                    .Where(e => e.Category.Mapping != EventTimeMapping.Active)
+                    .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate);
+
+                check.NoConflict = !conflicts.Any();
+                if (!check.NoConflict)
+                {
+                    check.NoConflictMessage = "There is already registered time-off on the same period";
+                    return check;
+                }
+            }
+            else
+            {
+                // Conflicts on active days
+                var conflicts = Context.Set<Event>()
+                    .Where(e => e.Category == context.Category)
+                    .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate);
+
+                check.NoConflict = !conflicts.Any();
+                if (!check.NoConflict)
+                {
+                    check.NoConflictMessage = "There is already registered '"+ context.Category.DisplayName +"' on the same period";
+                    return check;
+                }
             }
 
             check.TotalHours = context.TotalHours;
