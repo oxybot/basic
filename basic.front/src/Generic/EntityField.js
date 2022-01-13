@@ -121,6 +121,9 @@ export default function EntityField({ type, value, list = false }) {
         );
       }
 
+    case "color":
+      return <div className={clsx(value, "icon rounded")}></div>;
+
     case "boolean":
       return value ? "Yes" : "No";
 
