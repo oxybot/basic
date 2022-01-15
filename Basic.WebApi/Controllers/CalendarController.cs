@@ -63,6 +63,7 @@ namespace Basic.WebApi.Controllers
                 .Include(e => e.Events)
                 .ThenInclude(e => e.Category);
 
+            Calendar stdCalendar = CultureInfo.InvariantCulture.Calendar;
             foreach (var user in users)
             {
                 var events = user.Events
@@ -71,6 +72,34 @@ namespace Basic.WebApi.Controllers
                 var active = events.Where(e => e.Category.Mapping == EventTimeMapping.Active);
 
                 var calendar = new UserCalendar() { User = Mapper.Map<EntityReference>(user) };
+
+                // Add standard days off
+                var schedules = Context.Set<Schedule>()
+                    .Where(s => s.User == user)
+                    .Where(s => s.ActiveFrom <= endOfMonth && (s.ActiveTo == null || s.ActiveTo >= startOfMonth));
+                for (int i = 1; i <= days; i++)
+                {
+                    DateTime day = startOfMonth.AddDays(i - 1);
+                    int dayOfWeek = (int)day.DayOfWeek;
+                    var schedule = schedules
+                        .FirstOrDefault(s => s.ActiveFrom <= day && (s.ActiveTo == null || s.ActiveTo >= day));
+                    if (schedule != null)
+                    {
+                        int index = dayOfWeek;
+                        int week = stdCalendar.GetWeekOfYear(day, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
+                        if (schedule.WorkingSchedule.Length > 7 && week.IsEven())
+                        {
+                            index += 7;
+                        }
+
+                        if (schedule.WorkingSchedule[index] == 0m)
+                        {
+                            calendar.DaysOff.Add(i);
+                        }
+                    }
+                }
+
+                // Add line for time-off, if any
                 if (timeoff.Any())
                 {
                     var line = new UserCalendar.Line()
@@ -90,6 +119,7 @@ namespace Basic.WebApi.Controllers
                     }
                 }
 
+                // Add lines for active categories
                 foreach (var activeGroup in active.GroupBy(e => e.Category))
                 {
                     var line = new UserCalendar.Line()
@@ -233,7 +263,7 @@ namespace Basic.WebApi.Controllers
                 check.NoConflict = !conflicts.Any();
                 if (!check.NoConflict)
                 {
-                    check.NoConflictMessage = "There is already registered '"+ context.Category.DisplayName +"' on the same period";
+                    check.NoConflictMessage = "There is already registered '" + context.Category.DisplayName + "' on the same period";
                     return check;
                 }
             }

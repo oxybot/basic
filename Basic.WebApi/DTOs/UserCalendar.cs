@@ -11,12 +11,18 @@
         public UserCalendar()
         {
             this.Lines = new List<Line>();
+            this.DaysOff = new List<int>();
         }
 
         /// <summary>
         /// Gets or sets the associated users.
         /// </summary>
         public EntityReference User { get; set; }
+
+        /// <summary>
+        /// Gets or sets the standard days off for this user.
+        /// </summary>
+        public ICollection<int> DaysOff { get; set; }
 
         /// <summary>
         /// Gets or sets the lines for this user.

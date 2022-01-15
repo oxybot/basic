@@ -33,7 +33,8 @@ function CalendarUserLine({ days, entry }) {
                   "p-0",
                   { "calendar-line-first": i === min },
                   { "calendar-line-last": i === max },
-                  { "no-border": lineIndex < lines.length - 1 }
+                  { "no-border": lineIndex < lines.length - 1 },
+                  { "bg-off": entry.daysOff.includes(i) }
                 )}
                 title={line.category}
               >
@@ -41,7 +42,12 @@ function CalendarUserLine({ days, entry }) {
               </td>
             );
           } else {
-            return <td key={i} className={clsx({ "no-border": lineIndex < lines.length - 1 })}></td>;
+            return (
+              <td
+                key={i}
+                className={clsx({ "no-border": lineIndex < lines.length - 1 }, { "bg-off": entry.daysOff.includes(i) })}
+              ></td>
+            );
           }
         })}
       </tr>
