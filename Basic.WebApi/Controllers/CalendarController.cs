@@ -61,7 +61,8 @@ namespace Basic.WebApi.Controllers
             var days = (endOfMonth - startOfMonth).TotalDays;
             var users = Context.Set<User>()
                 .Include(e => e.Events)
-                .ThenInclude(e => e.Category);
+                .ThenInclude(e => e.Category)
+                .Where(u => u.Schedules.Any(s => s.ActiveFrom <= endOfMonth && (s.ActiveTo == null || s.ActiveTo >= startOfMonth)));
 
             Calendar stdCalendar = CultureInfo.InvariantCulture.Calendar;
             foreach (var user in users)
@@ -73,7 +74,7 @@ namespace Basic.WebApi.Controllers
 
                 var calendar = new UserCalendar() { User = Mapper.Map<EntityReference>(user) };
 
-                // Add standard days off
+                // Add days off
                 var schedules = Context.Set<Schedule>()
                     .Where(s => s.User == user)
                     .Where(s => s.ActiveFrom <= endOfMonth && (s.ActiveTo == null || s.ActiveTo >= startOfMonth));
@@ -83,7 +84,12 @@ namespace Basic.WebApi.Controllers
                     int dayOfWeek = (int)day.DayOfWeek;
                     var schedule = schedules
                         .FirstOrDefault(s => s.ActiveFrom <= day && (s.ActiveTo == null || s.ActiveTo >= day));
-                    if (schedule != null)
+                    if (schedule == null)
+                    {
+                        // The user can't work on this day
+                        calendar.DaysOff.Add(i);
+                    }
+                    else
                     {
                         int index = dayOfWeek;
                         int week = stdCalendar.GetWeekOfYear(day, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);

@@ -16,6 +16,7 @@ namespace Basic.Model
             this.Roles = new List<Role>();
             this.Events = new List<Event>();
             this.Balances = new List<Balance>();
+            this.Schedules = new List<Schedule>();
         }
 
         /// <summary>
@@ -62,5 +63,10 @@ namespace Basic.Model
         /// Gets the associated balances.
         /// </summary>
         public ICollection<Balance> Balances { get; }
+
+        /// <summary>
+        /// Gets the associated working schedules.
+        /// </summary>
+        public ICollection<Schedule> Schedules { get; }
     }
 }
