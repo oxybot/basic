@@ -7,6 +7,7 @@ import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
 import Dashboard from "./Dashboard";
 import { EventEdit, EventList, EventNew, EventView } from "./Events";
 import { EventCategoryEdit, EventCategoryList, EventCategoryNew } from "./EventCategories";
+import { GlobalDayOffEdit, GlobalDayOffList, GlobalDayOffNew } from "./GlobalDaysOff";
 import Layout from "./Layout";
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
 import { ProfileView } from "./Profile";
@@ -34,6 +35,10 @@ export default function App() {
           <Route path="event-categories" element={<EventCategoryList />}>
             <Route path=":categoryId" element={<EventCategoryEdit />} />
             <Route path="new" element={<EventCategoryNew />} />
+          </Route>
+          <Route path="days-off" element={<GlobalDayOffList />}>
+            <Route path=":dayOffId" element={<GlobalDayOffEdit />} />
+            <Route path="new" element={<GlobalDayOffNew />} />
           </Route>
         </Route>
 

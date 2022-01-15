@@ -18,7 +18,8 @@ export default function Settings() {
         </div>
         <div className="page-body">
           <h3 className="p-1 mb-3 border-bottom border-primary">People</h3>
-          <div className="row">
+          <div className="row g-3">
+            {/* Event categories */}
             <div className="col-12 col-lg-6 col-xl-4">
               <div className="card">
                 <div className="card-body">
@@ -27,6 +28,21 @@ export default function Settings() {
                     Manage the various event categories used when booking time (holidays, travel, sickness...).
                   </p>
                   <Link to="event-categories" className="btn btn-outline-primary">
+                    More...
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Global days-off */}
+            <div className="col-12 col-lg-6 col-xl-4">
+              <div className="card">
+                <div className="card-body">
+                  <h4 className="card-title">Global days-off</h4>
+                  <p className="card-text">
+                    Manage the global days-off impacting all users (public holidays, company exceptions...).
+                  </p>
+                  <Link to="days-off" className="btn btn-outline-primary">
                     More...
                   </Link>
                 </div>
