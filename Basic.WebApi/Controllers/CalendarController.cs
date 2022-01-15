@@ -58,7 +58,7 @@ namespace Basic.WebApi.Controllers
         {
             DateTime startOfMonth = DateTime.ParseExact(month, "yyyy-MM", CultureInfo.InvariantCulture);
             DateTime endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
-            var days = (endOfMonth - startOfMonth).TotalDays;
+            var days = endOfMonth.Day;
             var users = Context.Set<User>()
                 .Include(e => e.Events)
                 .ThenInclude(e => e.Category)
