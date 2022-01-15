@@ -64,6 +64,9 @@ namespace Basic.WebApi
             CreateMap<EventCategory, EventCategoryForList>();
             CreateMap<EventCategory, EventCategoryForEdit>().ReverseMap();
 
+            CreateMap<GlobalDayOff, GlobalDayOffForList>();
+            CreateMap<GlobalDayOff, GlobalDayOffForEdit>().ReverseMap();
+
             CreateMap<Product, ProductForList>();
             CreateMap<Product, ProductForView>();
             CreateMap<Product, ProductForEdit>().ReverseMap();

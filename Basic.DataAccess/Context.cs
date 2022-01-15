@@ -26,11 +26,25 @@ namespace Basic.DataAccess
                 builder.Entity(type);
             }
 
+            // Special configuration
             builder
                 .Entity<Schedule>()
                 .Property(s => s.WorkingSchedule)
                     .HasConversion<ScheduleConverter, ScheduleComparer>();
 
+            // Special configuration specific to the data source
+            builder.Entity<Event>().Property(s => s.StartDate).HasColumnType("date");
+            builder.Entity<Event>().Property(s => s.EndDate).HasColumnType("date");
+            builder.Entity<GlobalDayOff>().Property(s => s.Date).HasColumnType("date");
+
+            // Define conventions
+            builder.Properties().Where(p => p.ClrType == typeof(decimal))
+                .Configure(p => p.SetColumnType("decimal(18,6)"));
+
+            builder.Properties().Where(p => p.ClrType.IsEnum)
+                .Configure(p => p.SetColumnType("nvarchar(24)"));
+
+            // Set-up initial data
             var roles = new[]
             {
                 new Role()
@@ -78,13 +92,6 @@ namespace Basic.DataAccess
                 builder.Entity("RoleUser")
                     .HasData(new { RolesIdentifier = role.Identifier, UsersIdentifier = demoUser.Identifier });
             }
-
-            // Define conventions
-            builder.Properties().Where(p => p.ClrType == typeof(decimal))
-                .Configure(p => p.SetColumnType("decimal(18,6)"));
-
-            builder.Properties().Where(p => p.ClrType.IsEnum)
-                .Configure(p => p.SetColumnType("nvarchar(24)"));
         }
     }
 }
