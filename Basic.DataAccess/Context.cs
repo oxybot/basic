@@ -79,10 +79,11 @@ namespace Basic.DataAccess
             {
                 Identifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5"),
                 Username = "demo",
-                Password = "demo",
                 DisplayName = "John Doe",
                 Title = "User Group Evangelist",
+                Salt = "demo",
             };
+            demoUser.Password = demoUser.HashPassword("demo");
 
             builder.Entity<User>()
                 .HasData(demoUser);

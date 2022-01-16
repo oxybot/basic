@@ -57,16 +57,21 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public AuthResult SignIn([FromBody] AuthRequest signIn)
         {
-            if (signIn == null)
+            if (signIn == null || string.IsNullOrEmpty(signIn.Username) || string.IsNullOrEmpty(signIn.Password))
             {
                 throw new UnauthorizedRequestException();
             }
 
             var user = Context.Set<User>()
                 .Include(u => u.Roles)
-                .SingleOrDefault(u => u.Username == signIn.Username && u.Password == signIn.Password);
+                .SingleOrDefault(u => u.Username == signIn.Username && u.Password != null);
 
             if (user == null)
+            {
+                throw new UnauthorizedRequestException();
+            }
+
+            if (user.HashPassword(signIn.Password) != user.Password)
             {
                 throw new UnauthorizedRequestException();
             }

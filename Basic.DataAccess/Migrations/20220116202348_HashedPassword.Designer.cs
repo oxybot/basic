@@ -4,6 +4,7 @@ using Basic.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Basic.DataAccess.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220116202348_HashedPassword")]
+    partial class HashedPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +56,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasIndex("OwnerIdentifier");
 
-                    b.ToTable("Agreement", (string)null);
+                    b.ToTable("Agreement");
                 });
 
             modelBuilder.Entity("Basic.Model.AgreementItem", b =>
@@ -85,7 +87,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasIndex("ProductIdentifier");
 
-                    b.ToTable("AgreementItem", (string)null);
+                    b.ToTable("AgreementItem");
                 });
 
             modelBuilder.Entity("Basic.Model.Balance", b =>
@@ -115,7 +117,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasIndex("UserIdentifier");
 
-                    b.ToTable("Balance", (string)null);
+                    b.ToTable("Balance");
                 });
 
             modelBuilder.Entity("Basic.Model.Client", b =>
@@ -134,7 +136,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("Client", (string)null);
+                    b.ToTable("Client");
                 });
 
             modelBuilder.Entity("Basic.Model.Event", b =>
@@ -173,7 +175,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasIndex("UserIdentifier");
 
-                    b.ToTable("Event", (string)null);
+                    b.ToTable("Event");
                 });
 
             modelBuilder.Entity("Basic.Model.EventCategory", b =>
@@ -199,7 +201,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("EventCategory", (string)null);
+                    b.ToTable("EventCategory");
                 });
 
             modelBuilder.Entity("Basic.Model.GlobalDayOff", b =>
@@ -219,7 +221,7 @@ namespace Basic.DataAccess.Migrations
                     b.HasIndex("Date")
                         .IsUnique();
 
-                    b.ToTable("GlobalDayOff", (string)null);
+                    b.ToTable("GlobalDayOff");
                 });
 
             modelBuilder.Entity("Basic.Model.Invoice", b =>
@@ -235,7 +237,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasIndex("AgreementIdentifier");
 
-                    b.ToTable("Invoice", (string)null);
+                    b.ToTable("Invoice");
                 });
 
             modelBuilder.Entity("Basic.Model.Product", b =>
@@ -259,7 +261,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("Product", (string)null);
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("Basic.Model.Role", b =>
@@ -274,7 +276,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
 
                     b.HasData(
                         new
@@ -327,7 +329,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasIndex("UserIdentifier");
 
-                    b.ToTable("Schedule", (string)null);
+                    b.ToTable("Schedule");
                 });
 
             modelBuilder.Entity("Basic.Model.User", b =>
@@ -355,7 +357,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
 
                     b.HasData(
                         new
@@ -381,7 +383,7 @@ namespace Basic.DataAccess.Migrations
 
                     b.HasIndex("UsersIdentifier");
 
-                    b.ToTable("RoleUser", (string)null);
+                    b.ToTable("RoleUser");
 
                     b.HasData(
                         new
@@ -466,7 +468,7 @@ namespace Basic.DataAccess.Migrations
 
             modelBuilder.Entity("Basic.Model.Client", b =>
                 {
-                    b.OwnsOne("Basic.Model.Client.Address#Basic.Model.StreetAddress", "Address", b1 =>
+                    b.OwnsOne("Basic.Model.StreetAddress", "Address", b1 =>
                         {
                             b1.Property<Guid>("ClientIdentifier")
                                 .HasColumnType("uniqueidentifier");
@@ -488,7 +490,7 @@ namespace Basic.DataAccess.Migrations
 
                             b1.HasKey("ClientIdentifier");
 
-                            b1.ToTable("Client", (string)null);
+                            b1.ToTable("Client");
 
                             b1.WithOwner()
                                 .HasForeignKey("ClientIdentifier");
@@ -537,7 +539,7 @@ namespace Basic.DataAccess.Migrations
 
             modelBuilder.Entity("Basic.Model.User", b =>
                 {
-                    b.OwnsOne("Basic.Model.User.Avatar#Basic.Model.TypedFile", "Avatar", b1 =>
+                    b.OwnsOne("Basic.Model.TypedFile", "Avatar", b1 =>
                         {
                             b1.Property<Guid>("UserIdentifier")
                                 .HasColumnType("uniqueidentifier");
@@ -552,7 +554,7 @@ namespace Basic.DataAccess.Migrations
 
                             b1.HasKey("UserIdentifier");
 
-                            b1.ToTable("User", (string)null);
+                            b1.ToTable("User");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserIdentifier");

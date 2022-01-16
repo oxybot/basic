@@ -40,6 +40,14 @@ namespace Basic.Model
         public string Password { get; set; }
 
         /// <summary>
+        /// Gets or sets the salt value generated for this user.
+        /// </summary>
+        /// <remarks>
+        /// This value is 'internal' and should not be displayed or changed by the user.
+        /// </remarks>
+        public string Salt { get; set; }
+
+        /// <summary>
         /// Gets or sets the title of the user.
         /// </summary>
         public string Title { get; set; }
