@@ -47,6 +47,11 @@ namespace Basic.WebApi.DTOs
         [SwaggerSchema(Format = "number/hours")]
         public int? DurationLastDay { get; set; }
 
+        /// <summary>
+        /// Validates the current instance.
+        /// </summary>
+        /// <param name="validationContext">The validation context.</param>
+        /// <returns>The errors during the validation of the instance.</returns>
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (CategoryIdentifier == Guid.Empty)
