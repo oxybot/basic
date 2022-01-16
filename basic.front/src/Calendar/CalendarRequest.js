@@ -155,7 +155,7 @@ export function CalendarRequest() {
                   onChange={handleChange}
                 />
 
-                {entity.startDate && (
+                {entity.startDate && category.mapping !== "Active" && (
                   <div className="form-check form-switch">
                     <input
                       className="form-check-input"
@@ -170,7 +170,7 @@ export function CalendarRequest() {
                     </label>
                   </div>
                 )}
-                {partialStartDate && (
+                {partialStartDate && category.mapping !== "Active" && (
                   <EntityFieldForEdit
                     field={definition.fields.find((f) => f.name === "durationFirstDay")}
                     entity={entity}
@@ -184,7 +184,7 @@ export function CalendarRequest() {
                   onChange={handleChange}
                 />
 
-                {entity.endDate && entity.startDate !== entity.endDate && (
+                {entity.endDate && category.mapping !== "Active" && entity.startDate !== entity.endDate && (
                   <div className="form-check form-switch">
                     <input
                       className="form-check-input"
@@ -199,13 +199,18 @@ export function CalendarRequest() {
                     </label>
                   </div>
                 )}
-                {entity.startDate !== entity.endDate && partialEndDate && (
+                {partialEndDate && entity.startDate !== entity.endDate && category.mapping !== "Active" && (
                   <EntityFieldForEdit
                     field={definition.fields.find((f) => f.name === "durationLastDay")}
                     entity={entity}
                     onChange={handleChange}
                   />
                 )}
+                <EntityFieldForEdit
+                  field={definition.fields.find((f) => f.name === "comment")}
+                  entity={entity}
+                  onChange={handleChange}
+                />
               </div>
             </div>
           )}
