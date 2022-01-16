@@ -24,15 +24,15 @@ function CalendarUserLine({ days, entry }) {
         {lineIndex === 0 && <td rowSpan={lines.length}>{entry.user.displayName}</td>}
         {days.map((i) => {
           if (line.days.includes(i)) {
-            const min = line.days[0];
-            const max = line.days[line.days.length - 1];
+            const first = !line.days.includes(i - 1);
+            const last = !line.days.includes(i + 1);
             return (
               <td
                 key={i}
                 className={clsx(
                   "p-0",
-                  { "calendar-line-first": i === min },
-                  { "calendar-line-last": i === max },
+                  { "calendar-line-first": first },
+                  { "calendar-line-last": last },
                   { "no-border": lineIndex < lines.length - 1 },
                   { "bg-off": entry.daysOff.includes(i) }
                 )}
