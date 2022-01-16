@@ -64,7 +64,6 @@ namespace Basic.WebApi.Controllers
                 .ThenInclude(e => e.Category)
                 .Where(u => u.Schedules.Any(s => s.ActiveFrom <= endOfMonth && (s.ActiveTo == null || s.ActiveTo >= startOfMonth)));
 
-            Calendar stdCalendar = CultureInfo.InvariantCulture.Calendar;
             foreach (var user in users)
             {
                 var events = user.Events
@@ -75,34 +74,10 @@ namespace Basic.WebApi.Controllers
                 var calendar = new UserCalendar() { User = Mapper.Map<EntityReference>(user) };
 
                 // Add days off
-                var schedules = Context.Set<Schedule>()
-                    .Where(s => s.User == user)
-                    .Where(s => s.ActiveFrom <= endOfMonth && (s.ActiveTo == null || s.ActiveTo >= startOfMonth));
-                for (int i = 1; i <= days; i++)
+                var workingSchedule = ScheduleHelper.CalculateWorkingSchedule(Context, user, startOfMonth, endOfMonth);
+                foreach(var date in workingSchedule.Where(d => d.Value == 0m).Select(p => p.Key))
                 {
-                    DateTime day = startOfMonth.AddDays(i - 1);
-                    int dayOfWeek = (int)day.DayOfWeek;
-                    var schedule = schedules
-                        .FirstOrDefault(s => s.ActiveFrom <= day && (s.ActiveTo == null || s.ActiveTo >= day));
-                    if (schedule == null)
-                    {
-                        // The user can't work on this day
-                        calendar.DaysOff.Add(i);
-                    }
-                    else
-                    {
-                        int index = dayOfWeek;
-                        int week = stdCalendar.GetWeekOfYear(day, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
-                        if (schedule.WorkingSchedule.Length > 7 && week.IsEven())
-                        {
-                            index += 7;
-                        }
-
-                        if (schedule.WorkingSchedule[index] == 0m)
-                        {
-                            calendar.DaysOff.Add(i);
-                        }
-                    }
+                    calendar.DaysOff.Add(date.Day);
                 }
 
                 // Add line for time-off, if any
@@ -315,17 +290,14 @@ namespace Basic.WebApi.Controllers
 
             if (context.Category.Mapping != EventTimeMapping.Active)
             {
+                var workingSchedule = ScheduleHelper.CalculateWorkingSchedule(Context, context.User, request.StartDate, request.EndDate);
+
                 // Compute total impacted hours
                 context.TotalHours = 0m;
                 context.TotalDays = 0;
-                bool complexSchedule = context.Schedule.WorkingSchedule.Length > 7;
-                Calendar calendar = CultureInfo.InvariantCulture.Calendar;
-                for (DateTime day = request.StartDate; day <= request.EndDate; day = day.AddDays(1))
+                for (DateTime day = request.StartDate.Date; day <= request.EndDate; day = day.AddDays(1))
                 {
-                    // extract the associated working schedule
-                    int week = calendar.GetWeekOfYear(day, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
-                    int index = complexSchedule && week.IsEven() ? 7 + (int)day.DayOfWeek : (int)day.DayOfWeek;
-                    decimal maxHours = context.Schedule.WorkingSchedule[index];
+                    decimal maxHours = workingSchedule[day];
 
                     if (maxHours == 0m)
                     {
