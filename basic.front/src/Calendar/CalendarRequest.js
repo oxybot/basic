@@ -48,17 +48,34 @@ function Status({ value, text, message }) {
     </>
   );
 }
+
 export function CalendarRequest() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const definition = useDefinition("CalendarRequest");
   const [entity, setEntity] = useState({});
   const [validated, setValidated] = useState(false);
+  const [partialStartDate, setPartialStartDate] = useState(false);
+  const [partialEndDate, setPartialEndDate] = useState(false);
   const [, categories] = useApiFetch("EventCategories", { method: "GET" }, []);
   const [, check] = useApiFetch("Calendar/check", { method: "POST", body: JSON.stringify(entity) }, null);
   const options = categories.map((e) => ({ value: e.identifier, label: e.displayName }));
   const categoryField = definition && definition.fields.find((f) => f.name === "categoryIdentifier");
   const category = entity.categoryIdentifier && categories.find((c) => c.identifier === entity.categoryIdentifier);
+
+  function switchPartialStartDate() {
+    if (partialStartDate) {
+      setEntity({ ...entity, durationFirstDay: null });
+    }
+    setPartialStartDate(!partialStartDate);
+  }
+
+  function switchPartialEndDate() {
+    if (partialEndDate) {
+      setEntity({ ...entity, durationLastDay: null });
+    }
+    setPartialEndDate(!partialEndDate);
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -75,11 +92,11 @@ export function CalendarRequest() {
       });
   }
 
-  const handleChange = (event) => {
+  function handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
     setEntity({ ...entity, [name]: value });
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit} noValidate={true} className={clsx("container-xl", { "was-validated": validated })}>
@@ -137,11 +154,58 @@ export function CalendarRequest() {
                   entity={entity}
                   onChange={handleChange}
                 />
+
+                {entity.startDate && (
+                  <div className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="partialStartDate"
+                      checked={partialStartDate}
+                      onChange={switchPartialStartDate}
+                    />
+                    <label className="form-check-label text-white" htmlFor="partialStartDate">
+                      Partial day
+                    </label>
+                  </div>
+                )}
+                {partialStartDate && (
+                  <EntityFieldForEdit
+                    field={definition.fields.find((f) => f.name === "durationFirstDay")}
+                    entity={entity}
+                    onChange={handleChange}
+                  />
+                )}
+
                 <EntityFieldForEdit
                   field={definition.fields.find((f) => f.name === "endDate")}
                   entity={entity}
                   onChange={handleChange}
                 />
+
+                {entity.endDate && entity.startDate !== entity.endDate && (
+                  <div className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="partialEndDate"
+                      checked={partialEndDate}
+                      onChange={switchPartialEndDate}
+                    />
+                    <label className="form-check-label text-white" htmlFor="partialEndDate">
+                      Partial day
+                    </label>
+                  </div>
+                )}
+                {entity.startDate !== entity.endDate && partialEndDate && (
+                  <EntityFieldForEdit
+                    field={definition.fields.find((f) => f.name === "durationLastDay")}
+                    entity={entity}
+                    onChange={handleChange}
+                  />
+                )}
               </div>
             </div>
           )}
