@@ -8,7 +8,7 @@ namespace Basic.Model
     /// <summary>
     /// Represents an agreement toward a client.
     /// </summary>
-    public class Agreement : BaseModel
+    public class Agreement : BaseModel, IWithStatus<AgreementStatus>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Agreement"/> class.
@@ -17,6 +17,7 @@ namespace Basic.Model
         {
             this.Items = new List<AgreementItem>();
             this.Invoices = new List<Invoice>();
+            this.Statuses = new List<AgreementStatus>();
         }
 
         /// <summary>
@@ -62,5 +63,10 @@ namespace Basic.Model
         /// Gets the invoices attached to the agreement.
         /// </summary>
         public ICollection<Invoice> Invoices { get; }
+
+        /// <summary>
+        /// Gets the statuses associated to the agreement.
+        /// </summary>
+        public ICollection<AgreementStatus> Statuses { get; }
     }
 }

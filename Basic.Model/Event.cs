@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Basic.Model
@@ -6,8 +7,16 @@ namespace Basic.Model
     /// <summary>
     /// Represents a time management event for a user.
     /// </summary>
-    public class Event : BaseModel
+    public class Event : BaseModel, IWithStatus<EventStatus>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Event"/> class.
+        /// </summary>
+        public Event()
+        {
+            this.Statuses = new List<EventStatus>();
+        }
+
         /// <summary>
         /// Gets or sets the associated user.
         /// </summary>
@@ -36,6 +45,11 @@ namespace Basic.Model
         /// </summary>
         [Required]
         public DateTime EndDate { get; set; }
+
+        /// <summary>
+        /// Gets the history of statuses of the event.
+        /// </summary>
+        public virtual ICollection<EventStatus> Statuses { get; }
 
         /// <summary>
         /// Gets or sets the number of hours associated to the first day.

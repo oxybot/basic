@@ -93,6 +93,27 @@ namespace Basic.DataAccess
                 builder.Entity("RoleUser")
                     .HasData(new { RolesIdentifier = role.Identifier, UsersIdentifier = demoUser.Identifier });
             }
+
+            builder.Entity<Status>()
+                .HasData(new Status()
+                {
+                    Identifier = new Guid("52bc6354-d8ef-44e2-87ca-c64deeeb22e8"),
+                    DisplayName = "Requested",
+                    Description = "The associated event has been created and is waiting for approval",
+                    IsActive = true,
+                }, new Status()
+                {
+                    Identifier = new Guid("4151c014-ddde-43e4-aa7e-b98a339bbe74"),
+                    DisplayName = "Approved",
+                    Description = "The associated event has been approved",
+                    IsActive = false,
+                }, new Status()
+                {
+                    Identifier = new Guid("e7f8dcc7-57d5-4e74-ac38-1fbd5153996c"),
+                    DisplayName = "Rejected",
+                    Description = "The associated event has been rejected",
+                    IsActive = false,
+                });
         }
     }
 }
