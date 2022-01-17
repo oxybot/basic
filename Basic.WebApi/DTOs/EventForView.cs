@@ -61,5 +61,11 @@ namespace Basic.WebApi.DTOs
         [Required]
         [SwaggerSchema(Format = "number/hours")]
         public decimal DurationTotal { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current status for the event.
+        /// </summary>
+        [SwaggerSchema(Format = "ref/status")]
+        public StatusReference CurrentStatus { get; set; }
     }
 }

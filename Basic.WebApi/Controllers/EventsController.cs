@@ -94,7 +94,7 @@ namespace Basic.WebApi.Controllers
         /// Deletes a specific agreement.
         /// </summary>
         /// <param name="identifier">The identifier of the agreement to delete.</param>
-        /// <response code="404">No agreement is associated to the provided <paramref name="identifier"/>.</response>
+        /// <response code="404">No event is associated to the provided <paramref name="identifier"/>.</response>
         [HttpDelete]
         [AuthorizeRoles(Role.Time)]
         [Produces("application/json")]
@@ -102,6 +102,30 @@ namespace Basic.WebApi.Controllers
         public override void Delete(Guid identifier)
         {
             base.Delete(identifier);
+        }
+
+        /// <summary>
+        /// Retrieves the statuses associated to a specific event.
+        /// </summary>
+        /// <param name="identifier">The identifier of the event.</param>
+        /// <returns>The statuses of the event.</returns>
+        /// <response code="404">No event is associated to the provided <paramref name="identifier"/>.</response>
+        [HttpGet]
+        [AuthorizeRoles(Role.TimeRO, Role.Time)]
+        [Produces("application/json")]
+        [Route("{identifier}/statuses")]
+        public IEnumerable<ModelStatusForList> GetStatuses(Guid identifier)
+        {
+            var entity = AddIncludesForView(Context.Set<Event>())
+                .SingleOrDefault(c => c.Identifier == identifier);
+            if (entity == null)
+            {
+                throw new NotFoundException("Not existing entity");
+            }
+
+            return entity.Statuses
+                .OrderByDescending(s => s.UpdatedOn)
+                .Select(s => Mapper.Map<ModelStatusForList>(s));
         }
 
         /// <summary>
@@ -122,6 +146,19 @@ namespace Basic.WebApi.Controllers
             {
                 throw new BadRequestException("Invalid category identifier");
             }
+
+            // Add the default status for a new event
+            if (model.Identifier == Guid.Empty)
+            {
+                User user = this.GetConnectedUser();
+                var requested = this.Context.GetStatus("requested");
+                model.Statuses.Add(new EventStatus()
+                {
+                    Status = requested,
+                    UpdatedOn = DateTime.UtcNow,
+                    UpdatedBy = user
+                });
+            }
         }
 
         /// <summary>
@@ -131,7 +168,11 @@ namespace Basic.WebApi.Controllers
         /// <returns>The updated query.</returns>
         protected override IQueryable<Event> AddIncludesForList(IQueryable<Event> query)
         {
-            return query.Include(c => c.User).Include(c => c.Category);
+            return query
+                .Include(c => c.User)
+                .Include(c => c.Category)
+                .Include(c => c.Statuses)
+                    .ThenInclude(s => s.Status);
         }
 
         /// <summary>
@@ -141,7 +182,11 @@ namespace Basic.WebApi.Controllers
         /// <returns>The updated query.</returns>
         protected override IQueryable<Event> AddIncludesForView(IQueryable<Event> query)
         {
-            return query.Include(c => c.User).Include(c => c.Category);
+            return query
+                .Include(c => c.User)
+                .Include(c => c.Category)
+                .Include(c => c.Statuses)
+                    .ThenInclude(s => s.Status);
         }
     }
 }

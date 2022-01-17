@@ -51,6 +51,21 @@ export default function EntityField({ type, value, list = false }) {
           throw new Error("Unknown value: " + value);
       }
 
+    case "ref/status":
+      return (
+        <span
+          className={clsx(
+            "badge",
+            { "bg-primary": value.displayName === "Requested" },
+            { "bg-success": value.displayName === "Approved" },
+            { "bg-danger": value.displayName === "Rejected" }
+          )}
+          title={value.description}
+        >
+          {value.displayName}
+        </span>
+      );
+
     case "image":
       if (value) {
         return (

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Basic.Model
 {
@@ -45,6 +46,14 @@ namespace Basic.Model
         /// </summary>
         [Required]
         public DateTime EndDate { get; set; }
+
+        /// <summary>
+        /// Gets the current status for this event.
+        /// </summary>
+        public Status CurrentStatus
+        {
+            get { return this.Statuses.OrderByDescending(s => s.UpdatedOn).FirstOrDefault()?.Status; }
+        }
 
         /// <summary>
         /// Gets the history of statuses of the event.

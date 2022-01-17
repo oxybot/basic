@@ -14,19 +14,24 @@ namespace Basic.WebApi
         /// </summary>
         public MappingProfile()
         {
+            // General conversions
             CreateMap<byte[], string>()
                 .ConvertUsing((bytes) => Convert.ToBase64String(bytes));
             CreateMap<string, byte[]>()
                 .ConvertUsing((text) => Convert.FromBase64String(text));
             CreateMap<TypedFile, Base64File>().ReverseMap();
 
+            // Entity reference conversions
             CreateMap<Client, EntityReference>();
             CreateMap<Product, EntityReference>();
             CreateMap<User, EntityReference>();
             CreateMap<EventCategory, EntityReference>();
 
+            // Special entity reference conversions
             CreateMap<User, UserReference>();
+            CreateMap<Status, StatusReference>();
 
+            // All entities conversions
             CreateMap<Client, ClientForList>();
             CreateMap<Client, ClientForView>();
             CreateMap<Client, ClientForEdit>().ReverseMap();
@@ -54,6 +59,8 @@ namespace Basic.WebApi
                     .ForMember(e => e.User, options => options.Ignore())
                     .ForMember(e => e.Category, options => options.Ignore());
 
+            CreateMap<BaseModelStatus, ModelStatusForList>();
+
             CreateMap<Event, EventForList>();
             CreateMap<Event, EventForView>();
             CreateMap<Event, EventForEdit>()
@@ -72,7 +79,6 @@ namespace Basic.WebApi
             CreateMap<Product, ProductForEdit>().ReverseMap();
 
             CreateMap<Role, RoleForList>();
-
 
             CreateMap<Schedule, ScheduleForList>();
             CreateMap<Schedule, ScheduleForView>();

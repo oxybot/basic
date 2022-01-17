@@ -176,5 +176,25 @@ namespace Basic.WebApi.Controllers
         protected virtual void CheckDependencies(TForEdit entity, TModel model)
         {
         }
+
+        /// <summary>
+        /// Retrieves the <see cref="User"/> instance associated with the connected user.
+        /// </summary>
+        /// <returns>A <see cref="User"/> instance; or <c>null</c>.</returns>
+        protected User GetConnectedUser()
+        {
+            var userIdClaim = this.User.Claims.SingleOrDefault(c => c.Type == "sid:guid");
+            if (userIdClaim == null)
+            {
+                return null;
+            }
+
+            var userId = Guid.Parse(userIdClaim.Value);
+            var user = this.Context.Set<User>()
+                .Include(u => u.Roles)
+                .SingleOrDefault(u => u.Password != null && u.Identifier == userId);
+
+            return user;
+        }
     }
 }
