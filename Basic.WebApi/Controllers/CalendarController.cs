@@ -61,13 +61,17 @@ namespace Basic.WebApi.Controllers
             var days = endOfMonth.Day;
             var users = Context.Set<User>()
                 .Include(e => e.Events)
-                .ThenInclude(e => e.Category)
+                    .ThenInclude(e => e.Category)
+                .Include(e => e.Events)
+                    .ThenInclude(e => e.Statuses)
+                        .ThenInclude(e => e.Status)
                 .Where(u => u.Schedules.Any(s => s.ActiveFrom <= endOfMonth && (s.ActiveTo == null || s.ActiveTo >= startOfMonth)));
 
             foreach (var user in users)
             {
                 var events = user.Events
-                    .Where(e => e.StartDate <= endOfMonth && e.EndDate >= startOfMonth);
+                    .Where(e => e.StartDate <= endOfMonth && e.EndDate >= startOfMonth)
+                    .Where(e => e.CurrentStatus.DisplayName != "Rejected");
                 var timeoff = events.Where(e => e.Category.Mapping != EventTimeMapping.Active);
                 var active = events.Where(e => e.Category.Mapping == EventTimeMapping.Active);
 
@@ -75,7 +79,7 @@ namespace Basic.WebApi.Controllers
 
                 // Add days off
                 var workingSchedule = ScheduleHelper.CalculateWorkingSchedule(Context, user, startOfMonth, endOfMonth);
-                foreach(var date in workingSchedule.Where(d => d.Value == 0m).Select(p => p.Key))
+                foreach (var date in workingSchedule.Where(d => d.Value == 0m).Select(p => p.Key))
                 {
                     calendar.DaysOff.Add(date.Day);
                 }
@@ -160,6 +164,15 @@ namespace Basic.WebApi.Controllers
                 DurationLastDay = request.DurationLastDay ?? 8m,
                 DurationTotal = context.TotalHours ?? 0m,
             };
+
+            User user = this.GetConnectedUser();
+            var requested = this.Context.GetStatus("Requested");
+            model.Statuses.Add(new EventStatus()
+            {
+                Status = requested,
+                UpdatedOn = DateTime.UtcNow,
+                UpdatedBy = user
+            });
 
             Context.Set<Event>().Add(model);
             Context.SaveChanges();
@@ -322,6 +335,26 @@ namespace Basic.WebApi.Controllers
             }
 
             return context;
+        }
+
+        /// <summary>
+        /// Retrieves the <see cref="User"/> instance associated with the connected user.
+        /// </summary>
+        /// <returns>A <see cref="User"/> instance; or <c>null</c>.</returns>
+        private User GetConnectedUser()
+        {
+            var userIdClaim = this.User.Claims.SingleOrDefault(c => c.Type == "sid:guid");
+            if (userIdClaim == null)
+            {
+                return null;
+            }
+
+            var userId = Guid.Parse(userIdClaim.Value);
+            var user = this.Context.Set<User>()
+                .Include(u => u.Roles)
+                .SingleOrDefault(u => u.Password != null && u.Identifier == userId);
+
+            return user;
         }
     }
 }
