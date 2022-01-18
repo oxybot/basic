@@ -115,6 +115,19 @@ namespace Basic.WebApi.Controllers
             {
                 throw new BadRequestException("Invalid user identifier");
             }
+
+            if (model.WorkingSchedule.Length < 7)
+            {
+                model.WorkingSchedule = model.WorkingSchedule.Concat(new decimal[7 - model.WorkingSchedule.Length]).ToArray();
+            }
+            else if (model.WorkingSchedule.Length < 14)
+            {
+                model.WorkingSchedule = model.WorkingSchedule.Concat(new decimal[14 - model.WorkingSchedule.Length]).ToArray();
+            }
+            else if (model.WorkingSchedule.Length > 14)
+            {
+                throw new BadRequestException("Invalid schedule data");
+            }
         }
 
         /// <summary>
