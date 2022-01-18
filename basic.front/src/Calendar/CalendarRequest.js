@@ -165,7 +165,7 @@ export function CalendarRequest() {
                       checked={partialStartDate}
                       onChange={switchPartialStartDate}
                     />
-                    <label className="form-check-label text-white" htmlFor="partialStartDate">
+                    <label className="form-check-label text-body" htmlFor="partialStartDate">
                       Partial day
                     </label>
                   </div>
@@ -194,7 +194,7 @@ export function CalendarRequest() {
                       checked={partialEndDate}
                       onChange={switchPartialEndDate}
                     />
-                    <label className="form-check-label text-white" htmlFor="partialEndDate">
+                    <label className="form-check-label text-body" htmlFor="partialEndDate">
                       Partial day
                     </label>
                   </div>
