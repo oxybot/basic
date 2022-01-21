@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: my_secret_password
+      MYSQL_DATABASE: basic
+      MYSQL_USER: basic
+      MYSQL_PASSWORD: basic
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080

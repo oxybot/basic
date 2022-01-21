@@ -13,7 +13,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<Context>(options =>
 {
-    options.UseSqlServer("name=ConnectionStrings:DefaultConnection");
+    switch (builder.Configuration["DatabaseDriver"])
+    {
+        case "SqlServer":
+            options.UseSqlServer("name=ConnectionStrings:SqlServer");
+            break;
+
+        case "MySql":
+            string connectionString = builder.Configuration.GetConnectionString("MySql");
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            break;
+
+        default:
+            throw new NotImplementedException();
+    }
 });
 
 builder.Services.AddControllers().AddJsonOptions(options =>
