@@ -25,15 +25,13 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
-        [SwaggerSchema(Format = "date")]
-        public DateTime StartDate { get; set; }
+        public DateOnly StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
-        [SwaggerSchema(Format = "date")]
-        public DateTime EndDate { get; set; }
+        public DateOnly EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the number of hours associated to the first day.
@@ -61,14 +59,14 @@ namespace Basic.WebApi.DTOs
                     new[] { nameof(CategoryIdentifier) });
             }
 
-            if (StartDate == DateTime.MinValue)
+            if (StartDate == DateOnly.MinValue)
             {
                 yield return new ValidationResult(
                     "The Start Date is mandatory",
                     new[] { nameof(StartDate) });
             }
 
-            if (EndDate == DateTime.MinValue)
+            if (EndDate == DateOnly.MinValue)
             {
                 yield return new ValidationResult(
                     "The Start Date is mandatory",

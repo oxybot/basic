@@ -26,8 +26,7 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the start date of this schedule.
         /// </summary>
         [Required]
-        [SwaggerSchema(Format = "date")]
-        public DateTime ActiveFrom { get; set; }
+        public DateOnly ActiveFrom { get; set; }
 
         /// <summary>
         /// Gets or sets the number of working hours per day of the week.

@@ -17,7 +17,7 @@ namespace Basic.WebApi
         /// <param name="start">The start date of the period (included).</param>
         /// <param name="end">The end date of the period (included).</param>
         /// <returns>The list of days in the period and the associated working time.</returns>
-        public static IDictionary<DateTime, decimal> CalculateWorkingSchedule(Context context, User user, DateTime start, DateTime end)
+        public static IDictionary<DateOnly, decimal> CalculateWorkingSchedule(Context context, User user, DateOnly start, DateOnly end)
         {
             var schedules = context.Set<Schedule>()
                 .Where(s => s.User == user)
@@ -30,8 +30,8 @@ namespace Basic.WebApi
 
             Calendar stdCalendar = CultureInfo.InvariantCulture.Calendar;
 
-            IDictionary<DateTime, decimal> results = new Dictionary<DateTime, decimal>();
-            for (DateTime day = start.Date; day <= end; day = day.AddDays(1))
+            IDictionary<DateOnly, decimal> results = new Dictionary<DateOnly, decimal>();
+            for (DateOnly day = start; day <= end; day = day.AddDays(1))
             {
                 if (globalDaysOff.Any(d => d.Date == day))
                 {
@@ -49,7 +49,7 @@ namespace Basic.WebApi
                 }
 
                 int dayOfWeek = (int)day.DayOfWeek;
-                int week = stdCalendar.GetWeekOfYear(day, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
+                int week = stdCalendar.GetWeekOfYear(day.ToDateTime(TimeOnly.MinValue), CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
                 if (schedule.WorkingSchedule.Length > 7 && week.IsEven())
                 {
                     dayOfWeek += 7;

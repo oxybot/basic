@@ -31,15 +31,13 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
-        [SwaggerSchema(Format = "date")]
-        public DateTime StartDate { get; set; }
+        public DateOnly StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
-        [SwaggerSchema(Format = "date")]
-        public DateTime EndDate { get; set; }
+        public DateOnly EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the number of hours associated to the first day.

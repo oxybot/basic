@@ -33,6 +33,9 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     // Enable string representation for enums
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+
+    // Enable support of DateOnly
+    options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
 });
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -78,9 +81,13 @@ builder.Services.AddSwaggerGen(options =>
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
+    // Add support for DateOnly
+    options.MapType<DateOnly>(() => new OpenApiSchema() { Type = "string", Format = "date" });
+
     // Override xml comments with annotations
     options.EnableAnnotations();
 
+    // Add security configuration
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
     {
         Name = "Authorization",

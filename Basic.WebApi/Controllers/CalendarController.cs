@@ -56,8 +56,8 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<UserCalendar> GetAll(string month)
         {
-            DateTime startOfMonth = DateTime.ParseExact(month, "yyyy-MM", CultureInfo.InvariantCulture);
-            DateTime endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+            DateOnly startOfMonth = DateOnly.ParseExact(month, "yyyy-MM", CultureInfo.InvariantCulture);
+            DateOnly endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
             var days = endOfMonth.Day;
             var users = Context.Set<User>()
                 .Include(e => e.Events)
@@ -96,7 +96,7 @@ namespace Basic.WebApi.Controllers
                     calendar.Lines.Add(line);
                     for (int i = 1; i <= days; i++)
                     {
-                        DateTime day = startOfMonth.AddDays(i - 1);
+                        DateOnly day = startOfMonth.AddDays(i - 1);
                         if (timeoff.Any(e => e.StartDate <= day && day <= e.EndDate))
                         {
                             line.Days.Add(i);
@@ -116,7 +116,7 @@ namespace Basic.WebApi.Controllers
                     calendar.Lines.Add(line);
                     for (int i = 1; i <= days; i++)
                     {
-                        DateTime day = startOfMonth.AddDays(i - 1);
+                        DateOnly day = startOfMonth.AddDays(i - 1);
                         if (activeGroup.Any(e => e.StartDate <= day && day <= e.EndDate))
                         {
                             line.Days.Add(i);
@@ -211,8 +211,8 @@ namespace Basic.WebApi.Controllers
 
             var context = CreateContext(request);
             check.RequestComplete = context.Category != null
-                && request.StartDate != DateTime.MinValue
-                && request.EndDate != DateTime.MinValue;
+                && request.StartDate != DateOnly.MinValue
+                && request.EndDate != DateOnly.MinValue;
 
             if (!check.RequestComplete)
             {
@@ -308,7 +308,7 @@ namespace Basic.WebApi.Controllers
                 // Compute total impacted hours
                 context.TotalHours = 0m;
                 context.TotalDays = 0;
-                for (DateTime day = request.StartDate.Date; day <= request.EndDate; day = day.AddDays(1))
+                for (DateOnly day = request.StartDate; day <= request.EndDate; day = day.AddDays(1))
                 {
                     decimal maxHours = workingSchedule[day];
 
