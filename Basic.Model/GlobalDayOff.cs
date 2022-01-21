@@ -18,7 +18,7 @@ namespace Basic.Model
         /// Gets or sets the reference date.
         /// </summary>
         [Required]
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
 
         /// <summary>
         /// Gets or sets the associated description, if any.

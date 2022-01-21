@@ -39,13 +39,13 @@ namespace Basic.Model
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
-        public DateTime StartDate { get; set; }
+        public DateOnly StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
-        public DateTime EndDate { get; set; }
+        public DateOnly EndDate { get; set; }
 
         /// <summary>
         /// Gets the current status for this event.

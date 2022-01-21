@@ -24,6 +24,16 @@ namespace Basic.DataAccess
 
             builder.Properties<Enum>()
                 .HaveColumnType("nvarchar(24)");
+
+            // https://github.com/dotnet/efcore/issues/24507#issuecomment-891034323
+            builder.Properties<DateOnly>()
+                .HaveConversion<DateOnlyConverter>()
+                .HaveColumnType("date");
+
+            // https://github.com/dotnet/efcore/issues/24507#issuecomment-891034323
+            builder.Properties<DateOnly?>()
+                .HaveConversion<NullableDateOnlyConverter>()
+                .HaveColumnType("date");
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -42,11 +52,6 @@ namespace Basic.DataAccess
                 .Entity<Schedule>()
                 .Property(s => s.WorkingSchedule)
                     .HasConversion<ScheduleConverter, ScheduleComparer>();
-
-            // Special configuration specific to the data source
-            builder.Entity<Event>().Property(s => s.StartDate).HasColumnType("date");
-            builder.Entity<Event>().Property(s => s.EndDate).HasColumnType("date");
-            builder.Entity<GlobalDayOff>().Property(s => s.Date).HasColumnType("date");
 
             // Set-up initial data
             var roles = new[]
