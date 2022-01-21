@@ -163,6 +163,10 @@ namespace Basic.WebApi.Controllers
             {
                 return "datetime";
             }
+            else if (type == typeof(DateOnly) || type == typeof(DateOnly?))
+            {
+                return "date";
+            }
             else if (type == typeof(bool))
             {
                 return "boolean";
