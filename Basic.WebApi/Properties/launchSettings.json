@@ -19,7 +19,7 @@
       "applicationUrl": "https://localhost:7268",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DATABASE_DRIVER": "MySql"
+        "DATABASEDRIVER": "MySql"
       }
     }
   }
