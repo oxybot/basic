@@ -58,7 +58,8 @@ export default function EntityFieldView({ type, value, list = false }) {
             "badge",
             { "bg-primary": value.displayName === "Requested" },
             { "bg-success": value.displayName === "Approved" },
-            { "bg-danger": value.displayName === "Rejected" }
+            { "bg-danger": value.displayName === "Rejected" },
+            { "fs-4": !list }
           )}
           title={value.description}
         >
