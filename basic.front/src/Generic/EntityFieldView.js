@@ -5,7 +5,7 @@ import pluralize from "pluralize";
 import { Link } from "react-router-dom";
 import { toCurrency } from "../helpers";
 
-export default function EntityField({ type, value, list = false }) {
+export default function EntityFieldView({ type, value, list = false }) {
   if (value === undefined || value === null) {
     return "-";
   }

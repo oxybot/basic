@@ -2,7 +2,7 @@ import pluralize from "pluralize";
 import { useParams } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
-import EntityField from "../Generic/EntityField";
+import EntityFieldView from "../Generic/EntityFieldView";
 import PageView from "../Generic/PageView";
 import Section from "../Generic/Section";
 import Sections from "../Generic/Sections";
@@ -42,13 +42,13 @@ function AgreementViewDetail({ entity }) {
                   <span>{pluralize("unit", item.quantity, true)}</span>
                   <span className="mx-1">x</span>
                   <span>
-                    <EntityField type="currency" value={item.unitPrice} />
+                    <EntityFieldView type="currency" value={item.unitPrice} />
                   </span>
                 </div>
               </div>
               <div className="col-auto">
                 <span className="h4 border-secondary">
-                  <EntityField type="currency" value={item.totalPrice} />
+                  <EntityFieldView type="currency" value={item.totalPrice} />
                 </span>
               </div>
             </div>

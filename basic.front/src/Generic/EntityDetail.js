@@ -1,5 +1,5 @@
 import { groupBy, objectMap } from "../helpers";
-import EntityField from "./EntityField";
+import EntityFieldView from "./EntityFieldView";
 
 export default function EntityDetail({ definition, entity }) {
   return (
@@ -19,7 +19,7 @@ export default function EntityDetail({ definition, entity }) {
                   <div key={index} className="mb-3">
                     <div className="field-label">{field.displayName}</div>
                     <div className={field.type !== "schedule" ? "lead" : null}>
-                      <EntityField type={field.type} value={entity[field.name]} />
+                      <EntityFieldView type={field.type} value={entity[field.name]} />
                     </div>
                   </div>
                 ))}

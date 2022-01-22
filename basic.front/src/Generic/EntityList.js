@@ -1,7 +1,7 @@
 import { IconLoader } from "@tabler/icons";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import EntityField from "./EntityField";
+import EntityFieldView from "./EntityFieldView";
 
 function filtered(fields) {
   if (!fields) {
@@ -46,7 +46,7 @@ export default function EntityList({ loading, definition, entities, baseTo, sele
                 fields &&
                 fields.map((field, index) => (
                   <td key={index}>
-                    <EntityField type={field.type} value={entity[field.name]} list />
+                    <EntityFieldView type={field.type} value={entity[field.name]} list />
                   </td>
                 ))}
             </tr>
