@@ -1,5 +1,6 @@
 ﻿using Basic.DataAccess;
 using Basic.Model;
+using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;

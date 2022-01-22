@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Basic.WebApi.Models
+namespace Basic.WebApi.DTOs
 {
     /// <summary>
     /// Represents the data of an authentication request.
     /// </summary>
-    public class AuthRequest
+    public class AuthRequest : BaseEntityDTO
     {
         /// <summary>
         /// Gets or sets the username of the user.
@@ -17,6 +18,7 @@ namespace Basic.WebApi.Models
         /// Gets or sets the password of the user.
         /// </summary>
         [Required]
+        [SwaggerSchema(Format = "password")]
         public string Password { get; set; }
     }
 }

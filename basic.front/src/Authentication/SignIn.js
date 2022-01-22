@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addError, addWarning } from "../Alerts/slice";
-import { apiFetch, apiUrl } from "../api";
+import { apiFetch, apiUrl, useDefinition } from "../api";
+import EntityFieldEdit from "../Generic/EntityFieldEdit";
 import LayoutTheme from "../LayoutTheme";
 import { connect, setRoles, setUser } from "./slice";
 
 export function SignIn() {
   const dispatch = useDispatch();
+  const definition = useDefinition("AuthRequest");
   const [loading, setLoading] = useState(true);
   const [credentials, setCredentials] = useState({});
+  const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -58,7 +61,9 @@ export function SignIn() {
       body: JSON.stringify(credentials),
     }).then((response) => {
       if (!response.ok) {
-        if (response.status === 401) {
+        if (response.status === 400) {
+          response.json().then((err) => setErrors(err));
+        } else if (response.status === 401) {
           dispatch(addWarning("Invalid credentials", "Your username or password seems invalid, review them and retry"));
         } else {
           dispatch(addError("System error", "The system doesn't behave properly - try again later"));
@@ -87,47 +92,19 @@ export function SignIn() {
               <LayoutTheme className="btn btn-link text-body" />
             </div>
           </div>
-          <form className="card card-md" onSubmit={handleSubmit} method="get" autoComplete="off">
+          <form className="card card-md" onSubmit={handleSubmit} method="get" autoComplete="off" noValidate>
             <div className="card-body">
               <h2 className="card-title text-center mb-4">Login to your account</h2>
-              <div className="mb-3">
-                <label className="form-label" htmlFor="username">
-                  Username
-                </label>
-                <input
-                  id="username"
-                  name="username"
-                  type="username"
-                  onChange={handleChange}
-                  tabIndex="1"
-                  className="form-control"
-                  placeholder="Enter username"
-                />
-              </div>
-              <div className="mb-2">
-                <label className="form-label" htmlFor="password">
-                  Password
-                  <span className="form-label-description">
-                    <a href="./forgot-password.html">I forgot password</a>
-                  </span>
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  onChange={handleChange}
-                  tabIndex="2"
-                  className="form-control"
-                  placeholder="Password"
-                  autoComplete="off"
-                />
-              </div>
-              <div className="mb-2">
-                <label className="form-check">
-                  <input type="checkbox" className="form-check-input" tabIndex="3" />
-                  <span className="form-check-label">Remember me on this device</span>
-                </label>
-              </div>
+              {definition &&
+                definition.fields.map((field, index) => (
+                  <EntityFieldEdit
+                    key={index}
+                    field={field}
+                    errors={errors && errors[field.name]}
+                    entity={credentials}
+                    onChange={handleChange}
+                  />
+                ))}
               <div className="form-footer">
                 <button type="submit" className="btn btn-primary w-100" tabIndex="4">
                   Sign in

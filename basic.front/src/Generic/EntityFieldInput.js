@@ -143,6 +143,19 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
         />
       );
 
+    case "password":
+      return (
+        <input
+          type="password"
+          className={clsx("form-control", { "is-invalid": hasErrors })}
+          required={field.required}
+          id={field.name}
+          name={field.name}
+          placeholder={field.placeholder}
+          onChange={onChange}
+        />
+      );
+
     case "currency":
       return (
         <div className="input-icon">
