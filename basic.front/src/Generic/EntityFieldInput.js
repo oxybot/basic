@@ -42,10 +42,10 @@ export default function EntityFieldInput({ field, value, onChange }) {
       return <EntityFieldInputReference baseApiUrl="EventCategories" field={field} value={value} onChange={onChange} />;
 
     case "ref/client":
-      return <EntityfieldInputReference baseApiUrl="Clients" field={field} value={value} onChange={onChange} />;
+      return <EntityFieldInputReference baseApiUrl="Clients" field={field} value={value} onChange={onChange} />;
 
     case "ref/product":
-      return <EntityfieldInputReference baseApiUrl="Products" field={field} value={value} onChange={onChange} />;
+      return <EntityFieldInputReference baseApiUrl="Products" field={field} value={value} onChange={onChange} />;
 
     case "ref/user":
       return <EntityFieldInputReference baseApiUrl="Users" field={field} value={value} onChange={onChange} />;
