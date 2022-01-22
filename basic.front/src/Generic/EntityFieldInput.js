@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import Select from "react-select";
 import { useApiFetch } from "../api";
 
-function EntityInputReference({ baseApiUrl, field, value, onChange }) {
+function EntityFieldInputReference({ baseApiUrl, field, value, onChange }) {
   const [loading, elements] = useApiFetch(baseApiUrl, { method: "GET" }, [], (elements) =>
     elements.map((c) => ({
       value: c.identifier,
@@ -25,7 +25,7 @@ function EntityInputReference({ baseApiUrl, field, value, onChange }) {
   );
 }
 
-function EntityInputImage({ field, value, onChange }) {
+function EntityFieldInputImage({ field, value, onChange }) {
   function handleRemove() {
     onChange({ target: { name: field.name, value: null } });
   }
@@ -68,7 +68,7 @@ function EntityInputImage({ field, value, onChange }) {
   );
 }
 
-function EntityInputSchedule({ field, value = [], onChange }) {
+function EntityFieldInputSchedule({ field, value = [], onChange }) {
   const complex = Array.isArray(value) && value.length > 7;
   const prefix = field.name;
   const days = [0, 1, 2, 3, 4, 5, 6];
@@ -166,7 +166,7 @@ const colors = [
   "teal",
   "cyan",
 ];
-function EntityInputColor({ field, value, onChange }) {
+function EntityFieldInputColor({ field, value, onChange }) {
   return (
     <div className="row g-2">
       {colors.map((color) => (
@@ -188,7 +188,7 @@ function EntityInputColor({ field, value, onChange }) {
   );
 }
 
-export default function EntityFieldEdit({ field, value, onChange }) {
+export default function EntityFieldInput({ field, value, onChange }) {
   switch (field.type) {
     case "date":
       return (
@@ -222,16 +222,16 @@ export default function EntityFieldEdit({ field, value, onChange }) {
       );
 
     case "ref/category":
-      return <EntityInputReference baseApiUrl="EventCategories" field={field} value={value} onChange={onChange} />;
+      return <EntityFieldInputReference baseApiUrl="EventCategories" field={field} value={value} onChange={onChange} />;
 
     case "ref/client":
-      return <EntityInputReference baseApiUrl="Clients" field={field} value={value} onChange={onChange} />;
+      return <EntityfieldInputReference baseApiUrl="Clients" field={field} value={value} onChange={onChange} />;
 
     case "ref/product":
-      return <EntityInputReference baseApiUrl="Products" field={field} value={value} onChange={onChange} />;
+      return <EntityfieldInputReference baseApiUrl="Products" field={field} value={value} onChange={onChange} />;
 
     case "ref/user":
-      return <EntityInputReference baseApiUrl="Users" field={field} value={value} onChange={onChange} />;
+      return <EntityFieldInputReference baseApiUrl="Users" field={field} value={value} onChange={onChange} />;
 
     case "ref/eventtimemapping":
       return (
@@ -243,13 +243,13 @@ export default function EntityFieldEdit({ field, value, onChange }) {
       );
 
     case "image":
-      return <EntityInputImage field={field} value={value} onChange={onChange} />;
+      return <EntityFieldInputImage field={field} value={value} onChange={onChange} />;
 
     case "schedule":
-      return <EntityInputSchedule field={field} value={value} onChange={onChange} />;
+      return <EntityFieldInputSchedule field={field} value={value} onChange={onChange} />;
 
     case "color":
-      return <EntityInputColor field={field} value={value} onChange={onChange} />;
+      return <EntityFieldInputColor field={field} value={value} onChange={onChange} />;
 
     case "boolean":
       function handleChange(e) {

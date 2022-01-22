@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiFetch, retries, useDefinition } from "../api";
-import EntityFieldEdit from "../Generic/EntityFieldEdit";
+import EntityFieldInput from "../Generic/EntityFieldInput";
 import EntityForm from "../Generic/EntityForm";
 import { refresh } from "./slice";
 
@@ -114,7 +114,7 @@ export function AgreementEdit({ full = false }) {
                   {itemFields &&
                     itemFields.map((field, index) => (
                       <td key={index}>
-                        <EntityFieldEdit field={field} value={item[field.name] || ""} onChange={handleChangeItem} />
+                        <EntityFieldInput field={field} value={item[field.name] || ""} onChange={handleChangeItem} />
                       </td>
                     ))}
                   <td>

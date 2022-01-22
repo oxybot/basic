@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { groupBy, objectMap } from "../helpers";
-import EntityFieldEdit from "./EntityFieldEdit";
+import EntityFieldInput from "./EntityFieldInput";
 import MobilePageTitle from "./MobilePageTitle";
 
 export default function EntityForm({
@@ -76,7 +76,7 @@ export default function EntityForm({
                         >
                           {field.displayName}
                         </label>
-                        <EntityFieldEdit field={field} value={entity[field.name] || ""} onChange={handleChange} />
+                        <EntityFieldInput field={field} value={entity[field.name] || ""} onChange={handleChange} />
                       </div>
                     ))}
                   </div>

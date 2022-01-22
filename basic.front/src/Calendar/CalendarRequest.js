@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { addError } from "../Alerts/slice";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
-import EntityFieldEdit from "../Generic/EntityFieldEdit";
+import EntityFieldInput from "../Generic/EntityFieldInput";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 
 function EntityFieldLabel({ field }) {
@@ -27,7 +27,7 @@ function EntityFieldForEdit({ field, entity, onChange }) {
   return (
     <div className="mb-3">
       <EntityFieldLabel field={field} />
-      <EntityFieldEdit field={field} value={entity[field.name] || ""} onChange={onChange} />
+      <EntityFieldInput field={field} value={entity[field.name] || ""} onChange={onChange} />
     </div>
   );
 }
