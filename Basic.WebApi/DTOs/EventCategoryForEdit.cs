@@ -19,14 +19,14 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets a value indicating whether a balance is required to book time on this category.
         /// </summary>
         [Required]
-        public bool RequireBalance { get; set; }
+        public bool? RequireBalance { get; set; }
 
         /// <summary>
         /// Gets or sets how the time booked on this category should be considered.
         /// </summary>
         [Required]
         [SwaggerSchema(Format = "ref/eventtimemapping")]
-        public EventTimeMapping Mapping { get; set; }
+        public EventTimeMapping? Mapping { get; set; }
 
         /// <summary>
         /// Gets or sets the css class associated to the category.

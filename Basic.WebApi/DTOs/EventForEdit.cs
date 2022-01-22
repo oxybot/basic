@@ -14,7 +14,7 @@ namespace Basic.WebApi.DTOs
         [Required]
         [Display(Name = "User")]
         [SwaggerSchema(Format = "ref/user")]
-        public Guid UserIdentifier { get; set; }
+        public Guid? UserIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the associated category.
@@ -22,7 +22,7 @@ namespace Basic.WebApi.DTOs
         [Required]
         [Display(Name = "Category")]
         [SwaggerSchema(Format = "ref/category")]
-        public Guid CategoryIdentifier { get; set; }
+        public Guid? CategoryIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the comment associated to the request.
@@ -33,33 +33,33 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
-        public DateOnly StartDate { get; set; }
+        public DateOnly? StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
-        public DateOnly EndDate { get; set; }
+        public DateOnly? EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the number of hours associated to the first day.
         /// </summary>
         [Required]
         [SwaggerSchema(Format = "number/hours")]
-        public decimal DurationFirstDay { get; set; }
+        public decimal? DurationFirstDay { get; set; }
 
         /// <summary>
         /// Gets or sets the number of hours associated to the last day.
         /// </summary>
         [Required]
         [SwaggerSchema(Format = "number/hours")]
-        public decimal DurationLastDay { get; set; }
+        public decimal? DurationLastDay { get; set; }
 
         /// <summary>
         /// Gets or sets the total duration of the event, in hours.
         /// </summary>
         [Required]
         [SwaggerSchema(Format = "number/hours")]
-        public decimal DurationTotal { get; set; }
+        public decimal? DurationTotal { get; set; }
     }
 }

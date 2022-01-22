@@ -12,7 +12,7 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the date of the day-off.
         /// </summary>
         [Required]
-        public DateOnly Date { get; set; }
+        public DateOnly? Date { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the day off, if any.

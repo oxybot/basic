@@ -14,7 +14,7 @@ namespace Basic.WebApi.DTOs
         [Required]
         [Display(Name = "Category")]
         [SwaggerSchema(Format = "ref/category")]
-        public Guid CategoryIdentifier { get; set; }
+        public Guid? CategoryIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the comment associated to the request.
@@ -25,13 +25,13 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
-        public DateOnly StartDate { get; set; }
+        public DateOnly? StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets the end date of the event.
         /// </summary>
         [Required]
-        public DateOnly EndDate { get; set; }
+        public DateOnly? EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the number of hours associated to the first day.
@@ -69,7 +69,7 @@ namespace Basic.WebApi.DTOs
             if (EndDate == DateOnly.MinValue)
             {
                 yield return new ValidationResult(
-                    "The Start Date is mandatory",
+                    "The End Date is mandatory",
                     new[] { nameof(EndDate) });
             }
 

@@ -25,12 +25,12 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the quantity associated.
         /// </summary>
         [Required]
-        public decimal Quantity { get; set; }
+        public decimal? Quantity { get; set; }
 
         /// <summary>
         /// Gets or sets the unit price associated.
         /// </summary>
         [Required]
-        public decimal UnitPrice { get; set; }
+        public decimal? UnitPrice { get; set; }
     }
 }

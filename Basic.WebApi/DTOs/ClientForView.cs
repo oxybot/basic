@@ -23,6 +23,7 @@ namespace Basic.WebApi.DTOs
         [Display(Prompt = "Contoso Limited")]
         [SwaggerSchema("The name of the client as displayed in official papers")]
         public string FullName { get; set; }
+
         /// <summary>
         /// Gets or sets the first line of the client address.
         /// </summary>

@@ -79,11 +79,6 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public virtual TForList Post(TForEdit entity)
         {
-            if (!ModelState.IsValid)
-            {
-                throw new BadRequestException("Invalid data");
-            }
-
             TModel model = Mapper.Map<TModel>(entity);
             CheckDependencies(entity, model);
 
@@ -106,11 +101,6 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}")]
         public virtual TForList Put(Guid identifier, TForEdit entity)
         {
-            if (!ModelState.IsValid)
-            {
-                throw new BadRequestException("Invalid data");
-            }
-
             var model = AddIncludesForView(Context.Set<TModel>()).SingleOrDefault(e => e.Identifier == identifier);
             if (model == null)
             {

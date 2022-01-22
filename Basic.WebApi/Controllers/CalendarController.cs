@@ -158,8 +158,8 @@ namespace Basic.WebApi.Controllers
                 User = context.User,
                 Category = context.Category,
                 Comment = request.Comment,
-                StartDate = request.StartDate,
-                EndDate = request.EndDate,
+                StartDate = request.StartDate.Value,
+                EndDate = request.EndDate.Value,
                 DurationFirstDay = request.DurationFirstDay ?? 8m,
                 DurationLastDay = request.DurationLastDay ?? 8m,
                 DurationTotal = context.TotalHours ?? 0m,
@@ -303,12 +303,12 @@ namespace Basic.WebApi.Controllers
 
             if (context.Category.Mapping != EventTimeMapping.Active)
             {
-                var workingSchedule = ScheduleHelper.CalculateWorkingSchedule(Context, context.User, request.StartDate, request.EndDate);
+                var workingSchedule = ScheduleHelper.CalculateWorkingSchedule(Context, context.User, request.StartDate.Value, request.EndDate.Value);
 
                 // Compute total impacted hours
                 context.TotalHours = 0m;
                 context.TotalDays = 0;
-                for (DateOnly day = request.StartDate; day <= request.EndDate; day = day.AddDays(1))
+                for (DateOnly day = request.StartDate.Value; day <= request.EndDate.Value; day = day.AddDays(1))
                 {
                     decimal maxHours = workingSchedule[day];
 

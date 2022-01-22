@@ -13,13 +13,13 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         [Required]
         [SwaggerSchema(Format = "ref/user")]
-        public Guid UserIdentifier { get; set; }
+        public Guid? UserIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the start date of this schedule.
         /// </summary>
         [Required]
-        public DateOnly ActiveFrom { get; set; }
+        public DateOnly? ActiveFrom { get; set; }
 
         /// <summary>
         /// Gets or sets the end date of this schedule, if any.

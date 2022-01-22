@@ -26,7 +26,7 @@ namespace Basic.WebApi.DTOs
         [Required]
         [Display(Name = "Client")]
         [SwaggerSchema(Format = "ref/client")]
-        public Guid ClientIdentifier { get; set; }
+        public Guid? ClientIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the signature date of the agreement.
