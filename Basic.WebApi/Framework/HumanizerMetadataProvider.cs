@@ -27,7 +27,7 @@ namespace Basic.WebApi.Framework
             if (propertyAttributes.OfType<DisplayNameAttribute>().Any())
                 return false;
 
-            if (propertyAttributes.OfType<DisplayAttribute>().Any())
+            if (propertyAttributes.OfType<DisplayAttribute>().Any(d => d.Name != null))
                 return false;
 
             if (string.IsNullOrEmpty(propertyName))

@@ -2,8 +2,9 @@
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Models;
-using Humanizer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
@@ -58,11 +59,16 @@ namespace Basic.WebApi.Controllers
         /// <exception cref="NotFoundException">The <paramref name="name"/> is invalid.</exception>
         [HttpGet]
         [Route("{name}")]
-        public Definition GetOne(string name)
+        public Definition GetOne(string name, [FromServices] IModelMetadataProvider provider)
         {
             if (string.IsNullOrEmpty(name))
             {
                 throw new BadRequestException("Name of the entity required");
+            }
+
+            if (provider is null)
+            {
+                throw new ArgumentNullException(nameof(provider));
             }
 
             var types = ExtractEntityTypes();
@@ -71,7 +77,8 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Not existing entity");
             }
 
-            return Build(types[name]);
+            ModelMetadata metadata = provider.GetMetadataForType(types[name]);
+            return Build(metadata);
         }
 
         private static IDictionary<string, Type> ExtractEntityTypes()
@@ -86,68 +93,39 @@ namespace Basic.WebApi.Controllers
                 });
         }
 
-        private static Definition Build(Type entityType)
+        private static Definition Build(ModelMetadata metadata)
         {
-            var schemaAttribute = entityType.GetCustomAttribute<SwaggerSchemaAttribute>();
             var definition = new Definition
             {
-                Name = schemaAttribute?.Title ?? entityType.Name,
+                Name = metadata.Name,
             };
 
-            var types = GetInheritance(entityType);
-            foreach (Type inheritance in types)
+            foreach (DefaultModelMetadata property in metadata.Properties)
             {
-                var properties = inheritance
-                    .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
-                    .OrderBy(p => GetOrder(p), OrderComparer.Default);
-                foreach (var property in properties)
-                {
-                    definition.Fields.Add(Build(property));
-                }
+                definition.Fields.Add(BuildProperty(property));
             }
 
             return definition;
         }
 
-        private static IEnumerable<Type> GetInheritance(Type reference)
+        private static DefinitionField BuildProperty(DefaultModelMetadata property)
         {
-            if (typeof(BaseEntityDTO).IsAssignableFrom(reference.BaseType))
-            {
-                foreach (Type type in GetInheritance(reference.BaseType))
-                {
-                    yield return type;
-                }
-            }
-
-            yield return reference;
-        }
-
-        private static int? GetOrder(PropertyInfo property)
-        {
-            var display = property.GetCustomAttribute<DisplayAttribute>();
-            return display?.GetOrder();
-        }
-
-        private static DefinitionField Build(PropertyInfo property)
-        {
-            var schemaAttribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
-            var requiredAttribute = property.GetCustomAttribute<RequiredAttribute>();
             var displayAttribute = property.GetCustomAttribute<DisplayAttribute>();
-
             return new DefinitionField
             {
-                Name = schemaAttribute?.Title ?? property.Name.ToJsonFieldName(),
-                DisplayName = displayAttribute?.GetName() ?? property.Name.Humanize(LetterCasing.Title),
-                Required = requiredAttribute != null,
-                Placeholder = displayAttribute?.GetPrompt(),
+                Name = property.Name.ToJsonFieldName(),
+                DisplayName = property.GetDisplayName(),
+                Required = property.IsRequired,
+                Placeholder = property.Placeholder,
                 Group = displayAttribute?.GetGroupName(),
                 Type = BuildFieldType(property),
             };
         }
 
-        private static string BuildFieldType(PropertyInfo property)
+        private static string BuildFieldType(DefaultModelMetadata property)
         {
-            var type = property.PropertyType;
+
+            var type = property.ModelType;
             var swaggerAttribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
             if (swaggerAttribute != null && !string.IsNullOrEmpty(swaggerAttribute.Format))
             {
