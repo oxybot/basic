@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { groupBy, objectMap } from "../helpers";
-import EntityFieldInput from "./EntityFieldInput";
+import EntityFieldEdit from "./EntityFieldEdit";
 import MobilePageTitle from "./MobilePageTitle";
 
 export default function EntityForm({
@@ -67,17 +67,7 @@ export default function EntityForm({
                   )}
                   <div className="card-body">
                     {fields.map((field, index) => (
-                      <div key={index} className="mb-3">
-                        <label
-                          htmlFor={field.name}
-                          className={clsx("form-label", {
-                            required: field.required,
-                          })}
-                        >
-                          {field.displayName}
-                        </label>
-                        <EntityFieldInput field={field} value={entity[field.name] || ""} onChange={handleChange} />
-                      </div>
+                      <EntityFieldEdit key={index} field={field} entity={entity} onChange={handleChange} />
                     ))}
                   </div>
                 </div>
