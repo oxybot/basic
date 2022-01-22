@@ -55,6 +55,7 @@ namespace Basic.WebApi.Controllers
         /// Retrieves one detailed entity definition.
         /// </summary>
         /// <param name="name">The name of the entity.</param>
+        /// <param name="provider">The current metadata provider.</param>
         /// <returns>The associated definition.</returns>
         /// <exception cref="NotFoundException">The <paramref name="name"/> is invalid.</exception>
         [HttpGet]
