@@ -184,6 +184,10 @@ body {
   color: #f8fafc;
 }
 
+.is-invalid .react-select__control {
+  border-color: var(--tblr-danger);
+}
+
 /* Special style for nav buttons */
 .btn.btn-nav {
   color: #206bc4;

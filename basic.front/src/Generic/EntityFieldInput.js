@@ -24,7 +24,7 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
 
     case "number/hours":
       return (
-        <div className="input-group">
+        <div className={clsx("input-group", { "is-invalid": hasErrors })}>
           <input
             type="text"
             className={clsx("form-control", { "is-invalid": hasErrors })}
@@ -40,16 +40,48 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
       );
 
     case "ref/category":
-      return <EntityFieldInputReference baseApiUrl="EventCategories" field={field} value={value} onChange={onChange} />;
+      return (
+        <EntityFieldInputReference
+          baseApiUrl="EventCategories"
+          field={field}
+          value={value}
+          hasErrors={hasErrors}
+          onChange={onChange}
+        />
+      );
 
     case "ref/client":
-      return <EntityFieldInputReference baseApiUrl="Clients" field={field} value={value} onChange={onChange} />;
+      return (
+        <EntityFieldInputReference
+          baseApiUrl="Clients"
+          field={field}
+          value={value}
+          hasErrors={hasErrors}
+          onChange={onChange}
+        />
+      );
 
     case "ref/product":
-      return <EntityFieldInputReference baseApiUrl="Products" field={field} value={value} onChange={onChange} />;
+      return (
+        <EntityFieldInputReference
+          baseApiUrl="Products"
+          field={field}
+          value={value}
+          hasErrors={hasErrors}
+          onChange={onChange}
+        />
+      );
 
     case "ref/user":
-      return <EntityFieldInputReference baseApiUrl="Users" field={field} value={value} onChange={onChange} />;
+      return (
+        <EntityFieldInputReference
+          baseApiUrl="Users"
+          field={field}
+          value={value}
+          hasErrors={hasErrors}
+          onChange={onChange}
+        />
+      );
 
     case "ref/eventtimemapping":
       return (
