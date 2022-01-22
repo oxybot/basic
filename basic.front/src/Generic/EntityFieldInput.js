@@ -1,17 +1,18 @@
 import { IconCurrencyEuro } from "@tabler/icons";
+import clsx from "clsx";
 import dayjs from "dayjs";
 import EntityFieldInputColor from "./EntityFieldInputColor";
 import EntityFieldInputImage from "./EntityFieldInputImage";
 import EntityFieldInputReference from "./EntityFieldInputReference";
 import EntityFieldInputSchedule from "./EntityFieldInputSchedule";
 
-export default function EntityFieldInput({ field, value, onChange }) {
+export default function EntityFieldInput({ field, value, hasErrors, onChange }) {
   switch (field.type) {
     case "date":
       return (
         <input
           type="date"
-          className="form-control"
+          className={clsx("form-control", { "is-invalid": hasErrors })}
           required={field.required}
           id={field.name}
           name={field.name}
@@ -26,7 +27,7 @@ export default function EntityFieldInput({ field, value, onChange }) {
         <div className="input-group">
           <input
             type="text"
-            className="form-control"
+            className={clsx("form-control", { "is-invalid": hasErrors })}
             required={field.required}
             id={field.name}
             name={field.name}
@@ -52,7 +53,13 @@ export default function EntityFieldInput({ field, value, onChange }) {
 
     case "ref/eventtimemapping":
       return (
-        <select className="form-select" id={field.name} name={field.name} value={value} onChange={onChange}>
+        <select
+          className={clsx("form-select", { "is-invalid": hasErrors })}
+          id={field.name}
+          name={field.name}
+          value={value}
+          onChange={onChange}
+        >
           <option value="Active">Active</option>
           <option value="StandardTimeOff">Standard Time-off</option>
           <option value="ExtraTimeOff">Extra Time-off</option>
@@ -94,7 +101,7 @@ export default function EntityFieldInput({ field, value, onChange }) {
       return (
         <input
           type="text"
-          className="form-control"
+          className={clsx("form-control", { "is-invalid": hasErrors })}
           required={field.required}
           id={field.name}
           name={field.name}
@@ -109,7 +116,7 @@ export default function EntityFieldInput({ field, value, onChange }) {
         <div className="input-icon">
           <input
             type="text"
-            className="form-control"
+            className={clsx("form-control", { "is-invalid": hasErrors })}
             required={field.required}
             id={field.name}
             name={field.name}
@@ -128,7 +135,7 @@ export default function EntityFieldInput({ field, value, onChange }) {
       return (
         <input
           type="text"
-          className="form-control"
+          className={clsx("form-control", { "is-invalid": hasErrors })}
           required={field.required}
           id={field.name}
           name={field.name}

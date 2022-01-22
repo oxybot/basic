@@ -68,13 +68,14 @@ export async function apiFetch(url, options) {
       authorization: "Bearer " + token,
     },
   };
-  return retries(() => fetch(apiUrl(uri), connectedOptions)).then((response) => {
+  return retries(() => {
+    return fetch(apiUrl(uri), connectedOptions);
+  }).then(async (response) => {
+    const body = await response.json();
     if (response.ok) {
-      return response.json();
+      return body;
     } else {
-      console.error("Can't retrieve data");
-      console.log(response);
-      throw new Error("Can't retrieve data");
+      throw body;
     }
   });
 }

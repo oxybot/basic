@@ -119,6 +119,18 @@ body {
   --tblr-muted: #91969f;
 }
 
+/* Fix for #1000 */
+.theme-dark .form-control.is-invalid,
+.theme-dark .was-validated .form-control:invalid {
+  border-color: var(--tblr-danger);
+}
+
+/* Fix for #1000 */
+.theme-dark .form-control.is-valid,
+.theme-dark .was-validated .form-control:valid {
+  border-color: var(--tblr-success);
+}
+
 .theme-dark .offcanvas-header {
   background: #1b2434;
 }

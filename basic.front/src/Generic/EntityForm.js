@@ -8,10 +8,10 @@ export default function EntityForm({
   definition,
   entity,
   texts,
+  errors,
   handleChange,
   handleSubmit,
   full = false,
-  validated = false,
   children,
 }) {
   function t(code) {
@@ -24,11 +24,7 @@ export default function EntityForm({
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      noValidate={true}
-      className={clsx({ "container-xl": full, "was-validated": validated })}
-    >
+    <form onSubmit={handleSubmit} noValidate={true} className={clsx({ "container-xl": full })}>
       <MobilePageTitle back="./..">
         <div className="navbar-brand flex-fill">{t("title")}</div>
         <button type="submit" className="btn btn-primary">
@@ -67,7 +63,13 @@ export default function EntityForm({
                   )}
                   <div className="card-body">
                     {fields.map((field, index) => (
-                      <EntityFieldEdit key={index} field={field} entity={entity} onChange={handleChange} />
+                      <EntityFieldEdit
+                        key={index}
+                        field={field}
+                        errors={errors && errors[field.name]}
+                        entity={entity}
+                        onChange={handleChange}
+                      />
                     ))}
                   </div>
                 </div>

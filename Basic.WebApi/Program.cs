@@ -1,6 +1,8 @@
 using Basic.DataAccess;
 using Basic.WebApi.Framework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -43,6 +45,23 @@ builder.Services.AddControllers()
         // Default display name management for fields
         // used for automated error messages
         options.ModelMetadataDetailsProviders.Add(new HumanizerMetadataProvider());
+    })
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            // Convert modelState errors from .net to js property names.
+            var result = new ModelStateDictionary();
+            foreach(var pair in context.ModelState)
+            {
+                foreach(var error in pair.Value.Errors)
+                {
+                    result.AddModelError(pair.Key.ToJsonFieldName(), error.ErrorMessage);
+                }
+            }
+
+            return new BadRequestObjectResult(result);
+        };
     });
 
 builder.Services.AddAutoMapper(typeof(Program));
