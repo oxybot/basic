@@ -29,14 +29,21 @@ builder.Services.AddDbContext<Context>(options =>
     }
 });
 
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    // Enable string representation for enums
-    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Enable string representation for enums
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 
-    // Enable support of DateOnly
-    options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
-});
+        // Enable support of DateOnly
+        options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+    })
+    .AddMvcOptions(options =>
+    {
+        // Default display name management for fields
+        // used for automated error messages
+        options.ModelMetadataDetailsProviders.Add(new HumanizerMetadataProvider());
+    });
 
 builder.Services.AddAutoMapper(typeof(Program));
 
