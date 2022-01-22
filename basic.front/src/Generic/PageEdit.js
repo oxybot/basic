@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { apiFetch, apiUrl, retries } from "../api";
+import { addWarning } from "../Alerts/slice";
+import { apiFetch, apiUrl } from "../api";
 import EntityForm from "./EntityForm";
 
 const defaultTransform = (e) => e;
@@ -15,9 +17,10 @@ export default function PageEdit({
   onUpdate = defaultOnUpdate,
   transform = defaultTransform,
 }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [entity, setEntity] = useState({});
-  const [validated, setValidated] = useState(false);
+  const [errors, setErrors] = useState({});
   texts["form-action"] = "Update";
 
   useEffect(() => {
@@ -34,7 +37,6 @@ export default function PageEdit({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setValidated(true);
     apiFetch(apiUrl(baseApiUrl, entityId), {
       method: "PUT",
       body: JSON.stringify(entity),
@@ -44,8 +46,11 @@ export default function PageEdit({
         onUpdate();
       })
       .catch((err) => {
-        console.error(err);
-        alert(err);
+        if (typeof err === "string") {
+          dispatch(addWarning("Invalid information", "Please review the values provided"));
+        } else {
+          setErrors(err);
+        }
       });
   };
 
@@ -55,9 +60,9 @@ export default function PageEdit({
       entity={entity}
       full={full}
       texts={texts}
+      errors={errors}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
-      validated={validated}
     />
   );
 }
