@@ -7,30 +7,9 @@ import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { addError } from "../Alerts/slice";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
-import EntityFieldInput from "../Generic/EntityFieldInput";
+import EntityFieldEdit from "../Generic/EntityFieldEdit";
+import EntityFieldLabel from "../Generic/EntityFieldLabel";
 import MobilePageTitle from "../Generic/MobilePageTitle";
-
-function EntityFieldLabel({ field }) {
-  return (
-    <label
-      htmlFor={field.name}
-      className={clsx("form-label", {
-        required: field.required,
-      })}
-    >
-      {field.displayName}
-    </label>
-  );
-}
-
-function EntityFieldForEdit({ field, entity, onChange }) {
-  return (
-    <div className="mb-3">
-      <EntityFieldLabel field={field} />
-      <EntityFieldInput field={field} value={entity[field.name] || ""} onChange={onChange} />
-    </div>
-  );
-}
 
 function Status({ value, text, message }) {
   return (
@@ -149,7 +128,7 @@ export function CalendarRequest() {
                     </div>
                   )}
                 </div>
-                <EntityFieldForEdit
+                <EntityFieldEdit
                   field={definition.fields.find((f) => f.name === "startDate")}
                   entity={entity}
                   onChange={handleChange}
@@ -171,14 +150,14 @@ export function CalendarRequest() {
                   </div>
                 )}
                 {partialStartDate && category.mapping !== "Active" && (
-                  <EntityFieldForEdit
+                  <EntityFieldEdit
                     field={definition.fields.find((f) => f.name === "durationFirstDay")}
                     entity={entity}
                     onChange={handleChange}
                   />
                 )}
 
-                <EntityFieldForEdit
+                <EntityFieldEdit
                   field={definition.fields.find((f) => f.name === "endDate")}
                   entity={entity}
                   onChange={handleChange}
@@ -200,13 +179,13 @@ export function CalendarRequest() {
                   </div>
                 )}
                 {partialEndDate && entity.startDate !== entity.endDate && category.mapping !== "Active" && (
-                  <EntityFieldForEdit
+                  <EntityFieldEdit
                     field={definition.fields.find((f) => f.name === "durationLastDay")}
                     entity={entity}
                     onChange={handleChange}
                   />
                 )}
-                <EntityFieldForEdit
+                <EntityFieldEdit
                   field={definition.fields.find((f) => f.name === "comment")}
                   entity={entity}
                   onChange={handleChange}
