@@ -43,10 +43,8 @@ export default function EntityFieldView({ type, value, list = false }) {
       switch (value) {
         case "Active":
           return value;
-        case "StandardTimeOff":
-          return "Standard Time-off";
-        case "ExtraTimeOff":
-          return "Extra Time-off";
+        case "TimeOff":
+          return "Time-off";
         default:
           throw new Error("Unknown value: " + value);
       }

@@ -15,15 +15,11 @@
         Active = 0,
 
         /// <summary>
-        /// Indicates that the associated time booking is standard / legal time-off.
-        /// </summary>
-        StandardTimeOff,
-
-        /// <summary>
-        /// Indicates that the associated time booking is extra time-off.
+        /// Indicates that the associated time booking is to be considered as time-off.
         /// </summary>
         /// <remarks>
-        /// Can be used to flag special leaves like sickness, birth...</remarks>
-        ExtraTimeOff,
+        /// Can be used to flag holidays, sickness or other special leaves.
+        /// </remarks>
+        TimeOff,
     }
 }
