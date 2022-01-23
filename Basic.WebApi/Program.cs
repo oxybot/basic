@@ -51,15 +51,7 @@ builder.Services.AddControllers()
         options.InvalidModelStateResponseFactory = context =>
         {
             // Convert modelState errors from .net to js property names.
-            var result = new ModelStateDictionary();
-            foreach(var pair in context.ModelState)
-            {
-                foreach(var error in pair.Value.Errors)
-                {
-                    result.AddModelError(pair.Key.ToJsonFieldName(), error.ErrorMessage);
-                }
-            }
-
+            var result = BadRequestException.Convert(context.ModelState);
             return new BadRequestObjectResult(result);
         };
     });
@@ -149,5 +141,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseException();
 
 app.Run();

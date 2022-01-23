@@ -80,7 +80,12 @@ namespace Basic.WebApi.Controllers
         public virtual TForList Post(TForEdit entity)
         {
             TModel model = Mapper.Map<TModel>(entity);
+
             CheckDependencies(entity, model);
+            if (!ModelState.IsValid)
+            {
+                throw new BadRequestException(ModelState);
+            }
 
             Context.Set<TModel>().Add(model);
             Context.SaveChanges();
@@ -108,7 +113,12 @@ namespace Basic.WebApi.Controllers
             }
 
             Mapper.Map(entity, model);
+
             CheckDependencies(entity, model);
+            if (!ModelState.IsValid)
+            {
+                throw new BadRequestException(ModelState);
+            }
 
             Context.SaveChanges();
 
@@ -162,7 +172,10 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <param name="entity">The entity data.</param>
         /// <param name="model">THe associated model instance.</param>
-        /// <exception cref="BadRequestException">Thrown if one of the dependencies is invalid.</exception>
+        /// <remarks>
+        /// Implementor should update the <see cref="ControllerBase.ModelState"/> with all
+        /// the issues on dependencies.
+        /// </remarks>
         protected virtual void CheckDependencies(TForEdit entity, TModel model)
         {
         }

@@ -7,6 +7,7 @@ using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 namespace Basic.WebApi.Controllers
@@ -138,19 +139,20 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public EventForList Post(CalendarRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                throw new BadRequestException("Invalid data");
-            }
-
             var context = CreateContext(request);
             if (context.Category == null)
             {
-                throw new BadRequestException("Invalid category identifier");
+                ModelState.AddModelError("CategoryIdentifier", "Invalid category");
             }
-            else if (context.Schedule == null)
+
+            if (context.Schedule == null)
             {
-                throw new BadRequestException("Missing working schedule for this period");
+                ModelState.AddModelError("", "Missing working schedule for this period");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                throw new BadRequestException(ModelState);
             }
 
             Event model = new Event()
@@ -188,13 +190,8 @@ namespace Basic.WebApi.Controllers
         [HttpPost]
         [Route("check")]
         [Produces("application/json")]
-        public CalendarRequestCheck Check(CalendarRequest request)
+        public CalendarRequestCheck Check([Required] CalendarRequest request)
         {
-            if (request is null)
-            {
-                throw new BadRequestException("missing request information");
-            }
-
             var check = new CalendarRequestCheck();
             if (!ModelState.IsValid)
             {

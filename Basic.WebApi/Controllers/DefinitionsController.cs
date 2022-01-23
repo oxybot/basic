@@ -60,13 +60,8 @@ namespace Basic.WebApi.Controllers
         /// <exception cref="NotFoundException">The <paramref name="name"/> is invalid.</exception>
         [HttpGet]
         [Route("{name}")]
-        public Definition GetOne(string name, [FromServices] IModelMetadataProvider provider)
+        public Definition GetOne([Required] string name, [FromServices] IModelMetadataProvider provider)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new BadRequestException("Name of the entity required");
-            }
-
             if (provider is null)
             {
                 throw new ArgumentNullException(nameof(provider));

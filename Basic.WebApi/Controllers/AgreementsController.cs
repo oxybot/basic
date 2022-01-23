@@ -129,11 +129,6 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Unknown agreement");
             }
 
-            if (!ModelState.IsValid)
-            {
-                throw new BadRequestException("Invalid data");
-            }
-
             AgreementItem model = Mapper.Map<AgreementItem>(item);
             model.Agreement = agreement;
             if (item.ProductIdentifier.HasValue)
@@ -142,7 +137,8 @@ namespace Basic.WebApi.Controllers
                     .SingleOrDefault(p => p.Identifier == item.ProductIdentifier.Value);
                 if (model.Product == null)
                 {
-                    throw new BadRequestException("Invalid product identifier");
+                    ModelState.AddModelError("ProductIdentifier", "Invalid product");
+                    throw new BadRequestException(ModelState);
                 }
             }
 
@@ -173,15 +169,10 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Unknown agreement");
             }
 
-            if (!ModelState.IsValid)
-            {
-                throw new BadRequestException("Invalid data");
-            }
-
             var model = Context.Set<AgreementItem>().SingleOrDefault(e => e.Identifier == itemId && e.Agreement == agreement);
             if (model == null)
             {
-                throw new BadRequestException("Invalid item identifier");
+                throw new NotFoundException("Unknown agreement item");
             }
 
             Mapper.Map(item, model);
@@ -191,7 +182,8 @@ namespace Basic.WebApi.Controllers
                     .SingleOrDefault(p => p.Identifier == item.ProductIdentifier.Value);
                 if (model.Product == null)
                 {
-                    throw new BadRequestException("Invalid product identifier");
+                    ModelState.AddModelError("ProductIdentifier", "Invalid product identifier");
+                    throw new BadRequestException(ModelState);
                 }
             }
 
@@ -241,7 +233,7 @@ namespace Basic.WebApi.Controllers
             model.Client = Context.Set<Client>().SingleOrDefault(c => c.Identifier == agreement.ClientIdentifier);
             if (model.Client == null)
             {
-                throw new BadRequestException("Invalid client identifier");
+                ModelState.AddModelError("ClientIdentifier", "Invalid client");
             }
 
             // Updated items
@@ -250,7 +242,7 @@ namespace Basic.WebApi.Controllers
                 var modelItem = model.Items.SingleOrDefault(i => i.Identifier == item.Identifier.Value);
                 if (modelItem == null)
                 {
-                    throw new BadRequestException("Unknown item identified by: " + item.Identifier.Value);
+                    ModelState.AddModelError("Items", "Unknown item identified by: " + item.Identifier.Value);
                 }
 
                 Mapper.Map(item, modelItem);
@@ -259,7 +251,7 @@ namespace Basic.WebApi.Controllers
                     modelItem.Product = Context.Set<Product>().SingleOrDefault(i => i.Identifier == item.ProductIdentifier);
                     if (modelItem.Product == null)
                     {
-                        throw new BadRequestException("Unknown product identified by: " + item.ProductIdentifier.Value);
+                        ModelState.AddModelError("ProductIdentifier", "Unknown product identified by: " + item.ProductIdentifier.Value);
                     }
                 }
             }
@@ -281,7 +273,7 @@ namespace Basic.WebApi.Controllers
                     modelItem.Product = Context.Set<Product>().SingleOrDefault(i => i.Identifier == item.ProductIdentifier);
                     if (modelItem.Product == null)
                     {
-                        throw new BadRequestException("Unknown product identified by: " + item.ProductIdentifier.Value);
+                        ModelState.AddModelError("ProductIdentifier", "Unknown product identified by: " + item.ProductIdentifier.Value);
                     }
                 }
 

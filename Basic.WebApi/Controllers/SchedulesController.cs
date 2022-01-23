@@ -113,7 +113,7 @@ namespace Basic.WebApi.Controllers
             model.User = Context.Set<User>().SingleOrDefault(u => u.Identifier == entity.UserIdentifier);
             if (model.User == null)
             {
-                throw new BadRequestException("Invalid user identifier");
+                ModelState.AddModelError("UserIdentifier", "Invalid User");
             }
 
             if (model.WorkingSchedule.Length < 7)
@@ -126,7 +126,7 @@ namespace Basic.WebApi.Controllers
             }
             else if (model.WorkingSchedule.Length > 14)
             {
-                throw new BadRequestException("Invalid schedule data");
+                ModelState.AddModelError("WorkingSchedule", "Invalid schedule data");
             }
         }
 

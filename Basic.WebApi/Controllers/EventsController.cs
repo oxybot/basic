@@ -138,13 +138,13 @@ namespace Basic.WebApi.Controllers
             model.User = Context.Set<User>().SingleOrDefault(u => u.Identifier == @event.UserIdentifier);
             if (model.User == null)
             {
-                throw new BadRequestException("Invalid user identifier");
+                ModelState.AddModelError("UserIdentifier", "Invalid User");
             }
 
             model.Category = Context.Set<EventCategory>().SingleOrDefault(c => c.Identifier == @event.CategoryIdentifier);
             if (model.Category == null)
             {
-                throw new BadRequestException("Invalid category identifier");
+                ModelState.AddModelError("CategoryIdentifier", "Invalid Category");
             }
 
             // Add the default status for a new event

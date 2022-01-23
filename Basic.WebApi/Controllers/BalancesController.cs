@@ -112,13 +112,18 @@ namespace Basic.WebApi.Controllers
             model.User = Context.Set<User>().SingleOrDefault(u => u.Identifier == balance.UserIdentifier);
             if (model.User == null)
             {
-                throw new BadRequestException("Invalid user identifier");
+                ModelState.AddModelError("UserIdentifier", "Invalid User");
             }
 
             model.Category = Context.Set<EventCategory>().SingleOrDefault(c => c.Identifier == balance.CategoryIdentifier);
             if (model.Category == null)
             {
-                throw new BadRequestException("Invalid category identifier");
+                ModelState.AddModelError("CategoryIdentifier", "Invalid Category");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                throw new BadRequestException(ModelState);
             }
         }
 
