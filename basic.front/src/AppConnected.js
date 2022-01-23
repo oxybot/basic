@@ -4,7 +4,7 @@ import { usePersistedAuthentication } from "./Authentication";
 import { BalanceEdit, BalanceList, BalanceNew } from "./Balances";
 import { Calendar, CalendarRequest } from "./Calendar";
 import { ClientEdit, ClientList, ClientNew, ClientView } from "./Clients";
-import Dashboard from "./Dashboard";
+import { Dashboard } from "./Dashboard";
 import { EventEdit, EventList, EventNew, EventView } from "./Events";
 import { EventCategoryEdit, EventCategoryList, EventCategoryNew } from "./EventCategories";
 import { GlobalDayOffEdit, GlobalDayOffList, GlobalDayOffNew } from "./GlobalDaysOff";

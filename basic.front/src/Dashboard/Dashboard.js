@@ -1,6 +1,6 @@
-import MobilePageTitle from "./Generic/MobilePageTitle";
+import MobilePageTitle from "../Generic/MobilePageTitle";
 
-export default function Dashboard() {
+export function Dashboard() {
   return (
     <>
       <MobilePageTitle>
