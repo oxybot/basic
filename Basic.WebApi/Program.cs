@@ -1,8 +1,6 @@
 using Basic.DataAccess;
 using Basic.WebApi.Framework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -50,9 +48,7 @@ builder.Services.AddControllers()
     {
         options.InvalidModelStateResponseFactory = context =>
         {
-            // Convert modelState errors from .net to js property names.
-            var result = BadRequestException.Convert(context.ModelState);
-            return new BadRequestObjectResult(result);
+            return new InvalidModelStateActionResult(context.ModelState);
         };
     });
 

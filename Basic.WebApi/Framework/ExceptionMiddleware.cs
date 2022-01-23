@@ -34,20 +34,18 @@ namespace Basic.WebApi.Framework
                 // Call the next delegate/middleware in the pipeline.
                 await this.next(context);
             }
-            catch (BadRequestException ex)
+            catch (InvalidModelStateException ex)
             {
                 context.Response.Clear();
                 context.Response.StatusCode = ex.StatusCode;
-
-                var result = new BadRequestObjectResult(ex.ModelState);
-                await result.ExecuteResultAsync(new ActionContext(context, null, null));
+                await context.Response.WriteAsJsonAsync(InvalidModelStateActionResult.Convert(ex.ModelState));
             }
-            catch(NotFoundException ex)
+            catch (NotFoundException ex)
             {
                 context.Response.Clear();
                 context.Response.StatusCode = ex.StatusCode;
             }
-            catch(UnauthorizedRequestException ex)
+            catch (UnauthorizedRequestException ex)
             {
                 context.Response.Clear();
                 context.Response.StatusCode = ex.StatusCode;

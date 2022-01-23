@@ -152,7 +152,7 @@ namespace Basic.WebApi.Controllers
 
             if (!ModelState.IsValid)
             {
-                throw new BadRequestException(ModelState);
+                throw new InvalidModelStateException(ModelState);
             }
 
             Event model = new Event()

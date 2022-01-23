@@ -138,7 +138,7 @@ namespace Basic.WebApi.Controllers
                 if (model.Product == null)
                 {
                     ModelState.AddModelError("ProductIdentifier", "Invalid product");
-                    throw new BadRequestException(ModelState);
+                    throw new InvalidModelStateException(ModelState);
                 }
             }
 
@@ -183,7 +183,7 @@ namespace Basic.WebApi.Controllers
                 if (model.Product == null)
                 {
                     ModelState.AddModelError("ProductIdentifier", "Invalid product identifier");
-                    throw new BadRequestException(ModelState);
+                    throw new InvalidModelStateException(ModelState);
                 }
             }
 
@@ -227,7 +227,7 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <param name="agreement">The agreement data.</param>
         /// <param name="model">The agreement model instance.</param>
-        /// <exception cref="BadRequestException"></exception>
+        /// <exception cref="InvalidModelStateException"></exception>
         protected override void CheckDependencies(AgreementForEdit agreement, Agreement model)
         {
             model.Client = Context.Set<Client>().SingleOrDefault(c => c.Identifier == agreement.ClientIdentifier);

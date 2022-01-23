@@ -84,7 +84,7 @@ namespace Basic.WebApi.Controllers
             CheckDependencies(entity, model);
             if (!ModelState.IsValid)
             {
-                throw new BadRequestException(ModelState);
+                throw new InvalidModelStateException(ModelState);
             }
 
             Context.Set<TModel>().Add(model);
@@ -117,7 +117,7 @@ namespace Basic.WebApi.Controllers
             CheckDependencies(entity, model);
             if (!ModelState.IsValid)
             {
-                throw new BadRequestException(ModelState);
+                throw new InvalidModelStateException(ModelState);
             }
 
             Context.SaveChanges();

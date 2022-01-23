@@ -56,25 +56,17 @@ namespace Basic.WebApi.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Produces("application/json")]
+        [ProducesResponseType(typeof(InvalidResult), StatusCodes.Status400BadRequest)]
         public AuthResult SignIn([FromBody] AuthRequest signIn)
         {
-            if (signIn == null || string.IsNullOrEmpty(signIn.Username) || string.IsNullOrEmpty(signIn.Password))
-            {
-                throw new UnauthorizedRequestException();
-            }
-
             var user = Context.Set<User>()
                 .Include(u => u.Roles)
                 .SingleOrDefault(u => u.Username == signIn.Username && u.Password != null);
 
-            if (user == null)
+            if (user == null || user.HashPassword(signIn.Password) != user.Password)
             {
-                throw new UnauthorizedRequestException();
-            }
-
-            if (user.HashPassword(signIn.Password) != user.Password)
-            {
-                throw new UnauthorizedRequestException();
+                ModelState.AddModelError("", "Invalid credentials");
+                throw new InvalidModelStateException(ModelState);
             }
 
             var token = BuildJWTToken(user);
