@@ -51,6 +51,7 @@ export function SignIn() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setErrors({});
 
     fetch(apiUrl("Auth"), {
       method: "POST",
@@ -80,7 +81,8 @@ export function SignIn() {
   }
 
   return (
-    !loading && (
+    !loading &&
+    definition && (
       <div className="page page-center">
         <div className="container-tight py-4">
           <div className="mx-3 d-flex align-items-center">
@@ -95,16 +97,15 @@ export function SignIn() {
           <form className="card card-md" onSubmit={handleSubmit} method="get" autoComplete="off" noValidate>
             <div className="card-body">
               <h2 className="card-title text-center mb-4">Login to your account</h2>
-              {definition &&
-                definition.fields.map((field, index) => (
-                  <EntityFieldEdit
-                    key={index}
-                    field={field}
-                    errors={errors && errors[field.name]}
-                    entity={credentials}
-                    onChange={handleChange}
-                  />
-                ))}
+              {definition.fields.map((field, index) => (
+                <EntityFieldEdit
+                  key={index}
+                  field={field}
+                  errors={errors && errors[field.name]}
+                  entity={credentials}
+                  onChange={handleChange}
+                />
+              ))}
               <div className="form-footer">
                 <button type="submit" className="btn btn-primary w-100" tabIndex="4">
                   Sign in
