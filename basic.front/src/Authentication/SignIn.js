@@ -1,6 +1,7 @@
+import { IconAlertTriangle } from "@tabler/icons";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addError, addWarning } from "../Alerts/slice";
+import { addError } from "../Alerts/slice";
 import { apiFetch, apiUrl, useDefinition } from "../api";
 import EntityFieldEdit from "../Generic/EntityFieldEdit";
 import LayoutTheme from "../LayoutTheme";
@@ -63,9 +64,7 @@ export function SignIn() {
     }).then((response) => {
       if (!response.ok) {
         if (response.status === 400) {
-          response.json().then((err) => setErrors(err));
-        } else if (response.status === 401) {
-          dispatch(addWarning("Invalid credentials", "Your username or password seems invalid, review them and retry"));
+          response.json().then(setErrors);
         } else {
           dispatch(addError("System error", "The system doesn't behave properly - try again later"));
         }
@@ -106,6 +105,16 @@ export function SignIn() {
                   onChange={handleChange}
                 />
               ))}
+              {errors[""] && (
+                <div className="alert alert-important alert-warning">
+                  <div className="d-flex">
+                    <div>
+                      <IconAlertTriangle className="alert-icon" />
+                    </div>
+                    <div>{errors[""]}</div>
+                  </div>
+                </div>
+              )}
               <div className="form-footer">
                 <button type="submit" className="btn btn-primary w-100" tabIndex="4">
                   Sign in
