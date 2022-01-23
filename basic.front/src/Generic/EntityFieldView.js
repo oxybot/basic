@@ -17,7 +17,7 @@ export default function EntityFieldView({ type, value, list = false }) {
     case "date":
       return dayjs(value).format("DD MMM YYYY");
 
-    case "number/hours":
+    case "hours":
       return pluralize("hour", value, true);
 
     case "ref/category":

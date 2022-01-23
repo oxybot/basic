@@ -36,13 +36,13 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the number of hours associated to the first day.
         /// </summary>
-        [SwaggerSchema(Format = "number/hours")]
+        [SwaggerSchema(Format = "hours")]
         public int? DurationFirstDay { get; set; }
 
         /// <summary>
         /// Gets or sets the number of hours associated to the last day.
         /// </summary>
-        [SwaggerSchema(Format = "number/hours")]
+        [SwaggerSchema(Format = "hours")]
         public int? DurationLastDay { get; set; }
 
         /// <summary>

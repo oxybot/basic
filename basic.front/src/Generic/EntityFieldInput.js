@@ -22,7 +22,7 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
         />
       );
 
-    case "number/hours":
+    case "hours":
       return (
         <div className={clsx("input-group", { "is-invalid": hasErrors })}>
           <input

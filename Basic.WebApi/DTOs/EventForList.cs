@@ -45,7 +45,7 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the total duration of the event, in hours.
         /// </summary>
         [Required]
-        [SwaggerSchema(Format = "number/hours")]
+        [SwaggerSchema(Format = "hours")]
         public decimal DurationTotal { get; set; }
 
         /// <summary>
