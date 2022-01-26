@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addFatal } from "../Alerts/slice";
 
 // Based on: https://stackoverflow.com/a/44577075/17681099
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -15,7 +17,7 @@ export function retries(operation, delay = 300, calls = 2) {
             .catch(reject);
         }
 
-        return reject(reason);
+        reject(reason);
       });
   });
 }
@@ -41,15 +43,18 @@ export function getDefinition(type) {
 
 const defaultTransform = (e) => e;
 export function useDefinition(type, transform = defaultTransform) {
+  const dispatch = useDispatch();
   const [definition, setDefinition] = useState(null);
   useEffect(() => {
     getDefinition(type)
       .then((definition) => transform(definition))
       .then((definition) => setDefinition(definition))
       .catch((err) => {
+        console.error("Server error");
         console.log(err);
+        dispatch(addFatal("Server error", "Can't retrieve key information for this page."));
       });
-  }, [type, transform]);
+  }, [dispatch, type, transform]);
 
   return definition;
 }

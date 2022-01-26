@@ -22,6 +22,13 @@ export function addError(title, message) {
   };
 }
 
+export function addFatal(title, message) {
+  return (dispatch, _) => {
+    dispatch(hideAllAlerts());
+    dispatch(addAlert({ identifier: generateId(), category: "fatal", title, message }));
+  };
+}
+
 export const alertsSlice = createSlice({
   name: "alerts",
   initialState,
