@@ -121,9 +121,10 @@ namespace Basic.WebApi.Controllers
                 ModelState.AddModelError("CategoryIdentifier", "Invalid Category");
             }
 
-            if (!ModelState.IsValid)
+            bool conflict = Context.Set<Balance>().Any(b => b.User == model.User && b.Category == model.Category && b.Year == model.Year && b.Identifier != model.Identifier);
+            if (conflict)
             {
-                throw new InvalidModelStateException(ModelState);
+                ModelState.AddModelError("", "Such balance is already defined (Same user, category and year)");
             }
         }
 
