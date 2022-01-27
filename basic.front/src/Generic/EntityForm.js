@@ -51,6 +51,7 @@ export default function EntityForm({
       </div>
       <div className="page-body">
         <div className="row row-cards">
+          {errors[""] && <div className="alert show fade alert-danger">{errors[""]}</div>}
           {definition &&
             objectMap(
               groupBy(definition.fields, (x) => x.group),

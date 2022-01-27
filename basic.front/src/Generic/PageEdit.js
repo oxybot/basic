@@ -31,7 +31,7 @@ export default function PageEdit({
 
   const handleChange = (event) => {
     const name = event.target.name;
-    const value = event.target.value;
+    const value = event.target.value === "" ? null : event.target.value;
     setEntity({ ...entity, [name]: value });
   };
 
