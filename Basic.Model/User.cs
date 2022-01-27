@@ -65,16 +65,16 @@ namespace Basic.Model
         /// <summary>
         /// Gets the associated events.
         /// </summary>
-        public ICollection<Event> Events { get; }
+        public virtual ICollection<Event> Events { get; }
 
         /// <summary>
         /// Gets the associated balances.
         /// </summary>
-        public ICollection<Balance> Balances { get; }
+        public virtual ICollection<Balance> Balances { get; }
 
         /// <summary>
         /// Gets the associated working schedules.
         /// </summary>
-        public ICollection<Schedule> Schedules { get; }
+        public virtual ICollection<Schedule> Schedules { get; }
     }
 }

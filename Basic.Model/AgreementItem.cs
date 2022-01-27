@@ -11,12 +11,12 @@ namespace Basic.Model
         /// Gets or sets the parent agreement.
         /// </summary>
         [Required]
-        public Agreement Agreement { get; set; }
+        public virtual Agreement Agreement { get; set; }
 
         /// <summary>
         /// Gets or sets the linked product, if any.
         /// </summary>
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the item.

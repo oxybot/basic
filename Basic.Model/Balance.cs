@@ -11,13 +11,13 @@ namespace Basic.Model
         /// Gets or sets the associated user.
         /// </summary>
         [Required]
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         /// <summary>
         /// Gets or sets the associated category.
         /// </summary>
         [Required]
-        public EventCategory Category { get; set; }
+        public virtual EventCategory Category { get; set; }
 
         /// <summary>
         /// Gets or sets the reference year.

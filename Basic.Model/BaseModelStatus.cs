@@ -12,13 +12,13 @@ namespace Basic.Model
         /// Gets or sets the status of the associated entity.
         /// </summary>
         [Required]
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
 
         /// <summary>
         /// Gets or sets the user that did the update of status.
         /// </summary>
         [Required]
-        public User UpdatedBy { get; set; }
+        public virtual User UpdatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the date and time of the update.

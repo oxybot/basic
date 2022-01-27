@@ -27,6 +27,6 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets how the time booked on this category should be considered.
         /// </summary>
-        public EventTimeMapping Mapping { get; set; }
+        public virtual EventTimeMapping Mapping { get; set; }
     }
 }

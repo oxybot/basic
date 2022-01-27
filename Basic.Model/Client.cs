@@ -37,6 +37,6 @@ namespace Basic.Model
         /// <summary>
         /// Gets the associated agreements.
         /// </summary>
-        public ICollection<Agreement> Agreements { get; }
+        public virtual ICollection<Agreement> Agreements { get; }
     }
 }

@@ -24,7 +24,7 @@ namespace Basic.Model
         /// Gets or sets the parent client.
         /// </summary>
         [Required]
-        public Client Client { get; set; }
+        public virtual Client Client { get; set; }
 
         /// <summary>
         /// Gets or sets the internal code of the agreement.
@@ -41,7 +41,7 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the owner of the agreement.
         /// </summary>
-        public User Owner { get; set; }
+        public virtual User Owner { get; set; }
 
         /// <summary>
         /// Gets or sets the signature date of the agreement.
@@ -57,16 +57,16 @@ namespace Basic.Model
         /// <summary>
         /// Gets the items associated to the agreement.
         /// </summary>
-        public ICollection<AgreementItem> Items { get; }
+        public virtual ICollection<AgreementItem> Items { get; }
 
         /// <summary>
         /// Gets the invoices attached to the agreement.
         /// </summary>
-        public ICollection<Invoice> Invoices { get; }
+        public virtual ICollection<Invoice> Invoices { get; }
 
         /// <summary>
         /// Gets the statuses associated to the agreement.
         /// </summary>
-        public ICollection<AgreementStatus> Statuses { get; }
+        public virtual ICollection<AgreementStatus> Statuses { get; }
     }
 }
