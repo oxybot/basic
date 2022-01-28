@@ -76,11 +76,14 @@ export async function apiFetch(url, options) {
   return retries(() => {
     return fetch(apiUrl(uri), connectedOptions);
   }).then(async (response) => {
-    const body = await response.json();
     if (response.ok) {
+      const body = await response.json();
       return body;
-    } else {
+    } else if (response.status === 400) {
+      const body = await response.json();
       throw body;
+    } else {
+      throw new Error(response.status);
     }
   });
 }

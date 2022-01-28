@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addWarning } from "../Alerts/slice";
-import { apiFetch, apiUrl } from "../api";
+import { apiFetch } from "../api";
 import EntityForm from "./EntityForm";
 
 const defaultOnCreate = () => {};
@@ -22,7 +22,7 @@ export default function PageNew({ definition, baseApiUrl, texts, onCreate = defa
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    apiFetch(apiUrl(baseApiUrl), {
+    apiFetch(baseApiUrl, {
       method: "POST",
       body: JSON.stringify(entity),
     })

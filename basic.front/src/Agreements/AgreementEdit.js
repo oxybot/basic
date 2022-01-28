@@ -2,7 +2,7 @@ import { IconPlus, IconMinus } from "@tabler/icons";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiFetch, retries, useDefinition } from "../api";
+import { apiFetch, useDefinition } from "../api";
 import EntityFieldInput from "../Generic/EntityFieldInput";
 import EntityForm from "../Generic/EntityForm";
 import { refresh } from "./slice";
@@ -39,7 +39,7 @@ export function AgreementEdit({ full = false }) {
   }, []);
 
   useEffect(() => {
-    retries(() => apiFetch(["Agreements", agreementId], { method: "GET" }))
+    apiFetch(["Agreements", agreementId], { method: "GET" })
       .then((response) => {
         setEntity(transform(response));
       })

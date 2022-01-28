@@ -2,7 +2,7 @@ import { IconMinus, IconPlus } from "@tabler/icons";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { apiFetch, apiUrl, useDefinition } from "../api";
+import { apiFetch, useDefinition } from "../api";
 import EntityFieldInput from "../Generic/EntityFieldInput";
 import EntityForm from "../Generic/EntityForm";
 import { refresh } from "./slice";
@@ -35,7 +35,7 @@ export function AgreementNew() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setValidated(true);
-    apiFetch(apiUrl("Agreements"), {
+    apiFetch("Agreements", {
       method: "POST",
       body: JSON.stringify(entity),
     })

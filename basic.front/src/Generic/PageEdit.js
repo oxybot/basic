@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addWarning } from "../Alerts/slice";
-import { apiFetch, apiUrl } from "../api";
+import { apiFetch } from "../api";
 import EntityForm from "./EntityForm";
 
 const defaultTransform = (e) => e;
@@ -24,7 +24,7 @@ export default function PageEdit({
   texts["form-action"] = "Update";
 
   useEffect(() => {
-    apiFetch(apiUrl(baseApiUrl, entityId), { method: "GET" }).then((response) => {
+    apiFetch([baseApiUrl, entityId], { method: "GET" }).then((response) => {
       setEntity(transform(response));
     });
   }, [baseApiUrl, entityId, transform]);
@@ -37,7 +37,7 @@ export default function PageEdit({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    apiFetch(apiUrl(baseApiUrl, entityId), {
+    apiFetch([baseApiUrl, entityId], {
       method: "PUT",
       body: JSON.stringify(entity),
     })
