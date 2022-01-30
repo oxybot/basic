@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basic.DataAccess.MySql", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basic.Model-Tests", "Basic.Model-Tests\Basic.Model-Tests.csproj", "{72ED7306-0882-4EEF-871A-5F05130B37FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basic.DataAccess.SqlServer", "Basic.DataAccess.SqlServer\Basic.DataAccess.SqlServer.csproj", "{783165DB-84E6-431D-A07F-283628210674}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,18 @@ Global
 		{72ED7306-0882-4EEF-871A-5F05130B37FD}.Release|x64.Build.0 = Release|Any CPU
 		{72ED7306-0882-4EEF-871A-5F05130B37FD}.Release|x86.ActiveCfg = Release|Any CPU
 		{72ED7306-0882-4EEF-871A-5F05130B37FD}.Release|x86.Build.0 = Release|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Debug|x64.Build.0 = Debug|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Debug|x86.Build.0 = Debug|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Release|Any CPU.Build.0 = Release|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Release|x64.ActiveCfg = Release|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Release|x64.Build.0 = Release|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Release|x86.ActiveCfg = Release|Any CPU
+		{783165DB-84E6-431D-A07F-283628210674}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -25,15 +25,19 @@ namespace Basic.DataAccess
             builder.Properties<Enum>()
                 .HaveColumnType("nvarchar(24)");
 
-            // https://github.com/dotnet/efcore/issues/24507#issuecomment-891034323
             builder.Properties<DateOnly>()
-                .HaveConversion<DateOnlyConverter>()
+                .HaveColumnType("date");
+
+            builder.Properties<DateOnly?>()
                 .HaveColumnType("date");
 
             // https://github.com/dotnet/efcore/issues/24507#issuecomment-891034323
+            builder.Properties<DateOnly>()
+                .HaveConversion<DateOnlyConverter>();
+
+            // https://github.com/dotnet/efcore/issues/24507#issuecomment-891034323
             builder.Properties<DateOnly?>()
-                .HaveConversion<NullableDateOnlyConverter>()
-                .HaveColumnType("date");
+                .HaveConversion<NullableDateOnlyConverter>();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
