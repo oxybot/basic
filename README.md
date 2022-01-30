@@ -2,6 +2,14 @@
 
 Provides basic ressource management.
 
+## Run the projects with docker-compose
+
+### Create a https certificate
+
+1. `dotnet dev-certs https -ep $env:APPDATA/ASP.NET/https/basic.pfx -p {my_password}`
+1. Copy `.env.docker-compose` to `.env.docker-compose.local`
+1. Update `.env.docker-compose.local` to set the password value
+
 ## Steps to add a new entity
 
 ### Add the model class and create the database structure
