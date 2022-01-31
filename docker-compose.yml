@@ -17,9 +17,9 @@ services:
     depends_on:
       - db
     env_file:
-      - docker-compose.env.local
+      - .env.docker-compose.local
     environment:
-      DATABASEDRIVER: mysql
+      DATABASEDRIVER: MySQL
       CONNECTIONSTRINGS__MYSQL: Server=db;Database=basic;User=basic;Password=basic
     volumes:
       - ${APPDATA}/ASP.NET/https/basic.pfx:/src/basic.pfx:ro

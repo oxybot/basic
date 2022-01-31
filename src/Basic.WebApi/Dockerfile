@@ -16,6 +16,8 @@ WORKDIR /src
 COPY ["./Basic.WebApi/Basic.WebApi.csproj", "./Basic.WebApi/"]
 COPY ["./Basic.Model/Basic.Model.csproj", "./Basic.Model/"]
 COPY ["./Basic.DataAccess/Basic.DataAccess.csproj", "./Basic.DataAccess/"]
+COPY ["./Basic.DataAccess.MySql/Basic.DataAccess.MySql.csproj", "./Basic.DataAccess.MySql/"]
+COPY ["./Basic.DataAccess.SqlServer/Basic.DataAccess.SqlServer.csproj", "./Basic.DataAccess.SqlServer/"]
 RUN dotnet restore "./Basic.WebApi/Basic.WebApi.csproj"
 COPY . .
 WORKDIR "/src/Basic.WebApi"

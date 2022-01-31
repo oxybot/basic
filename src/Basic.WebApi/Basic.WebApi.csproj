@@ -30,6 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Basic.DataAccess.MySql\Basic.DataAccess.MySql.csproj" />
+    <ProjectReference Include="..\Basic.DataAccess.SqlServer\Basic.DataAccess.SqlServer.csproj" />
     <ProjectReference Include="..\Basic.DataAccess\Basic.DataAccess.csproj" />
     <ProjectReference Include="..\Basic.Model\Basic.Model.csproj" />
   </ItemGroup>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -13,19 +14,27 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<Context>(options =>
 {
-    switch (builder.Configuration["DatabaseDriver"])
+    string driver = builder.Configuration["DatabaseDriver"]?.ToLowerInvariant();
+    switch (driver)
     {
-        case "SqlServer":
-            options.UseSqlServer("name=ConnectionStrings:SqlServer");
+        case "sqlserver":
+            options.UseSqlServer("name=ConnectionStrings:SqlServer", options =>
+            {
+                options.MigrationsAssembly(typeof(Basic.DataAccess.SqlServer.Migrations.InitialCreate).Assembly.FullName);
+            });
             break;
 
-        case "MySql":
+        case "mysql":
             string connectionString = builder.Configuration.GetConnectionString("MySql");
-            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), options =>
+            {
+                options.MigrationsAssembly(typeof(Basic.DataAccess.MySql.Migrations.MySqlInitial).Assembly.FullName);
+            });
             break;
 
         default:
-            throw new NotImplementedException();
+            string message = string.Format(CultureInfo.InvariantCulture, "No database configuration defined for [{0}]", builder.Configuration["DatabaseDriver"]);
+            throw new NotImplementedException(message);
     }
 });
 
@@ -139,5 +148,12 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseException();
+
+// Apply migrations if needed
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<Context>();
+    db.Database.Migrate();
+}
 
 app.Run();
