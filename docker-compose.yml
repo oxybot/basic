@@ -1,12 +1,17 @@
 version: '3.7'
 
 services:
-  #front:
-  #  image: basic-front
-  #  build: ./front
-  #  restart: always
-  #  depends_on:
-  #    - service
+  front:
+    image: basic-front
+    build:
+      context: ./front
+      args:
+        REACT_APP_API_ROOT_URL: https://localhost:5001
+    restart: always
+    depends_on:
+      - service
+    ports:
+      - 5000:80
 
   service:
     image: basic-api

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addFatal } from "../Alerts/slice";
 
+const rootApiUrl = process.env.REACT_APP_API_ROOT_URL;
+
 // Based on: https://stackoverflow.com/a/44577075/17681099
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -21,8 +23,6 @@ export function retries(operation, delay = 300, calls = 2) {
       });
   });
 }
-
-const rootApiUrl = "https://localhost:7268";
 
 export function apiUrl(...relative) {
   if (relative.length === 1 && Array.isArray(relative[0])) {
