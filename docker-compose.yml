@@ -31,6 +31,8 @@ services:
     env_file:
       - .env.docker-compose.local
     environment:
+      BASEURL: https://localhost:5001
+      CORS__ORIGINS: https://localhost:5000
       DATABASEDRIVER: MySQL
       CONNECTIONSTRINGS__MYSQL: Server=db;Database=basic;User=basic;Password=basic
     volumes:
