@@ -10,8 +10,15 @@ services:
     restart: always
     depends_on:
       - service
+    environment:
+      NGINX_SERVER_NAME: localhost
+      NGINX_SSL_CERTIFICATE: /etc/nginx/certs/basic.pem
+      NGINX_SSL_CERTIFICATE_KEY: /etc/nginx/certs/basic.key
+    volumes:
+      - ${APPDATA}/ASP.NET/https/basic.pem:/etc/nginx/certs/basic.pem:ro
+      - ${APPDATA}/ASP.NET/https/basic.key:/etc/nginx/certs/basic.key:ro
     ports:
-      - 5000:80
+      - 5000:443
 
   service:
     image: basic-api

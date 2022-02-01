@@ -22,5 +22,8 @@ EXPOSE 443
 RUN rm -rf ./*
 
 COPY --from=build /app/build .
+COPY ./nginx.http.conf.template /etc/nginx/templates/default.conf.template
+COPY ./nginx.https.conf.template /etc/nginx/templates/https.conf.template
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
