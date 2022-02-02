@@ -15,7 +15,8 @@ namespace Basic.WebApi.Controllers
     [ApiController]
     [Authorize]
     [Route("[controller]")]
-    public class EventsController : BaseModelController<Event, EventForList, EventForView, EventForEdit>
+    public class EventsController
+        : BaseImmutableModelController<Event, EventForList, EventForView, EventForEdit>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EventsController"/> class.
@@ -71,23 +72,6 @@ namespace Basic.WebApi.Controllers
         public override EventForList Post(EventForEdit @event)
         {
             return base.Post(@event);
-        }
-
-        /// <summary>
-        /// Updates a specific event.
-        /// </summary>
-        /// <param name="identifier">The identifier of the event to update.</param>
-        /// <param name="event">The event data.</param>
-        /// <returns>The event data after update.</returns>
-        /// <response code="400">The provided data are invalid.</response>
-        /// <response code="404">No event is associated to the provided <paramref name="identifier"/>.</response>
-        [HttpPut]
-        [AuthorizeRoles(Role.Time)]
-        [Produces("application/json")]
-        [Route("{identifier}")]
-        public override EventForList Put(Guid identifier, EventForEdit @event)
-        {
-            return base.Put(identifier, @event);
         }
 
         /// <summary>
