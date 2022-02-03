@@ -46,6 +46,34 @@ namespace Basic.WebApi.Controllers
         }
 
         /// <summary>
+        /// Retrieves all events associated to the connected user.
+        /// </summary>
+        /// <param name="limit">The maximum numbers of events to return.</param>
+        /// <returns>The list of events associated to the connected user.</returns>
+        [HttpGet]
+        [Authorize]
+        [Produces("application/json")]
+        [Route("mine")]
+        public IEnumerable<EventForList> GetMine(int? limit)
+        {
+            var entities = AddIncludesForList(Context.Set<Event>());
+            var user = this.GetConnectedUser();
+
+            IQueryable<Event> query = entities
+                .Where(e => e.User == user)
+                .OrderByDescending(e => e.StartDate);
+
+            if (limit.HasValue)
+            {
+                query = query.Take(limit.Value);
+            }
+
+            return query
+                .ToList()
+                .Select(e => Mapper.Map<EventForList>(e));
+        }
+
+        /// <summary>
         /// Retrieves a specific event.
         /// </summary>
         /// <param name="identifier">The identifier of the event.</param>
@@ -110,6 +138,65 @@ namespace Basic.WebApi.Controllers
             return entity.Statuses
                 .OrderByDescending(s => s.UpdatedOn)
                 .Select(s => Mapper.Map<ModelStatusForList>(s));
+        }
+
+        /// <summary>
+        /// Updates the current status of a specific event.
+        /// </summary>
+        /// <param name="identifier">The identifier of the event.</param>
+        /// <param name="update">The details of the update.</param>
+        /// <returns>The identifier of the created status.</returns>
+        /// <response code="404">No event is associated to the provided <paramref name="identifier"/>.</response>
+        [HttpPost]
+        [AuthorizeRoles(Role.TimeRO, Role.Time)]
+        [Produces("application/json")]
+        [Route("{identifier}/statuses")]
+        public EntityReference EditStatus(Guid identifier, StatusUpdate update)
+        {
+            var entity = AddIncludesForView(Context.Set<Event>())
+                .SingleOrDefault(c => c.Identifier == identifier);
+            if (entity == null)
+            {
+                throw new NotFoundException("Not existing entity");
+            }
+
+            var from = Context.Set<Status>().SingleOrDefault(s => s.Identifier == update.From);
+            var to = Context.Set<Status>().SingleOrDefault(s => s.Identifier == update.To);
+
+            if (from == null)
+            {
+                ModelState.AddModelError("From", "The From status is invalid");
+            }
+
+            if (to == null)
+            {
+                ModelState.AddModelError("To", "The To status is invalid");
+            }
+
+            if (update.To == update.From)
+            {
+                ModelState.AddModelError("To", "The statuses From and To should be different");
+            }
+            else if (entity.CurrentStatus.Identifier == update.To)
+            {
+                ModelState.AddModelError("", "A similar transition was already applied");
+            }
+            else if (entity.CurrentStatus.Identifier != update.From)
+            {
+                ModelState.AddModelError("From", "The event is not in the right state");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                throw new InvalidModelStateException(ModelState);
+            }
+
+            var user = this.GetConnectedUser();
+            var status = new EventStatus() { Status = to, UpdatedBy = user, UpdatedOn = DateTime.UtcNow };
+            entity.Statuses.Add(status);
+            Context.SaveChanges();
+
+            return Mapper.Map<EntityReference>(status);
         }
 
         /// <summary>

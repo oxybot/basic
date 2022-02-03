@@ -11,7 +11,7 @@ function filtered(fields) {
   return fields.filter((i) => i.type !== "key");
 }
 
-export default function EntityList({ loading, definition, entities, baseTo, selectedId }) {
+export default function EntityList({ loading, definition, entities, baseTo = null, selectedId }) {
   const navigate = useNavigate();
   const fields = filtered(definition?.fields);
 
@@ -40,7 +40,7 @@ export default function EntityList({ loading, definition, entities, baseTo, sele
               className={clsx({
                 "table-active": entity.identifier === selectedId,
               })}
-              onClick={() => navigate([baseTo, entity.identifier].filter((i) => i).join("/"))}
+              onClick={() => baseTo !== null && navigate([baseTo, entity.identifier].filter((i) => i).join("/"))}
             >
               {entity &&
                 fields &&

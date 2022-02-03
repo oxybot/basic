@@ -61,7 +61,7 @@ export default function PageList({ definition, loading, elements, selectedId, te
                 loading={loading}
                 definition={definition}
                 entities={elements}
-                baseTo={null}
+                baseTo={""}
                 selectedId={selectedId}
               />
             </div>

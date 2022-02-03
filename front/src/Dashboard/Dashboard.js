@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import pluralize from "pluralize";
-import { useApiFetch } from "../api";
+import { useApiFetch, useDefinition } from "../api";
+import EntityList from "../Generic/EntityList";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 
 function ProgressBar({ color, value, max, title }) {
@@ -13,6 +14,23 @@ function ProgressBar({ color, value, max, title }) {
       title={text}
     >
       <span className="visually-hidden">{text}</span>
+    </div>
+  );
+}
+
+function CardForEvents() {
+  const [loading, events] = useApiFetch("Events/mine?limit=10", { method: "GET" }, []);
+  let definition = useDefinition("EventForList");
+  if (definition) {
+    definition.fields = definition.fields.filter((f) => f.name !== "user");
+  }
+
+  return (
+    <div className="card">
+      <div className="card-body">
+        <h2 className="card-title">My Latest Requests</h2>
+        <EntityList loading={loading} definition={definition} entities={events} />
+      </div>
     </div>
   );
 }
@@ -93,6 +111,9 @@ export function Dashboard() {
                 </div>
               </div>
             )}
+            <div className="col-lg-6">
+              <CardForEvents />
+            </div>
           </div>
         </div>
       </div>

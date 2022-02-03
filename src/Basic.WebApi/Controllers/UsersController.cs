@@ -118,7 +118,6 @@ namespace Basic.WebApi.Controllers
             base.Delete(identifier);
         }
 
-
         /// <summary>
         /// Retrieves the time-off consumption per category for a user.
         /// </summary>
