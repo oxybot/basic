@@ -90,7 +90,7 @@ export function Calendar() {
     <div className="container-xl">
       <MobilePageTitle>
         <div className="navbar-brand flex-fill">Calendar</div>
-        <Link to="request" className="btn btn-primary btn-icon" aria-label="Add event">
+        <Link to="request" className="btn btn-primary btn-icon" aria-label="Add a new request">
           <IconPlus />
         </Link>
       </MobilePageTitle>
@@ -104,9 +104,9 @@ export function Calendar() {
             <div className="d-flex">
               <Link to="request" className="btn btn-primary d-none d-md-block">
                 <IconPlus />
-                Add event
+                Add a new Request
               </Link>
-              <Link to="request" className="btn btn-primary btn-icon d-md-none" aria-label="Add event">
+              <Link to="request" className="btn btn-primary btn-icon d-md-none" aria-label="Add a new request">
                 <IconPlus />
               </Link>
             </div>
