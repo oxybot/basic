@@ -40,7 +40,7 @@ export default function PageView({ backTo = null, entity, full = false, title = 
             <h2 className="page-title">{title}</h2>
           </div>
           <div className="col-auto ms-auto d-print-none">
-            {isInRole("client") && (
+            {isInRole(editRole) && (
               <>
                 <Link to="edit" className="btn btn-primary d-none d-md-block">
                   <IconEdit />

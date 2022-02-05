@@ -96,10 +96,8 @@ export default function App() {
 
         {/* Events */}
         <Route path="/event/:eventId" element={<EventView full />} />
-        <Route path="/event/:eventId/edit" element={<EventEdit full />} />
         <Route path="/events" element={<EventList />}>
           <Route path=":eventId" element={<EventView backTo="/users" />} />
-          <Route path=":eventId/edit" element={<EventEdit />} />
           <Route path="new" element={<EventNew />} />
         </Route>
       </Routes>
