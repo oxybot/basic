@@ -26,6 +26,7 @@ namespace Basic.WebApi
             CreateMap<Product, EntityReference>();
             CreateMap<User, EntityReference>();
             CreateMap<EventCategory, EntityReference>();
+            CreateMap<EventStatus, EntityReference>();
 
             // Special entity reference conversions
             CreateMap<User, UserReference>();

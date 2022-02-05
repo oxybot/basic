@@ -4,7 +4,15 @@ import { useInRole } from "../Authentication";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import clsx from "clsx";
 
-export default function PageView({ backTo = null, entity, full = false, title = null, editRole = null, children }) {
+export default function PageView({
+  backTo = null,
+  entity,
+  full = false,
+  title = null,
+  editRole = null,
+  children,
+  extraMenu = null,
+}) {
   const isInRole = useInRole();
 
   if (title === null) {
@@ -20,6 +28,7 @@ export default function PageView({ backTo = null, entity, full = false, title = 
             <IconEdit />
           </Link>
         )}
+        {extraMenu}
       </MobilePageTitle>
       <div className="page-header d-none d-lg-block">
         <div className="row align-items-center">
@@ -42,15 +51,16 @@ export default function PageView({ backTo = null, entity, full = false, title = 
           <div className="col-auto ms-auto d-print-none">
             {isInRole(editRole) && (
               <>
-                <Link to="edit" className="btn btn-primary d-none d-md-block">
+                <Link to="edit" className="btn btn-primary mx-1 d-none d-md-inline-flex">
                   <IconEdit />
                   Edit
                 </Link>
-                <Link to="edit" className="btn btn-primary btn-icon d-md-none" aria-label="Edit">
+                <Link to="edit" className="btn btn-primary mx-1 btn-icon d-md-none" aria-label="Edit">
                   <IconEdit />
                 </Link>
               </>
             )}
+            {extraMenu}
           </div>
         </div>
       </div>
