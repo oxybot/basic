@@ -43,8 +43,8 @@ export function SignIn() {
           const json = await response.json();
           window.cookieStore.set("access-token", json.accessToken);
           dispatch(connect(json));
-          apiFetch("Users/me", { method: "GET" }).then((response) => dispatch(setUser(response)));
-          apiFetch("Roles/mine", { method: "GET" }).then((response) => dispatch(setRoles(response)));
+          apiFetch("My/User", { method: "GET" }).then((response) => dispatch(setUser(response)));
+          apiFetch("My/Roles", { method: "GET" }).then((response) => dispatch(setRoles(response)));
         }
       }
     });
@@ -72,8 +72,8 @@ export function SignIn() {
         response.json().then((response) => {
           window.cookieStore.set("access-token", response.accessToken);
           dispatch(connect(response));
-          apiFetch("Users/me", { method: "GET" }).then((response) => dispatch(setUser(response)));
-          apiFetch("Roles/mine", { method: "GET" }).then((response) => dispatch(setRoles(response)));
+          apiFetch("My/User", { method: "GET" }).then((response) => dispatch(setUser(response)));
+          apiFetch("My/Roles", { method: "GET" }).then((response) => dispatch(setRoles(response)));
         });
       }
     });

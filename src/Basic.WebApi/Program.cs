@@ -1,5 +1,6 @@
 using Basic.DataAccess;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -123,6 +124,9 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<RoleRequirementsOperationFilter>();
 });
+
+// Business services
+builder.Services.AddScoped<ConsumptionService>();
 
 var app = builder.Build();
 

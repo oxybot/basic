@@ -39,25 +39,5 @@ namespace Basic.WebApi.Controllers
                 .ToList()
                 .Select(e => Mapper.Map<RoleForList>(e));
         }
-
-        /// <summary>
-        /// Retrieves the roles of the connected user.
-        /// </summary>
-        /// <returns>The list of roles assigned to the connected user.</returns>
-        [HttpGet]
-        [Produces("application/json")]
-        [Route("mine")]
-        public IEnumerable<RoleForList> GetMine()
-        {
-            var userIdClaim = this.User.Claims.SingleOrDefault(c => c.Type == "sid:guid");
-            var userId = Guid.Parse(userIdClaim.Value);
-
-            return Context.Set<User>()
-                .Include(u => u.Roles)
-                .Single(u => u.Identifier == userId)
-                .Roles
-                .ToList()
-                .Select(r => Mapper.Map<RoleForList>(r));
-        }
     }
 }

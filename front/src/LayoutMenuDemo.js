@@ -11,7 +11,7 @@ export default function LayoutMenuDemo() {
     setSelect(event.target.value);
     switch (event.target.value) {
       case "all":
-        apiFetch("Roles/mine", { method: "GET" }).then((response) => dispatch(setRoles(response)));
+        apiFetch("My/Roles", { method: "GET" }).then((response) => dispatch(setRoles(response)));
         break;
 
       case "user":

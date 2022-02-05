@@ -1,5 +1,7 @@
+import { IconChevronRight } from "@tabler/icons";
 import clsx from "clsx";
 import pluralize from "pluralize";
+import { Link } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import EntityList from "../Generic/EntityList";
 import MobilePageTitle from "../Generic/MobilePageTitle";
@@ -19,7 +21,7 @@ function ProgressBar({ color, value, max, title }) {
 }
 
 function CardForConsumption() {
-  const [loading, consumptions] = useApiFetch("Users/me/consumption", { method: "GET" });
+  const [loading, consumptions] = useApiFetch("My/consumption", { method: "GET" });
   return (
     <div className="card">
       <div className="card-body">
@@ -73,7 +75,7 @@ function CardForConsumption() {
 }
 
 function CardForEvents() {
-  const [loading, events] = useApiFetch("Events/mine?limit=6", { method: "GET" }, []);
+  const [loading, events] = useApiFetch("My/Events?limit=6", { method: "GET" }, []);
   let definition = useDefinition("EventForList");
   if (definition) {
     definition.fields = definition.fields.filter((f) => f.name !== "user");
@@ -82,7 +84,12 @@ function CardForEvents() {
   return (
     <div className="card">
       <div className="card-body">
-        <h2 className="card-title">My Latest Requests</h2>
+        <div className="d-flex">
+          <h2 className="card-title">My Latest Requests</h2>
+          <Link to="/me/events" className="ms-auto mb-auto btn btn-sm btn-outline-primary">
+            <IconChevronRight /> See all
+          </Link>
+        </div>
         <EntityList loading={loading} definition={definition} entities={events} />
       </div>
     </div>

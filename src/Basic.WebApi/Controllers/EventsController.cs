@@ -46,34 +46,6 @@ namespace Basic.WebApi.Controllers
         }
 
         /// <summary>
-        /// Retrieves all events associated to the connected user.
-        /// </summary>
-        /// <param name="limit">The maximum numbers of events to return.</param>
-        /// <returns>The list of events associated to the connected user.</returns>
-        [HttpGet]
-        [Authorize]
-        [Produces("application/json")]
-        [Route("mine")]
-        public IEnumerable<EventForList> GetMine(int? limit)
-        {
-            var entities = AddIncludesForList(Context.Set<Event>());
-            var user = this.GetConnectedUser();
-
-            IQueryable<Event> query = entities
-                .Where(e => e.User == user)
-                .OrderByDescending(e => e.StartDate);
-
-            if (limit.HasValue)
-            {
-                query = query.Take(limit.Value);
-            }
-
-            return query
-                .ToList()
-                .Select(e => Mapper.Map<EventForList>(e));
-        }
-
-        /// <summary>
         /// Retrieves a specific event.
         /// </summary>
         /// <param name="identifier">The identifier of the event.</param>
