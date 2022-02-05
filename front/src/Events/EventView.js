@@ -1,6 +1,6 @@
 import { IconCheck, IconX } from "@tabler/icons";
 import { useDispatch } from "react-redux";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import EntityList from "../Generic/EntityList";
@@ -26,47 +26,50 @@ function StatusList({ eventId }) {
 
 export function EventView({ backTo = null, full = false }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { eventId } = useParams();
   const get = { method: "GET" };
   const [, entity] = useApiFetch(["Events", eventId], get, {});
+  const [, next] = useApiFetch(["Events", eventId, "Statuses/Next"], get, []);
 
   function handleStatusChange(newStatus) {
     apiFetch(["events", eventId, "statuses"], {
       method: "POST",
-      body: JSON.stringify({ from: entity.currentStatus.identifier, to: newStatus }),
+      body: JSON.stringify({ from: entity.currentStatus.identifier, to: newStatus.identifier }),
     }).then(() => {
-      navigate("../" + eventId);
+      entity.currentStatus = newStatus;
       dispatch(refresh());
     });
   }
+
   function ExtraMenu() {
-    if (!entity.currentStatus) {
+    if (next.length === 0) {
       return null;
     }
 
-    switch (entity.currentStatus.displayName) {
-      case "Requested":
-        return (
-          <>
-            <button
-              className="btn btn-success mx-1"
-              onClick={() => handleStatusChange("4151c014-ddde-43e4-aa7e-b98a339bbe74")}
-            >
+    return next.map((status, index) => {
+      switch (status.displayName) {
+        case "Approved":
+          return (
+            <button key={index} className="btn btn-success mx-1" onClick={() => handleStatusChange(status)}>
               <IconCheck /> Approve
             </button>
-            <button
-              className="btn btn-danger mx-1"
-              onClick={() => handleStatusChange("e7f8dcc7-57d5-4e74-ac38-1fbd5153996c")}
-            >
+          );
+        case "Rejected":
+          return (
+            <button key={index} className="btn btn-danger mx-1" onClick={() => handleStatusChange(status)}>
               <IconX /> Reject
             </button>
-          </>
-        );
-
-      default:
-        return null;
-    }
+          );
+        case "Canceled":
+          return (
+            <button key={index} className="btn btn-outline-primary mx-1" onClick={() => handleStatusChange(status)}>
+              <IconX /> Cancel
+            </button>
+          );
+        default:
+          return null;
+      }
+    });
   }
 
   return (
