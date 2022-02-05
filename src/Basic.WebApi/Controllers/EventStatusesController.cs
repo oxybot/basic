@@ -39,7 +39,9 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<ModelStatusForList> GetAll(Guid eventId)
         {
-            var entity = Context.Set<Event>().Include(e => e.Statuses)
+            var entity = Context.Set<Event>()
+                .Include(e => e.Statuses).ThenInclude(s => s.Status)
+                .Include(e => e.User)
                 .SingleOrDefault(c => c.Identifier == eventId);
             if (entity == null)
             {
@@ -64,7 +66,8 @@ namespace Basic.WebApi.Controllers
         [Route("Next")]
         public IEnumerable<StatusReference> GetNext(Guid eventId)
         {
-            var entity = Context.Set<Event>().Include(e => e.Statuses).ThenInclude(s => s.Status)
+            var entity = Context.Set<Event>()
+                .Include(e => e.Statuses).ThenInclude(s => s.Status)
                 .SingleOrDefault(c => c.Identifier == eventId);
             if (entity == null)
             {

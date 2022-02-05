@@ -72,7 +72,7 @@ namespace Basic.WebApi.Controllers
             {
                 var events = user.Events
                     .Where(e => e.StartDate <= endOfMonth && e.EndDate >= startOfMonth)
-                    .Where(e => e.CurrentStatus.DisplayName != "Rejected");
+                    .Where(e => e.CurrentStatus.IsActive);
                 var timeoff = events.Where(e => e.Category.Mapping != EventTimeMapping.Active);
                 var active = events.Where(e => e.Category.Mapping == EventTimeMapping.Active);
 
@@ -190,7 +190,7 @@ namespace Basic.WebApi.Controllers
         [HttpPost]
         [Route("check")]
         [Produces("application/json")]
-        public CalendarRequestCheck Check([Required] CalendarRequest request)
+        public CalendarRequestCheck Check(CalendarRequest request)
         {
             var check = new CalendarRequestCheck();
             if (!ModelState.IsValid)

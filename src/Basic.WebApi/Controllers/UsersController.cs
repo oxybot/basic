@@ -165,14 +165,15 @@ namespace Basic.WebApi.Controllers
                     .ThenInclude(s => s.Status)
                 .Where(e => e.User == user && e.StartDate >= startOfYear && e.StartDate <= endOfYear && e.Category.Mapping == EventTimeMapping.TimeOff)
                 .ToList()
+                .Where(e => e.CurrentStatus.IsActive)
                 .GroupBy(e => e.Category);
 
             foreach (var category in groupedEvents)
             {
                 var balance = balances.SingleOrDefault(b => b.Category == category.Key);
-                var planned = category.Where(e => e.CurrentStatus != null && e.CurrentStatus.DisplayName == "Approved" && e.StartDate.ToDateTime(TimeOnly.MinValue) >= DateTime.Today).ToList();
-                var taken = category.Where(e => e.CurrentStatus != null && e.CurrentStatus.DisplayName == "Approved" && e.StartDate.ToDateTime(TimeOnly.MinValue) < DateTime.Today).ToList();
-                var requested = category.Where(e => e.CurrentStatus != null && e.CurrentStatus.DisplayName == "Requested").ToList();
+                var planned = category.Where(e => e.CurrentStatus.Identifier == Status.Approved && e.StartDate.ToDateTime(TimeOnly.MinValue) >= DateTime.Today).ToList();
+                var taken = category.Where(e => e.CurrentStatus.Identifier == Status.Approved && e.StartDate.ToDateTime(TimeOnly.MinValue) < DateTime.Today).ToList();
+                var requested = category.Where(e => e.CurrentStatus.Identifier == Status.Requested).ToList();
                 yield return new ConsumptionForList()
                 {
                     Category = Mapper.Map<EntityReference>(category.Key),
