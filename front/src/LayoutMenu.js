@@ -70,12 +70,12 @@ export default function LayoutMenu() {
                 </button>
                 <ul id="menu-user" className="navbar-nav collapse">
                   <li className="nav-item">
-                    <NavLink to="/profile" end className="nav-link justify-content-start" onClick={closeMenu}>
+                    <NavLink to="/me" end className="nav-link justify-content-start" onClick={closeMenu}>
                       Profile &amp; account
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="/profile/logout" className="nav-link justify-content-start" onClick={closeMenu}>
+                    <NavLink to="/me/logout" className="nav-link justify-content-start" onClick={closeMenu}>
                       Logout
                     </NavLink>
                   </li>

@@ -43,7 +43,7 @@ export default function App() {
         </Route>
 
         {/* Profile*/}
-        <Route path="/profile" element={<ProfileView />} />
+        <Route path="/me" element={<ProfileView />} />
 
         {/* Clients */}
         <Route path="/client/:clientId" element={<ClientView full />} />
