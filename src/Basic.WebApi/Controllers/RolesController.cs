@@ -14,7 +14,7 @@ namespace Basic.WebApi.Controllers
     [ApiController]
     [Authorize]
     [Route("[controller]")]
-    public class RolesController : ControllerBase
+    public class RolesController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RolesController"/> class.
@@ -23,26 +23,9 @@ namespace Basic.WebApi.Controllers
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
         public RolesController(Context context, IMapper mapper, ILogger<RolesController> logger)
+            :base(context, mapper, logger)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-            Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        /// <summary>
-        /// Gets the datasource context.
-        /// </summary>
-        protected Context Context { get; }
-
-        /// <summary>
-        /// Gets the configured automapper.
-        /// </summary>
-        protected IMapper Mapper { get; }
-
-        /// <summary>
-        /// Gets the associated logger.
-        /// </summary>
-        protected ILogger Logger { get; }
 
         /// <summary>
         /// Retrieves all roles.

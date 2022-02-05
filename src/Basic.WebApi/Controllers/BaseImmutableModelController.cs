@@ -17,7 +17,7 @@ namespace Basic.WebApi.Controllers
     /// </remarks>
     [ApiController]
     [Route("[controller]")]
-    public abstract class BaseImmutableModelController<TModel, TForList, TForView, TForEdit> : ControllerBase
+    public abstract class BaseImmutableModelController<TModel, TForList, TForView, TForEdit> : BaseController
         where TModel : BaseModel
         where TForList : BaseEntityDTO
         where TForView : BaseEntityDTO
@@ -31,26 +31,9 @@ namespace Basic.WebApi.Controllers
         /// <param name="logger">The associated logger.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public BaseImmutableModelController(Context context, IMapper mapper, ILogger logger)
+            :base(context, mapper, logger)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-            Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        /// <summary>
-        /// Gets the datasource context.
-        /// </summary>
-        protected Context Context { get; }
-
-        /// <summary>
-        /// Gets the configured automapper.
-        /// </summary>
-        protected IMapper Mapper { get; }
-
-        /// <summary>
-        /// Gets the associated logger.
-        /// </summary>
-        protected ILogger Logger { get; }
 
         /// <summary>
         /// Retrieves a specific entity.
@@ -149,26 +132,6 @@ namespace Basic.WebApi.Controllers
         /// </remarks>
         protected virtual void CheckDependencies(TForEdit entity, TModel model)
         {
-        }
-
-        /// <summary>
-        /// Retrieves the <see cref="User"/> instance associated with the connected user.
-        /// </summary>
-        /// <returns>A <see cref="User"/> instance; or <c>null</c>.</returns>
-        protected User GetConnectedUser()
-        {
-            var userIdClaim = this.User.Claims.SingleOrDefault(c => c.Type == "sid:guid");
-            if (userIdClaim == null)
-            {
-                return null;
-            }
-
-            var userId = Guid.Parse(userIdClaim.Value);
-            var user = this.Context.Set<User>()
-                .Include(u => u.Roles)
-                .SingleOrDefault(u => u.Password != null && u.Identifier == userId);
-
-            return user;
         }
     }
 }

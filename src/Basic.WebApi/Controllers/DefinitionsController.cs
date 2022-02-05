@@ -1,4 +1,5 @@
-﻿using Basic.DataAccess;
+﻿using AutoMapper;
+using Basic.DataAccess;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Models;
@@ -16,29 +17,19 @@ namespace Basic.WebApi.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class DefinitionsController : ControllerBase
+    public class DefinitionsController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientsController"/> class.
         /// </summary>
         /// <param name="context">The datasource context.</param>
+        /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public DefinitionsController(Context context, ILogger<DefinitionsController> logger)
+        public DefinitionsController(Context context, Mapper mapper, ILogger<DefinitionsController> logger)
+            :base(context, mapper, logger)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        /// <summary>
-        /// Gets the datasource context.
-        /// </summary>
-        protected Context Context { get; }
-
-        /// <summary>
-        /// Gets the associated logger.
-        /// </summary>
-        protected ILogger<DefinitionsController> Logger { get; }
 
         /// <summary>
         /// Retrieves the list of available entities.
