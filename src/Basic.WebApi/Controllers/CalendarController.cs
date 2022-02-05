@@ -7,7 +7,6 @@ using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 namespace Basic.WebApi.Controllers
@@ -18,7 +17,7 @@ namespace Basic.WebApi.Controllers
     [ApiController]
     [Authorize]
     [Route("[controller]")]
-    public class CalendarController : ControllerBase
+    public class CalendarController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendarController"/> class.
@@ -27,26 +26,9 @@ namespace Basic.WebApi.Controllers
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
         public CalendarController(Context context, IMapper mapper, ILogger<CalendarController> logger)
+            : base(context, mapper, logger)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-            Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        /// <summary>
-        /// Gets the datasource context.
-        /// </summary>
-        protected Context Context { get; }
-
-        /// <summary>
-        /// Gets the configured automapper.
-        /// </summary>
-        protected IMapper Mapper { get; }
-
-        /// <summary>
-        /// Gets the associated logger.
-        /// </summary>
-        protected ILogger Logger { get; }
 
         /// <summary>
         /// Gets all events to be displayed in the calendar of a specific month.
@@ -332,26 +314,6 @@ namespace Basic.WebApi.Controllers
             }
 
             return context;
-        }
-
-        /// <summary>
-        /// Retrieves the <see cref="User"/> instance associated with the connected user.
-        /// </summary>
-        /// <returns>A <see cref="User"/> instance; or <c>null</c>.</returns>
-        private User GetConnectedUser()
-        {
-            var userIdClaim = this.User.Claims.SingleOrDefault(c => c.Type == "sid:guid");
-            if (userIdClaim == null)
-            {
-                return null;
-            }
-
-            var userId = Guid.Parse(userIdClaim.Value);
-            var user = this.Context.Set<User>()
-                .Include(u => u.Roles)
-                .SingleOrDefault(u => u.Password != null && u.Identifier == userId);
-
-            return user;
         }
     }
 }
