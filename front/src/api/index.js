@@ -88,7 +88,7 @@ export async function apiFetch(url, options) {
   });
 }
 
-export function useApiFetch(url, options, defaultState = null, transform = (e) => e) {
+export function useApiFetch(url, options, defaultState = null, transform = defaultTransform) {
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState(defaultState);
   useEffect(() => {
@@ -100,7 +100,7 @@ export function useApiFetch(url, options, defaultState = null, transform = (e) =
       .catch((err) => console.log(err));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url.toString(), JSON.stringify(options)]);
+  }, [url.toString(), JSON.stringify(options), transform]);
 
   return [loading, response];
 }

@@ -8,11 +8,13 @@ import Section from "../Generic/Section";
 import Sections from "../Generic/Sections";
 import { toCurrency } from "../helpers";
 
+const transform = (d) => {
+  d.fields = d.fields.filter((i) => i.name !== "items");
+  return d;
+};
+
 function AgreementViewDetail({ entity }) {
-  const definition = useDefinition("AgreementForView", (d) => {
-    d.fields = d.fields.filter((i) => i.name !== "items");
-    return d;
-  });
+  const definition = useDefinition("AgreementForView", transform);
 
   const items = entity.items || [];
 
@@ -61,7 +63,8 @@ function AgreementViewDetail({ entity }) {
 
 export function AgreementView({ backTo = null, full = false }) {
   const { agreementId } = useParams();
-  const [, entity] = useApiFetch(["Agreements", agreementId], { method: "GET" }, {});
+  const get = { method: "GET" };
+  const [, entity] = useApiFetch(["Agreements", agreementId], get, {});
 
   return (
     <PageView backTo={backTo} full={full} entity={entity} title={entity.title} editRole="client">

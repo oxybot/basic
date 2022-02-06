@@ -7,14 +7,16 @@ import EntityFieldInput from "../Generic/EntityFieldInput";
 import EntityForm from "../Generic/EntityForm";
 import { refresh } from "./slice";
 
+const transform = (d) => {
+  d.fields = d.fields.filter((i) => i.name !== "items");
+  return d;
+};
+
 export function AgreementEdit({ full = false }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { agreementId } = useParams();
-  const definition = useDefinition("AgreementForEdit", (d) => {
-    d.fields = d.fields.filter((i) => i.name !== "items");
-    return d;
-  });
+  const definition = useDefinition("AgreementForEdit", transform);
   const itemDefinition = useDefinition("AgreementItemForEdit");
   const [entity, setEntity] = useState({ items: [] });
   const [validated, setValidated] = useState(false);
