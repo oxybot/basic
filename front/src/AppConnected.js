@@ -10,7 +10,7 @@ import { EventCategoryEdit, EventCategoryList, EventCategoryNew } from "./EventC
 import { GlobalDayOffEdit, GlobalDayOffList, GlobalDayOffNew } from "./GlobalDaysOff";
 import Layout from "./Layout";
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
-import { ProfileView } from "./My";
+import { ProfileEdit, ProfileView } from "./My";
 import { ScheduleEdit, ScheduleList, ScheduleNew, ScheduleView } from "./Schedules";
 import Settings from "./Settings";
 import { UserEdit, UserList, UserNew, UserView } from "./Users";
@@ -43,7 +43,8 @@ export default function App() {
         </Route>
 
         {/* Profile*/}
-        <Route path="/my/profile" element={<ProfileView />} />
+        <Route path="/my/profile" element={<ProfileView full />} />
+        <Route path="/my/profile/edit" element={<ProfileEdit full />} />
 
         {/* Clients */}
         <Route path="/client/:clientId" element={<ClientView full />} />

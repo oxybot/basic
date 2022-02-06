@@ -2,6 +2,7 @@
 using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
+using Basic.WebApi.Framework;
 using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -67,6 +68,29 @@ namespace Basic.WebApi.Controllers
         {
             var user = this.GetConnectedUser();
             return Mapper.Map<UserForView>(user);
+        }
+
+        /// <summary>
+        /// Updates the connected user data.
+        /// </summary>
+        /// <param name="user">The user data.</param>
+        /// <returns>The user data after update.</returns>
+        /// <response code="400">The provided data are invalid.</response>
+        [HttpPut]
+        [Produces("application/json")]
+        [Route("User")]
+        public UserForView UpdateUser(UserForEdit user)
+        {
+            var model = this.GetConnectedUser();
+            Mapper.Map(user, model);
+            if (!ModelState.IsValid)
+            {
+                throw new InvalidModelStateException(ModelState);
+            }
+
+            Context.SaveChanges();
+
+            return Mapper.Map<UserForView>(model);
         }
 
         /// <summary>
