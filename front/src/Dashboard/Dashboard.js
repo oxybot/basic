@@ -86,7 +86,7 @@ function CardForEvents() {
       <div className="card-body">
         <div className="d-flex">
           <h2 className="card-title">My Latest Requests</h2>
-          <Link to="/me/events" className="ms-auto mb-auto btn btn-sm btn-outline-primary">
+          <Link to="/my/events" className="ms-auto mb-auto btn btn-sm btn-outline-primary">
             <IconChevronRight /> See all
           </Link>
         </div>
