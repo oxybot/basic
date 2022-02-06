@@ -7,6 +7,7 @@ import EntityForm from "./EntityForm";
 
 const defaultTransform = (e) => e;
 const defaultOnUpdate = () => {};
+const defaultExtendedForm = () => null;
 
 export default function PageEdit({
   definition,
@@ -16,6 +17,7 @@ export default function PageEdit({
   texts,
   onUpdate = defaultOnUpdate,
   transform = defaultTransform,
+  extendedForm = defaultExtendedForm,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,6 +65,8 @@ export default function PageEdit({
       errors={errors}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
-    />
+    >
+      {extendedForm(entity, setEntity, errors)}
+    </EntityForm>
   );
 }
