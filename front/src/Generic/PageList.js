@@ -31,12 +31,12 @@ export default function PageList({ definition, loading, elements, selectedId, te
               </div>
               <div className="col-auto ms-auto d-print-none">
                 <div className="d-flex">
-                  <div className="input-icon">
+                  {/* <div className="input-icon">
                     <input type="text" className="form-control" placeholder="Search&hellip;" />
                     <span className="input-icon-addon">
                       <IconSearch />
                     </span>
-                  </div>
+                  </div> */}
                   {isInRole(newRole) && (
                     <>
                       <Link to="new" className="ms-3 btn btn-primary d-none d-md-block">
