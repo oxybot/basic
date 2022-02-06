@@ -56,7 +56,7 @@ export default function PageNew({
       handleSubmit={handleSubmit}
       container
     >
-      {extendedForm(entity, setEntity)}
+      {extendedForm(entity, setEntity, errors)}
     </EntityForm>
   );
 }

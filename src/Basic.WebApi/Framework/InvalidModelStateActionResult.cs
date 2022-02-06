@@ -64,7 +64,8 @@ namespace Basic.WebApi.Framework
                 if (pair.Value.Errors != null && pair.Value.Errors.Count > 0)
                 {
                     var errors = pair.Value.Errors.Select(e => e.ErrorMessage).ToArray();
-                    result.Add(pair.Key.ToJsonFieldName(), errors);
+                    var key = string.Join('.', pair.Key.Split('.').Select(s => s.ToJsonFieldName()));
+                    result.Add(key, errors);
                 }
             }
 

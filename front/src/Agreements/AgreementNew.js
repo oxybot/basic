@@ -6,7 +6,7 @@ import EntityFieldInput from "../Generic/EntityFieldInput";
 import PageNew from "../Generic/PageNew";
 import { refresh } from "./slice";
 
-function CardForItems({ entity, setEntity }) {
+function CardForItems({ entity, setEntity, errors = {} }) {
   const itemDefinition = useDefinition("AgreementItemForEdit");
   const itemFields = itemDefinition?.fields;
 
@@ -50,9 +50,14 @@ function CardForItems({ entity, setEntity }) {
               return (
                 <tr key={index}>
                   {itemFields &&
-                    itemFields.map((field, index) => (
-                      <td key={index}>
-                        <EntityFieldInput field={field} value={item[field.name] || ""} onChange={handleChangeItem} />
+                    itemFields.map((field, fieldIndex) => (
+                      <td key={fieldIndex}>
+                        <EntityFieldInput
+                          field={field}
+                          value={item[field.name] || ""}
+                          hasErrors={errors[`items[${index}].${field.name}`] !== undefined}
+                          onChange={handleChangeItem}
+                        />
                       </td>
                     ))}
                   <td>
@@ -93,7 +98,7 @@ export function AgreementNew() {
       definition={definition}
       baseApiUrl="Agreements"
       texts={texts}
-      extendedForm={(e, s) => <CardForItems entity={e} setEntity={s} />}
+      extendedForm={(e, s, err) => <CardForItems entity={e} setEntity={s} errors={err} />}
       onCreate={handleCreate}
     />
   );
