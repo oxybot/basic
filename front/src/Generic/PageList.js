@@ -1,4 +1,4 @@
-import { IconPlus, IconSearch } from "@tabler/icons";
+import { IconPlus } from "@tabler/icons";
 import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";
 import { useInRole } from "../Authentication";
