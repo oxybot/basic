@@ -236,6 +236,11 @@ namespace Basic.WebApi.Controllers
                 ModelState.AddModelError("ClientIdentifier", "Invalid client");
             }
 
+            if (agreement.Items == null)
+            {
+                agreement.Items = Array.Empty<AgreementItemForEditWithIdentifier>();
+            }
+
             // Updated items
             foreach (var item in agreement.Items.Where(i => i.Identifier.HasValue))
             {

@@ -1,86 +1,44 @@
 import { IconMinus, IconPlus } from "@tabler/icons";
-import { useState } from "react";
+import clsx from "clsx";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { apiFetch, useDefinition } from "../api";
+import { useDefinition } from "../api";
 import EntityFieldInput from "../Generic/EntityFieldInput";
-import EntityForm from "../Generic/EntityForm";
+import PageNew from "../Generic/PageNew";
 import { refresh } from "./slice";
 
-export function AgreementNew() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const definition = useDefinition("AgreementForEdit", (d) => {
-    d.fields = d.fields.filter((i) => i.name !== "items");
-    return d;
-  });
+function CardForItems({ entity, setEntity }) {
   const itemDefinition = useDefinition("AgreementItemForEdit");
-  const [entity, setEntity] = useState({ items: [] });
-  const [validated, setValidated] = useState(false);
-
   const itemFields = itemDefinition?.fields;
 
-  const texts = {
-    title: "Agreements",
-    subTitle: "Add a new Agreement",
-    "form-action": "Create",
-  };
-
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setEntity({ ...entity, [name]: value });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setValidated(true);
-    apiFetch("Agreements", {
-      method: "POST",
-      body: JSON.stringify(entity),
-    })
-      .then((response) => {
-        navigate("./..");
-        dispatch(refresh());
-      })
-      .catch((err) => {
-        console.error(err);
-        alert(err);
-      });
-  };
-
   function handleAddItem() {
-    const updated = { ...entity, items: [...entity.items] };
+    let updated = { ...entity, items: [...(entity.items || [])] };
     updated.items.push({});
     setEntity(updated);
   }
 
   return (
-    <EntityForm
-      definition={definition}
-      entity={entity}
-      texts={texts}
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      validated={validated}
-      container
-    >
-      <div className="card pb-3 col-lg-12">
-        <div className="card-header">
-          <h3 className="card-title me-auto">Items</h3>
-          <button type="button" className="btn btn-icon btn-primary" onClick={handleAddItem}>
-            <IconPlus />
-          </button>
-        </div>
-        <table className="table card-table table-vcenter text-nowrap datatable table-hover">
-          <thead>
-            <tr>
-              {itemFields && itemFields.map((field, index) => <th key={index}>{field.displayName}</th>)}
-              <th className="w-1"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {entity.items.map((item, index) => {
+    <div className="card pb-3 col-lg-12">
+      <div className="card-header">
+        <h3 className="card-title me-auto">Items</h3>
+        <button type="button" className="btn btn-icon btn-primary" onClick={handleAddItem}>
+          <IconPlus />
+        </button>
+      </div>
+      <table className="table card-table table-vcenter text-nowrap datatable table-hover">
+        <thead>
+          <tr>
+            {itemFields &&
+              itemFields.map((field, index) => (
+                <th key={index} className={clsx({ required: field.required })}>
+                  {field.displayName}
+                </th>
+              ))}
+            <th className="w-1"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {entity.items &&
+            entity.items.map((item, index) => {
               function handleChangeItem(event) {
                 const name = event.target.name;
                 const value = event.target.value;
@@ -105,9 +63,38 @@ export function AgreementNew() {
                 </tr>
               );
             })}
-          </tbody>
-        </table>
-      </div>
-    </EntityForm>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+const transform = (d) => {
+  d.fields = d.fields.filter((i) => i.name !== "items");
+  return d;
+};
+
+export function AgreementNew() {
+  const dispatch = useDispatch();
+  const definition = useDefinition("AgreementForEdit", transform);
+
+  const texts = {
+    title: "Agreements",
+    subTitle: "Add a new Agreement",
+    "form-action": "Create",
+  };
+
+  function handleCreate() {
+    dispatch(refresh());
+  }
+
+  return (
+    <PageNew
+      definition={definition}
+      baseApiUrl="Agreements"
+      texts={texts}
+      extendedForm={(e, s) => <CardForItems entity={e} setEntity={s} />}
+      onCreate={handleCreate}
+    />
   );
 }

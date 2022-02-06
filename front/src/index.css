@@ -93,6 +93,12 @@ body {
 }
 
 /* Update standard tabler style */
+th.required:after {
+  content: "*";
+  margin-left: 0.25rem;
+  color: #d63939;
+}
+
 .avatar {
   min-width: var(--tblr-avatar-size);
 }

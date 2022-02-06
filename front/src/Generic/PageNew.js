@@ -6,8 +6,15 @@ import { apiFetch } from "../api";
 import EntityForm from "./EntityForm";
 
 const defaultOnCreate = () => {};
+const defaultExtendedForm = () => null;
 
-export default function PageNew({ definition, baseApiUrl, texts, onCreate = defaultOnCreate }) {
+export default function PageNew({
+  definition,
+  baseApiUrl,
+  texts,
+  onCreate = defaultOnCreate,
+  extendedForm = defaultExtendedForm,
+}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [entity, setEntity] = useState({});
@@ -48,6 +55,8 @@ export default function PageNew({ definition, baseApiUrl, texts, onCreate = defa
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       container
-    />
+    >
+      {extendedForm(entity, setEntity)}
+    </EntityForm>
   );
 }
