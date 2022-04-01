@@ -1,0 +1,77 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
+
+namespace Basic.WebApi.DTOs
+{
+    /// <summary>
+    /// Represents the data to update the password of a specific user.
+    /// </summary>
+    public class PasswordForEdit : BaseEntityDTO, IValidatableObject
+    {
+        /// <summary>
+        /// Error message associated with a short password.
+        /// </summary>
+        protected const string ErrorPasswordTooShort = "The password is too short";
+
+        /// <summary>
+        /// Error message associated with a weak password.
+        /// </summary>
+        protected const string ErrorPasswordTooWeak = "The password is too weak";
+
+        /// <summary>
+        /// Gets or sets the new password for the user.
+        /// </summary>
+        /// <value>
+        /// A <c>null</c> or empty value indicates that the user should be disabled.</value>
+        public string NewPassword { get; set; }
+
+        /// <summary>
+        /// Validates the current instance.
+        /// </summary>
+        /// <param name="validationContext">The validation context.</param>
+        /// <returns>The errors during the validation of the instance.</returns>
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (validationContext is null)
+            {
+                throw new ArgumentNullException(nameof(validationContext));
+            }
+
+            if (string.IsNullOrEmpty(NewPassword))
+            {
+                yield break;
+            }
+
+            if (NewPassword.Length >= 16)
+            {
+                yield break;
+            }
+
+            if (NewPassword.Length < 12)
+            {
+                yield return new ValidationResult(ErrorPasswordTooShort, new[] { nameof(NewPassword) });
+            }
+
+            int numbers = Regex.Matches(NewPassword, "[0-9]").Count;
+            int lowers = Regex.Matches(NewPassword, "[a-z]").Count;
+            int uppers = Regex.Matches(NewPassword, "[A-Z]").Count;
+            int specials = NewPassword.Length - numbers - lowers - uppers;
+
+            if (specials == NewPassword.Length)
+            {
+                yield break;
+            }
+
+            int score = 0;
+            score += numbers > 0 ? 1 : 0;
+            score += lowers > 0 ? 1 : 0;
+            score += uppers > 0 ? 1 : 0;
+            score += specials > 0 ? 1 : 0;
+
+            if (score < 3)
+            {
+                yield return new ValidationResult(ErrorPasswordTooWeak, new[] { nameof(NewPassword) });
+            }
+        }
+    }
+}

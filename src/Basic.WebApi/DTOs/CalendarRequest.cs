@@ -6,7 +6,7 @@ namespace Basic.WebApi.DTOs
     /// <summary>
     /// Represents a new calendar request for the connected user.
     /// </summary>
-    public class CalendarRequest : BaseEntityDTO
+    public class CalendarRequest : BaseEntityDTO, IValidatableObject
     {
         /// <summary>
         /// Gets or sets the associated category.

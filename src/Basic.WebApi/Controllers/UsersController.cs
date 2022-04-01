@@ -79,12 +79,43 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
         [HttpPut]
-        [AuthorizeRoles(Role.User)]
+        [AuthorizeRoles(Role.Time, Role.User)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override UserForList Put(Guid identifier, UserForEdit user)
         {
             return base.Put(identifier, user);
+        }
+
+        /// <summary>
+        /// Updates the password of a specific user.
+        /// </summary>
+        /// <param name="identifier">The identifier of the user to update.</param>
+        /// <param name="password">The password data.</param>
+        /// <returns>The user data after update.</returns>
+        /// <response code="400">The provided data are invalid.</response>
+        /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
+        [HttpPut]
+        [AuthorizeRoles(Role.Time, Role.User)]
+        [Produces("application/json")]
+        [Route("{identifier}/password")]
+        public UserForList UpdatePassword(Guid identifier, PasswordForEdit password)
+        {
+            if (password is null)
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
+
+            var user = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == identifier);
+            if (user == null)
+            {
+                throw new NotFoundException("No user identified by " + identifier);
+            }
+
+            user.ChangePassword(password.NewPassword);
+            this.Context.SaveChanges();
+
+            return Mapper.Map<UserForList>(user);
         }
 
         /// <summary>
