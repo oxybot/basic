@@ -9,8 +9,8 @@ import { EventList, EventNew, EventView } from "./Events";
 import { EventCategoryEdit, EventCategoryList, EventCategoryNew } from "./EventCategories";
 import { GlobalDayOffEdit, GlobalDayOffList, GlobalDayOffNew } from "./GlobalDaysOff";
 import Layout from "./Layout";
+import { MyEventList, MyEventView, ProfileEdit, ProfileView } from "./My";
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
-import { ProfileEdit, ProfileView } from "./My";
 import { ScheduleEdit, ScheduleList, ScheduleNew, ScheduleView } from "./Schedules";
 import Settings from "./Settings";
 import { UserEdit, UserList, UserNew, UserView } from "./Users";
@@ -42,9 +42,13 @@ export default function App() {
           </Route>
         </Route>
 
-        {/* Profile*/}
+        {/* Profile */}
         <Route path="/my/profile" element={<ProfileView full />} />
         <Route path="/my/profile/edit" element={<ProfileEdit full />} />
+
+        <Route path="/my/events" element={<MyEventList />}>
+          <Route path="/my/events/:eventId" element={<MyEventView />} />
+        </Route>
 
         {/* Clients */}
         <Route path="/client/:clientId" element={<ClientView full />} />

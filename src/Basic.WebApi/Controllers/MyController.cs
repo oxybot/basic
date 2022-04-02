@@ -29,7 +29,6 @@ namespace Basic.WebApi.Controllers
         {
         }
 
-
         /// <summary>
         /// Retrieves all events associated to the connected user.
         /// </summary>
@@ -55,6 +54,58 @@ namespace Basic.WebApi.Controllers
             return query
                 .ToList()
                 .Select(e => Mapper.Map<EventForList>(e));
+        }
+
+        /// <summary>
+        /// Retrieves a specific event associated to the connected user.
+        /// </summary>
+        /// <param name="eventId">The identifier of the event.</param>
+        /// <returns>The detailed data about the event identified by <paramref name="eventId"/>.</returns>
+        /// <response code="404">No event is associated to the provided <paramref name="eventId"/>.</response>
+        [HttpGet]
+        [Produces("application/json")]
+        [Route("Events/{eventId}")]
+        public EventForView GetEvent(Guid eventId)
+        {
+            var user = this.GetConnectedUser();
+            Event entity = Context.Set<Event>()
+                .Include(e => e.Category)
+                .Include(e => e.Statuses).ThenInclude(s => s.Status)
+                .SingleOrDefault(e => e.Identifier == eventId && e.User == user);
+
+            if (entity == null)
+            {
+                throw new NotFoundException("Not existing entity");
+            }
+
+            return Mapper.Map<EventForView>(entity);
+        }
+
+
+        /// <summary>
+        /// Retrieves the statuses associated to a specific event.
+        /// </summary>
+        /// <param name="eventId">The identifier of the event.</param>
+        /// <returns>The statuses of the event.</returns>
+        /// <response code="404">No event is associated to the provided <paramref name="eventId"/>.</response>
+        [HttpGet]
+        [Produces("application/json")]
+        [Route("Events/{eventId}/Statuses")]
+        public IEnumerable<ModelStatusForList> GetEventStatuses(Guid eventId)
+        {
+            var user = this.GetConnectedUser();
+            var entity = Context.Set<Event>()
+                .Include(e => e.Statuses).ThenInclude(s => s.Status)
+                .Include(e => e.User)
+                .SingleOrDefault(e => e.Identifier == eventId && e.User == user);
+            if (entity == null)
+            {
+                throw new NotFoundException("Not existing entity");
+            }
+
+            return entity.Statuses
+                .OrderByDescending(s => s.UpdatedOn)
+                .Select(s => Mapper.Map<ModelStatusForList>(s));
         }
 
         /// <summary>
