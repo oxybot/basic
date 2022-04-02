@@ -37,14 +37,14 @@ function CardForConsumption() {
                 <h4>{consumption.category.displayName}</h4>
                 {withBalance && (
                   <div className="progress mb-1">
-                    <ProgressBar color="bg-primary" value={consumption.allowed} max={max} title="Allowed" />
+                    <ProgressBar color="bg-cyan" value={consumption.allowed} max={max} title="Allowed" />
                     <ProgressBar color="bg-secondary" value={consumption.transfered} max={max} title="Transfered" />
                   </div>
                 )}
                 <div className="progress">
-                  <ProgressBar color="bg-success" value={consumption.taken} max={max} title="Taken" />
-                  <ProgressBar color="bg-orange" value={consumption.planned} max={max} title="Planned" />
-                  <ProgressBar color="bg-red" value={consumption.requested} max={max} title="Requested" />
+                  <ProgressBar color="bg-green" value={consumption.taken} max={max} title="Taken" />
+                  <ProgressBar color="bg-teal" value={consumption.planned} max={max} title="Planned" />
+                  <ProgressBar color="bg-blue" value={consumption.requested} max={max} title="Requested" />
                 </div>
                 <table className="table">
                   <tbody>
