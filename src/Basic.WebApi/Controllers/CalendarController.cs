@@ -72,7 +72,7 @@ namespace Basic.WebApi.Controllers
                 {
                     var line = new UserCalendar.Line()
                     {
-                        Category = "timeoff",
+                        Category = "Time-off",
                         ColorClass = "bg-timeoff"
                     };
 
