@@ -3,19 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@reduxjs/toolkit": "^1.7.1",
-    "@tabler/core": "^1.0.0-beta6",
-    "@tabler/icons": "^1.53.0",
-    "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
+    "@reduxjs/toolkit": "^1.8.1",
+    "@tabler/core": "^1.0.0-beta9",
+    "@tabler/icons": "^1.60.0",
+    "@testing-library/jest-dom": "^5.16.3",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^14.0.4",
     "clsx": "^1.1.1",
-    "dayjs": "^1.10.7",
+    "dayjs": "^1.11.0",
     "history": "5",
     "pluralize": "^8.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-redux": "^7.2.6",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-redux": "^7.2.8",
     "react-router-dom": "6",
     "react-scripts": "5.0.0",
     "react-select": "^5.2.2",
@@ -46,6 +46,6 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^2.5.1"
+    "prettier": "^2.6.2"
   }
 }
