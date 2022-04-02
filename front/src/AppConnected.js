@@ -47,7 +47,7 @@ export default function App() {
         <Route path="/my/profile/edit" element={<ProfileEdit full />} />
 
         <Route path="/my/events" element={<MyEventList />}>
-          <Route path="/my/events/:eventId" element={<MyEventView />} />
+          <Route path="/my/events/:eventId" element={<MyEventView backTo="/my/events" />} />
         </Route>
 
         {/* Clients */}
@@ -102,7 +102,7 @@ export default function App() {
         {/* Events */}
         <Route path="/event/:eventId" element={<EventView full />} />
         <Route path="/events" element={<EventList />}>
-          <Route path=":eventId" element={<EventView backTo="/users" />} />
+          <Route path=":eventId" element={<EventView backTo="/events" />} />
           <Route path="new" element={<EventNew />} />
         </Route>
       </Routes>
