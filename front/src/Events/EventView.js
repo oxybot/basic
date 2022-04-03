@@ -1,4 +1,5 @@
 import { IconCheck, IconX } from "@tabler/icons";
+import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
@@ -73,7 +74,14 @@ export function EventView({ backTo = null, full = false }) {
   }
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity} editRole="noedit" extraMenu={<ExtraMenu />}>
+    <PageView
+      backTo={backTo}
+      full={full}
+      title={entity.user ? entity.user.displayName + " - " + dayjs(entity.startDate).format("DD MMM YYYY") : null}
+      entity={entity}
+      editRole="noedit"
+      extraMenu={<ExtraMenu />}
+    >
       <Sections>
         <Section code="detail" element={<EventViewDetail entity={entity} />}>
           Detail

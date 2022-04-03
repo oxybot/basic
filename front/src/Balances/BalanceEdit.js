@@ -16,8 +16,7 @@ export function BalanceEdit({ full = false }) {
   const { balanceId } = useParams();
   const definition = useDefinition("BalanceForEdit");
   const texts = {
-    title: (entity) => entity.displayName,
-    subTitle: "Edit a Balance",
+    title: "Edit a Balance",
   };
 
   function handleUpdate() {
