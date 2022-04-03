@@ -9,7 +9,7 @@ export default function EntityFieldView({ type, value, list = false }) {
   if (value === undefined || value === null) {
     if (type === "image") {
       return (
-        <div className={clsx("avatar", { "avatar-sm": list }, { "avatar-lg": !list })}>
+        <div className={clsx("avatar", { "avatar-sm": list }, { "avatar-lg mt-1": !list })}>
           <IconAtom2 />
         </div>
       );
@@ -76,7 +76,7 @@ export default function EntityFieldView({ type, value, list = false }) {
     case "image":
       return (
         <img
-          className={clsx("avatar", { "avatar-sm": list }, { "avatar-lg": !list })}
+          className={clsx("avatar", { "avatar-sm": list }, { "avatar-lg mt-1": !list })}
           alt=""
           src={`data:${value.mimeType};base64,${value.data}`}
         />
