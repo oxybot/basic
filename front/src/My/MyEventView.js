@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
@@ -8,6 +9,10 @@ import Section from "../Generic/Section";
 
 function EventViewDetail({ entity }) {
   const definition = useDefinition("EventForView");
+  if (definition) {
+    definition.fields = definition.fields.filter((f) => f.name !== "user");
+  }
+
   return <EntityDetail definition={definition} entity={entity} />;
 }
 
@@ -27,7 +32,13 @@ export function MyEventView({ backTo = null, full = false }) {
   const [, entity] = useApiFetch(["My/Events", eventId], get, {});
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity} editRole="noedit">
+    <PageView
+      backTo={backTo}
+      full={full}
+      entity={entity}
+      title={dayjs(entity.startDate).format("DD MMM YYYY")}
+      editRole="noedit"
+    >
       <Sections>
         <Section code="detail" element={<EventViewDetail entity={entity} />}>
           Detail
