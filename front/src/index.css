@@ -120,6 +120,16 @@ th.required:after {
   color: var(--tblr-muted);
 }
 
+.offcanvas-footer {
+  margin-top: auto;
+}
+
+@media (min-width: 992px) {
+  .navbar-expand-lg .offcanvas-footer {
+    padding: 1.5rem 0rem;
+  }
+}
+
 /* Update of the theme-dark default */
 .theme-dark {
   --tblr-muted: #91969f;

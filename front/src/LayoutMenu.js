@@ -9,6 +9,8 @@ import {
   IconChartArrows,
   IconSunset,
   IconCalendarTime,
+  IconApiApp,
+  IconBrandGithub,
 } from "@tabler/icons";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -195,6 +197,14 @@ export default function LayoutMenu() {
                 </ul>
               </>
             )}
+          </div>
+          <div className="offcanvas-footer text-end">
+          <a className="btn btn-icon btn-green" target="_blank" rel="noreferrer" href={process.env.REACT_APP_API_ROOT_URL}>
+              <IconApiApp />
+            </a>
+            <a className="btn btn-icon btn-teal ms-3" target="_blank" rel="noreferrer" href="https://github.com/oxybot/basic">
+              <IconBrandGithub />
+            </a>
           </div>
         </div>
       </div>
