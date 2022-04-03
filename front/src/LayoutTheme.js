@@ -1,7 +1,7 @@
 import { IconMoon, IconSun } from "@tabler/icons";
 import clsx from "clsx";
 
-export default function LayoutTheme({className = "btn nav-link"}) {
+export default function LayoutTheme({ className = "btn nav-link" }) {
   document.body.className = localStorage.getItem("theme") || "theme-light";
   function enableTheme(theme) {
     document.body.className = theme;

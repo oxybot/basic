@@ -199,10 +199,20 @@ export default function LayoutMenu() {
             )}
           </div>
           <div className="offcanvas-footer text-end">
-          <a className="btn btn-icon btn-outline-secondary" target="_blank" rel="noreferrer" href={process.env.REACT_APP_API_ROOT_URL}>
+            <a
+              className="btn btn-icon btn-outline-secondary"
+              target="_blank"
+              rel="noreferrer"
+              href={process.env.REACT_APP_API_ROOT_URL}
+            >
               <IconApiApp />
             </a>
-            <a className="btn btn-icon btn-outline-secondary ms-3" target="_blank" rel="noreferrer" href="https://github.com/oxybot/basic">
+            <a
+              className="btn btn-icon btn-outline-secondary ms-3"
+              target="_blank"
+              rel="noreferrer"
+              href="https://github.com/oxybot/basic"
+            >
               <IconBrandGithub />
             </a>
           </div>
