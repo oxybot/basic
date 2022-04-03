@@ -1,4 +1,4 @@
-import { IconChevronRight } from "@tabler/icons";
+import { IconAtom2, IconChevronRight } from "@tabler/icons";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import pluralize from "pluralize";
@@ -7,7 +7,15 @@ import { toCurrency } from "../helpers";
 
 export default function EntityFieldView({ type, value, list = false }) {
   if (value === undefined || value === null) {
-    return "-";
+    if (type === "image") {
+      return (
+        <div className={clsx("avatar", { "avatar-sm": list }, { "avatar-lg": !list })}>
+          <IconAtom2 />
+        </div>
+      );
+    } else {
+      return "-";
+    }
   }
 
   switch (type) {
@@ -66,17 +74,13 @@ export default function EntityFieldView({ type, value, list = false }) {
       );
 
     case "image":
-      if (value) {
-        return (
-          <img
-            className={clsx("avatar", { "avatar-sm": list }, { "avatar-lg": !list })}
-            alt=""
-            src={`data:${value.mimeType};base64,${value.data}`}
-          />
-        );
-      } else {
-        return null;
-      }
+      return (
+        <img
+          className={clsx("avatar", { "avatar-sm": list }, { "avatar-lg": !list })}
+          alt=""
+          src={`data:${value.mimeType};base64,${value.data}`}
+        />
+      );
 
     case "schedule":
       if (!value) {
