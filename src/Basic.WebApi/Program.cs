@@ -39,6 +39,9 @@ builder.Services.AddDbContext<Context>(options =>
     }
 });
 
+// Enforce lowercase controller names
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true); 
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -123,6 +126,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 
     options.OperationFilter<RoleRequirementsOperationFilter>();
+
+    var info = new OpenApiInfo() { Title = "Basic API", Version = "1.0" };
+    options.SwaggerDoc("v1", info);
 });
 
 // Business services
@@ -138,7 +144,7 @@ if (app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Basic API V1");
     options.RoutePrefix = "";
 });
 
