@@ -16,7 +16,7 @@ namespace Basic.DataAccess.MySql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Basic.Model.Agreement", b =>
@@ -51,7 +51,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("OwnerIdentifier");
 
-                    b.ToTable("Agreement", (string)null);
+                    b.ToTable("Agreement");
                 });
 
             modelBuilder.Entity("Basic.Model.AgreementItem", b =>
@@ -82,7 +82,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("ProductIdentifier");
 
-                    b.ToTable("AgreementItem", (string)null);
+                    b.ToTable("AgreementItem");
                 });
 
             modelBuilder.Entity("Basic.Model.AgreementStatus", b =>
@@ -111,7 +111,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UpdatedByIdentifier");
 
-                    b.ToTable("AgreementStatus", (string)null);
+                    b.ToTable("AgreementStatus");
                 });
 
             modelBuilder.Entity("Basic.Model.Balance", b =>
@@ -141,7 +141,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UserIdentifier");
 
-                    b.ToTable("Balance", (string)null);
+                    b.ToTable("Balance");
                 });
 
             modelBuilder.Entity("Basic.Model.Client", b =>
@@ -160,7 +160,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("Client", (string)null);
+                    b.ToTable("Client");
                 });
 
             modelBuilder.Entity("Basic.Model.Event", b =>
@@ -199,7 +199,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UserIdentifier");
 
-                    b.ToTable("Event", (string)null);
+                    b.ToTable("Event");
                 });
 
             modelBuilder.Entity("Basic.Model.EventCategory", b =>
@@ -225,7 +225,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("EventCategory", (string)null);
+                    b.ToTable("EventCategory");
                 });
 
             modelBuilder.Entity("Basic.Model.EventStatus", b =>
@@ -254,7 +254,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UpdatedByIdentifier");
 
-                    b.ToTable("EventStatus", (string)null);
+                    b.ToTable("EventStatus");
                 });
 
             modelBuilder.Entity("Basic.Model.GlobalDayOff", b =>
@@ -274,7 +274,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.HasIndex("Date")
                         .IsUnique();
 
-                    b.ToTable("GlobalDayOff", (string)null);
+                    b.ToTable("GlobalDayOff");
                 });
 
             modelBuilder.Entity("Basic.Model.Invoice", b =>
@@ -290,7 +290,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("AgreementIdentifier");
 
-                    b.ToTable("Invoice", (string)null);
+                    b.ToTable("Invoice");
                 });
 
             modelBuilder.Entity("Basic.Model.Product", b =>
@@ -314,7 +314,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("Product", (string)null);
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("Basic.Model.Role", b =>
@@ -329,7 +329,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
 
                     b.HasData(
                         new
@@ -366,10 +366,10 @@ namespace Basic.DataAccess.MySql.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("ActiveFrom")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("date");
 
                     b.Property<DateTime?>("ActiveTo")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("date");
 
                     b.Property<Guid>("UserIdentifier")
                         .HasColumnType("char(36)");
@@ -382,7 +382,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UserIdentifier");
 
-                    b.ToTable("Schedule", (string)null);
+                    b.ToTable("Schedule");
                 });
 
             modelBuilder.Entity("Basic.Model.Status", b =>
@@ -403,7 +403,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("Status", (string)null);
+                    b.ToTable("Status");
 
                     b.HasData(
                         new
@@ -418,13 +418,20 @@ namespace Basic.DataAccess.MySql.Migrations
                             Identifier = new Guid("4151c014-ddde-43e4-aa7e-b98a339bbe74"),
                             Description = "The associated event has been approved",
                             DisplayName = "Approved",
-                            IsActive = false
+                            IsActive = true
                         },
                         new
                         {
                             Identifier = new Guid("e7f8dcc7-57d5-4e74-ac38-1fbd5153996c"),
                             Description = "The associated event has been rejected",
                             DisplayName = "Rejected",
+                            IsActive = false
+                        },
+                        new
+                        {
+                            Identifier = new Guid("fdac7cc3-3fe0-4e59-ab16-aeaec008f940"),
+                            Description = "The associated event has been canceled",
+                            DisplayName = "Canceled",
                             IsActive = false
                         });
                 });
@@ -454,7 +461,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
 
                     b.HasData(
                         new
@@ -480,7 +487,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UsersIdentifier");
 
-                    b.ToTable("RoleUser", (string)null);
+                    b.ToTable("RoleUser");
 
                     b.HasData(
                         new
@@ -588,7 +595,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
             modelBuilder.Entity("Basic.Model.Client", b =>
                 {
-                    b.OwnsOne("Basic.Model.Client.Address#Basic.Model.StreetAddress", "Address", b1 =>
+                    b.OwnsOne("Basic.Model.StreetAddress", "Address", b1 =>
                         {
                             b1.Property<Guid>("ClientIdentifier")
                                 .HasColumnType("char(36)");
@@ -610,7 +617,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                             b1.HasKey("ClientIdentifier");
 
-                            b1.ToTable("Client", (string)null);
+                            b1.ToTable("Client");
 
                             b1.WithOwner()
                                 .HasForeignKey("ClientIdentifier");
@@ -682,7 +689,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
             modelBuilder.Entity("Basic.Model.User", b =>
                 {
-                    b.OwnsOne("Basic.Model.User.Avatar#Basic.Model.TypedFile", "Avatar", b1 =>
+                    b.OwnsOne("Basic.Model.TypedFile", "Avatar", b1 =>
                         {
                             b1.Property<Guid>("UserIdentifier")
                                 .HasColumnType("char(36)");
@@ -697,7 +704,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                             b1.HasKey("UserIdentifier");
 
-                            b1.ToTable("User", (string)null);
+                            b1.ToTable("User");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserIdentifier");
