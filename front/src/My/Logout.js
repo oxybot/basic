@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux";
 import { useDefinition } from "../api";
 import { authenticationState } from "../Authentication";
-import EntityDetail from "../Generic/EntityDetail";
+import { disconnect } from "../Authentication";
 import PageView from "../Generic/PageView";
-import Section from "../Generic/Section";
-import Sections from "../Generic/Sections";
+
 
 
 export function Logout() {
@@ -13,11 +12,7 @@ export function Logout() {
 
     return (
       <PageView full={true} entity={user}>
-        <Sections>
-          <Section code="detail" element={<EntityDetail definition={definition} entity={user} />}>
-            Detail
-          </Section>
-        </Sections>
+disconnect();
       </PageView>
     );
   }

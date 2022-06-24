@@ -45,7 +45,6 @@ export default function App() {
         {/* Profile */}
         <Route path="/my/profile" element={<ProfileView full />} />
         <Route path="/my/profile/edit" element={<ProfileEdit full />} />
-        {/* AJOUT KEVIN */}
         <Route path="/my/logout" element={<Logout full />} />
 
         <Route path="/my/events" element={<MyEventList />}>
