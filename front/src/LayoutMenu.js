@@ -14,7 +14,7 @@ import {
 } from "@tabler/icons";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { authenticationState, useInRole } from "./Authentication";
+import { authenticationState, useInRole, disconnect} from "./Authentication";
 import LayoutMenuDemo from "./LayoutMenuDemo";
 import LayoutTheme from "./LayoutTheme";
 
@@ -77,9 +77,7 @@ export default function LayoutMenu() {
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    {/* <NavLink to="/my/profile/logout" className="nav-link justify-content-start" onClick={closeMenu}> */}
-                      {/* ESSAI KEVIN */}
-                    <NavLink to="/" className="nav-link justify-content-start" onClick={disconnect()}>
+                    <NavLink to="/my/logout" className="nav-link justify-content-start" onClick={closeMenu}>
                       Logout
                     </NavLink>
                   </li>
