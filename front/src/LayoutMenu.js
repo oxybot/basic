@@ -77,7 +77,7 @@ export default function LayoutMenu() {
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="/my/logout" className="nav-link justify-content-start" onClick={closeMenu}>
+                    <NavLink to="/" className="nav-link justify-content-start" onClick={closeMenu}>
                       Logout
                     </NavLink>
                   </li>

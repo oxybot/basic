@@ -19,19 +19,29 @@ namespace Basic.WebApi
         /// <returns>The list of days in the period and the associated working time.</returns>
         public static IDictionary<DateOnly, decimal> CalculateWorkingSchedule(Context context, User user, DateOnly start, DateOnly end)
         {
+            DateOnly dt1 = new DateOnly(2022, 06, 24);
+            DateOnly dt2 = new DateOnly(2022, 06, 01);
+            Guid user1 = new Guid("08da52c8-2869-4ad8-8b26-c57cc12751a4");
+           
+
             var schedules = context.Set<Schedule>()
-                .Where(s => s.User == user)
-                .Where(s => s.ActiveFrom <= end && (s.ActiveTo == null || s.ActiveTo >= start))
+                // .Where(s => s.User == user)
+                .Where(s => s.User.Identifier == user1)
+                // .Where(s => s.ActiveFrom <= end && (s.ActiveTo == null || s.ActiveTo >= start))
+                .Where(s => s.ActiveFrom <= dt1 && (s.ActiveTo == null || s.ActiveTo >= dt2))
+
                 .ToList();
 
             var globalDaysOff = context.Set<GlobalDayOff>()
-                .Where(d => start <= d.Date && d.Date <= end)
+                // .Where(d => start <= d.Date && d.Date <= end)
+                .Where(d => dt2 <= d.Date && d.Date <= dt1)
                 .ToList();
 
             Calendar stdCalendar = CultureInfo.InvariantCulture.Calendar;
 
             IDictionary<DateOnly, decimal> results = new Dictionary<DateOnly, decimal>();
-            for (DateOnly day = start; day <= end; day = day.AddDays(1))
+            for (DateOnly day = dt2; day <= dt1; day = day.AddDays(1))
+            // for (DateOnly day = start; day <= end; day = day.AddDays(1))
             {
                 if (globalDaysOff.Any(d => d.Date == day))
                 {
