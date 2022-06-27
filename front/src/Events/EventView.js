@@ -4,11 +4,12 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
-import EntityList from "../Generic/EntityList";
 import PageView from "../Generic/PageView";
 import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
 import { refresh } from "./slice";
+
+import EntityList from "../Generic/EntityList";
 
 function EventViewDetail({ entity }) {
   const definition = useDefinition("EventForView");
@@ -20,7 +21,7 @@ function StatusList({ eventId }) {
   const [loading, elements] = useApiFetch(["Events", eventId, "statuses"], { method: "GET" }, []);
   return (
     <div className="card">
-      <EntityList loading={loading} definition={definition} entities={elements} baseTo="/agreement" />
+      <EntityList loading={loading} definition={definition} entities={elements} />
     </div>
   );
 }
