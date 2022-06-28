@@ -93,8 +93,7 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
           onChange={onChange}
         >
           <option value="Active">Active</option>
-          <option value="StandardTimeOff">Standard Time-off</option>
-          <option value="ExtraTimeOff">Extra Time-off</option>
+          <option value="TimeOff">Time-off</option>
         </select>
       );
 

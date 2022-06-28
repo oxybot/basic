@@ -30,7 +30,7 @@ export default function LayoutMenu() {
     }
   }
 
-  function logout(event) {
+  function logout() {
     closeMenu();
     dispatch(disconnect());
     window.cookieStore.delete("access-token");

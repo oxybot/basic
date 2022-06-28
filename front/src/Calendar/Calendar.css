@@ -7,7 +7,8 @@
 }
 
 .bg-off {
-  background-color: #80808030 !important;
+  background-color: #00000030 !important;
+  border-color: black;
 }
 
 .calendar-line div,
@@ -27,6 +28,7 @@
   padding-left: 0px;
   padding-right: 0px;
   text-align: center;
+  border-color: black;
 }
 
 .table-calendar td:first-child,
