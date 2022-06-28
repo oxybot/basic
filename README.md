@@ -6,9 +6,26 @@ Provides basic ressource management.
 
 ### Create a https certificate
 
+A certificate, based on the .net core dev-cert, will be generated for the project as pfx file.
+This file will be used by the `Basic.WebApi` project to serve the API.
+
 1. `dotnet dev-certs https -ep $env:APPDATA/ASP.NET/https/basic.pfx -p {my_password}`
 1. Copy `.env.docker-compose` to `.env.docker-compose.local`
 1. Update `.env.docker-compose.local` to set the password value
+
+### Convert to pem for the front-end project
+
+The generated certificate will be converted to pem/key format to be used by NGINX as part
+of the `front` project.
+
+**Step 1** - Connect to wsl or to any other openssl compatible prompt
+1. `wsl -d Ubuntu`
+1. `cd /mnt/XXX/AppData/Roaming/ASP.NET/Https`
+
+**Step 2** - Convert the pfx file to pem/key format
+1. `openssl pkcs12 -in basic.pfx -nocerts -out key.pem`
+1. `openssl rsa -in key.pem -out basic.key`
+1. `openssl pkcs12 -in basic.pfx -clcerts -nokeys -out basic.pem`
 
 ## Steps to add a new entity
 
