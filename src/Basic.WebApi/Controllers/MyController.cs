@@ -177,5 +177,68 @@ namespace Basic.WebApi.Controllers
             var user = this.GetConnectedUser();
             return consumptionService.GetConsumptionForUser(user);
         }
+
+        /// <summary>
+        /// Updates the connected user password'.
+        /// </summary>
+        /// <param name="password">The password data.</param>
+        /// <returns>The user data after update.</returns>
+        /// <response code="400">The provided data are invalid.</response>
+        /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
+        [HttpPut]
+        [Produces("application/json")]
+        [Route("password")]
+        public UserForList UpdateMyPassword(Guid identifier, PasswordForEdit password)
+        {
+            if (password is null)
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
+
+            var user = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == identifier);
+            if (user == null)
+            {
+                throw new NotFoundException("No user identified by " + identifier);
+            }
+
+            user.ChangePassword(password.NewPassword);
+            this.Context.SaveChanges();
+
+            return Mapper.Map<UserForList>(user);
+        }
+        // FAIRE UN MIX DES DEUX
+        // public UserForView UpdateUser(UserForEdit user)
+        // {
+        //     var model = this.GetConnectedUser();
+        //     Mapper.Map(user, model);
+        //     if (!ModelState.IsValid)
+        //     {
+        //         throw new InvalidModelStateException(ModelState);
+        //     }
+
+        //     Context.SaveChanges();
+
+        //     return Mapper.Map<UserForView>(model);
+        // }
+
+        // public UserForList UpdatePassword(Guid identifier, PasswordForEdit password)
+        // {
+        //     if (password is null)
+        //     {
+        //         throw new ArgumentNullException(nameof(password));
+        //     }
+
+        //     var user = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == identifier);
+        //     if (user == null)
+        //     {
+        //         throw new NotFoundException("No user identified by " + identifier);
+        //     }
+
+        //     user.ChangePassword(password.NewPassword);
+        //     this.Context.SaveChanges();
+
+        //     return Mapper.Map<UserForList>(user);
+        // }
+
     }
 }
