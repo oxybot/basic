@@ -58,3 +58,10 @@ services:
       - db
     ports:
       - 8080:8080
+
+  smtp:
+    image: maildev/maildev:latest
+    restart: always
+    ports:
+      - 5002:1080
+      - 1025:1025
