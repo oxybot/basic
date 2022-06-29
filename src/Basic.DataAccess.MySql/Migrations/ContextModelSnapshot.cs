@@ -446,6 +446,9 @@ namespace Basic.DataAccess.MySql.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Password")
                         .HasColumnType("longtext");
 
