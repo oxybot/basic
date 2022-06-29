@@ -30,6 +30,11 @@ namespace Basic.Model
         /// </summary>
         [Required]
         public string Username { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the e-mail of the user.
+        /// </summary>
+        public string Email { get; set; }
 
         /// <summary>
         /// Gets or sets the password of the user, if any.

@@ -32,10 +32,14 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the title of the user.
         /// </summary>
+        [SwaggerSchema("The e-mail of the user")]
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Gets or sets the title of the user.
+        /// </summary>
         [SwaggerSchema("The title of the user")]
         public string Title { get; set; }
-
-        public string Department {get; set;}
 
         /// <summary>
         /// Gets or sets the avatar of the user.
