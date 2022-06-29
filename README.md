@@ -45,6 +45,6 @@ Key project: **Basic.DataAccess**
 
 Key project: **Basic.WebApi**
 
-1. Create the DTO classes in the DTOs folder
+1. Create the DTO classes in the DTOs folder (`ForList`, `ForView`, `ForEdit`)
 1. Create the controller in the Controllers folder
-1. Add the automapper config for the new DTOs in the MappingProfile class
+1. Add the automapper config for the new DTOs in the `MappingProfile` class
