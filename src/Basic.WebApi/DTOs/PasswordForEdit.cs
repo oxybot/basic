@@ -23,7 +23,7 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         /// <value>
         /// A <c>null</c> or empty value indicates that the user should be disabled.</value>
-        [Required]
+        // [Required]
         public string OldPassword { get; }
 
         /// <summary>
