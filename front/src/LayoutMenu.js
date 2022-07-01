@@ -12,21 +12,28 @@ import {
   IconApiApp,
   IconBrandGithub,
 } from "@tabler/icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { authenticationState, useInRole } from "./Authentication";
+import { authenticationState, useInRole, disconnect} from "./Authentication";
 import LayoutMenuDemo from "./LayoutMenuDemo";
 import LayoutTheme from "./LayoutTheme";
 
 export default function LayoutMenu() {
   const { user } = useSelector(authenticationState);
   const isInrole = useInRole();
+  const dispatch = useDispatch();
 
   function closeMenu(event) {
     if (window.bootstrap) {
       var menu = window.bootstrap.Offcanvas.getInstance("#offcanvas-menu");
       menu && menu.hide();
     }
+  }
+
+  function logout() {
+    closeMenu();
+    dispatch(disconnect());
+    window.cookieStore.delete("access-token");
   }
 
   return (
@@ -77,7 +84,7 @@ export default function LayoutMenu() {
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="/my/profile/logout" className="nav-link justify-content-start" onClick={closeMenu}>
+                    <NavLink to="/" className="nav-link justify-content-start" onClick={logout}>
                       Logout
                     </NavLink>
                   </li>

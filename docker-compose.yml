@@ -36,7 +36,7 @@ services:
       DATABASEDRIVER: MySQL
       CONNECTIONSTRINGS__MYSQL: Server=db;Database=basic;User=basic;Password=basic
     volumes:
-      - ${APPDATA}/ASP.NET/https/basic.pfx:/src/basic.pfx:ro
+      - ${APPDATA}/ASP.NET\https/basic.pfx:/src/basic.pfx:ro
     ports:
       - 5001:443
 
@@ -58,3 +58,10 @@ services:
       - db
     ports:
       - 8080:8080
+
+  smtp:
+    image: maildev/maildev:latest
+    restart: always
+    ports:
+      - 5002:1080
+      - 1025:1025

@@ -45,7 +45,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     Identifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     DisplayName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    RequireBalance = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    RequireBalance = table.Column<bool>(type: "bit", nullable: false),
                     ColorClass = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Mapping = table.Column<string>(type: "nvarchar(24)", nullable: false)

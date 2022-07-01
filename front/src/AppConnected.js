@@ -9,7 +9,7 @@ import { EventList, EventNew, EventView } from "./Events";
 import { EventCategoryEdit, EventCategoryList, EventCategoryNew } from "./EventCategories";
 import { GlobalDayOffEdit, GlobalDayOffList, GlobalDayOffNew } from "./GlobalDaysOff";
 import Layout from "./Layout";
-import { MyEventList, MyEventView, ProfileEdit, ProfileView } from "./My";
+import { MyEventList, MyEventView, MyPasswordEdit, ProfileEdit, ProfileView } from "./My";
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
 import { ScheduleEdit, ScheduleList, ScheduleNew, ScheduleView } from "./Schedules";
 import Settings from "./Settings";
@@ -45,7 +45,7 @@ export default function App() {
         {/* Profile */}
         <Route path="/my/profile" element={<ProfileView full />} />
         <Route path="/my/profile/edit" element={<ProfileEdit full />} />
-
+        <Route path="/my/profile/password" element={<MyPasswordEdit full />} />
         <Route path="/my/events" element={<MyEventList />}>
           <Route path="/my/events/:eventId" element={<MyEventView backTo="/my/events" />} />
         </Route>

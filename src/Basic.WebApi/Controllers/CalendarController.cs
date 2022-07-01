@@ -48,7 +48,8 @@ namespace Basic.WebApi.Controllers
                 .Include(e => e.Events)
                     .ThenInclude(e => e.Statuses)
                         .ThenInclude(e => e.Status)
-                .Where(u => u.Schedules.Any(s => s.ActiveFrom <= endOfMonth && (s.ActiveTo == null || s.ActiveTo >= startOfMonth)));
+                .Where(u => u.Schedules.Any(s => s.ActiveFrom <= endOfMonth && (s.ActiveTo == null || s.ActiveTo >= startOfMonth)))
+                .ToList();
 
             foreach (var user in users)
             {
