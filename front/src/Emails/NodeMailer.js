@@ -1,47 +1,70 @@
-"use strict";
-const nodemailer = require("nodemailer");
+/* eslint no-console: 0 */
 
+'use strict';
 
-// async..await is not allowed in global scope, must use a wrapper
-async function main() {
-  // Generate test SMTP service account from ethereal.email
-  // Only needed if you don't have a real mail account for testing
-  let testAccount = await nodemailer.createTestAccount();
+const nodemailer = require('nodemailer');
 
-//   create reusable transporter object using the default SMTP transport
-//   let transporter = nodemailer.createTransport({
-//     host: "smtp.ethereal.email",
-//     port: 587,
-//     secure: false, // true for 465, false for other ports
-//     auth: {
-//       user: testAccount.user, // generated ethereal user
-//       pass: testAccount.pass, // generated ethereal password
-//     },
-//   });
-
-  const transporter = nodemailer.createTransport({
-    service: "caramail",
-    auth: {
-        user: "basic-no-reply@gmx.com",
-        pass: "BasicNoReply123"
+// Generate SMTP service account from ethereal.email
+nodemailer.createTestAccount((err, account) => {
+    if (err) {
+        console.error('Failed to create a testing account');
+        console.error(err);
+        return process.exit(1);
     }
+
+    console.log('Credentials obtained, sending message...');
+
+    // NB! Store the account object values somewhere if you want
+    // to re-use the same account for future mail deliveries
+
+    // Create a SMTP transporter object
+    let transporter = nodemailer.createTransport(
+        {
+            host: account.smtp.host,
+            port: account.smtp.port,
+            secure: account.smtp.secure,
+            auth: {
+                user: account.user,
+                pass: account.pass
+            },
+            logger: true,
+            transactionLog: true // include SMTP traffic in the logs
+        },
+        {
+            // default message fields
+
+            // sender info
+            from: 'Basic <basic-no-reply@gmx.com>',
+            headers: {
+                'X-Laziness-level': 1000 // just an example header, no need to use this
+            }
+        }
+    );
+
+    // Message object
+    let message = {
+        // Comma separated list of recipients
+        to: 'Kevin <kgerber@incert.lu>',
+
+        // Subject of the message
+        subject: 'Basic account password request' + Date.now(),
+
+        // plaintext body
+        text: 'Hello <User>, A request has been received to change your password for your Basic account.',
+
+    };
+
+    transporter.sendMail(message, (error, info) => {
+        if (error) {
+            console.log('Error occurred');
+            console.log(error.message);
+            return process.exit(1);
+        }
+
+        console.log('Message sent successfully!');
+        console.log(nodemailer.getTestMessageUrl(info));
+
+        // only needed when using pooled connections
+        transporter.close();
+    });
 });
-
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <basic-no-reply@gmx.com>', // sender address
-    to: "basic-no-reply@gmx.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
-  });
-
-  console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-  // Preview only available when sending through an Ethereal account
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-}
-
-main().catch(console.error);
