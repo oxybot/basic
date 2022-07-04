@@ -1,7 +1,7 @@
 import { IconCheck, IconX } from "@tabler/icons";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import PageView from "../Generic/PageView";
@@ -52,24 +52,30 @@ export function EventView({ backTo = null, full = false }) {
       switch (status.displayName) {
         case "Approved":
           return (
-            <button key={index} className="btn btn-success mx-1" onClick={() => handleStatusChange(status)}>
-              <IconCheck /> Approve
-            </button>
+            <NavLink to={backTo}>
+              <button key={index} className="btn btn-success mx-1" onClick={() => handleStatusChange(status)}>
+                <IconCheck /> Approve
+              </button>
+            </NavLink>
           );
         case "Rejected":
           return (
-            <button key={index} className="btn btn-danger mx-1" onClick={() => handleStatusChange(status)}>
-              <IconX /> Reject
-            </button>
+            <NavLink to={backTo}>
+              <button key={index} className="btn btn-danger mx-1" onClick={() => handleStatusChange(status)}>
+                <IconX /> Reject
+              </button>
+            </NavLink>
           );
         case "Canceled":
           return (
-            <button key={index} className="btn btn-outline-primary mx-1" onClick={() => handleStatusChange(status)}>
-              <IconX /> Cancel
-            </button>
+            <NavLink to={backTo}>
+              <button key={index} className="btn btn-outline-primary mx-1" onClick={() => handleStatusChange(status)}>
+                <IconX /> Cancel
+              </button>
+            </NavLink>
           );
-        default:
-          return null;
+      default:
+        return null;
       }
     });
   }

@@ -124,8 +124,6 @@ export function CalendarRequest() {
                       <strong>Note: </strong>
                       {category.mapping === "Active" && "Considered as working time"}
                       {category.mapping === "TimeOff" && "Considered as standard time-off"}
-                      {/* {category.mapping === "StandardTimeOff" && "Considered as standard time-off"}
-                      {category.mapping === "TimeOff" && "Considered as special leaves"} */}
                     </div>
                   )}
                 </div>
