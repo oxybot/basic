@@ -59,7 +59,9 @@ namespace Basic.WebApi.Controllers
             var userId = Guid.Parse(userIdClaim.Value);
             var user = this.Context.Set<User>()
                 .Include(u => u.Roles)
-                .SingleOrDefault(u => u.Password != null && u.Identifier == userId);
+                //.SingleOrDefault(u => u.Password != null && u.Identifier == userId);
+                .SingleOrDefault(u => u.Identifier == userId);
+
 
             return user;
         }

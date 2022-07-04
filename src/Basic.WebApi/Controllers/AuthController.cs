@@ -62,15 +62,15 @@ namespace Basic.WebApi.Controllers
         {
             var user = Context.Set<User>()
                 .Include(u => u.Roles)
-                .SingleOrDefault(u => u.Username == signIn.Username && u.Password != null);
+                .SingleOrDefault(u => u.Username == signIn.Username && u.Email != null);
 
-            // if (user == null || user.HashPassword(signIn.Password) != user.Password)
-            // {
-            //     ModelState.AddModelError("", "Invalid credentials");
-            //     throw new InvalidModelStateException(ModelState);
-            // }
+           /* if (user == null || user.HashPassword(signIn.Password) != user.Password)
+            {
+                ModelState.AddModelError("", "Invalid credentials");
+                throw new InvalidModelStateException(ModelState);
+            }*/
 
-            if (!ValidateUser("incertgie.local", signIn.Username, signIn.Password) && (user == null || user.HashPassword(signIn.Password) != user.Password))
+           if (!ValidateUser("incertgie.local", signIn.Username, signIn.Password) && (user == null || user.HashPassword(signIn.Password) != user.Password))
             {
                 ModelState.AddModelError("", "Invalid credentials");
                 throw new InvalidModelStateException(ModelState);
@@ -146,7 +146,7 @@ namespace Basic.WebApi.Controllers
         {
             string userDn = $"{username}@{domainName}";
            // var filter = $"(&(objectClass=User)(sAMAccountName={<username>}))";
-            var searchBase = "DC=<incertgie>,DC=local";
+            // var searchBase = "DC=<incertgie>,DC=local";
             try
             {
                 using (var connection = new LdapConnection { SecureSocketLayer = false })
