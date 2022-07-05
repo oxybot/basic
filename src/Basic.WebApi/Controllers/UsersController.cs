@@ -3,6 +3,7 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,20 @@ namespace Basic.WebApi.Controllers
                 .Select(e => Mapper.Map<UserForList>(e));
         }
 
+       /* /// <summary>
+        /// Retrieves all users from Ldap.
+        /// </summary>
+        /// <returns>The list of users.</returns>
+        [HttpGet]
+        [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
+        [Produces("application/json")]
+        public IEnumerable<UserForList> GetAllLdap()
+        {
+            return AddIncludesForList(Context.Set<User>())
+                .ToList()
+                .Select(e => Mapper.Map<UserForList>(e));
+        }*/
+
         /// <summary>
         /// Retrieves a specific user.
         /// </summary>
@@ -54,6 +69,23 @@ namespace Basic.WebApi.Controllers
         public override UserForView GetOne(Guid identifier)
         {
             return base.GetOne(identifier);
+        }
+
+
+        /// <summary>
+        /// Retrieves a specific user.
+        /// </summary>
+        /// <param name="searchTerm">The identifier of the user.</param>
+        /// <returns>The detailed data about the user identified by <paramref name="searchTerm/>.</returns>
+        /// <response code="404">No user is associated to the provided <paramref name="searchTerm"/>.</response>
+        [HttpGet]
+        [AllowAnonymous]
+        [Produces("application/json")]
+        [Route("ldap")]
+        public  List<Object> GetLdapUser(string searchTerm)
+        {
+            var ldapUser = LdapSearchService.LdapSearch(searchTerm);
+            return ldapUser;
         }
 
         /// <summary>

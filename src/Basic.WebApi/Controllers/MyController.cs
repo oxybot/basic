@@ -179,7 +179,7 @@ namespace Basic.WebApi.Controllers
         }
 
         /// <summary>
-        /// Updates the connected user password'.
+        /// Updates the connected user password.
         /// </summary>
         /// <param name="user">The current user.</param>
         /// <param name="password">The password data.</param>
