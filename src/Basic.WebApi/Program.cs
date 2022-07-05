@@ -122,7 +122,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Enter ‘Bearer’ [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
+        Description = "Enter \"Bearer\" [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
     });
 
     options.OperationFilter<RoleRequirementsOperationFilter>();
@@ -133,6 +133,7 @@ builder.Services.AddSwaggerGen(options =>
 
 // Business services
 builder.Services.AddScoped<ConsumptionService>();
+builder.Services.AddSingleton<LdapSearchService>();
 
 var app = builder.Build();
 
