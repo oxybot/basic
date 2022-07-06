@@ -23,10 +23,12 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Keyword search for an user in the Active Directory.
         /// </summary>
-        public List<LdapUser> LdapSearch(string searchTerm) // IEnumerable<UserForList>
+        public LdapUsers LdapSearch(string searchTerm) // IEnumerable<UserForList>
         {
             List<LdapUser> ldapUsersList = new List<LdapUser>();
-            // Object[] ldapUser = {};
+
+            LdapUsers ldapUsers = new LdapUsers();
+
             var configuration = Configuration.GetRequiredSection("ActiveDirectory");
             var searchBase = configuration.GetValue<string>("Base");
             try
@@ -82,7 +84,11 @@ namespace Basic.WebApi.Services
                         }
                         connection.Disconnect();
                         Console.WriteLine("we found " + counter + " occurrences");
-                        return ldapUsersList;
+
+                        ldapUsers.ListOfLdapUsers = ldapUsersList;
+                        ldapUsers.OccurrencesNumber = counter;
+                        
+                        return ldapUsers;
                     }
                 }
             }
@@ -90,7 +96,7 @@ namespace Basic.WebApi.Services
             {
                 Console.WriteLine(ex);
             }
-            return ldapUsersList;
+            return ldapUsers;
         }
     }
 }
