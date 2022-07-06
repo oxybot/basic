@@ -82,10 +82,10 @@ namespace Basic.WebApi.Controllers
         [AllowAnonymous]
         [Produces("application/json")]
         [Route("ldap")]
-        public  List<Object> GetLdapUser([FromServices]LdapSearchService service, string searchTerm)
+        public  List<LdapUser> GetLdapUser([FromServices]LdapSearchService service, string searchTerm)
         {
-            var ldapUser = service.LdapSearch(searchTerm);
-            return ldapUser;
+            List<LdapUser> ldapUsers = service.LdapSearch(searchTerm);
+            return ldapUsers;
         }
 
         /// <summary>

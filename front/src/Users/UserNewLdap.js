@@ -11,6 +11,7 @@ import EntityFieldInput from "../Generic/EntityFieldInput";
 import EntityFieldLabel from "../Generic/EntityFieldLabel";
 import { groupBy, objectMap } from "../helpers";
 
+
 export function UserNewLdap() {
     const dispatch = useDispatch();
     const definition = useDefinition("UserForEdit");
@@ -30,8 +31,9 @@ export function UserNewLdap() {
     async function handleChange(event) {
         const value = event.target.value;
         setSearch(value);
-        const response = await apiFetch("Users", { method: "GET" });
+        const response = await apiFetch("users/ldap?searchTerm=" + value, { method: "GET" });
         setResults(response);
+        console.log(response);
     }
 
     function t(code) {
@@ -88,10 +90,10 @@ export function UserNewLdap() {
                         </div>
                     </div>
                     <div className="card col-lg-12">
-                        {results.map((result, index) =>  (
-                            <button key={index} onClick={console.log({result})}>
-                                {index} - {result.email}
-                            </button>
+                        {results.map((result, index) => (
+                            <div key={index} onClick={console.log("")}>
+                                {index} - {result.displayName} - {result.email}
+                            </div>
                         ))}
                     </div>
                 </div>

@@ -156,7 +156,7 @@ namespace Basic.WebApi.Controllers
                     if (connection.Bound)
                     {
                         /*LdapSearchQueue queue = connection.Search("DC=incertgie,DC=local", LdapConnection.ScopeSub, $"(sn={username})", null, false, (LdapSearchQueue)
- null, (LdapSearchConstraints)null);
+                                                null, (LdapSearchConstraints)null);
                         LdapMessage message;
                         while ((message = queue.GetResponse()) != null)
                         {
@@ -180,7 +180,8 @@ namespace Basic.WebApi.Controllers
                                 }
                             }
                         }*/
-                        connection.Disconnect();
+                        // Retiré la déconnection pour essais de recherche
+                        // connection.Disconnect();
                         return true;
                     }
                        
@@ -188,7 +189,7 @@ namespace Basic.WebApi.Controllers
             }
             catch (LdapException ex)
             {
-                // Log exception
+                Console.WriteLine(ex);
             }
             return false;
         }

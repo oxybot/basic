@@ -41,6 +41,6 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the avatar of the user.
         /// </summary>
-        public TypedFile Avatar { get; set; }
+        public string Avatar { get; set; }
     }
 }
