@@ -132,7 +132,7 @@ namespace Basic.WebApi.Controllers
             {
                 return "date";
             }
-            else if (type == typeof(bool))
+            else if (type == typeof(bool) || type == typeof(bool?))
             {
                 return "boolean";
             }

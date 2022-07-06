@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Novell.Directory.Ldap;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -61,13 +62,20 @@ namespace Basic.WebApi.Controllers
         {
             var user = Context.Set<User>()
                 .Include(u => u.Roles)
-                .SingleOrDefault(u => u.Username == signIn.Username && u.Password != null);
+                .SingleOrDefault(u => u.Username == signIn.Username && u.Email != null);
 
-            if (user == null || user.HashPassword(signIn.Password) != user.Password)
+           /* if (user == null || user.HashPassword(signIn.Password) != user.Password)
+            {
+                ModelState.AddModelError("", "Invalid credentials");
+                throw new InvalidModelStateException(ModelState);
+            }*/
+
+           if (!ValidateUser("incertgie.local", signIn.Username, signIn.Password) && (user == null || user.HashPassword(signIn.Password) != user.Password))
             {
                 ModelState.AddModelError("", "Invalid credentials");
                 throw new InvalidModelStateException(ModelState);
             }
+
 
             var token = BuildJWTToken(user);
             return new AuthResult()
@@ -132,5 +140,59 @@ namespace Basic.WebApi.Controllers
 
             return token;
         }
+
+
+        private bool ValidateUser(string domainName, string username, string password)
+        {
+            string userDn = $"{username}@{domainName}";
+           // var filter = $"(&(objectClass=User)(sAMAccountName={<username>}))";
+            // var searchBase = "DC=<incertgie>,DC=local";
+            try
+            {
+                using (var connection = new LdapConnection { SecureSocketLayer = false })
+                {
+                    connection.Connect(domainName, 389);
+                    connection.Bind(userDn, password);
+                    if (connection.Bound)
+                    {
+                        /*LdapSearchQueue queue = connection.Search("DC=incertgie,DC=local", LdapConnection.ScopeSub, $"(sn={username})", null, false, (LdapSearchQueue)
+                                                null, (LdapSearchConstraints)null);
+                        LdapMessage message;
+                        while ((message = queue.GetResponse()) != null)
+                        {
+                            if (message is LdapSearchResult)
+                            {
+                                LdapEntry entry = (message as LdapSearchResult ).Entry;
+                                System.Console.Out.WriteLine("\n" + entry.Dn);
+                                System.Console.Out.WriteLine("\tAttributes: ");
+
+                                // Get the attribute set of the entry
+                                LdapAttributeSet attributeSet = entry.GetAttributeSet();
+                                System.Collections.IEnumerator ienum =   attributeSet.GetEnumerator();
+
+                                // Parse through the attribute set to get the attributes and the corresponding values
+                                   while (ienum.MoveNext())
+                                {
+                                    LdapAttribute attribute = (LdapAttribute)ienum.Current;
+                                    string attributeName = attribute.Name;
+                                    string attributeVal = attribute.StringValue;
+                                    Console.WriteLine(attributeName + "value:" + attributeVal);
+                                }
+                            }
+                        }*/
+                        // Retiré la déconnection pour essais de recherche
+                        // connection.Disconnect();
+                        return true;
+                    }
+                       
+                }
+            }
+            catch (LdapException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return false;
+        }
+
     }
 }

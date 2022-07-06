@@ -22,6 +22,12 @@ namespace Basic.WebApi.DTOs
         [Required]
         public string UserName { get; set; }
 
+                /// <summary>
+        /// Gets or sets the e-mail name of the user.
+        /// </summary>
+        [SwaggerSchema("The e-mail of the user")]
+        public string Email { get; set; }
+
         /// <summary>
         /// Gets or sets the title of the user.
         /// </summary>

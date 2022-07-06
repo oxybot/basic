@@ -7,7 +7,6 @@ const AppConnected = lazy(() => import("./AppConnected"));
 
 export default function App() {
   const { authenticated } = useSelector(authenticationState);
-
   return (
     <Suspense fallback={<div>loading</div>}>
       <AlertManager>

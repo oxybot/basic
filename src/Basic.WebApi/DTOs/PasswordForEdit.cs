@@ -19,11 +19,28 @@ namespace Basic.WebApi.DTOs
         protected const string ErrorPasswordTooWeak = "The password is too weak";
 
         /// <summary>
+        /// Gets or sets the old password of the user.
+        /// </summary>
+        /// <value>
+        /// A <c>null</c> or empty value indicates that the user should be disabled.</value>
+        // [Required]
+        public string OldPassword { get; }
+
+        /// <summary>
         /// Gets or sets the new password for the user.
         /// </summary>
         /// <value>
         /// A <c>null</c> or empty value indicates that the user should be disabled.</value>
+        [Required]
         public string NewPassword { get; set; }
+
+        /// <summary>
+        /// Gets or sets the confirmation password of the user.
+        /// </summary>
+        /// <value>
+        /// A <c>null</c> or empty value indicates that the user should be disabled.</value>
+        [Required]
+        public string ConfirmPassword { get; set; }
 
         /// <summary>
         /// Validates the current instance.
@@ -68,10 +85,19 @@ namespace Basic.WebApi.DTOs
             score += uppers > 0 ? 1 : 0;
             score += specials > 0 ? 1 : 0;
 
-            if (score < 3)
+            if (score < 3 && TestOfNewPassword())
             {
                 yield return new ValidationResult(ErrorPasswordTooWeak, new[] { nameof(NewPassword) });
             }
+        }
+
+        /// <summary>
+        /// Test if the new password is equal to the confirm password.
+        /// </summary>
+        /// <returns> "true" if the new password match the confirm password.</returns>
+        public bool TestOfNewPassword()
+        {
+                return NewPassword == ConfirmPassword;
         }
     }
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addFatal } from "../Alerts/slice";
+import { disconnect } from "../Authentication/slice";
 
 const rootApiUrl = process.env.REACT_APP_API_ROOT_URL;
 
@@ -91,13 +92,21 @@ export async function apiFetch(url, options) {
 export function useApiFetch(url, options, defaultState = null, transform = defaultTransform) {
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState(defaultState);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     apiFetch(url, options)
       .then((response) => {
         setResponse(transform(response));
         setLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err === 401) {
+          dispatch(disconnect());
+        } else {
+          console.log(err);
+        }
+      });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url.toString(), JSON.stringify(options), transform]);

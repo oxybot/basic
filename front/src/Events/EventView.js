@@ -1,14 +1,15 @@
 import { IconCheck, IconX } from "@tabler/icons";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
-import EntityList from "../Generic/EntityList";
 import PageView from "../Generic/PageView";
 import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
 import { refresh } from "./slice";
+
+import EntityList from "../Generic/EntityList";
 
 function EventViewDetail({ entity }) {
   const definition = useDefinition("EventForView");
@@ -20,7 +21,7 @@ function StatusList({ eventId }) {
   const [loading, elements] = useApiFetch(["Events", eventId, "statuses"], { method: "GET" }, []);
   return (
     <div className="card">
-      <EntityList loading={loading} definition={definition} entities={elements} baseTo="/agreement" />
+      <EntityList loading={loading} definition={definition} entities={elements} />
     </div>
   );
 }
@@ -51,24 +52,30 @@ export function EventView({ backTo = null, full = false }) {
       switch (status.displayName) {
         case "Approved":
           return (
-            <button key={index} className="btn btn-success mx-1" onClick={() => handleStatusChange(status)}>
-              <IconCheck /> Approve
-            </button>
+            <NavLink to={backTo}>
+              <button key={index} className="btn btn-success mx-1" onClick={() => handleStatusChange(status)}>
+                <IconCheck /> Approve
+              </button>
+            </NavLink>
           );
         case "Rejected":
           return (
-            <button key={index} className="btn btn-danger mx-1" onClick={() => handleStatusChange(status)}>
-              <IconX /> Reject
-            </button>
+            <NavLink to={backTo}>
+              <button key={index} className="btn btn-danger mx-1" onClick={() => handleStatusChange(status)}>
+                <IconX /> Reject
+              </button>
+            </NavLink>
           );
         case "Canceled":
           return (
-            <button key={index} className="btn btn-outline-primary mx-1" onClick={() => handleStatusChange(status)}>
-              <IconX /> Cancel
-            </button>
+            <NavLink to={backTo}>
+              <button key={index} className="btn btn-outline-primary mx-1" onClick={() => handleStatusChange(status)}>
+                <IconX /> Cancel
+              </button>
+            </NavLink>
           );
-        default:
-          return null;
+      default:
+        return null;
       }
     });
   }

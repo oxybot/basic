@@ -123,8 +123,7 @@ export function CalendarRequest() {
                     <div className="text-muted mt-1">
                       <strong>Note: </strong>
                       {category.mapping === "Active" && "Considered as working time"}
-                      {category.mapping === "StandardTimeOff" && "Considered as standard time-off"}
-                      {category.mapping === "ExtraTimeOff" && "Considered as special leaves"}
+                      {category.mapping === "TimeOff" && "Considered as standard time-off"}
                     </div>
                   )}
                 </div>
