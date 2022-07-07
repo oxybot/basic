@@ -42,20 +42,6 @@ namespace Basic.WebApi.Controllers
                 .Select(e => Mapper.Map<UserForList>(e));
         }
 
-       /* /// <summary>
-        /// Retrieves all users from Ldap.
-        /// </summary>
-        /// <returns>The list of users.</returns>
-        [HttpGet]
-        [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
-        [Produces("application/json")]
-        public IEnumerable<UserForList> GetAllLdap()
-        {
-            return AddIncludesForList(Context.Set<User>())
-                .ToList()
-                .Select(e => Mapper.Map<UserForList>(e));
-        }*/
-
         /// <summary>
         /// Retrieves a specific user.
         /// </summary>

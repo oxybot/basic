@@ -6,22 +6,18 @@ import { apiFetch, useDefinition } from "../api";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import { refresh } from "./slice";
 
-import EntityFieldEdit from "../Generic/EntityFieldEdit";
-import EntityFieldInput from "../Generic/EntityFieldInput";
-import EntityFieldLabel from "../Generic/EntityFieldLabel";
-import { groupBy, objectMap } from "../helpers";
-
 
 export function UserNewLdap() {
     const dispatch = useDispatch();
     const definition = useDefinition("UserForEdit");
     const texts = {
         title: "Users",
-        subTitle: "Add a new Ldap user",
+        subTitle: "Add a user from Active Directory",
     };
     const errors = [];
 
     const [search, setSearch] = useState("");
+    const [occurrences, setOccurrences] = useState("");
     const [results, setResults] = useState([]);
 
     function handleSearch() {
@@ -31,15 +27,41 @@ export function UserNewLdap() {
     async function handleChange(event) {
         const value = event.target.value;
         setSearch(value);
-        const response = await apiFetch("users/ldap?searchTerm=" + value, { method: "GET" });
-        setResults(response);
-        console.log(response);
+        const {occurrencesNumber, listOfLdapUsers} = await apiFetch("users/ldap?searchTerm=" + value, { method: "GET" });
+        setResults(listOfLdapUsers);
+        setOccurrences(occurrencesNumber);
+        console.log(listOfLdapUsers);
+        console.log(listOfLdapUsers[0]);
     }
 
     function t(code) {
         const text = texts[code];
         return text;
     }
+
+    // check si un AD user est déjà présent dans la liste de l'app
+    // function userAldreadyInApp(userEmail){
+    //     const listUsers = apiFetch("users/", { method: "GET" });
+    //     listUsers.map((userFromList) => {
+
+    //           if (userFromList.email == userEmail)
+    //           {
+    //             return true
+    //           } 
+    //         })
+    //     }
+        
+    // // Affichage du boutton import
+    // function importUser(userEmail){
+    //     if (userAldreadyInApp(userEmail)) {
+    //         return <button type="submit" className="btn btn-primary">
+    //                     Import user
+    //                 </button>
+    //     }
+    //     else {
+    //         return <div> - </div>
+    //     }
+    // }
 
     return (
         <form onSubmit={handleSearch} noValidate={true}>
@@ -60,9 +82,6 @@ export function UserNewLdap() {
                             <Link to="./.." className="btn btn-link me-3">
                                 Cancel
                             </Link>
-                            <button type="submit" className="btn btn-primary">
-                                {t("form-action")}
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -89,12 +108,29 @@ export function UserNewLdap() {
                             </div>
                         </div>
                     </div>
+                        {occurrences} matching user(s)
+                    <div>
+                    </div>
                     <div className="card col-lg-12">
                         {results.map((result, index) => (
-                            <div key={index} onClick={console.log("")}>
-                                {index} - {result.displayName} - {result.email}
+                            <div key={index} onClick={console.log()}>
+                                {result.displayName} - {result.email} 
+                                <img src={'data:image/gif;base64,' + result.avatar} alt="user pp" width="100" height="150"></img>
+
+                                <button hidden={result.importable} type="submit" className="btn btn-primary">
+                                    Import user
+                                </button>
+                                
+                                <div hidden={!result.importable}>
+                                    User already in Basic application
+                                </div>
                             </div>
                         ))}
+ 
+                        <button href="newldap?search=" className="btn btn-primary">
+                            Link to AD user research
+                        </button>
+
                     </div>
                 </div>
             </div>

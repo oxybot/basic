@@ -28,6 +28,6 @@ export function UserList() {
       selectedId={userId}
       texts={texts}
       newRole="user"
-    />
+      />
   );
 }
