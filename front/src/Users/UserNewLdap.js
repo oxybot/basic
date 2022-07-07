@@ -39,30 +39,6 @@ export function UserNewLdap() {
         return text;
     }
 
-    // check si un AD user est déjà présent dans la liste de l'app
-    // function userAldreadyInApp(userEmail){
-    //     const listUsers = apiFetch("users/", { method: "GET" });
-    //     listUsers.map((userFromList) => {
-
-    //           if (userFromList.email == userEmail)
-    //           {
-    //             return true
-    //           } 
-    //         })
-    //     }
-        
-    // // Affichage du boutton import
-    // function importUser(userEmail){
-    //     if (userAldreadyInApp(userEmail)) {
-    //         return <button type="submit" className="btn btn-primary">
-    //                     Import user
-    //                 </button>
-    //     }
-    //     else {
-    //         return <div> - </div>
-    //     }
-    // }
-
     return (
         <form onSubmit={handleSearch} noValidate={true}>
             <MobilePageTitle back="./..">
@@ -117,13 +93,14 @@ export function UserNewLdap() {
                                 {result.displayName} - {result.email} 
                                 <img src={'data:image/gif;base64,' + result.avatar} alt="user pp" width="100" height="150"></img>
 
-                                <button hidden={result.importable} type="submit" className="btn btn-primary">
+                                <button hidden={!result.importable} type="submit" className="btn btn-primary">
                                     Import user
                                 </button>
-                                
-                                <div hidden={!result.importable}>
-                                    User already in Basic application
+
+                                <div hidden={result.importable}>
+                                    User already registered
                                 </div>
+
                             </div>
                         ))}
  

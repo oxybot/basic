@@ -13,7 +13,7 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         public LdapUser()
         {
-
+            this.Importable = true;
         }
 
         /// <summary>
@@ -42,5 +42,10 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the avatar of the user.
         /// </summary>
         public string Avatar { get; set; }
+
+        /// <summary>
+        /// Gets or sets importable status.
+        /// </summary>
+        public bool Importable { get; set; }
     }
 }

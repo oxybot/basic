@@ -1,5 +1,8 @@
 using Basic.WebApi.DTOs;
 using Novell.Directory.Ldap;
+using Basic.WebApi.Controllers;
+using Basic.DataAccess;
+using Basic.Model;
 
 namespace Basic.WebApi.Services
 {
@@ -8,15 +11,25 @@ namespace Basic.WebApi.Services
     /// </summary>
     public class LdapSearchService
     {
-        public LdapSearchService(IConfiguration configuration)
+        public LdapSearchService(IConfiguration configuration, Context context)
         {
             this.Configuration = configuration;
+            this.Context = context;
+        }
+
+          public LdapSearchService(IConfiguration configuration)
+        {
+            this.Configuration = configuration;
+            //this.Context = context;
         }
 
         /// <summary>
         /// Provides a generic connection to the Active Directory.
         /// </summary>
         public IConfiguration Configuration { get; }
+
+       
+        protected Context Context { get; }
 
         /// <summary>
         /// Keyword search for an user in the Active Directory.
@@ -26,6 +39,7 @@ namespace Basic.WebApi.Services
             List<LdapUser> ldapUsersList = new List<LdapUser>();
 
             LdapUsers ldapUsers = new LdapUsers();
+            var users = Context.Set<User>();
 
             var configuration = Configuration.GetRequiredSection("ActiveDirectory");
             var ldapSearchConfiguration = Configuration.GetRequiredSection("LdapUserSearch");
@@ -77,16 +91,31 @@ namespace Basic.WebApi.Services
                                     user.Username = entry.GetAttributeAsString("sAMAccountName");
                                     // user.Title = entry.GetAttribute("ou").StringValue;
                                     user.Avatar = entry.GetAttributeAsBase64("thumbnailPhoto");
+
+
+                                } 
+                                                               
+                                foreach (User userDb in users)
+                                {
+                                    if (userDb.Email.ToLower() == user.Email.ToLower() ) 
+                                    {
+                                        user.Importable = false;
+                                    }
                                 }
+
                                 if (counter < occurrencesToDisplay)
                                 {
                                     ldapUsersList.Add(user);
                                 }
+
+                               
+
                                 counter++;
                             }
+
                         }
                         connection.Disconnect();
-                        Console.WriteLine("we found " + counter + " occurrences");
+                        Console.WriteLine( counter + " occurrences");
 
                         ldapUsers.ListOfLdapUsers = ldapUsersList;
                         ldapUsers.OccurrencesNumber = counter;
