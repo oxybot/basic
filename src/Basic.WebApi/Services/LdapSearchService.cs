@@ -1,7 +1,5 @@
-using Basic.Model;
 using Basic.WebApi.DTOs;
 using Novell.Directory.Ldap;
-using System.Text.RegularExpressions;
 
 namespace Basic.WebApi.Services
 {
@@ -23,25 +21,30 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Keyword search for an user in the Active Directory.
         /// </summary>
-        public LdapUsers LdapSearch(string searchTerm) // IEnumerable<UserForList>
+        public LdapUsers LdapSearch(string searchTerm)
         {
             List<LdapUser> ldapUsersList = new List<LdapUser>();
 
             LdapUsers ldapUsers = new LdapUsers();
 
             var configuration = Configuration.GetRequiredSection("ActiveDirectory");
+            var ldapSearchConfiguration = Configuration.GetRequiredSection("LdapUserSearch");
             var searchBase = configuration.GetValue<string>("Base");
+
             try
             {
                 using (var connection = new LdapConnection { SecureSocketLayer = false })
                 {
                     string userDn = configuration.GetValue<string>("UserDN");
                     connection.Connect(configuration.GetValue<string>("Server"), configuration.GetValue<int>("Port"));
-                    connection.Bind(userDn, configuration.GetValue<string>("Password")); // credentials à definir
+                    connection.Bind(userDn, configuration.GetValue<string>("Password"));
                     if (connection.Bound)
                     {
-                        // count loops number to fill in the list of users to return
+                        // Count loops number to fill in the list of users to return
                         var counter = 0;
+                        // Get the number of occurrences to display
+                        int occurrencesToDisplay = ldapSearchConfiguration.GetValue<int>("occurrencesToDisplay");
+
                         LdapSearchQueue queue = connection.Search(searchBase, LdapConnection.ScopeSub, $"(&(objectClass=person)(cn=*{searchTerm}*))", null, false, (LdapSearchQueue)
                                                 null, (LdapSearchConstraints)null);
                         LdapMessage message;
@@ -75,7 +78,7 @@ namespace Basic.WebApi.Services
                                     // user.Title = entry.GetAttribute("ou").StringValue;
                                     user.Avatar = entry.GetAttributeAsBase64("thumbnailPhoto");
                                 }
-                                if (counter < 4)
+                                if (counter < occurrencesToDisplay)
                                 {
                                     ldapUsersList.Add(user);
                                 }
