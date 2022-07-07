@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Basic.Model
+namespace Basic.WebApi.DTOs
 {
     /// <summary>
     /// Represents a user of the application.
     /// </summary>
-    public class LdapUser : BaseModel
+    public class LdapUser : BaseEntityDTO
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LdapUser"/> class.
