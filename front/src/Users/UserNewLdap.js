@@ -32,8 +32,6 @@ export function UserNewLdap() {
         const {occurrencesNumber, listOfLdapUsers} = await apiFetch("users/ldap?searchTerm=" + value, { method: "GET" });
         setResults(listOfLdapUsers);
         setOccurrences(occurrencesNumber);
-        console.log(listOfLdapUsers);
-        console.log(listOfLdapUsers[0]);
     }
 
     function t(code) {

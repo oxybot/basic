@@ -73,16 +73,7 @@ namespace Basic.WebApi.Controllers
             LdapUsers ldapUsers = service.LdapSearch(searchTerm);
             var usersFromDb = Context.Set<User>();
 
-            ldapUsers.ListOfLdapUsers.ToList().ForEach(lu => 
-            {
-                usersFromDb.ToList().ForEach(u => 
-                {
-                    if (u.Email.ToLower() == lu.Email.ToLower())    
-                    {
-                        lu.Importable = false;
-                    }
-                });
-           });
+            ldapUsers.ListOfLdapUsers.ToList().ForEach(d => d.Importable =!usersFromDb.Any(sd => sd.Email.ToLower() == d.Email.ToLower()));
 
             return ldapUsers;
         }
