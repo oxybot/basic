@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import { usersState, disconnect, getAll } from "./slice";
-import PageList from "../Generic/PageList";
+import UserPageList from "../Users/UserPageList";
 
 export function UserList() {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ export function UserList() {
   }, [dispatch]);
 
   return (
-    <PageList
+    <UserPageList
       definition={definition}
       loading={loading}
       elements={elements}

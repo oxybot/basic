@@ -1,11 +1,11 @@
-import { IconPlus} from "@tabler/icons";
+import { IconPlus, IconSearch } from "@tabler/icons";
 import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";
 import { useInRole } from "../Authentication";
-import EntityList from "./EntityList";
-import MobilePageTitle from "./MobilePageTitle";
+import EntityList from "../Generic/EntityList";
+import MobilePageTitle from "../Generic/MobilePageTitle";
 
-export default function PageList({ definition, loading, elements, selectedId, texts, newRole = null }) {
+export default function UserPageList({ definition, loading, elements, selectedId, texts, newRole = null }) {
   const outlet = useOutlet();
   const isInRole = useInRole();
 
@@ -20,7 +20,9 @@ export default function PageList({ definition, loading, elements, selectedId, te
               <Link to="new" className="btn btn-primary btn-icon" aria-label={texts.add}>
                 <IconPlus />
               </Link>
-
+              <Link to="newldap?search=" className="btn btn-primary btn-icon" aria-label={texts.research}>
+                <IconSearch />
+              </Link>
               </>
             )}
           </MobilePageTitle>
@@ -48,6 +50,13 @@ export default function PageList({ definition, loading, elements, selectedId, te
                       </Link>
                       <Link to="new" className="ms-3 btn btn-primary btn-icon d-md-none" aria-label={texts.add}>
                         <IconPlus />
+                      </Link>
+                      <Link to="newldap?search=" className="ms-3 btn btn-primary btn-icon d-md-none" aria-label={texts.research}>
+                        <IconSearch />
+                      </Link>
+                      <Link hidden={false} to="newldap?search=" className="ms-3 btn btn-primary d-none d-md-block">
+                        <IconSearch />
+                        Research
                       </Link>
                     </>
                   )}

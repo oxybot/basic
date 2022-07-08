@@ -12,13 +12,15 @@ export function UserNewLdap() {
     const definition = useDefinition("UserForEdit");
     const texts = {
         title: "Users",
-        subTitle: "Add a user from Active Directory",
+        subTitle: "Users from the Active Directory",
     };
     const errors = [];
 
     const [search, setSearch] = useState("");
     const [occurrences, setOccurrences] = useState("");
     const [results, setResults] = useState([]);
+
+    
 
     function handleSearch() {
         dispatch(refresh());
@@ -43,9 +45,6 @@ export function UserNewLdap() {
         <form onSubmit={handleSearch} noValidate={true}>
             <MobilePageTitle back="./..">
                 <div className="navbar-brand flex-fill">{t("title")}</div>
-                <button type="submit" className="btn btn-primary">
-                    {t("form-action")}
-                </button>
             </MobilePageTitle>
             <div className="page-header d-none d-lg-block">
                 <div className="row align-items-center">
@@ -89,25 +88,22 @@ export function UserNewLdap() {
                     </div>
                     <div className="card col-lg-12">
                         {results.map((result, index) => (
-                            <div key={index} onClick={console.log()}>
-                                {result.displayName} - {result.email} 
-                                <img src={'data:image/gif;base64,' + result.avatar} alt="user pp" width="100" height="150"></img>
+                            <form onSubmit={""}>
+                                <div hidden={!results} key={index} onClick={console.log()}>
+                                    {result.displayName} - {result.email} 
+                                    <img src={'data:image/gif;base64,' + result.avatar} alt="user pp" width="100" height="150"></img>
 
-                                <button hidden={!result.importable} type="submit" className="btn btn-primary">
-                                    Import user
-                                </button>
+                                    <button hidden={!result.importable} type="submit" className="btn btn-primary">
+                                        Import user
+                                    </button>
 
-                                <div hidden={result.importable}>
-                                    User already registered
+                                    <div hidden={result.importable}>
+                                        Already registered
+                                    </div>
+
                                 </div>
-
-                            </div>
+                            </form>
                         ))}
- 
-                        <button href="newldap?search=" className="btn btn-primary">
-                            Link to AD user research
-                        </button>
-
                     </div>
                 </div>
             </div>
