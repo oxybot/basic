@@ -1,8 +1,5 @@
 using Basic.WebApi.DTOs;
 using Novell.Directory.Ldap;
-using Basic.WebApi.Controllers;
-using Basic.DataAccess;
-using Basic.Model;
 
 namespace Basic.WebApi.Services
 {
@@ -11,16 +8,9 @@ namespace Basic.WebApi.Services
     /// </summary>
     public class LdapSearchService
     {
-        public LdapSearchService(IConfiguration configuration, Context context)
+        public LdapSearchService(IConfiguration configuration)
         {
             this.Configuration = configuration;
-            this.Context = context;
-        }
-
-          public LdapSearchService(IConfiguration configuration)
-        {
-            this.Configuration = configuration;
-            //this.Context = context;
         }
 
         /// <summary>
@@ -28,18 +18,13 @@ namespace Basic.WebApi.Services
         /// </summary>
         public IConfiguration Configuration { get; }
 
-       
-        protected Context Context { get; }
-
         /// <summary>
         /// Keyword search for an user in the Active Directory.
         /// </summary>
         public LdapUsers LdapSearch(string searchTerm)
         {
             List<LdapUser> ldapUsersList = new List<LdapUser>();
-
             LdapUsers ldapUsers = new LdapUsers();
-            var users = Context.Set<User>();
 
             var configuration = Configuration.GetRequiredSection("ActiveDirectory");
             var ldapSearchConfiguration = Configuration.GetRequiredSection("LdapUserSearch");
@@ -51,17 +36,19 @@ namespace Basic.WebApi.Services
                 {
                     string userDn = configuration.GetValue<string>("UserDN");
                     connection.Connect(configuration.GetValue<string>("Server"), configuration.GetValue<int>("Port"));
-                    connection.Bind(userDn, configuration.GetValue<string>("Password"));
+                    connection.Bind(userDn, configuration.GetValue<string>("Password")); // ICI a modifier : maintien de la connexion
+
                     if (connection.Bound)
                     {
-                        // Count loops number to fill in the list of users to return
+                        // Count loops number to fill in the list of users to return:
                         var counter = 0;
-                        // Get the number of occurrences to display
+                        // Get the number of occurrences to display:
                         int occurrencesToDisplay = ldapSearchConfiguration.GetValue<int>("occurrencesToDisplay");
 
                         LdapSearchQueue queue = connection.Search(searchBase, LdapConnection.ScopeSub, $"(&(objectClass=person)(cn=*{searchTerm}*))", null, false, (LdapSearchQueue)
                                                 null, (LdapSearchConstraints)null);
                         LdapMessage message;
+
                         while ((message = queue.GetResponse()) != null)
                         {
                             if (message is LdapSearchResult)
@@ -91,24 +78,12 @@ namespace Basic.WebApi.Services
                                     user.Username = entry.GetAttributeAsString("sAMAccountName");
                                     // user.Title = entry.GetAttribute("ou").StringValue;
                                     user.Avatar = entry.GetAttributeAsBase64("thumbnailPhoto");
-
-
                                 } 
-                                                               
-                                foreach (User userDb in users)
-                                {
-                                    if (userDb.Email.ToLower() == user.Email.ToLower() ) 
-                                    {
-                                        user.Importable = false;
-                                    }
-                                }
 
                                 if (counter < occurrencesToDisplay)
                                 {
                                     ldapUsersList.Add(user);
                                 }
-
-                               
 
                                 counter++;
                             }
