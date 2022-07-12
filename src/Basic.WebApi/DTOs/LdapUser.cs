@@ -26,7 +26,7 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the username of the ldap user.
         /// </summary>
         [Required]
-        public string Username { get; set; }
+        public string UserName { get; set; }
         
         /// <summary>
         /// Gets or sets the e-mail of the ldap user.

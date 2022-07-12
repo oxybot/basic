@@ -304,3 +304,23 @@ th.required:after {
     width: 33% !important;
   }
 }
+
+.ldap-attributs {
+  display: inline-block;
+  padding: 2%2%0%2%;
+}
+
+.picture {
+  max-width : 20%;
+  height : auto;
+  padding-bottom: 20%;
+}
+
+.ldap-card {
+  padding: 0% 3%;
+  height: 180px;
+}
+
+.importable {
+  padding-top: 15%;
+}

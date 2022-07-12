@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { apiFetch, useDefinition } from "../api";
@@ -8,6 +8,7 @@ import { refresh } from "./slice";
 
 
 export function UserNewLdap() {
+
     const dispatch = useDispatch();
     const definition = useDefinition("UserForEdit");
     const texts = {
@@ -17,10 +18,10 @@ export function UserNewLdap() {
     const errors = [];
 
     const [search, setSearch] = useState("");
-    const [occurrences, setOccurrences] = useState("");
+    const [displaySearch, setDisplaySearch] = useState("");
+    const [occurrences, setOccurrences] = useState("0");
     const [results, setResults] = useState([]);
-
-    
+    const [loading, setLoading] = useState(false);
 
     function handleSearch() {
         dispatch(refresh());
@@ -29,10 +30,30 @@ export function UserNewLdap() {
     async function handleChange(event) {
         const value = event.target.value;
         setSearch(value);
-        const {occurrencesNumber, listOfLdapUsers} = await apiFetch("users/ldap?searchTerm=" + value, { method: "GET" });
-        setResults(listOfLdapUsers);
-        setOccurrences(occurrencesNumber);
     }
+
+    // To use Timeout for debbuging : " await timeout(number in milliseconds); "
+    function timeout(delay) {
+        return new Promise(res => setTimeout(res, delay));
+    }
+
+    
+    useEffect(() => {
+        if (displaySearch != search) {
+            if (!loading) {
+                setLoading(true);
+
+                apiFetch("users/ldap?searchTerm=" + search, { method: "GET" })
+                    .then(({ occurrencesNumber, listOfLdapUsers }) => {
+                        setResults(listOfLdapUsers);
+                        setOccurrences(occurrencesNumber);
+                        setDisplaySearch(search);
+                        setLoading(false);
+                    })
+            }
+        }
+    }, [search, displaySearch, loading])
+
 
     function t(code) {
         const text = texts[code];
@@ -81,22 +102,28 @@ export function UserNewLdap() {
                             </div>
                         </div>
                     </div>
-                        {occurrences} matching user(s)
-                    <div>
-                    </div>
+
+                    <div>{occurrences} matching user{occurrences < "2" ? '' : 's'}</div>
+
+
                     <div className="card col-lg-12">
                         {results.map((result, index) => (
                             <form onSubmit={""}>
-                                <div hidden={!results} key={index} onClick={console.log()}>
-                                    {result.displayName} - {result.email} 
-                                    <img src={'data:image/gif;base64,' + result.avatar} alt="user pp" width="100" height="150"></img>
+                                <div className="ldap-card" hidden={!results} key={index} >
 
-                                    <button hidden={!result.importable} type="submit" className="btn btn-primary">
-                                        Import user
-                                    </button>
+                                    <img hidden={result.avatar} className="picture" src="/no-picture.png" alt="user pp" width="100" height="150"></img>
+                                    <img hidden={!result.avatar} className="picture" src={'data:image/gif;base64,' + result.avatar} alt="user pp" width="100" height="150"></img>
 
-                                    <div hidden={result.importable}>
-                                        Already registered
+                                    <div className="ldap-attributs">
+                                        <div className="lead">{result.displayName}</div>
+                                        <div className="lead">{result.email}</div>
+                                        <div className="lead">{result.title != "" ? result.title : '-'}</div>
+                                        <div className="importable">
+                                            <button hidden={!result.importable} type="submit" className="btn btn-primary">
+                                                Import user
+                                            </button>
+                                            <div className="field-label registered" hidden={result.importable}>Already registered</div>
+                                        </div>
                                     </div>
 
                                 </div>
