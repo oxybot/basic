@@ -1,24 +1,12 @@
 using Basic.WebApi.DTOs;
 using Novell.Directory.Ldap;
 
-
 namespace Basic.WebApi.Services
 {
     /// <summary>
-    /// Global variables.
-    /// </summary>
-    public static class Global
-    {
-        /// <summary>
-        /// Global variable to know if a Ldap connection is on.
-        /// </summary>
-        public static bool isConnected;
-    }
-
-    /// <summary>
     /// Provides ldap search services.
     /// </summary>
-    public class LdapSearchService
+    public class LdapSearchService : IDisposable
     {
         /// <summary>
         /// Ldap search service constructor.
@@ -26,12 +14,18 @@ namespace Basic.WebApi.Services
         public LdapSearchService(IConfiguration configuration)
         {
             this.Configuration = configuration;
+            this.Connection = LdapConnect();
         }
 
         /// <summary>
-        /// Provides a generic connection to the Active Directory.
+        /// Provides a configuration for the connection to the Active Directory.
         /// </summary>
         public IConfiguration Configuration { get; }
+
+        /// <summary>
+        /// Provides a connection to the Active Directory.
+        /// </summary>
+        public LdapConnection Connection { get; set; }
 
         /// <summary>
         /// Establish a connection to the Active Directory.
@@ -46,17 +40,16 @@ namespace Basic.WebApi.Services
             connection.Connect(configuration.GetValue<string>("Server"), configuration.GetValue<int>("Port"));
             connection.Bind(userDn, configuration.GetValue<string>("Password"));
 
-            Global.isConnected = true;
             return connection;
         }
 
         /// <summary>
         /// Disconnect from the Active Directory.
         /// </summary>
-        public void LdapDisconnect(LdapConnection connection)
+        public void Dispose()
         {
-            Global.isConnected = false;
-            connection.Disconnect();
+            this.Connection.Disconnect();
+            this.Connection.Dispose();
         }
 
         /// <summary>
@@ -67,72 +60,65 @@ namespace Basic.WebApi.Services
             List<LdapUser> ldapUsersList = new List<LdapUser>();
             LdapUsers ldapUsers = new LdapUsers();
 
-            var connection = new LdapConnection();
             var configuration = Configuration.GetRequiredSection("ActiveDirectory");
             var ldapSearchConfiguration = Configuration.GetRequiredSection("LdapUserSearch");
             var searchBase = configuration.GetValue<string>("Base");
 
             try
             {
-                do
-                {
-                    connection = LdapConnect();
+                if (! this.Connection.Connected) {
+                    this.LdapConnect();
                 }
-                while (!Global.isConnected);
 
-                if (connection.Bound)
+                // Count loops number to fill in the list of users to return:
+                var counter = 0;
+                // Get the occurrences number to display:
+                int occurrencesToDisplay = ldapSearchConfiguration.GetValue<int>("occurrencesToDisplay");
+
+                LdapSearchQueue queue = Connection.Search(searchBase, LdapConnection.ScopeSub, $"(&(objectClass=person)(cn=*{searchTerm}*))",
+                                        null, false, (LdapSearchQueue)null, (LdapSearchConstraints)null);
+                LdapMessage message;
+
+                while ((message = queue.GetResponse()) != null)
                 {
-                    // Count loops number to fill in the list of users to return:
-                    var counter = 0;
-                    // Get the occurrences number to display:
-                    int occurrencesToDisplay = ldapSearchConfiguration.GetValue<int>("occurrencesToDisplay");
-
-                    LdapSearchQueue queue = connection.Search(searchBase, LdapConnection.ScopeSub, $"(&(objectClass=person)(cn=*{searchTerm}*))",
-                                            null, false, (LdapSearchQueue) null, (LdapSearchConstraints)null);
-                    LdapMessage message;
-
-                    while ((message = queue.GetResponse()) != null)
+                    if (message is LdapSearchResult)
                     {
-                        if (message is LdapSearchResult)
+                        LdapEntry entry = (message as LdapSearchResult).Entry;
+                        // Get the attribute set of the entry
+                        LdapAttributeSet attributeSet = entry.GetAttributeSet();
+                        System.Collections.IEnumerator ienum = attributeSet.GetEnumerator();
+                        // Parse through the attribute set to get the attributes and the corresponding values
+
+                        LdapUser user = new LdapUser();
+
+                        while (ienum.MoveNext())
                         {
-                            LdapEntry entry = (message as LdapSearchResult).Entry;
-                            // Get the attribute set of the entry
-                            LdapAttributeSet attributeSet = entry.GetAttributeSet();
-                            System.Collections.IEnumerator ienum = attributeSet.GetEnumerator();
-                            // Parse through the attribute set to get the attributes and the corresponding values
+                            // LdapAttribute attribute = (LdapAttribute)ienum.Current;
+                            // String attributeName = attribute.Name;
+                            // String attributeVal = attribute.StringValue;
+                            // Console.WriteLine(attributeName + " value: " + attributeVal);
 
-                            LdapUser user = new LdapUser();
-
-                            while (ienum.MoveNext())
-                            {
-                                // LdapAttribute attribute = (LdapAttribute)ienum.Current;
-                                // String attributeName = attribute.Name;
-                                // String attributeVal = attribute.StringValue;
-                                // Console.WriteLine(attributeName + " value: " + attributeVal);
-
-                                user.DisplayName = entry.GetAttributeAsString("givenName") + " " + entry.GetAttributeAsString("sn");
-                                if(entry.GetAttributeAsString("mail") == null){user.Email = "-";}
-                                else{user.Email = entry.GetAttributeAsString("mail");}
-                                user.UserName = entry.GetAttributeAsString("sAMAccountName");
-                                user.Title = entry.GetAttributeAsString("description");
-                                user.Avatar = entry.GetAttributeAsBase64("thumbnailPhoto");
-                            } 
-
-                            if (counter < occurrencesToDisplay)
-                            {
-                                ldapUsersList.Add(user);
-                            }
-                            counter++;
+                            user.DisplayName = entry.GetAttributeAsString("givenName") + " " + entry.GetAttributeAsString("sn");
+                            if (entry.GetAttributeAsString("mail") == null) { user.Email = "-"; }
+                            else { user.Email = entry.GetAttributeAsString("mail"); }
+                            user.UserName = entry.GetAttributeAsString("sAMAccountName");
+                            user.Title = entry.GetAttributeAsString("description");
+                            user.Avatar = entry.GetAttributeAsBase64("thumbnailPhoto");
                         }
 
-                    } 
-                    LdapDisconnect(connection);
+                        if (counter < occurrencesToDisplay)
+                        {
+                            ldapUsersList.Add(user);
+                        }
+                        counter++;
+                    }
 
-                    ldapUsers.ListOfLdapUsers = ldapUsersList;
-                    ldapUsers.OccurrencesNumber = counter;
-                    
-                    return ldapUsers;
                 }
+
+                ldapUsers.ListOfLdapUsers = ldapUsersList;
+                ldapUsers.OccurrencesNumber = counter;
+
+                return ldapUsers;
             }
             catch (LdapException ex)
             {

@@ -7,6 +7,8 @@ using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using Novell.Directory.Ldap;
+
 namespace Basic.WebApi.Controllers
 {
     /// <summary>
@@ -68,15 +70,16 @@ namespace Basic.WebApi.Controllers
         [AllowAnonymous]
         [Produces("application/json")]
         [Route("ldap")]
-        public  LdapUsers GetLdapUser([FromServices]LdapSearchService service, string searchTerm)
+        public  LdapUsers GetLdapUser(bool isConnected, [FromServices]LdapSearchService service, string searchTerm)
         {
-            LdapUsers ldapUsers = service.LdapSearch(searchTerm);
+            LdapUsers ldapUsers = service.LdapSearch(isConnected, searchTerm);
             var usersFromDb = Context.Set<User>();
 
-            ldapUsers.ListOfLdapUsers.ToList().ForEach(d => d.Importable =!usersFromDb.Any(sd => sd.Email.ToLower() == d.Email.ToLower()));
+            ldapUsers.ListOfLdapUsers.ToList().ForEach(d => d.Importable =! usersFromDb.Any(sd => sd.Email.ToLower() == d.Email.ToLower()));
 
             return ldapUsers;
         }
+        
 
         /// <summary>
         /// Creates a new user.
