@@ -110,7 +110,7 @@ namespace Basic.WebApi.Services
                                 // String attributeVal = attribute.StringValue;
                                 // Console.WriteLine(attributeName + " value: " + attributeVal);
 
-                                user.DisplayName = entry.GetAttributeAsString("sn") + " " + entry.GetAttributeAsString("givenName");
+                                user.DisplayName = entry.GetAttributeAsString("givenName") + " " + entry.GetAttributeAsString("sn");
                                 if(entry.GetAttributeAsString("mail") == null){user.Email = "-";}
                                 else{user.Email = entry.GetAttributeAsString("mail");}
                                 user.UserName = entry.GetAttributeAsString("sAMAccountName");

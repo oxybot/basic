@@ -7,6 +7,8 @@ import MobilePageTitle from "../Generic/MobilePageTitle";
 import { refresh } from "./slice";
 
 
+// MakeLdapConnection
+
 export function UserNewLdap() {
 
     const dispatch = useDispatch();
@@ -32,36 +34,46 @@ export function UserNewLdap() {
         setSearch(value);
     }
 
-    // To use Timeout for debbuging : " await timeout(number in milliseconds); "
+    // To use Timeout for debbuging : " await timeout([number in milliseconds]); "
     function timeout(delay) {
         return new Promise(res => setTimeout(res, delay));
     }
 
-    
     useEffect(() => {
-        if (displaySearch != search) {
-            if (!loading) {
-                setLoading(true);
+        if (displaySearch != search && !loading) {
+            setLoading(true);
 
-                apiFetch("users/ldap?searchTerm=" + search, { method: "GET" })
-                    .then(({ occurrencesNumber, listOfLdapUsers }) => {
-                        setResults(listOfLdapUsers);
-                        setOccurrences(occurrencesNumber);
-                        setDisplaySearch(search);
-                        setLoading(false);
-                    })
-            }
+            apiFetch("users/ldap?searchTerm=" + search, { method: "GET" })
+                .then(({ occurrencesNumber, listOfLdapUsers }) => {
+                    setResults(listOfLdapUsers);
+                    setOccurrences(occurrencesNumber);
+                    setDisplaySearch(search);
+                })
+            setLoading(false);
         }
     }, [search, displaySearch, loading])
-
 
     function t(code) {
         const text = texts[code];
         return text;
     }
 
+    function importLdapUser(entity) {
+
+        entity.avatar = {
+            "data": entity.avatar,
+            "mimeType": "string"
+          };
+        console.log(entity.avatar);
+    
+        apiFetch("users/", {
+            method: "POST",
+            body: JSON.stringify(entity)
+        });
+    }
+
     return (
-        <form onSubmit={handleSearch} noValidate={true}>
+        <form onSubmit={() => handleSearch} noValidate={true}>
             <MobilePageTitle back="./..">
                 <div className="navbar-brand flex-fill">{t("title")}</div>
             </MobilePageTitle>
@@ -84,9 +96,6 @@ export function UserNewLdap() {
                 <div className="row row-cards">
                     {errors[""] && <div className="alert show fade alert-danger">{errors[""]}</div>}
                     <div className="card col-lg-12">
-                        {/* <div className="card-header">
-                            <h3 className="card-title">{group}</h3>
-                        </div> */}
                         <div className="card-body">
                             <label htmlFor="search" className="form-label required">Search</label>
                             <div className="mb-3"><input
@@ -103,31 +112,28 @@ export function UserNewLdap() {
                         </div>
                     </div>
 
-                    <div>{occurrences} matching user{occurrences < "2" ? '' : 's'}</div>
+                    <div hidden={loading}>{occurrences} matching user{occurrences < "2" ? '' : 's'}</div>
+                    <div hidden={!loading}>loading</div>
 
 
                     <div className="card col-lg-12">
                         {results.map((result, index) => (
-                            <form onSubmit={""}>
-                                <div className="ldap-card" hidden={!results} key={index} >
+                            <div className="ldap-card" hidden={!results} key={index} >
+                                
+                                <img hidden={result.avatar} className="picture" src="/no-picture.png" alt="user pp" width="100" height="150"></img>
+                                <img hidden={!result.avatar} className="picture" src={'data:image/gif;base64,' + result.avatar} alt="user pp" width="100" height="150"></img>
 
-                                    <img hidden={result.avatar} className="picture" src="/no-picture.png" alt="user pp" width="100" height="150"></img>
-                                    <img hidden={!result.avatar} className="picture" src={'data:image/gif;base64,' + result.avatar} alt="user pp" width="100" height="150"></img>
-
-                                    <div className="ldap-attributs">
-                                        <div className="lead">{result.displayName}</div>
-                                        <div className="lead">{result.email}</div>
-                                        <div className="lead">{result.title != "" ? result.title : '-'}</div>
-                                        <div className="importable">
-                                            <button hidden={!result.importable} type="submit" className="btn btn-primary">
-                                                Import user
-                                            </button>
-                                            <div className="field-label registered" hidden={result.importable}>Already registered</div>
-                                        </div>
-                                    </div>
-
+                                <div className="ldap-attributs">
+                                    <div className="lead">{result.displayName}</div>
+                                    <div className="lead">{result.email != "" ? result.email : '-'}</div>
+                                    <div className="lead">{result.title != "" ? result.title : '-'}</div>
                                 </div>
-                            </form>
+                                <div className="importable">
+                                    <button className="btn btn-primary" disabled={!result.importable} onClick={() => {importLdapUser(result)}}>
+                                        Import user
+                                    </button>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </div>

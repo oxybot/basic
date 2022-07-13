@@ -310,10 +310,10 @@ th.required:after {
   padding: 2%2%0%2%;
 }
 
+
 .picture {
   max-width : 20%;
   height : auto;
-  padding-bottom: 20%;
 }
 
 .ldap-card {
@@ -322,5 +322,10 @@ th.required:after {
 }
 
 .importable {
-  padding-top: 15%;
+  position: relative;
+  bottom: 22%; left: 80%;
+}
+
+.btn-icon {
+  margin: 0px 6px;
 }
