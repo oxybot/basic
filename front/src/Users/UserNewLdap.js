@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
-import { apiFetch, useDefinition } from "../api";
+import { Link } from "react-router-dom";
+import { apiFetch } from "../api";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import { refresh } from "./slice";
 
@@ -12,7 +12,6 @@ import { refresh } from "./slice";
 export function UserNewLdap() {
 
     const dispatch = useDispatch();
-    const definition = useDefinition("UserForEdit");
     const texts = {
         title: "Users",
         subTitle: "Users from the Active Directory",
@@ -25,22 +24,23 @@ export function UserNewLdap() {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    function handleSearch() {
+    async function handleSearch() {
+        await timeout(3000);
         dispatch(refresh());
     }
-
+    
     async function handleChange(event) {
         const value = event.target.value;
         setSearch(value);
     }
 
-    // To use Timeout for debbuging : " await timeout([number in milliseconds]); "
+    // To use Timeout : " await timeout([number in milliseconds]); "
     function timeout(delay) {
         return new Promise(res => setTimeout(res, delay));
     }
 
     useEffect(() => {
-        if (displaySearch != search && !loading) {
+        if (displaySearch !== search && !loading) {
             setLoading(true);
 
             apiFetch("users/ldap?searchTerm=" + search, { method: "GET" })
@@ -48,6 +48,7 @@ export function UserNewLdap() {
                     setResults(listOfLdapUsers);
                     setOccurrences(occurrencesNumber);
                     setDisplaySearch(search);
+                    console.log(listOfLdapUsers);
                 })
             setLoading(false);
         }
@@ -62,9 +63,8 @@ export function UserNewLdap() {
 
         entity.avatar = {
             "data": entity.avatar,
-            "mimeType": "string"
+            "mimeType": "image/jpeg"
           };
-        console.log(entity.avatar);
     
         apiFetch("users/", {
             method: "POST",
@@ -125,8 +125,8 @@ export function UserNewLdap() {
 
                                 <div className="ldap-attributs">
                                     <div className="lead">{result.displayName}</div>
-                                    <div className="lead">{result.email != "" ? result.email : '-'}</div>
-                                    <div className="lead">{result.title != "" ? result.title : '-'}</div>
+                                    <div className="lead">{result.email !== "" ? result.email : '-'}</div>
+                                    <div className="lead">{result.title !== "" ? result.title : '-'}</div>
                                 </div>
                                 <div className="importable">
                                     <button className="btn btn-primary" disabled={!result.importable} onClick={() => {importLdapUser(result)}}>

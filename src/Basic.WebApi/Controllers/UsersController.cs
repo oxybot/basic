@@ -7,7 +7,6 @@ using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Novell.Directory.Ldap;
 
 namespace Basic.WebApi.Controllers
 {
@@ -64,22 +63,25 @@ namespace Basic.WebApi.Controllers
         /// Retrieves a specific user.
         /// </summary>
         /// <param name="searchTerm">The identifier of the user.</param>
-        /// <returns>The detailed data about the user identified by <paramref name="searchTerm/>.</returns>
+        /// <returns>The detailed data about the user identified by <paramref name="searchTerm"/>.</returns>
         /// <response code="404">No user is associated to the provided <paramref name="searchTerm"/>.</response>
         [HttpGet]
         [AllowAnonymous]
         [Produces("application/json")]
         [Route("ldap")]
-        public  LdapUsers GetLdapUser(bool isConnected, [FromServices]LdapSearchService service, string searchTerm)
+        public LdapUsers GetLdapUser([FromServices]LdapSearchService service, string searchTerm)
         {
-            LdapUsers ldapUsers = service.LdapSearch(isConnected, searchTerm);
+            LdapUsers ldapUsers = service.LdapSearch(searchTerm);
             var usersFromDb = Context.Set<User>();
 
             ldapUsers.ListOfLdapUsers.ToList().ForEach(d => d.Importable =! usersFromDb.Any(sd => sd.Email.ToLower() == d.Email.ToLower()));
 
+
+            var imageString = ldapUsers.ListOfLdapUsers[0].Avatar;
+
             return ldapUsers;
         }
-        
+
 
         /// <summary>
         /// Creates a new user.

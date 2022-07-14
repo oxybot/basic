@@ -55,7 +55,7 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Keyword search for an user in the Active Directory.
         /// </summary>
-        public LdapUsers LdapSearch(bool isConnected, string searchTerm)
+        public LdapUsers LdapSearch(string searchTerm)
         {
             List<LdapUser> ldapUsersList = new List<LdapUser>();
             LdapUsers ldapUsers = new LdapUsers();
