@@ -111,7 +111,7 @@ namespace Basic.WebApi.Controllers
         protected override void CheckDependencies(ScheduleForEdit entity, Schedule model)
         {
             model.User = Context.Set<User>().SingleOrDefault(u => u.Identifier == entity.UserIdentifier);
-            if (model.User == null)
+            if (model.User == null || model.WorkingSchedule.ToList().Any(n => n < 0) || model.WorkingSchedule.ToList().All(n => n == 0))
             {
                 ModelState.AddModelError("UserIdentifier", "Invalid User");
             }

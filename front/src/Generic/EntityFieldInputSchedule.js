@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export default function EntityFieldInputSchedule({ field, value = [], onChange }) {
+export default function EntityFieldInputSchedule({ field, value, onChange }) {
   if (value === "") {
     value = [0, 0, 0, 0, 0, 0, 0];
   }
