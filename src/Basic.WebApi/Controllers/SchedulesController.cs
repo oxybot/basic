@@ -116,7 +116,11 @@ namespace Basic.WebApi.Controllers
                 ModelState.AddModelError("UserIdentifier", "Invalid User");
             }
 
-            if (model.WorkingSchedule.Length < 7)
+            if (model.WorkingSchedule.Length == 7 || model.WorkingSchedule.Length == 14)
+            {
+                // Do nothing - the data are already correct
+            }
+            else if (model.WorkingSchedule.Length < 7)
             {
                 model.WorkingSchedule = model.WorkingSchedule.Concat(new decimal[7 - model.WorkingSchedule.Length]).ToArray();
             }

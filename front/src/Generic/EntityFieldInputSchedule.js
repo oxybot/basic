@@ -1,6 +1,9 @@
 import dayjs from "dayjs";
 
 export default function EntityFieldInputSchedule({ field, value = [], onChange }) {
+  if (value === "") {
+    value = [0, 0, 0, 0, 0, 0, 0];
+  }
   const complex = Array.isArray(value) && value.length > 7;
   const prefix = field.name;
   const days = [0, 1, 2, 3, 4, 5, 6];
@@ -10,9 +13,11 @@ export default function EntityFieldInputSchedule({ field, value = [], onChange }
     if (value.length < max) {
       let updated = [...value];
       updated.push(0, 0, 0, 0, 0, 0, 0);
+      console.log("option 1 : value = " + value + " ; update = " + updated);
       onChange({ target: { name: field.name, value: updated } });
     } else {
       let updated = value.slice(0, 7);
+      console.log("option 2 : updated =" + updated);
       onChange({ target: { name: field.name, value: updated } });
     }
   }
@@ -20,6 +25,7 @@ export default function EntityFieldInputSchedule({ field, value = [], onChange }
   function handleChange(e, d) {
     let updated = [...value];
     updated[d] = Number(e.target.value);
+    console.log("option 3 : updated =" + updated);
     onChange({ target: { name: field.name, value: updated } });
   }
 
