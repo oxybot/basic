@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
+import clsx from "clsx";
 
-export default function EntityFieldInputSchedule({ field, value, onChange }) {
+export default function EntityFieldInputSchedule({ field, value, hasErrors, onChange }) {
   if (value === "") {
     value = [0, 0, 0, 0, 0, 0, 0];
   }
@@ -44,7 +45,7 @@ export default function EntityFieldInputSchedule({ field, value, onChange }) {
           Odd/Even weeks mapping
         </label>
       </div>
-      <div className="schedule">
+      <div className={clsx({ "is-invalid": hasErrors, }, "schedule form-control")}>
         <div className="row g-0">
           {days.map((d) => {
             const dayLabel = dayjs().day(d).format("dddd").toLowerCase();
@@ -79,7 +80,7 @@ export default function EntityFieldInputSchedule({ field, value, onChange }) {
                     id={prefix + "-" + dayLabel}
                     value={value[7 + d] || "0"}
                     onChange={(e) => handleChange(e, 7 + d)}
-                  />
+                    />
                 </div>
               );
             })}

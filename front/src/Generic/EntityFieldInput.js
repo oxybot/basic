@@ -101,7 +101,7 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
       return <EntityFieldInputImage field={field} value={value} onChange={onChange} />;
 
     case "schedule":
-      return <EntityFieldInputSchedule field={field} value={value} onChange={onChange} />;
+      return <EntityFieldInputSchedule field={field} value={value} hasErrors={hasErrors} onChange={onChange} />;
 
     case "color":
       return <EntityFieldInputColor field={field} value={value} onChange={onChange} />;
