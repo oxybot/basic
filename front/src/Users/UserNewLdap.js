@@ -24,12 +24,11 @@ export function UserNewLdap() {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    async function handleSearch() {
-        await timeout(3000);
+    function handleSearch() {
         dispatch(refresh());
     }
     
-    async function handleChange(event) {
+    function handleChange(event) {
         const value = event.target.value;
         setSearch(value);
     }
@@ -48,7 +47,6 @@ export function UserNewLdap() {
                     setResults(listOfLdapUsers);
                     setOccurrences(occurrencesNumber);
                     setDisplaySearch(search);
-                    console.log(listOfLdapUsers);
                 })
             setLoading(false);
         }
@@ -113,8 +111,6 @@ export function UserNewLdap() {
                     </div>
 
                     <div hidden={loading}>{occurrences} matching user{occurrences < "2" ? '' : 's'}</div>
-                    <div hidden={!loading}>loading</div>
-
 
                     <div className="card col-lg-12">
                         {results.map((result, index) => (

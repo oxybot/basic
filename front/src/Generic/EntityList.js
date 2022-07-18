@@ -11,9 +11,23 @@ function filtered(fields) {
   return fields.filter((i) => i.type !== "key");
 }
 
-export default function EntityList({ loading, definition, entities, baseTo = null, selectedId }) {
+export default function EntityList({ loading, definition, entities, baseTo = null, selectedId, filter }) {
   const navigate = useNavigate();
   const fields = filtered(definition?.fields);
+
+  const regex = new RegExp(`.{1,${filter}}`, "g");
+  console.log("1 " + regex);
+
+  var replace = "regex\\d";
+  var re = new RegExp(replace,"g");
+  console.log("2 " + re);
+
+  var essai = "mystring1".replace(re, "newstring");
+
+  console.log("3 " + replace);
+  console.log("4 " + essai);
+  console.log("----------------------");
+
 
   return (
     <div className="table-responsive">
@@ -34,7 +48,9 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
               <IconLoader /> Loading...
             </td>
           </tr>
-          {entities.map((entity) => (
+          {/* {entities.filter(e => Object.values(e).includes(filter)).map((entity) => ( */}
+          {entities.filter(e => Object.values(e).includes(/{filter}/g)).map((entity) => (
+          // {entities.map((entity) => (
             <tr
               key={entity.identifier}
               className={clsx({

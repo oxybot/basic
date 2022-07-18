@@ -75,6 +75,7 @@ export default function UserPageList({ definition, loading, elements, selectedId
                 entities={elements}
                 baseTo={""}
                 selectedId={selectedId}
+                filter={"fkarman"} 
               />
             </div>
           </div>
