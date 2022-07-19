@@ -2,7 +2,7 @@ import { IconPlus, IconSearch } from "@tabler/icons";
 import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";
 import { useInRole } from "../Authentication";
-import EntityList from "../Generic/EntityList";
+import EntityListForUsers from "../Generic/EntityListForUsers";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 
 export default function UserPageList({ definition, loading, elements, selectedId, texts, newRole = null }) {
@@ -69,13 +69,13 @@ export default function UserPageList({ definition, loading, elements, selectedId
           </div>
           <div className="page-body">
             <div className="card">
-              <EntityList
+              <EntityListForUsers
                 loading={loading}
                 definition={definition}
                 entities={elements}
                 baseTo={""}
                 selectedId={selectedId}
-                filter={"fkarman"} 
+                filter={""} 
               />
             </div>
           </div>

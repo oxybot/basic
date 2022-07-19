@@ -7,8 +7,6 @@ import MobilePageTitle from "../Generic/MobilePageTitle";
 import { refresh } from "./slice";
 
 
-// MakeLdapConnection
-
 export function UserNewLdap() {
 
     const dispatch = useDispatch();
