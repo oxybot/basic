@@ -311,12 +311,14 @@ th.required:after {
 }
 
 .picture {
-  max-width : 20%;
+  position: relative;
+  bottom: 15%; left: 0%;
+  max-width : 80%;
   height : auto;
 }
 
 .ldap-card {
-  padding: 0% 3%;
+  padding: 2% 3%;
   height: 180px;
 }
 

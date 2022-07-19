@@ -52,8 +52,7 @@ export default function EntityListForUsers({ loading, definition, entities, base
               <IconLoader /> Loading...
             </td>
           </tr>
-          {/* {entities.filter(e => Object.values(e).includes(filter)).map((entity) => ( */}
-          {/* {entities(e => Object.values(e).sort()).map((entity) => ( */}
+          {/* {entitiesSorted.filter(e => Object.values(e).includes(filter)).map((entity) => ( */}
           {entitiesSorted.map((entity) => ( 
             <tr
               key={entity.identifier}
