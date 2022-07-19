@@ -7,6 +7,8 @@ using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using SixLabors.ImageSharp;
+
 
 namespace Basic.WebApi.Controllers
 {
@@ -75,9 +77,8 @@ namespace Basic.WebApi.Controllers
             var usersFromDb = Context.Set<User>();
 
             ldapUsers.ListOfLdapUsers.ToList().ForEach(d => d.Importable =! usersFromDb.Any(sd => sd.Email.ToLower() == d.Email.ToLower()));
-
-
-            var imageString = ldapUsers.ListOfLdapUsers[0].Avatar;
+            
+            if(ldapUsers.ListOfLdapUsers.Count > 0){string imageString = ldapUsers.ListOfLdapUsers[0].Avatar;}
 
             return ldapUsers;
         }

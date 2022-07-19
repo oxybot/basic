@@ -66,7 +66,8 @@ namespace Basic.WebApi.Services
 
             try
             {
-                if (! this.Connection.Connected) {
+                if (! this.Connection.Connected) 
+                {
                     this.LdapConnect();
                 }
 
@@ -105,16 +106,13 @@ namespace Basic.WebApi.Services
                             user.Title = entry.GetAttributeAsString("description");
                             user.Avatar = entry.GetAttributeAsBase64("thumbnailPhoto");
                         }
-
                         if (counter < occurrencesToDisplay)
                         {
                             ldapUsersList.Add(user);
                         }
                         counter++;
                     }
-
                 }
-
                 ldapUsers.ListOfLdapUsers = ldapUsersList;
                 ldapUsers.OccurrencesNumber = counter;
 
