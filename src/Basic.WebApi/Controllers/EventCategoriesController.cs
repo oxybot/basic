@@ -33,7 +33,7 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <returns>The list of categories.</returns>
         [HttpGet]
-        [AuthorizeRoles(Role.TimeRO, Role.Time)]
+        [Authorize]
         [Produces("application/json")]
         public IEnumerable<EventCategoryForList> GetAll()
         {
