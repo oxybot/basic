@@ -42,7 +42,8 @@ namespace Basic.WebApi.Controllers
 
             return entities
                 .ToList()
-                .Select(e => Mapper.Map<EventForList>(e));
+                .Select(e => Mapper.Map<EventForList>(e))
+                .Reverse();
         }
 
         /// <summary>

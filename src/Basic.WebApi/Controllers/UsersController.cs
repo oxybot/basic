@@ -42,7 +42,7 @@ namespace Basic.WebApi.Controllers
         {
             return AddIncludesForList(Context.Set<User>())
                 .ToList()
-                .Select(e => Mapper.Map<UserForList>(e));
+                .Select(e => Mapper.Map<UserForList>(e)).OrderBy(o => o.UserName);
         }
 
         /// <summary>
