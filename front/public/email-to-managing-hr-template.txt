@@ -1,0 +1,13 @@
+/*
+to use a .txt as template
+<object data="file.txt"></object>
+*/
+
+Hello {{to_name}},
+
+You got a new event request from {{from_name}}:
+
+{{message}}
+
+Best wishes,
+Basic team.
