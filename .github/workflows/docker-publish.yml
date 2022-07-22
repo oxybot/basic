@@ -67,7 +67,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: src/Basic.WebApi/Dockerfile
+          file: {context}/src/Basic.WebApi/Dockerfile
           push: true
           tags: ${{ steps.api-meta.outputs.tags }}
           labels: ${{ steps.api-meta.outputs.labels }}
