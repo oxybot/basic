@@ -1,25 +1,20 @@
-const express = require('express')
-const proxyMiddleware = require('http-proxy-middleware')
-const MailDev = require('maildev')
-const app = express()
+// const MailDev = require('maildev')
 
-// some business with the existing app
+// const maildev = new MailDev({
+//   smtp: 1025 // incoming SMTP port - default is 1025
+// })
 
-// Define a route for the base path
-const maildev = new MailDev({
-  basePathname: '/maildev'
-})
+// maildev.listen(function(err) {
+//   console.log('We can now sent emails to port 1025!')
+// })
 
-// Maildev now running on localhost:1080/maildev
-maildev.listen(function (err) {
-  console.log('We can now sent emails to port 1025!')
-})
+// // Print new emails to the console as they come in
+// maildev.on('new', function(email){
+//   console.log('Received new email with subject: %s', email.subject)
+// })
 
-// proxy all maildev requests to the maildev app
-const proxy = proxyMiddleware('/maildev', {
-  target: `http://localhost:1080`,
-  ws: true,
-})
-
-// Maildev available at the specified route '/maildev'
-app.use(proxy)
+// // Get all emails
+// maildev.getAllEmail(function(err, emails){
+//   if (err) return console.log(err)
+//   console.log('There are %s emails', emails.length)
+// })

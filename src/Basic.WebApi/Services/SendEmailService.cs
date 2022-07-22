@@ -18,7 +18,7 @@ namespace Basic.WebApi.Services
         {
             MimeMessage message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Basic", "basic-no-reply@gmx.com"));
+            message.From.Add(new MailboxAddress("Basic", "system@incert.lu"));
             message.To.Add(new MailboxAddress("Kevin", "kgerber@incert.lu"));
 
             message.Body = new TextPart("plain")
@@ -29,20 +29,12 @@ namespace Basic.WebApi.Services
                     Basic Team"
             };
 
-            string emailAddress = "superpapajulien@gmail.com";
-            string password = "dpdnhepmqprflrmk";
-
             SmtpClient client = new SmtpClient();
 
             try
             {
                 Console.WriteLine("Try to connect");
-                client.Connect("smtp.gmail.com", 465, true);
-
-
-                Console.WriteLine("Try to authenticate");
-                client.Authenticate(emailAddress, password);
-
+                client.Connect("localhost", 1025, false);
 
                 Console.WriteLine("Try to send email");
                 client.Send(message);
@@ -68,23 +60,24 @@ namespace Basic.WebApi.Services
             MimeMessage message = new MimeMessage();
 
             message.From.Add(new MailboxAddress("Basic", "basic-no-reply@gmx.com"));
-            message.To.Add(new MailboxAddress("Kevin", to));
+            message.To.Add(new MailboxAddress("User", to));
 
             message.Body = new TextPart("plain") // or "html"
             {
                 Text = emailContent
             };
 
-            string emailAddress = "superpapajulien@gmail.com";
-            string password = "dpdnhepmqprflrmk";
-
             SmtpClient client = new SmtpClient();
 
             try
             {
-                client.Connect("smtp.gmail.com", 465, true);
-                client.Authenticate(emailAddress, password);
+                Console.WriteLine("Try to connect");
+                client.Connect("localhost", 1025, false);
+
+                Console.WriteLine("Try to send email");
                 client.Send(message);
+
+                Console.WriteLine("Success");
             }
             catch (Exception e)
             {
@@ -95,6 +88,7 @@ namespace Basic.WebApi.Services
                 client.Disconnect(true);
                 client.Dispose();
             }
+            Console.WriteLine("Over");
         }
     }
 }

@@ -7,9 +7,6 @@ using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using SixLabors.ImageSharp;
-
-
 namespace Basic.WebApi.Controllers
 {
     /// <summary>
@@ -80,9 +77,10 @@ namespace Basic.WebApi.Controllers
             
             if(ldapUsers.ListOfLdapUsers.Count > 0){string imageString = ldapUsers.ListOfLdapUsers[0].Avatar;}
 
+            // email sending test:
+            // SendEmailService.EmailSendingTest();
             return ldapUsers;
         }
-
 
         /// <summary>
         /// Creates a new user.
