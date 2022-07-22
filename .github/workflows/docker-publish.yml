@@ -1,0 +1,59 @@
+# Based on: https://docs.github.com/en/actions/publishing-packages/publishing-docker-images
+
+name: Publish as Docker images
+
+on:
+  push:
+    branches: ['main']
+
+env:
+  REGISTRY: ghcr.io
+  FRONT_IMAGE_NAME: ghcr.io/${{ github.repository }}/front
+  API_IMAGE_NAME: ghcr.io/${{ github.repository }}/api
+
+jobs:
+  front:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build the Docker image
+        run: docker build front --tag ${{ env.FRONT_IMAGE_NAME}}:latest
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        run: docker push ${{env.FRONT_IMAGE_NAME}}:latest
+
+  api:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build the Docker image
+        run: docker build src --file src/Basic.WebApi/Dockerfile --tag ${{ env.API_IMAGE_NAME}}:latest
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        run: docker push ${{env.API_IMAGE_NAME}}:latest
