@@ -1,6 +1,6 @@
 Hello {0},
 
-Your request has changed status:
+Your request status has changed:
 
 {1}
 

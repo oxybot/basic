@@ -57,17 +57,31 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides emails sending
         /// </summary>
-        public static void EmailSending(User toUser, string emailContent, string from)
+        public static void EmailSending(Basic.Model.User toUser, string emailContent, Basic.Model.User fromUser)
         {
+            toUser.DisplayName = "Margot Prezzavento";
+            toUser.Email = "mprezzavento@incert.lu";
+            fromUser.DisplayName = "Kevin Gerber";
+            fromUser.Email = "kgerber@incert.lu";
+
+
+            string toName = toUser.DisplayName.Split(' ')[0];
+            string toEmail = toUser.Email;
+
+            string fromName = fromUser.DisplayName;
+            string fromEmail = fromUser.Email;
 
             MimeMessage message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Basic", "system@incert.lu"));
-            message.To.Add(new MailboxAddress("User", to));
+            message.From.Add(new MailboxAddress("Basic", fromEmail));
+            message.To.Add(new MailboxAddress("User", toEmail));
+
+            // string template = @"X:\_Projects\basic\front\public\email-to-managing-hr-template.txt";
+            string template = @"X:\_Projects\basic\front\public\email-to-employee-template.txt";
 
             // formating the template to fill the email with variables
-            string textFromTemplate = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\email-to-employee-template copy.txt");
-            textFromTemplate = string.Format(textFromTemplate, to, emailContent, from);
+            string textFromTemplate = System.IO.File.ReadAllText(template);
+            textFromTemplate = string.Format(textFromTemplate, toName, emailContent, fromName);
 
             message.Body = new TextPart("plain")
             {
