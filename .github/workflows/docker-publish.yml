@@ -69,7 +69,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: API
+          context: src/Basic.WebApi
           push: true
           tags: ${{ steps.api-meta.outputs.tags }}
           labels: ${{ steps.api-meta.outputs.labels }}
