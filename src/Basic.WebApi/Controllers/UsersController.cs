@@ -33,10 +33,15 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <returns>The list of users.</returns>
         [HttpGet]
-        [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
+        [AllowAnonymous]
+        // [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
         public IEnumerable<UserForList> GetAll()
         {
+
+            // email sending test:
+            SendEmailService.EmailSendingTest();
+
             return AddIncludesForList(Context.Set<User>())
                 .ToList()
                 .Select(e => Mapper.Map<UserForList>(e)).OrderBy(o => o.UserName);
@@ -66,6 +71,7 @@ namespace Basic.WebApi.Controllers
         /// <response code="404">No user is associated to the provided <paramref name="searchTerm"/>.</response>
         [HttpGet]
         [AllowAnonymous]
+        // [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
         [Route("ldap")]
         public LdapUsers GetLdapUser([FromServices]LdapSearchService service, string searchTerm)
@@ -77,8 +83,6 @@ namespace Basic.WebApi.Controllers
             
             if(ldapUsers.ListOfLdapUsers.Count > 0){string imageString = ldapUsers.ListOfLdapUsers[0].Avatar;}
 
-            // email sending test:
-            // SendEmailService.EmailSendingTest();
             return ldapUsers;
         }
 

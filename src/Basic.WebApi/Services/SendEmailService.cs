@@ -2,6 +2,7 @@ using System;
 using MailKit.Net.Smtp;
 using MailKit;
 using MimeKit;
+using Basic.WebApi.Models;
 
 
 namespace Basic.WebApi.Services
@@ -20,13 +21,14 @@ namespace Basic.WebApi.Services
 
             message.From.Add(new MailboxAddress("Basic", "system@incert.lu"));
             message.To.Add(new MailboxAddress("Kevin", "kgerber@incert.lu"));
+            
+            // formating the template to fill the email with variables
+            string textFromTemplate = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\email-to-employee-template copy.txt");
+            textFromTemplate = string.Format(textFromTemplate, 12, 13);
 
             message.Body = new TextPart("plain")
             {
-                Text = @"Email content:
-                
-                    Bests,
-                    Basic Team"
+                Text = textFromTemplate
             };
 
             SmtpClient client = new SmtpClient();
@@ -55,16 +57,21 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides emails sending
         /// </summary>
-        public static void EmailSending(string from, string to, string emailContent)
+        public static void EmailSending(User toUser, string emailContent, string from)
         {
+
             MimeMessage message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Basic", "basic-no-reply@gmx.com"));
+            message.From.Add(new MailboxAddress("Basic", "system@incert.lu"));
             message.To.Add(new MailboxAddress("User", to));
 
-            message.Body = new TextPart("plain") // or "html"
+            // formating the template to fill the email with variables
+            string textFromTemplate = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\email-to-employee-template copy.txt");
+            textFromTemplate = string.Format(textFromTemplate, to, emailContent, from);
+
+            message.Body = new TextPart("plain")
             {
-                Text = emailContent
+                Text = textFromTemplate
             };
 
             SmtpClient client = new SmtpClient();
