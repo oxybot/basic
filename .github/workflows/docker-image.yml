@@ -12,4 +12,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build front --file Dockerfile --tag basic/front:$(date +%s)
+      run: docker build front --tag basic/front:$(date +%s)
