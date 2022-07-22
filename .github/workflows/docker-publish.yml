@@ -8,8 +8,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  FRONT_IMAGE_NAME: ${{ env.REGISTRY }}/${{ github.repository }}/front
-  API_IMAGE_NAME: ${{ env.REGISTRY }}/${{ github.repository }}/api
+  FRONT_IMAGE_NAME: ghcr.io/${{ github.repository }}/front
+  API_IMAGE_NAME: ghcr.io/${{ github.repository }}/api
 
 jobs:
   front:
