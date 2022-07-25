@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using Basic.WebApi.Services;
+
 namespace Basic.WebApi.Controllers
 {
     /// <summary>
@@ -146,6 +148,9 @@ namespace Basic.WebApi.Controllers
             var status = new EventStatus() { Status = to, UpdatedBy = user, UpdatedOn = DateTime.UtcNow };
             entity.Statuses.Add(status);
             Context.SaveChanges();
+
+            // SendEmailService.EmailSendingToEmployee();
+            // ICI Email a envoyer a l'auteur de l'event
 
             return Mapper.Map<EntityReference>(status);
         }

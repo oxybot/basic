@@ -1,5 +1,6 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
+using Basic.Model;
 
 namespace Basic.WebApi.DTOs
 {
@@ -14,7 +15,7 @@ namespace Basic.WebApi.DTOs
         [Required]
         [Display(Name = "User")]
         [SwaggerSchema(Format = "ref/user")]
-        public Guid? UserIdentifier { get; set; }
+        public Guid UserIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the associated category.
@@ -61,5 +62,10 @@ namespace Basic.WebApi.DTOs
         [Required]
         [SwaggerSchema(Format = "hours")]
         public decimal? DurationTotal { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the list of the attachments.
+        /// </summary>
+        public List<TypedFile> Attachments { get; set; }
     }
 }

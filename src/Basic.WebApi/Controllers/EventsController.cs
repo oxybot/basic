@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using Basic.WebApi.Services;
+
+
 namespace Basic.WebApi.Controllers
 {
     /// <summary>
@@ -72,6 +75,21 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public override EventForList Post(EventForEdit @event)
         {
+            // try
+            // {
+            var usersFromDb = Context.Set<User>();
+            User user = usersFromDb.ToList().Find(u => u.Identifier == @event.UserIdentifier);
+
+            var categories = Context.Set<EventCategory>();
+            EventCategory category = categories.ToList().Find(c => c.Identifier == @event.CategoryIdentifier);
+
+            SendEmailService.EmailSendingToManagers(category, user, @event);
+            // }
+            // catch (ArgumentException e) when (user == null || category == null)
+            // {
+            //     Console.WriteLine(e);
+            // }
+
             return base.Post(@event);
         }
 
@@ -133,7 +151,7 @@ namespace Basic.WebApi.Controllers
                 .Include(c => c.User)
                 .Include(c => c.Category)
                 .Include(c => c.Statuses)
-                    .ThenInclude(s => s.Status);
+                .ThenInclude(s => s.Status);
         }
 
         /// <summary>
@@ -147,7 +165,7 @@ namespace Basic.WebApi.Controllers
                 .Include(c => c.User)
                 .Include(c => c.Category)
                 .Include(c => c.Statuses)
-                    .ThenInclude(s => s.Status);
+                .ThenInclude(s => s.Status);
         }
     }
 }

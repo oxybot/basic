@@ -39,8 +39,8 @@ namespace Basic.WebApi.Controllers
         public IEnumerable<UserForList> GetAll()
         {
 
-            // email sending test:
-            SendEmailService.EmailSendingTest();
+            // ICI email sending test:
+            // SendEmailService.EmailSendingToEmployee(new UserForView(), "kqsdmfj", new UserForView());
 
             return AddIncludesForList(Context.Set<User>())
                 .ToList()
@@ -54,7 +54,8 @@ namespace Basic.WebApi.Controllers
         /// <returns>The detailed data about the user identified by <paramref name="identifier"/>.</returns>
         /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
         [HttpGet]
-        [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
+        [AllowAnonymous]
+        // [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override UserForView GetOne(Guid identifier)
