@@ -1,4 +1,4 @@
-Hello {0},
+Hello management team,
 
 You got a new event request from {2}:
 

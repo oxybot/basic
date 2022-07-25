@@ -75,20 +75,23 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public override EventForList Post(EventForEdit @event)
         {
-            // try
-            // {
             var usersFromDb = Context.Set<User>();
             User user = usersFromDb.ToList().Find(u => u.Identifier == @event.UserIdentifier);
 
+            if (user == null)
+            {
+                ModelState.AddModelError("User", "The User is invalid");
+            }
+
             var categories = Context.Set<EventCategory>();
             EventCategory category = categories.ToList().Find(c => c.Identifier == @event.CategoryIdentifier);
+            
+            if (category == null)
+            {
+                ModelState.AddModelError("Category", "The event category is invalid");
+            }
 
             SendEmailService.EmailSendingToManagers(category, user, @event);
-            // }
-            // catch (ArgumentException e) when (user == null || category == null)
-            // {
-            //     Console.WriteLine(e);
-            // }
 
             return base.Post(@event);
         }

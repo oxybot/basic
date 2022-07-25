@@ -59,13 +59,17 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides emails sending to employee
         /// </summary>
-        public static void EmailSendingToEmployee(Basic.WebApi.DTOs.UserForView toUser, string emailContent, Basic.WebApi.DTOs.UserForView fromUser)
+        public static void EmailSendingToEmployee(User fromUser, User toUser)
         {
             toUser.DisplayName = "Margot Prezzavento";
             toUser.Email = "mprezzavento@incert.lu";
             fromUser.DisplayName = "Kevin Gerber";
             fromUser.Email = "kgerber@incert.lu";
 
+            string fromDate = @event.StartDate.ToString();
+            string toDate =  @event.EndDate.ToString();
+            string status = "jmkùmj";
+            string emailContent = $"Your request from {fromDate}, to {toDate} has been {status}.";
 
             string toName = toUser.DisplayName.Split(' ')[0];
             string toEmail = toUser.Email;
@@ -114,14 +118,13 @@ namespace Basic.WebApi.Services
         }
 
         /// <summary>
-        /// Provides emails sending to managment
+        /// Provides emails sending to managment team
         /// </summary>
         public static void EmailSendingToManagers(EventCategory category, User fromUser, EventForEdit @event)
         {
-            // Get the managers emails
+            // Get the managers emails list
             string managersEmails = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\managers-emails.txt");
             string[] managersEmailsList = managersEmails.Split(' ');
-            string toName = "management team";
 
             // set up the string variables to display
             string fromDate = @event.StartDate.ToString();
@@ -130,9 +133,11 @@ namespace Basic.WebApi.Services
             string emailContent = $"{displayCategory} request from {fromDate}, to {toDate}.";
             string fromName = fromUser.DisplayName;
 
+            // message creation
             MimeMessage message = new MimeMessage();
 
             message.From.Add(new MailboxAddress("Basic", "system.basic@incert.lu"));
+            // for loop to add multiple recevers
             foreach(string manager in managersEmailsList)
             {
                 message.To.Add(new MailboxAddress("Management team", manager));
@@ -142,7 +147,7 @@ namespace Basic.WebApi.Services
 
             // formating the template to fill the email with variables
             string textFromTemplate = System.IO.File.ReadAllText(template);
-            textFromTemplate = string.Format(textFromTemplate, toName, emailContent, fromName);
+            textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
 
             message.Body = new TextPart("plain")
             {
