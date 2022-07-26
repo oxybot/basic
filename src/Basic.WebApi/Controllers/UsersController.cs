@@ -38,10 +38,6 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<UserForList> GetAll()
         {
-
-            // ICI email sending test:
-            // EmailService.EmailSendingToEmployee(new UserForView(), "kqsdmfj", new UserForView());
-
             return AddIncludesForList(Context.Set<User>())
                 .ToList()
                 .Select(e => Mapper.Map<UserForList>(e)).OrderBy(o => o.UserName);

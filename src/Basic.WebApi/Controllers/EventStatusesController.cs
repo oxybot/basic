@@ -148,11 +148,10 @@ namespace Basic.WebApi.Controllers
             var status = new EventStatus() { Status = to, UpdatedBy = user, UpdatedOn = DateTime.UtcNow };
             entity.Statuses.Add(status);
             Context.SaveChanges();
+//////////////////////////////////////////:
 
-            // Email a envoyer a l'auteur de l'event
-            
-            // EmailService.EmailSendingToEmployee();
-
+            EmailService.EmailToEmployee(user,entity, from, to);
+//////////////////////////////////////////
             return Mapper.Map<EntityReference>(status);
         }
     }

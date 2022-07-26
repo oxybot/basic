@@ -62,32 +62,23 @@ namespace Basic.WebApi.Services
         }
 
         /// <summary>
-        /// Provides emails sending to employee
+        /// Provides email to send to employee
         /// </summary>
-        public static void EmailSendingToEmployee(User fromUser, User toUser)
+        public static void EmailToEmployee(User manager, Event @event, Status from, Status to)
         {
-            toUser.DisplayName = "Margot Prezzavento";
-            toUser.Email = "mprezzavento@incert.lu";
-            fromUser.DisplayName = "Kevin Gerber";
-            fromUser.Email = "kgerber@incert.lu";
+            string toName = @event.User.DisplayName.Split(' ')[0];
+            string toEmail = @event.User.Email;
 
-            // string fromDate = @event.StartDate.ToString();
-            // string toDate =  @event.EndDate.ToString();
-            string fromDate = "date 1";
-            string toDate =  "date 2";
-            string status = "jmkùmj";
-            string emailContent = $"Your request from {fromDate}, to {toDate} has been {status}.";
+            // to delete if not used
+            string fromName = manager.DisplayName;
+            string fromEmail = manager.Email;
 
-            string toName = toUser.DisplayName.Split(' ')[0];
-            string toEmail = toUser.Email;
-
-            string fromName = fromUser.DisplayName;
-            string fromEmail = fromUser.Email;
+            string emailContent = $"The status of your request from {@event.StartDate} to {@event.EndDate}, has been modified from {from.DisplayName} to {to.DisplayName}.";
 
             MimeMessage message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Basic", fromEmail));
-            message.To.Add(new MailboxAddress("User", toEmail));
+            message.From.Add(new MailboxAddress("Basic", "system.basic@incert.lu"));            
+            message.To.Add(new MailboxAddress(toName, toEmail));
 
             string template = @"X:\_Projects\basic\front\public\email-to-employee-template.txt";
 
@@ -100,38 +91,21 @@ namespace Basic.WebApi.Services
                 Text = textFromTemplate
             };
 
-            SmtpClient client = new SmtpClient();
-
-            try
-            {
-                Console.WriteLine("Try to connect");
-                client.Connect("localhost", 1025, false);
-
-                Console.WriteLine("Try to send email");
-                client.Send(message);
-
-                Console.WriteLine("Success");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("error: " + e.Message);
-            }
-            finally
-            {
-                client.Disconnect(true);
-                client.Dispose();
-            }
-            Console.WriteLine("Over");
+            EmailSending(message);
         }
 
         /// <summary>
-        /// Provides emails sending to managment team
+        /// Provides email to send managment team
         /// </summary>
-        public static void EmailSendingToManagers(EventCategory category, User fromUser, Event @event)
+        public static void EmailToManagers(EventCategory category, User fromUser, Event @event)
         {
             // Get the managers emails list
             string managersEmails = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\managers-emails.txt");
             string[] managersEmailsList = managersEmails.Split(' ');
+            
+            /* Methode de Mohamed à essayer
+            var test = @event as Event;
+            */
 
             // set up the string variables to display
             string fromDate = @event.StartDate.ToString();
@@ -161,17 +135,24 @@ namespace Basic.WebApi.Services
                 Text = textFromTemplate
             };
 
+            EmailSending(message);
+        }
+
+        /// <summary>
+        /// Provides emails sending
+        /// </summary>
+        public static void EmailSending(MimeMessage message)
+        {
             SmtpClient client = new SmtpClient();
-            /*
-            // get the email server configuration
+/*
+            // provide a email server configuration
             var emailServer = Configuration.GetRequiredSection("EmailServer");
             string host = emailServer.GetValue<string>("host");
             int port = emailServer.GetValue<int>("port");
             bool ssl = emailServer.GetValue<bool>("SSL");
-           */ 
+*/
             try
             {
-
                 Console.WriteLine("Try to connect");
                 client.Connect("localhost", 1025, false);
 

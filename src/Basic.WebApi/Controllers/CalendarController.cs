@@ -176,8 +176,8 @@ namespace Basic.WebApi.Controllers
                 ModelState.AddModelError("Category", "The event category is invalid");
             }
 
-            // Email sending as a notification when a event is created
-            EmailService.EmailSendingToManagers(category, userRequest, model);
+            // Send an email as a notification when an event is created
+            EmailService.EmailToManagers(category, userRequest, model);
 
             Context.Set<Event>().Add(model);
             Context.SaveChanges();

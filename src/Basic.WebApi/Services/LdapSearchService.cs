@@ -94,11 +94,6 @@ namespace Basic.WebApi.Services
 
                         while (ienum.MoveNext())
                         {
-                            // LdapAttribute attribute = (LdapAttribute)ienum.Current;
-                            // String attributeName = attribute.Name;
-                            // String attributeVal = attribute.StringValue;
-                            // Console.WriteLine(attributeName + " value: " + attributeVal);
-
                             user.DisplayName = entry.GetAttributeAsString("givenName") + " " + entry.GetAttributeAsString("sn");
                             if (entry.GetAttributeAsString("mail") == null) { user.Email = "-"; }
                             else { user.Email = entry.GetAttributeAsString("mail"); }
