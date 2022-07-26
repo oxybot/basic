@@ -170,7 +170,7 @@ namespace Basic.WebApi.Controllers
 
             var categories = Context.Set<EventCategory>();
             EventCategory category = model.Category;
-            
+
             if (category == null)
             {
                 ModelState.AddModelError("Category", "The event category is invalid");
