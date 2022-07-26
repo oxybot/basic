@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Basic.WebApi.Services;
 
 namespace Basic.WebApi.Controllers
 {
@@ -158,6 +159,25 @@ namespace Basic.WebApi.Controllers
                 UpdatedOn = DateTime.UtcNow,
                 UpdatedBy = user
             });
+
+            var usersFromDb = Context.Set<User>();
+            User userRequest = model.User;
+
+            if (userRequest == null)
+            {
+                ModelState.AddModelError("User", "The User is invalid");
+            }
+
+            var categories = Context.Set<EventCategory>();
+            EventCategory category = model.Category;
+            
+            if (category == null)
+            {
+                ModelState.AddModelError("Category", "The event category is invalid");
+            }
+
+            // Email sending as a notification when a event is created
+            EmailService.EmailSendingToManagers(category, userRequest, model);
 
             Context.Set<Event>().Add(model);
             Context.SaveChanges();

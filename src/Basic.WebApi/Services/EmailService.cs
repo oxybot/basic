@@ -127,7 +127,7 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides emails sending to managment team
         /// </summary>
-        public static void EmailSendingToManagers(EventCategory category, User fromUser, EventForEdit @event)
+        public static void EmailSendingToManagers(EventCategory category, User fromUser, Event @event)
         {
             // Get the managers emails list
             string managersEmails = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\managers-emails.txt");
@@ -154,7 +154,7 @@ namespace Basic.WebApi.Services
 
             // formating the template to fill the email with variables
             string textFromTemplate = System.IO.File.ReadAllText(templateLink);
-            string testTextFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
+            textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
 
             message.Body = new TextPart("plain")
             {
@@ -162,18 +162,18 @@ namespace Basic.WebApi.Services
             };
 
             SmtpClient client = new SmtpClient();
-
+            /*
             // get the email server configuration
             var emailServer = Configuration.GetRequiredSection("EmailServer");
             string host = emailServer.GetValue<string>("host");
             int port = emailServer.GetValue<int>("port");
             bool ssl = emailServer.GetValue<bool>("SSL");
-            
+           */ 
             try
             {
 
                 Console.WriteLine("Try to connect");
-                client.Connect(host, port, ssl);
+                client.Connect("localhost", 1025, false);
 
                 Console.WriteLine("Try to send email");
                 client.Send(message);

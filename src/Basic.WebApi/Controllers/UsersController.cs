@@ -67,6 +67,7 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves a specific user.
         /// </summary>
+        /// <param name="service"></param>
         /// <param name="searchTerm">The identifier of the user.</param>
         /// <returns>The detailed data about the user identified by <paramref name="searchTerm"/>.</returns>
         /// <response code="404">No user is associated to the provided <paramref name="searchTerm"/>.</response>

@@ -6,7 +6,6 @@ using Basic.WebApi.Framework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using Basic.WebApi.Services;
 
 
@@ -75,6 +74,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public override EventForList Post(EventForEdit @event)
         {
+            
             var usersFromDb = Context.Set<User>();
             User user = usersFromDb.ToList().Find(u => u.Identifier == @event.UserIdentifier);
 
@@ -90,9 +90,20 @@ namespace Basic.WebApi.Controllers
             {
                 ModelState.AddModelError("Category", "The event category is invalid");
             }
+
+            Event model = new Event()
+            {
+                User = user,
+                Category = category,
+                Comment = @event.Comment,
+                StartDate = @event.StartDate.Value,
+                EndDate = @event.EndDate.Value,
+                DurationFirstDay = @event.DurationFirstDay ?? 8m,
+                DurationLastDay = @event.DurationLastDay ?? 8m,
+            };
             
             // Email sending as a notification when a event is created
-            EmailService.EmailSendingToManagers(category, user, @event);
+            EmailService.EmailSendingToManagers(category, user, model);
 
             return base.Post(@event);
         }
