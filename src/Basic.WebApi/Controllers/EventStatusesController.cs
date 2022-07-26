@@ -151,7 +151,7 @@ namespace Basic.WebApi.Controllers
 
             // Email a envoyer a l'auteur de l'event
             
-            // SendEmailService.EmailSendingToEmployee();
+            // EmailService.EmailSendingToEmployee();
 
             return Mapper.Map<EntityReference>(status);
         }

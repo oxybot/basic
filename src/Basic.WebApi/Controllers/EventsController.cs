@@ -92,7 +92,7 @@ namespace Basic.WebApi.Controllers
             }
             
             // Email sending as a notification when a event is created
-            SendEmailService.EmailSendingToManagers(category, user, @event);
+            EmailService.EmailSendingToManagers(category, user, @event);
 
             return base.Post(@event);
         }

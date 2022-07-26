@@ -10,10 +10,15 @@ using Basic.Model;
 namespace Basic.WebApi.Services
 {
     /// <summary>
-    /// Provides emails services
+    /// Provides email services
     /// </summary>
-    public static class SendEmailService
+    public static class EmailService
     {
+        /// <summary>
+        /// Provides a configuration for the email server.
+        /// </summary>
+        public static IConfiguration Configuration { get; }
+
         /// <summary>
         /// Provides emails sending test
         /// </summary>
@@ -145,11 +150,11 @@ namespace Basic.WebApi.Services
                 message.To.Add(new MailboxAddress("Management team", manager));
             }
 
-            string template = @"X:\_Projects\basic\front\public\email-to-managing-hr-template.txt";
+            string templateLink = @"X:\_Projects\basic\front\public\email-to-managing-hr-template.txt";
 
             // formating the template to fill the email with variables
-            string textFromTemplate = System.IO.File.ReadAllText(template);
-            textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
+            string textFromTemplate = System.IO.File.ReadAllText(templateLink);
+            string testTextFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
 
             message.Body = new TextPart("plain")
             {
@@ -158,11 +163,17 @@ namespace Basic.WebApi.Services
 
             SmtpClient client = new SmtpClient();
 
-            // Send email
+            // get the email server configuration
+            var emailServer = Configuration.GetRequiredSection("EmailServer");
+            string host = emailServer.GetValue<string>("host");
+            int port = emailServer.GetValue<int>("port");
+            bool ssl = emailServer.GetValue<bool>("SSL");
+            
             try
             {
+
                 Console.WriteLine("Try to connect");
-                client.Connect("localhost", 1025, false);
+                client.Connect(host, port, ssl);
 
                 Console.WriteLine("Try to send email");
                 client.Send(message);

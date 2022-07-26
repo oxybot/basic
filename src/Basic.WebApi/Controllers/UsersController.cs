@@ -40,7 +40,7 @@ namespace Basic.WebApi.Controllers
         {
 
             // ICI email sending test:
-            // SendEmailService.EmailSendingToEmployee(new UserForView(), "kqsdmfj", new UserForView());
+            // EmailService.EmailSendingToEmployee(new UserForView(), "kqsdmfj", new UserForView());
 
             return AddIncludesForList(Context.Set<User>())
                 .ToList()
