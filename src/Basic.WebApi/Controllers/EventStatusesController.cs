@@ -149,8 +149,9 @@ namespace Basic.WebApi.Controllers
             entity.Statuses.Add(status);
             Context.SaveChanges();
 
+            // Email a envoyer a l'auteur de l'event
+            
             // SendEmailService.EmailSendingToEmployee();
-            // ICI Email a envoyer a l'auteur de l'event
 
             return Mapper.Map<EntityReference>(status);
         }

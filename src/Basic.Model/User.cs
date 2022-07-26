@@ -81,5 +81,10 @@ namespace Basic.Model
         /// Gets the associated working schedules.
         /// </summary>
         public virtual ICollection<Schedule> Schedules { get; }
+/*
+        /// <summary>
+        /// Gets or sets the attachments of the user.
+        /// </summary>
+        public List<TypedFile> Attachments { get; set; }*/
     }
 }

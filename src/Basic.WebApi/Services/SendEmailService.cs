@@ -66,8 +66,10 @@ namespace Basic.WebApi.Services
             fromUser.DisplayName = "Kevin Gerber";
             fromUser.Email = "kgerber@incert.lu";
 
-            string fromDate = @event.StartDate.ToString();
-            string toDate =  @event.EndDate.ToString();
+            // string fromDate = @event.StartDate.ToString();
+            // string toDate =  @event.EndDate.ToString();
+            string fromDate = "date 1";
+            string toDate =  "date 2";
             string status = "jmkùmj";
             string emailContent = $"Your request from {fromDate}, to {toDate} has been {status}.";
 

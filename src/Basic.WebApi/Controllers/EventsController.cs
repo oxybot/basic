@@ -90,7 +90,8 @@ namespace Basic.WebApi.Controllers
             {
                 ModelState.AddModelError("Category", "The event category is invalid");
             }
-
+            
+            // Email sending as a notification when a event is created
             SendEmailService.EmailSendingToManagers(category, user, @event);
 
             return base.Post(@event);

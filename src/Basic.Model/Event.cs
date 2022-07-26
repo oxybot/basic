@@ -77,5 +77,10 @@ namespace Basic.Model
         /// </summary>
         [Required]
         public decimal DurationTotal { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of the attachments.
+        /// </summary>
+        // public List<TypedFile> Attachments { get; set; }
     }
 }

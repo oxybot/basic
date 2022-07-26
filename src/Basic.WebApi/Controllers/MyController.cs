@@ -204,43 +204,34 @@ namespace Basic.WebApi.Controllers
 
             // return Mapper.Map<UserForList>(user);
         }
-        // FAIRE UN MIX DES DEUX
-        // public UserForView UpdateUser(UserForEdit user)
-        // {
-        //     var model = this.GetConnectedUser();
-        //     Mapper.Map(user, model);
-        //     if (!ModelState.IsValid)
-        //     {
-        //         throw new InvalidModelStateException(ModelState);
-        //     }
+/*
+        /// <summary>
+        /// Get the list of attachments of the user.
+        /// </summary>
+        [HttpGet]
+        [AllowAnonymous]
+        [Produces("application/json")]
+        [Route("attachments")]
+        public List<TypedFile> GetAttachments()
+        {
+            var user = this.GetConnectedUser();
 
-        //     Context.SaveChanges();
+            return user.Attachments;
+        }
+        
+        /// <summary>
+        /// Adding an new attachment to the attachment list of the user.
+        /// </summary>
+        /// <param name="attachment">The TypedFile you want to add to the Attachment list.</param>
+        [HttpPost]
+        [AllowAnonymous]
+        [Produces("application/json")]
+        [Route("attachments")]
+        public void AddAttachment(TypedFile attachment)
+        {
+            var user = this.GetConnectedUser();
 
-        //     return Mapper.Map<UserForView>(model);
-        // }
-
-        // public UserForList UpdatePassword(Guid identifier, PasswordForEdit password)
-        // {
-        //     if (password is null)
-        //     {
-        //         throw new ArgumentNullException(nameof(password));
-        //     }
-
-        //     var user = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == identifier);
-        //     if (user == null)
-        //     {
-        //         throw new NotFoundException("No user identified by " + identifier);
-        //     }
-
-        //     user.ChangePassword(password.NewPassword);
-        //     this.Context.SaveChanges();
-
-        //     return Mapper.Map<UserForList>(user);
-        // }
-
+            user.Attachments.Add(attachment);
+}*/
     }
 }
-
-// default :
-// UserForEdit user
-// PasswordForEdit password'
