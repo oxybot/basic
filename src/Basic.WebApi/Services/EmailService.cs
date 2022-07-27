@@ -1,11 +1,6 @@
-using System;
-using MailKit.Net.Smtp;
-using MailKit;
-using MimeKit;
-using Basic.WebApi.Models;
-using Basic.WebApi.DTOs;
-using Basic.WebApi.Controllers;
 using Basic.Model;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace Basic.WebApi.Services
 {
@@ -71,12 +66,10 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides email to send to employee
         /// </summary>
-        public  void EmailToEmployee(User manager, Event @event, Status from, Status to)
+        public  void EmailToEmployee(User manager, User user, Event @event, Status from, Status to)
         {
-            //string toName = @event.User.DisplayName.Split(' ')[0];
-            //string toEmail = @event.User.Email;
-            string toName = "Marilyn";
-            string toEmail = "mhurlin@incert.lu";
+            string toName = user.DisplayName.Split(' ')[0];
+            string toEmail = user.Email;
 
             // to delete if not used
             string fromName = manager.DisplayName;

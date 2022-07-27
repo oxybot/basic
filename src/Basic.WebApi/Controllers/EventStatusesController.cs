@@ -146,15 +146,16 @@ namespace Basic.WebApi.Controllers
             var user = this.GetConnectedUser();
             var status = new EventStatus() { Status = to, UpdatedBy = user, UpdatedOn = DateTime.UtcNow };
             entity.Statuses.Add(status);
-            Context.SaveChanges();
-//////////////////////////////////////////            
+            Context.SaveChanges();      
 
-// ICI je dois recuperer l'event en fonction de 'eventId' puis le mettre à la place entity
-            var requestsFromDb = Context.Set<Event>();
-   
+            var usersFromDb = Context.Set<User>();
+            var eventsFromDb = Context.Set<Event>();
 
-            service.EmailToEmployee(user,entity, from, to);
-//////////////////////////////////////////
+            Event @event = eventsFromDb.ToList().Find(e => e.Identifier == eventId);
+            User eventUser = usersFromDb.ToList().Find(u => u.Identifier == @event.User.Identifier);
+
+            service.EmailToEmployee(user,eventUser, entity, from, to);
+
             return Mapper.Map<EntityReference>(status);
         }
     }
