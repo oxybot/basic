@@ -12,17 +12,24 @@ namespace Basic.WebApi.Services
     /// <summary>
     /// Provides email services
     /// </summary>
-    public static class EmailService
+    public class EmailService
     {
+        /// <summary>
+        /// Email service constructor
+        /// </summary>
+        public EmailService(IConfiguration configuration) 
+        {
+                  this.Configuration = configuration;
+        }
         /// <summary>
         /// Provides a configuration for the email server.
         /// </summary>
-        public static IConfiguration Configuration { get; }
+        public  IConfiguration Configuration { get; }
 
         /// <summary>
         /// Provides emails sending test
         /// </summary>
-        public static void EmailSendingTest()
+        public  void EmailSendingTest()
         {
             MimeMessage message = new MimeMessage();
 
@@ -64,10 +71,12 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides email to send to employee
         /// </summary>
-        public static void EmailToEmployee(User manager, Event @event, Status from, Status to)
+        public  void EmailToEmployee(User manager, Event @event, Status from, Status to)
         {
-            string toName = @event.User.DisplayName.Split(' ')[0];
-            string toEmail = @event.User.Email;
+            //string toName = @event.User.DisplayName.Split(' ')[0];
+            //string toEmail = @event.User.Email;
+            string toName = "Marilyn";
+            string toEmail = "mhurlin@incert.lu";
 
             // to delete if not used
             string fromName = manager.DisplayName;
@@ -95,9 +104,9 @@ namespace Basic.WebApi.Services
         }
 
         /// <summary>
-        /// Provides email to send managment team
+        /// Provides email to send to managment team
         /// </summary>
-        public static void EmailToManagers(EventCategory category, User fromUser, Event @event)
+        public void EmailToManagers(EventCategory category, User fromUser, Event @event)
         {
             // Get the managers emails list
             string managersEmails = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\managers-emails.txt");
@@ -118,7 +127,7 @@ namespace Basic.WebApi.Services
             MimeMessage message = new MimeMessage();
 
             message.From.Add(new MailboxAddress("Basic", "system.basic@incert.lu"));
-            // for loop to add multiple recevers
+            // for loop to add multiple receivers
             foreach(string manager in managersEmailsList)
             {
                 message.To.Add(new MailboxAddress("Management team", manager));
@@ -141,20 +150,20 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides emails sending
         /// </summary>
-        public static void EmailSending(MimeMessage message)
+        public  void EmailSending(MimeMessage message)
         {
             SmtpClient client = new SmtpClient();
-/*
-            // provide a email server configuration
-            var emailServer = Configuration.GetRequiredSection("EmailServer");
+
+            // provides an email server configuration
+            var emailServer = this.Configuration.GetRequiredSection("EmailServer");
             string host = emailServer.GetValue<string>("host");
             int port = emailServer.GetValue<int>("port");
             bool ssl = emailServer.GetValue<bool>("SSL");
-*/
+
             try
             {
                 Console.WriteLine("Try to connect");
-                client.Connect("localhost", 1025, false);
+                client.Connect(host, port, ssl);
 
                 Console.WriteLine("Try to send email");
                 client.Send(message);

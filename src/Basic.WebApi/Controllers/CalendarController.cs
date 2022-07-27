@@ -121,7 +121,7 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [Produces("application/json")]
-        public EventForList Post(CalendarRequest request)
+        public EventForList Post([FromServices]EmailService service, CalendarRequest request)
         {
             var context = CreateContext(request);
             if (context.Category == null)
@@ -177,7 +177,7 @@ namespace Basic.WebApi.Controllers
             }
 
             // Send an email as a notification when an event is created
-            EmailService.EmailToManagers(category, userRequest, model);
+            service.EmailToManagers(category, userRequest, model);
 
             Context.Set<Event>().Add(model);
             Context.SaveChanges();

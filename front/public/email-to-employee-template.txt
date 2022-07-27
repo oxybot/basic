@@ -1,4 +1,4 @@
-Hello {0},
+Dear {0},
 
 Your request status has changed:
 

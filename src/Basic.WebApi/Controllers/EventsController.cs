@@ -72,7 +72,8 @@ namespace Basic.WebApi.Controllers
         [HttpPost]
         [AuthorizeRoles(Role.Time)]
         [Produces("application/json")]
-        public override EventForList Post(EventForEdit @event)
+        [Route("notify")]
+        public EventForList CreateEvent([FromServices]EmailService service, EventForEdit @event)
         {
             
             var usersFromDb = Context.Set<User>();
@@ -103,9 +104,9 @@ namespace Basic.WebApi.Controllers
             };
 
             // Send an email as a notification when a event is created
-            EmailService.EmailToManagers(category, user, model);
+            service.EmailToManagers(category, user, model);
 
-            return base.Post(@event);
+            return Post(@event);
         }
 
         /// <summary>

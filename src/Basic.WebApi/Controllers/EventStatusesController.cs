@@ -6,7 +6,6 @@ using Basic.WebApi.Framework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using Basic.WebApi.Services;
 
 namespace Basic.WebApi.Controllers
@@ -104,7 +103,7 @@ namespace Basic.WebApi.Controllers
         [HttpPost]
         [AuthorizeRoles(Role.Time)]
         [Produces("application/json")]
-        public EntityReference EditStatus(Guid eventId, StatusUpdate update)
+        public EntityReference EditStatus([FromServices]EmailService service,Guid eventId, StatusUpdate update)
         {
             var entity = Context.Set<Event>().Include(e => e.Statuses)
                 .SingleOrDefault(c => c.Identifier == eventId);
@@ -149,13 +148,12 @@ namespace Basic.WebApi.Controllers
             entity.Statuses.Add(status);
             Context.SaveChanges();
 //////////////////////////////////////////            
-/*
-ICI je dois recuperer l'event en fonction de 'eventId' puis le mettre à la place entity
-*/          
-            var eventsFromDb = Context.Set<Event>();
-            Event event = eventsFromDb.ToList().Find(u => u.Identifier == @event.UserIdentifier);
-            
-            EmailService.EmailToEmployee(user,event, from, to);
+
+// ICI je dois recuperer l'event en fonction de 'eventId' puis le mettre à la place entity
+            var requestsFromDb = Context.Set<Event>();
+   
+
+            service.EmailToEmployee(user,entity, from, to);
 //////////////////////////////////////////
             return Mapper.Map<EntityReference>(status);
         }

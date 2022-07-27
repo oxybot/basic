@@ -15,5 +15,5 @@ export function EventNew() {
     dispatch(refresh());
   }
 
-  return <PageNew definition={definition} baseApiUrl="Events" texts={texts} onCreate={handleCreate} />;
+  return <PageNew definition={definition} baseApiUrl="Events/notify" texts={texts} onCreate={handleCreate} />;
 }
