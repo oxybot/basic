@@ -54,10 +54,5 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         [SwaggerSchema(Format = "ref/status")]
         public StatusReference CurrentStatus { get; set; }
-                        
-        /// <summary>
-        /// Gets or sets the list of the attachments.
-        /// </summary>
-        // public List<TypedFile> Attachments { get; set; }
     }
 }
