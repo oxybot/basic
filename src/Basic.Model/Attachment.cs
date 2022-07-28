@@ -37,12 +37,12 @@ namespace Basic.Model
         /// Gets the type of entitie the attachment is associated to.
         /// </summary>
         // [Required]
-        public TypeOfEntitie type { get; }
+        public TypeOfEntitie Type { get; set; }
 
         /// <summary>
         /// Gets the entity identifier associated to the attachment
         /// </summary>
         // [Required]
-        public virtual Guid EntitieIdentifier { get; }
+        public virtual Guid EntitieIdentifier { get; set; }
     }
 }

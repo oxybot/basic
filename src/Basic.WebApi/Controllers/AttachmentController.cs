@@ -10,15 +10,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace Basic.WebApi.Controllers
 {
     /// <summary>
-    /// Provides API to retrieve and manage user data.
+    /// Provides API to retrieve and manage attachment data.
     /// </summary>
     [ApiController]
     [Authorize]
     [Route("[controller]")]
-    public class AttachmentController : BaseModelController<Attachment, AttachmentForList, AttachmentForView, AttachmentForEdit>
+    public class AttachmentController : BaseModelController<Attachement, AttachmentForList, AttachmentForView, AttachmentForEdit>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersController"/> class.
+        /// Initializes a new instance of the <see cref="AttachmentController"/> class.
         /// </summary>
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
@@ -37,7 +37,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<AttachmentForList> GetAll()
         {
-            return AddIncludesForList(Context.Set<Attachment>())
+            return AddIncludesForList(Context.Set<Attachement>())
                 .ToList()
                 .Select(e => Mapper.Map<AttachmentForList>(e));
         }
@@ -60,8 +60,8 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Creates a new attachment.
         /// </summary>
-        /// <param name="attachment">The user data.</param>
-        /// <returns>The user data after creation.</returns>
+        /// <param name="attachment">The attachment data.</param>
+        /// <returns>The attachment data after creation.</returns>
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [AuthorizeRoles(Role.User)]
@@ -72,58 +72,27 @@ namespace Basic.WebApi.Controllers
         }
 
         /// <summary>
-        /// Updates a specific user.
+        /// Updates a specific attachment.
         /// </summary>
-        /// <param name="identifier">The identifier of the user to update.</param>
-        /// <param name="user">The user data.</param>
-        /// <returns>The user data after update.</returns>
+        /// <param name="identifier">The identifier of the attachment to update.</param>
+        /// <param name="attachment">The attachment data.</param>
+        /// <returns>The attachment data after update.</returns>
         /// <response code="400">The provided data are invalid.</response>
-        /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
+        /// <response code="404">No attachment is associated to the provided <paramref name="identifier"/>.</response>
         [HttpPut]
         [AuthorizeRoles(Role.Time, Role.User)]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public override UserForList Put(Guid identifier, UserForEdit user)
+        public override AttachmentForList Put(Guid identifier, AttachmentForEdit attachment)
         {
-            return base.Put(identifier, user);
+            return base.Put(identifier, attachment);
         }
 
         /// <summary>
-        /// Updates the password of a specific user.
+        /// Deletes a specific attachment.
         /// </summary>
-        /// <param name="identifier">The identifier of the user to update.</param>
-        /// <param name="password">The password data.</param>
-        /// <returns>The user data after update.</returns>
-        /// <response code="400">The provided data are invalid.</response>
-        /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
-        [HttpPut]
-        [AuthorizeRoles(Role.Time, Role.User)]
-        [Produces("application/json")]
-        [Route("{identifier}/password")]
-        public UserForList UpdatePassword(Guid identifier, PasswordForEdit password)
-        {
-            if (password is null)
-            {
-                throw new ArgumentNullException(nameof(password));
-            }
-
-            var user = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == identifier);
-            if (user == null)
-            {
-                throw new NotFoundException("No user identified by " + identifier);
-            }
-
-            user.ChangePassword(password.NewPassword);
-            this.Context.SaveChanges();
-
-            return Mapper.Map<UserForList>(user);
-        }
-
-        /// <summary>
-        /// Deletes a specific user.
-        /// </summary>
-        /// <param name="identifier">The identifier of the user to delete.</param>
-        /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
+        /// <param name="identifier">The identifier of the attachment to delete.</param>
+        /// <response code="404">No attachment is associated to the provided <paramref name="identifier"/>.</response>
         [HttpDelete]
         [AuthorizeRoles(Role.User)]
         [Produces("application/json")]

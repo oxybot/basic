@@ -3,6 +3,7 @@ using System;
 using Basic.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Basic.DataAccess.MySql.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220728142213_MySql7")]
+    partial class MySql7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,7 +116,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.ToTable("AgreementStatus");
                 });
 
-            modelBuilder.Entity("Basic.Model.Attachment", b =>
+            modelBuilder.Entity("Basic.Model.Attachement", b =>
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
@@ -129,11 +131,14 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.Property<Guid>("EntitieIdentifier")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid?>("EventIdentifier")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("Extension")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("type")
                         .IsRequired()
                         .HasColumnType("nvarchar(24)");
 
@@ -141,7 +146,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("EventIdentifier");
 
-                    b.ToTable("Attachment");
+                    b.ToTable("Attachement");
                 });
 
             modelBuilder.Entity("Basic.Model.Balance", b =>
