@@ -34,9 +34,15 @@ namespace Basic.Model
         public string Extension { get; set; }
 
         /// <summary>
-        /// Gets the user identifier associated to the attachment.
+        /// Gets the type of entitie the attachment is associated to.
         /// </summary>
         // [Required]
-        public virtual Guid UserIdentifier { get; }
+        public TypeOfEntitie type { get; }
+
+        /// <summary>
+        /// Gets the entity identifier associated to the attachment
+        /// </summary>
+        // [Required]
+        public virtual Guid EntitieIdentifier { get; }
     }
 }
