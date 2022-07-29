@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Basic.DataAccess.MySql.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220121200438_MySqlInitial")]
-    partial class MySqlInitial
+    [Migration("20220729091155_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Basic.Model.Agreement", b =>
@@ -114,6 +114,34 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.HasIndex("UpdatedByIdentifier");
 
                     b.ToTable("AgreementStatus");
+                });
+
+            modelBuilder.Entity("Basic.Model.Attachment", b =>
+                {
+                    b.Property<Guid>("Identifier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Blob")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("DisplayName")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("EntitieIdentifier")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(24)");
+
+                    b.HasKey("Identifier");
+
+                    b.ToTable("Attachment");
                 });
 
             modelBuilder.Entity("Basic.Model.Balance", b =>
@@ -368,10 +396,10 @@ namespace Basic.DataAccess.MySql.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("ActiveFrom")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("date");
 
                     b.Property<DateTime?>("ActiveTo")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("date");
 
                     b.Property<Guid>("UserIdentifier")
                         .HasColumnType("char(36)");
@@ -420,13 +448,20 @@ namespace Basic.DataAccess.MySql.Migrations
                             Identifier = new Guid("4151c014-ddde-43e4-aa7e-b98a339bbe74"),
                             Description = "The associated event has been approved",
                             DisplayName = "Approved",
-                            IsActive = false
+                            IsActive = true
                         },
                         new
                         {
                             Identifier = new Guid("e7f8dcc7-57d5-4e74-ac38-1fbd5153996c"),
                             Description = "The associated event has been rejected",
                             DisplayName = "Rejected",
+                            IsActive = false
+                        },
+                        new
+                        {
+                            Identifier = new Guid("fdac7cc3-3fe0-4e59-ab16-aeaec008f940"),
+                            Description = "The associated event has been canceled",
+                            DisplayName = "Canceled",
                             IsActive = false
                         });
                 });
@@ -439,6 +474,9 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Email")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Password")

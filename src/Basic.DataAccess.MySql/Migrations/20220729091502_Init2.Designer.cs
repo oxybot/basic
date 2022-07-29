@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Basic.DataAccess.MySql.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220621114607_UpdateMySql")]
-    partial class UpdateMySql
+    [Migration("20220729091502_Init2")]
+    partial class Init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.3")
+                .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Basic.Model.Agreement", b =>
@@ -114,6 +114,34 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.HasIndex("UpdatedByIdentifier");
 
                     b.ToTable("AgreementStatus");
+                });
+
+            modelBuilder.Entity("Basic.Model.Attachment", b =>
+                {
+                    b.Property<Guid>("Identifier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Blob")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("DisplayName")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("EntitieIdentifier")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(24)");
+
+                    b.HasKey("Identifier");
+
+                    b.ToTable("Attachment");
                 });
 
             modelBuilder.Entity("Basic.Model.Balance", b =>
@@ -446,6 +474,9 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Email")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Password")

@@ -139,8 +139,6 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.HasIndex("EventIdentifier");
-
                     b.ToTable("Attachment");
                 });
 
@@ -607,13 +605,6 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.Navigation("UpdatedBy");
                 });
 
-            modelBuilder.Entity("Basic.Model.Attachement", b =>
-                {
-                    b.HasOne("Basic.Model.Event", null)
-                        .WithMany("Attachments")
-                        .HasForeignKey("EventIdentifier");
-                });
-
             modelBuilder.Entity("Basic.Model.Balance", b =>
                 {
                     b.HasOne("Basic.Model.EventCategory", "Category")
@@ -784,8 +775,6 @@ namespace Basic.DataAccess.MySql.Migrations
 
             modelBuilder.Entity("Basic.Model.Event", b =>
                 {
-                    b.Navigation("Attachments");
-
                     b.Navigation("Statuses");
                 });
 

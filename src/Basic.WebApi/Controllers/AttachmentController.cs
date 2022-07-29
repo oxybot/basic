@@ -15,7 +15,7 @@ namespace Basic.WebApi.Controllers
     [ApiController]
     [Authorize]
     [Route("[controller]")]
-    public class AttachmentController : BaseModelController<Attachement, AttachmentForList, AttachmentForView, AttachmentForEdit>
+    public class AttachmentController : BaseModelController<Attachment, AttachmentForList, AttachmentForView, AttachmentForEdit>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AttachmentController"/> class.
@@ -37,7 +37,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<AttachmentForList> GetAll()
         {
-            return AddIncludesForList(Context.Set<Attachement>())
+            return AddIncludesForList(Context.Set<Attachment>())
                 .ToList()
                 .Select(e => Mapper.Map<AttachmentForList>(e));
         }

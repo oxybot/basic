@@ -70,7 +70,6 @@ namespace Basic.WebApi.Controllers
                 throw new InvalidModelStateException(ModelState);
             }
 
-
             var token = BuildJWTToken(user);
             return new AuthResult()
             {
@@ -108,6 +107,28 @@ namespace Basic.WebApi.Controllers
             };
         }
 
+        private bool ValidateUser(string domainName, string username, string password)
+        {
+            string userDn = $"{username}@{domainName}";
+            try
+            {
+                using (var connection = new LdapConnection { SecureSocketLayer = false })
+                {
+                    connection.Connect(domainName, 389);
+                    connection.Bind(userDn, password);
+                    if (connection.Bound)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (LdapException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return false;
+        }
+
         private JwtSecurityToken BuildJWTToken(User user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtToken:SecretKey"]));
@@ -133,30 +154,6 @@ namespace Basic.WebApi.Controllers
                 signingCredentials: creds);
 
             return token;
-        }
-
-
-        private bool ValidateUser(string domainName, string username, string password)
-        {
-            string userDn = $"{username}@{domainName}";
-            try
-            {
-                using (var connection = new LdapConnection { SecureSocketLayer = false })
-                {
-                    connection.Connect(domainName, 389);
-                    connection.Bind(userDn, password);
-                    if (connection.Bound)
-                    {
-                        return true;
-                    }
-                       
-                }
-            }
-            catch (LdapException ex)
-            {
-                Console.WriteLine(ex);
-            }
-            return false;
         }
 
     }

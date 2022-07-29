@@ -5,11 +5,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Basic.DataAccess.MySql.Migrations
 {
-    public partial class MySqlInitial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Attachment",
+                columns: table => new
+                {
+                    Identifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    DisplayName = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Blob = table.Column<int>(type: "int", nullable: false),
+                    Extension = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Type = table.Column<string>(type: "nvarchar(24)", nullable: false),
+                    EntitieIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attachment", x => x.Identifier);
+                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -45,7 +63,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     Identifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     DisplayName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    RequireBalance = table.Column<bool>(type: "bit", nullable: false),
+                    RequireBalance = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ColorClass = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Mapping = table.Column<string>(type: "nvarchar(24)", nullable: false)
@@ -128,6 +146,8 @@ namespace Basic.DataAccess.MySql.Migrations
                     DisplayName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Username = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Password = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -270,8 +290,8 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     Identifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UserIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ActiveFrom = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ActiveTo = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ActiveFrom = table.Column<DateTime>(type: "date", nullable: false),
+                    ActiveTo = table.Column<DateTime>(type: "date", nullable: true),
                     WorkingSchedule = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -417,15 +437,16 @@ namespace Basic.DataAccess.MySql.Migrations
                 columns: new[] { "Identifier", "Description", "DisplayName", "IsActive" },
                 values: new object[,]
                 {
-                    { new Guid("4151c014-ddde-43e4-aa7e-b98a339bbe74"), "The associated event has been approved", "Approved", false },
+                    { new Guid("4151c014-ddde-43e4-aa7e-b98a339bbe74"), "The associated event has been approved", "Approved", true },
                     { new Guid("52bc6354-d8ef-44e2-87ca-c64deeeb22e8"), "The associated event has been created and is waiting for approval", "Requested", true },
-                    { new Guid("e7f8dcc7-57d5-4e74-ac38-1fbd5153996c"), "The associated event has been rejected", "Rejected", false }
+                    { new Guid("e7f8dcc7-57d5-4e74-ac38-1fbd5153996c"), "The associated event has been rejected", "Rejected", false },
+                    { new Guid("fdac7cc3-3fe0-4e59-ab16-aeaec008f940"), "The associated event has been canceled", "Canceled", false }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Identifier", "DisplayName", "Password", "Salt", "Title", "Username" },
-                values: new object[] { new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5"), "John Doe", "QBG6AuURBMZ4wxp2pERIWzjzhl5QTYnDoKgLQ5uxojc=", "demo", "User Group Evangelist", "demo" });
+                columns: new[] { "Identifier", "DisplayName", "Email", "Password", "Salt", "Title", "Username" },
+                values: new object[] { new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5"), "John Doe", null, "QBG6AuURBMZ4wxp2pERIWzjzhl5QTYnDoKgLQ5uxojc=", "demo", "User Group Evangelist", "demo" });
 
             migrationBuilder.InsertData(
                 table: "RoleUser",
@@ -538,6 +559,9 @@ namespace Basic.DataAccess.MySql.Migrations
 
             migrationBuilder.DropTable(
                 name: "AgreementStatus");
+
+            migrationBuilder.DropTable(
+                name: "Attachment");
 
             migrationBuilder.DropTable(
                 name: "Balance");
