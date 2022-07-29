@@ -12,7 +12,6 @@ const transform = (d) => {
 export function AgreementNew() {
   const dispatch = useDispatch();
   const definition = useDefinition("AgreementForEdit", transform);
-
   const texts = {
     title: "Agreements",
     subTitle: "Add a new Agreement",

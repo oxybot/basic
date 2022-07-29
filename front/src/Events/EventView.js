@@ -8,12 +8,57 @@ import PageView from "../Generic/PageView";
 import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
 import { refresh } from "./slice";
-
 import EntityList from "../Generic/EntityList";
 
+import EntityFieldView from "../Generic/EntityFieldView";
+
+const transform = (d) => {
+  d.fields = d.fields.filter((i) => i.name !== "attachments");
+  return d;
+};
 function EventViewDetail({ entity }) {
-  const definition = useDefinition("EventForView");
-  return <EntityDetail definition={definition} entity={entity} />;
+  const definition = useDefinition("EventForView", transform);
+
+  const attachments = entity.attachments || []; 
+
+  return (
+    <>
+    <EntityDetail definition={definition} entity={entity} />
+    <div className="card mb-3">
+        <div className="card-header">
+          <h3 className="card-title">Attachments</h3>
+          <span className="badge ms-2 bg-green">{attachments.length || ""}</span>
+        </div>
+        <div className="card-body">
+          {attachments.length === 0 && (
+            <p>
+              <em>No attachment</em>
+            </p>
+          )}
+          {attachments.map((attachment, index) => (
+            <div key={index} className="row">
+              <div className="col mb-3">
+                <div className="lead">{attachment.displayName}</div>
+                <div className="text-muted">
+                  {attachment.displayName || <em title="No linked to an existing product">Specific product</em>}
+                </div>
+                <div className="text-muted">
+                  <span>
+                    <EntityFieldView type="string" value={attachment.displayName} />
+                  </span>
+                </div>
+              </div>
+              <div className="col-auto">
+                <span className="h4 border-secondary">
+                  <EntityFieldView type="image" value={attachment.attachment} />
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
 }
 
 function StatusList({ eventId }) {
