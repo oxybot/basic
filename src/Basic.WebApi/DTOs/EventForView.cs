@@ -70,6 +70,7 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the list of the attachments.
         /// </summary>
-        // public List<Attachment> Attachments { get; set; }
+        [Display(GroupName = "Attachments")]
+        public List<AttachmentForList> Attachments { get; set; }
     }
 }

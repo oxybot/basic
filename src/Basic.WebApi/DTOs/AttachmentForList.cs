@@ -22,16 +22,24 @@ namespace Basic.WebApi.DTOs
         [Required]
         public string DisplayName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the buffer of the attachment.
-        /// </summary>
-        // [Required]
-        public int Blob { get; set; }
+        // /// <summary>
+        // /// Gets or sets the buffer of the attachment.
+        // /// </summary>
+        // // [Required]
+        // public int Blob { get; set; }
 
+        // /// <summary>
+        // /// Gets or sets the extension of the attachment.
+        // /// </summary>
+        // // [Required]
+        // public string Extension { get; set; }
+        
         /// <summary>
-        /// Gets or sets the extension of the attachment.
+        /// Gets or sets the attachment content.
         /// </summary>
-        // [Required]
-        public string Extension { get; set; }
+        [Display(Order = 1)]
+        [SwaggerSchema(Format = "image")]
+        [Required]
+        public Base64File AttachmentContent { get; set; }
     }
 }
