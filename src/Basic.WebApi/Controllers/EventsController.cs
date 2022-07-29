@@ -60,7 +60,12 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}")]
         public override EventForView GetOne(Guid identifier)
         {
-            return base.GetOne(identifier);
+            // work in progress
+            var entity = base.GetOne(identifier);
+            
+            var test = Context.Set<Attachment>();
+
+            return entity;
         }
 
         /// <summary>

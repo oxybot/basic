@@ -16,6 +16,7 @@ namespace Basic.Model
         public Event()
         {
             this.Statuses = new List<EventStatus>();
+            this.Attachments = new List<Attachment>();
         }
 
         /// <summary>
@@ -81,6 +82,7 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the list of the attachments.
         /// </summary>
+         [Required]
         public virtual ICollection<Attachment> Attachments { get; set; }
     }
 }
