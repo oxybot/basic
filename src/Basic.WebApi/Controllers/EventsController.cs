@@ -69,7 +69,7 @@ namespace Basic.WebApi.Controllers
         }
 
         /// <summary>
-        /// Creates a new event.
+        /// Creates a new event with a notification.
         /// </summary>
         /// <param name="event">The event data.</param>
         /// <returns>The event data after creation.</returns>

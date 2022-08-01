@@ -2,20 +2,32 @@ import { IconCheck, IconX } from "@tabler/icons";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
-import { apiFetch, useApiFetch, useDefinition } from "../api";
+import { apiUrl, apiFetch, useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import PageView from "../Generic/PageView";
 import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
 import { refresh } from "./slice";
 import EntityList from "../Generic/EntityList";
-
 import EntityFieldView from "../Generic/EntityFieldView";
 
 const transform = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
   return d;
 };
+
+function EventViewAttachments({ eventId }) {
+  const definition = useDefinition("AttachmentForList");
+  const url = apiUrl("Attachments");
+  url.searchParams.set("eventId", eventId);
+  const [loading, elements] = useApiFetch(url, { method: "GET" }, []);
+  return (
+    <div className="card">
+      <EntityList loading={loading} definition={definition} entities={elements} baseTo="/agreement" />
+    </div>
+  );
+}
+
 function EventViewDetail({ entity }) {
   const definition = useDefinition("EventForView", transform);
 
@@ -24,34 +36,6 @@ function EventViewDetail({ entity }) {
   return (
     <>
     <EntityDetail definition={definition} entity={entity} />
-    <div className="card mb-3">
-        <div className="card-header">
-          <h3 className="card-title">Attachments</h3>
-          <span className="badge ms-2 bg-green">{attachments.length || ""}</span>
-        </div>
-        <div className="card-body">
-          {attachments.length === 0 && (
-            <p>
-              <em>No attachment</em>
-            </p>
-          )}
-          {attachments.map((attachment, index) => (
-            <div key={index} className="row">
-              <div className="col mb-3">
-                <div className="lead">{attachment.displayName}</div>
-                <div className="text-muted">
-                  {attachment.displayName || <em title="No linked to an existing product">Specific product</em>}
-                </div>
-                <div className="text-muted">
-                  <span>
-                    <EntityFieldView type="string" value={attachment.displayName} />
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
     </>
   );
 }
@@ -72,6 +56,7 @@ export function EventView({ backTo = null, full = false }) {
   const get = { method: "GET" };
   const [, entity] = useApiFetch(["Events", eventId], get, {});
   const [, next] = useApiFetch(["Events", eventId, "Statuses/Next"], get, []);
+  const [, links] = useApiFetch(["Events", eventId, "links"], get, {});
 
   function handleStatusChange(newStatus) {
     apiFetch(["events", eventId, "statuses"], {
@@ -87,7 +72,7 @@ export function EventView({ backTo = null, full = false }) {
     if (next.length === 0) {
       return null;
     }
-
+    
     return next.map((status, index) => {
       switch (status.displayName) {
         case "Approved":
@@ -135,6 +120,10 @@ export function EventView({ backTo = null, full = false }) {
         </Section>
         <Section code="statuses" element={<StatusList eventId={eventId} />}>
           Statuses
+        </Section>
+        <Section code="attachments" element={<EventViewAttachments eventId={eventId} />}>
+          Attachments
+          <span className="badge ms-2 bg-green">{links.attachments || ""}</span>
         </Section>
       </Sections>
     </PageView>
