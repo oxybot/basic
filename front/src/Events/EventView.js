@@ -18,12 +18,12 @@ const transform = (d) => {
 
 function EventViewAttachments({ eventId }) {
   const definition = useDefinition("AttachmentForList");
-  const url = apiUrl("Attachments");
-  url.searchParams.set("eventId", eventId);
+  const url = apiUrl("Attachment");
+  url.searchParams.set("identifier", eventId);
   const [loading, elements] = useApiFetch(url, { method: "GET" }, []);
   return (
     <div className="card">
-      <EntityList loading={loading} definition={definition} entities={elements} baseTo="/agreement" />
+      <EntityList loading={loading} definition={definition} entities={elements} baseTo="/attachment" />
     </div>
   );
 }
