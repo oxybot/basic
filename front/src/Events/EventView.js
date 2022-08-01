@@ -48,11 +48,6 @@ function EventViewDetail({ entity }) {
                   </span>
                 </div>
               </div>
-              <div className="col-auto">
-                <span className="h4 border-secondary">
-                  <EntityFieldView type="image" value={attachment.attachment} />
-                </span>
-              </div>
             </div>
           ))}
         </div>

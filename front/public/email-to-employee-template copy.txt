@@ -1,8 +1,0 @@
-Hello {0},
-
-Your request has changed status:
-
-{1}
-
-Best wishes,
-Basic team.

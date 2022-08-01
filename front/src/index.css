@@ -337,3 +337,7 @@ th.required:after {
 .btn-icon {
   margin: 0px 6px;
 }
+
+.container-xl {
+  max-width: 1620px;
+}
