@@ -11,6 +11,8 @@ import EntityFieldEdit from "../Generic/EntityFieldEdit";
 import EntityFieldLabel from "../Generic/EntityFieldLabel";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 
+import AttachmentForm from "../Generic/AttachmentForm";
+
 function Status({ value, text, message }) {
   return (
     <>
@@ -208,6 +210,9 @@ export function CalendarRequest() {
               )}
             </div>
           )}
+          <div className="row row-cards">
+          <AttachmentForm entity={entity} setEntity={setEntity}/>
+          </div>
         </div>
       </div>
     </form>
