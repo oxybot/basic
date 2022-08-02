@@ -151,6 +151,15 @@ export default function EntityFieldView({ type, value, list = false }) {
     case "string":
       return value;
 
+      case "attachment":
+        return (
+          <img
+            className={clsx("avatar", { "avatar-sm": list }, { "avatar-lg mt-1": !list })}
+            alt=""
+            src={`data:${value.mimeType};base64,${value.data}`}
+          />
+        );
+
     default:
       console.warn("unknown field type: " + type + " - rendered as string");
       return value;

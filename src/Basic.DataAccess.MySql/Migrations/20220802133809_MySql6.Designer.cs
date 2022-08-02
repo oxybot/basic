@@ -3,6 +3,7 @@ using System;
 using Basic.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Basic.DataAccess.MySql.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220802133809_MySql6")]
+    partial class MySql6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +126,7 @@ namespace Basic.DataAccess.MySql.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("EventIdentifier")
+                    b.Property<Guid?>("EventIdentifier")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Identifier");
@@ -601,9 +603,7 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.HasOne("Basic.Model.Event", null)
                         .WithMany("Attachments")
-                        .HasForeignKey("EventIdentifier")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EventIdentifier");
 
                     b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
                         {

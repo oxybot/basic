@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Basic.Model
 {
@@ -20,5 +21,11 @@ namespace Basic.Model
         /// </summary>
         [Required]
         public TypedFile AttachmentContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ForeignKey event identifier.
+        /// </summary>
+        [ForeignKey("EventIdentifier")]
+        public Guid EventIdentifier { get; set; }
     }
 }

@@ -35,13 +35,12 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [AuthorizeRoles(Role.Time, Role.TimeRO)]
         [Produces("application/json")]
-        public IEnumerable<AttachmentForList> GetAll(Guid? eventId)
+        public IEnumerable<Attachment> GetAll(Guid eventId)
         {
-            var entities = Context.Set<Attachment>();
+            var entities = Context.Set<Attachment>().Where(c => c.EventIdentifier == eventId);
 
-            return AddIncludesForList(Context.Set<Attachment>())
-                .ToList()
-                .Select(e => Mapper.Map<AttachmentForList>(e));
+            return entities
+            .ToList();
         }
 
         /// <summary>
