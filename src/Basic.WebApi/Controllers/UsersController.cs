@@ -54,6 +54,28 @@ namespace Basic.WebApi.Controllers
                         entities = entities.OrderBy(o => o.UserName).Reverse();
                     }
                     break;
+                    
+                case "Title":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.Title);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.Title).Reverse();
+                    }
+                    break;
+
+                case "DisplayName":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.DisplayName);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.DisplayName).Reverse();
+                    }
+                    break;
             }
                 
             return entities;

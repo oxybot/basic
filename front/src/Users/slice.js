@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiFetch } from "../api";
 
+import { sortKey, sortValue } from "../Generic/EntityList";
+import {Sorting} from "../Generic/EntityList";
+
 const initialState = {
   connected: false,
   loading: false,
@@ -8,7 +11,7 @@ const initialState = {
 };
 
 export const getAll = createAsyncThunk("users/getAll", async () => {
-  const response = await apiFetch("Users?sortValue=" + -1 + "&sortKey=" + "UserName", { method: "GET" });
+  const response = await apiFetch("Users?sortKey=" + "UserName" + "&sortValue=" + Sorting(), { method: "GET" });
   return response;
 });
 
