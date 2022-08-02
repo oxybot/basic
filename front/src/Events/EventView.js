@@ -9,6 +9,8 @@ import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
 import { refresh } from "./slice";
 import EntityList from "../Generic/EntityList";
+import AttachmentList from "../Attachments/AttachmentList";
+
 import EntityFieldView from "../Generic/EntityFieldView";
 
 const transform = (d) => {
@@ -19,11 +21,11 @@ const transform = (d) => {
 function EventViewAttachments({ eventId }) {
   const definition = useDefinition("AttachmentForList");
   const url = apiUrl("Attachment");
-  url.searchParams.set("identifier", eventId);
+  url.searchParams.set("eventId", eventId);
   const [loading, elements] = useApiFetch(url, { method: "GET" }, []);
   return (
     <div className="card">
-      <EntityList loading={loading} definition={definition} entities={elements} baseTo="/attachment" />
+      <AttachmentList loading={loading} definition={definition} entities={elements} baseTo="/attachment" />
     </div>
   );
 }
