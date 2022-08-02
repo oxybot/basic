@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const getAll = createAsyncThunk("users/getAll", async () => {
-  const response = await apiFetch("Users", { method: "GET" });
+  const response = await apiFetch("Users?sortValue=" + -1 + "&sortKey=" + "UserName", { method: "GET" });
   return response;
 });
 

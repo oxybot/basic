@@ -20,7 +20,6 @@ export default function PageList({ definition, loading, elements, selectedId, te
               <Link to="new" className="btn btn-primary btn-icon" aria-label={texts.add}>
                 <IconPlus />
               </Link>
-
               </>
             )}
           </MobilePageTitle>

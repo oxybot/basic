@@ -36,11 +36,27 @@ namespace Basic.WebApi.Controllers
         [AllowAnonymous]
         // [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
-        public IEnumerable<UserForList> GetAll()
+        public IEnumerable<UserForList> GetAll(string filter, string sortKey, int sortValue)
         {
-            return AddIncludesForList(Context.Set<User>())
+            var entities = AddIncludesForList(Context.Set<User>())
                 .ToList()
-                .Select(e => Mapper.Map<UserForList>(e)).OrderBy(o => o.UserName);
+                .Select(e => Mapper.Map<UserForList>(e));
+
+            switch(sortKey)
+            {
+                case "UserName":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.UserName);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.UserName).Reverse();
+                    }
+                    break;
+            }
+                
+            return entities;
         }
 
         /// <summary>
