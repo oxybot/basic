@@ -17,6 +17,7 @@ namespace Basic.Model
             this.Events = new List<Event>();
             this.Balances = new List<Balance>();
             this.Schedules = new List<Schedule>();
+            this.Attachments = new List<Attachment>();
         }
 
         /// <summary>
@@ -81,5 +82,10 @@ namespace Basic.Model
         /// Gets the associated working schedules.
         /// </summary>
         public virtual ICollection<Schedule> Schedules { get; }
+
+        /// <summary>
+        /// Gets or sets the list of the attachments.
+        /// </summary>
+        public virtual ICollection<Attachment> Attachments { get; set; }
     }
 }

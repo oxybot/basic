@@ -66,11 +66,5 @@ namespace Basic.WebApi.DTOs
         [Required]
         [SwaggerSchema(Format = "hours")]
         public decimal DurationTotal { get; set; }
-                
-        /// <summary>
-        /// Gets or sets the list of the attachments.
-        /// </summary>
-        [Display(GroupName = "Attachments")]
-        public  ICollection<AttachmentForList> Attachments { get; set; }
     }
 }

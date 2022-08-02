@@ -14,6 +14,7 @@ namespace Basic.Model
         public Client()
         {
             this.Agreements = new List<Agreement>();
+            this.Attachments = new List<Attachment>();
         }
 
         /// <summary>
@@ -38,5 +39,10 @@ namespace Basic.Model
         /// Gets the associated agreements.
         /// </summary>
         public virtual ICollection<Agreement> Agreements { get; }
+        
+        /// <summary>
+        /// Gets or sets the list of the attachments.
+        /// </summary>
+        public virtual ICollection<Attachment> Attachments { get; set; }
     }
 }

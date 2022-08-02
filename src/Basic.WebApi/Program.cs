@@ -29,7 +29,7 @@ builder.Services.AddDbContext<Context>(options =>
             string connectionString = builder.Configuration.GetConnectionString("MySql");
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), options =>
             {
-                options.MigrationsAssembly(typeof(Basic.DataAccess.MySql.Migrations.Init2).Assembly.FullName);
+                options.MigrationsAssembly(typeof(Basic.DataAccess.MySql.Migrations.MySql01).Assembly.FullName);
             });
             break;
 

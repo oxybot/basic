@@ -5,29 +5,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Basic.DataAccess.MySql.Migrations
 {
-    public partial class Init : Migration
+    public partial class MySql01 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Attachment",
-                columns: table => new
-                {
-                    Identifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    DisplayName = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Blob = table.Column<int>(type: "int", nullable: false),
-                    Extension = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Type = table.Column<string>(type: "nvarchar(24)", nullable: false),
-                    EntitieIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attachment", x => x.Identifier);
-                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -388,6 +370,47 @@ namespace Basic.DataAccess.MySql.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Attachment",
+                columns: table => new
+                {
+                    Identifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    DisplayName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AttachmentContent_Data = table.Column<byte[]>(type: "longblob", nullable: false),
+                    AttachmentContent_MimeType = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    EventIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    UserIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    AgreementIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ClientIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attachment", x => x.Identifier);
+                    table.ForeignKey(
+                        name: "FK_Attachment_Agreement_AgreementIdentifier",
+                        column: x => x.AgreementIdentifier,
+                        principalTable: "Agreement",
+                        principalColumn: "Identifier");
+                    table.ForeignKey(
+                        name: "FK_Attachment_Client_ClientIdentifier",
+                        column: x => x.ClientIdentifier,
+                        principalTable: "Client",
+                        principalColumn: "Identifier");
+                    table.ForeignKey(
+                        name: "FK_Attachment_Event_EventIdentifier",
+                        column: x => x.EventIdentifier,
+                        principalTable: "Event",
+                        principalColumn: "Identifier");
+                    table.ForeignKey(
+                        name: "FK_Attachment_User_UserIdentifier",
+                        column: x => x.UserIdentifier,
+                        principalTable: "User",
+                        principalColumn: "Identifier");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "EventStatus",
                 columns: table => new
                 {
@@ -494,6 +517,26 @@ namespace Basic.DataAccess.MySql.Migrations
                 name: "IX_AgreementStatus_UpdatedByIdentifier",
                 table: "AgreementStatus",
                 column: "UpdatedByIdentifier");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_AgreementIdentifier",
+                table: "Attachment",
+                column: "AgreementIdentifier");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_ClientIdentifier",
+                table: "Attachment",
+                column: "ClientIdentifier");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_EventIdentifier",
+                table: "Attachment",
+                column: "EventIdentifier");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_UserIdentifier",
+                table: "Attachment",
+                column: "UserIdentifier");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Balance_CategoryIdentifier",

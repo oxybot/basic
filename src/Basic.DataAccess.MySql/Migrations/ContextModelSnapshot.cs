@@ -120,16 +120,31 @@ namespace Basic.DataAccess.MySql.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid?>("AgreementIdentifier")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("ClientIdentifier")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("EventIdentifier")
+                    b.Property<Guid?>("EventIdentifier")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("UserIdentifier")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Identifier");
 
+                    b.HasIndex("AgreementIdentifier");
+
+                    b.HasIndex("ClientIdentifier");
+
                     b.HasIndex("EventIdentifier");
+
+                    b.HasIndex("UserIdentifier");
 
                     b.ToTable("Attachment");
                 });
@@ -599,11 +614,21 @@ namespace Basic.DataAccess.MySql.Migrations
 
             modelBuilder.Entity("Basic.Model.Attachment", b =>
                 {
+                    b.HasOne("Basic.Model.Agreement", null)
+                        .WithMany("Attachments")
+                        .HasForeignKey("AgreementIdentifier");
+
+                    b.HasOne("Basic.Model.Client", null)
+                        .WithMany("Attachments")
+                        .HasForeignKey("ClientIdentifier");
+
                     b.HasOne("Basic.Model.Event", null)
                         .WithMany("Attachments")
-                        .HasForeignKey("EventIdentifier")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EventIdentifier");
+
+                    b.HasOne("Basic.Model.User", null)
+                        .WithMany("Attachments")
+                        .HasForeignKey("UserIdentifier");
 
                     b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
                         {
@@ -786,6 +811,8 @@ namespace Basic.DataAccess.MySql.Migrations
 
             modelBuilder.Entity("Basic.Model.Agreement", b =>
                 {
+                    b.Navigation("Attachments");
+
                     b.Navigation("Invoices");
 
                     b.Navigation("Items");
@@ -796,6 +823,8 @@ namespace Basic.DataAccess.MySql.Migrations
             modelBuilder.Entity("Basic.Model.Client", b =>
                 {
                     b.Navigation("Agreements");
+
+                    b.Navigation("Attachments");
                 });
 
             modelBuilder.Entity("Basic.Model.Event", b =>
@@ -807,6 +836,8 @@ namespace Basic.DataAccess.MySql.Migrations
 
             modelBuilder.Entity("Basic.Model.User", b =>
                 {
+                    b.Navigation("Attachments");
+
                     b.Navigation("Balances");
 
                     b.Navigation("Events");

@@ -35,12 +35,27 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [AuthorizeRoles(Role.Time, Role.TimeRO)]
         [Produces("application/json")]
-        public IEnumerable<Attachment> GetAll(Guid eventId)
+        public IEnumerable<Attachment> GetAll(string hostAttachement, Guid entitieId)
         {
-            var entities = Context.Set<Attachment>().Where(c => c.EventIdentifier == eventId);
+            var entities = Context.Set<Attachment>().ToList();
 
-            return entities
-            .ToList();
+            switch(hostAttachement)
+            {
+                case "event":
+                    entities = Context.Set<Attachment>().Where(c => c.EventIdentifier == entitieId).ToList();
+                    break;
+                case "user":
+                    entities = entities.Where(c => c.UserIdentifier == entitieId).ToList();
+                    break;
+                case "agreement":
+                    entities = entities.Where(c => c.AgreementIdentifier == entitieId).ToList();
+                    break;
+                case "client":
+                    entities = entities.Where(c => c.ClientIdentifier == entitieId).ToList();
+                    break;
+            }
+
+            return entities;
         }
 
         /// <summary>

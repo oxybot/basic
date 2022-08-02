@@ -60,10 +60,7 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}")]
         public override EventForView GetOne(Guid identifier)
         {
-            // work in progress
             var entity = base.GetOne(identifier);
-            
-            var test = Context.Set<Attachment>();
 
             return entity;
         }
@@ -188,6 +185,7 @@ namespace Basic.WebApi.Controllers
                 .Include(c => c.Statuses)
                 .ThenInclude(s => s.Status);
         }
+        
         /*
         /// <summary>
         /// Creates a new event attachment.

@@ -18,6 +18,7 @@ namespace Basic.Model
             this.Items = new List<AgreementItem>();
             this.Invoices = new List<Invoice>();
             this.Statuses = new List<AgreementStatus>();
+            this.Attachments = new List<Attachment>();
         }
 
         /// <summary>
@@ -68,5 +69,10 @@ namespace Basic.Model
         /// Gets the statuses associated to the agreement.
         /// </summary>
         public virtual ICollection<AgreementStatus> Statuses { get; }
+
+        /// <summary>
+        /// Gets or sets the list of the attachments.
+        /// </summary>
+        public virtual ICollection<Attachment> Attachments { get; set; }
     }
 }
