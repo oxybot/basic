@@ -1,45 +1,29 @@
-import { IconLoader, IconRollercoaster } from "@tabler/icons";
+import { IconLoader } from "@tabler/icons";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import EntityFieldView from "./EntityFieldView";
-
 import { useState, useEffect } from "react";
+import { refresh } from "../Users/slice";
+import { useDispatch } from "react-redux";
 
+/*
 var sortKey;
 var sortValue = 0;
 
 
 export function Sorting() {
-
   sortValue==1?sortValue=-1:sortValue=1;
-
-  console.log(sortValue);
+  Essai();
+  console.log("fonction Sorting() " + sortValue);
   return sortValue;
 }
 
-
-/*export function Sorting() {
-  //const [sortKey, setSortKey] = useState("UserName");
-  //const [sortValue, setSortValue] = useState(0);
-  
+function Essai() {    
+  const dispatch = useDispatch();
   useEffect(() => {
-    if(sortValue == 1) {
-      setSortValue(-1)
-    }
-    else {
-      setSortValue(1)
-    }
-    
-    console.log(sortValue);
-
-  })
-  return { sortValue, sortKey }
-}*/
-
-/*
-function handleChange(event) {
-  const value = event.target.value;
-  setSortValue(value);
+    dispatch(refresh());
+    console.log("fonction Essai() " + sortValue);
+  }, [sortKey, sortValue])
 }
 */
 
@@ -47,18 +31,36 @@ function filtered(fields) {
   if (!fields) {
     return fields;
   }
-  
+
   return fields.filter((i) => i.type !== "key");
 }
 
 export default function EntityList({ loading, definition, entities, baseTo = null, selectedId }) {
-
+  
+  window.onscroll = function(ev) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      setPageNumber(pageNumber + 20)
+    }
+};
+  
   const navigate = useNavigate();
   const fields = filtered(definition?.fields);
   
+  const [sortValue, setSortValue] = useState(0);
+  const [sortKey, setSortKey] = useState("UserName");
+  const dispatch = useDispatch();
+
+  const [pageNumber, setPageNumber] = useState(20);
+
+  useEffect(() => {
+    dispatch(refresh(sortValue, sortKey));
+    console.log("useEffect " + sortValue);
+  }, [sortKey, sortValue])
+
   return (
+    <>
     <div className="table-responsive">
-    <button onClick={() => Sorting()}>
+    <button onClick={() => setSortValue(sortValue==1?-1:1)}>
       sorting
     </button>
       <table className="table card-table table-vcenter text-nowrap datatable table-hover">
@@ -66,7 +68,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
           <tr>
             {fields &&
               fields.map((field, index) => (
-                <th key={index} className={clsx({ "w-1": index === 0 })} onClick={() => Sorting()}>
+                <th key={index} className={clsx({ "w-1": index === 0 })} >
                   {field.displayName}
                 </th>
               ))}
@@ -78,13 +80,13 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
               <IconLoader /> Loading...
             </td>
           </tr>
-          {entities.map((entity) => ( 
+          {entities.slice(0, pageNumber).map((entity) => (
             <tr
-              key={entity.identifier}
-              className={clsx({
-                "table-active": entity.identifier === selectedId,
-              })}
-              onClick={() => baseTo !== null && navigate([baseTo, entity.identifier].filter((i) => i).join("/"))}
+            key={entity.identifier}
+            className={clsx({
+              "table-active": entity.identifier === selectedId,
+            })}
+            onClick={() => baseTo !== null && navigate([baseTo, entity.identifier].filter((i) => i).join("/"))}
             >
               {entity &&
                 fields &&
@@ -105,6 +107,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
         </tbody>
       </table>
     </div>
+    </>
   );
 }
 
