@@ -5,10 +5,15 @@ import PageEdit from "../Generic/PageEdit";
 import { refresh } from "./slice";
 import AttachmentForm from "../Generic/AttachmentForm";
 
+const transformDef = (d) => {
+  d.fields = d.fields.filter((i) => i.name !== "attachments");
+  return d;
+};
+
 export function UserEdit({ full = false }) {
   const dispatch = useDispatch();
   const { userId } = useParams();
-  const definition = useDefinition("UserForEdit");
+  const definition = useDefinition("UserForEdit", transformDef);
   const [, entity] = useApiFetch(["Users", userId], { method: "GET" }, {});
   const texts = {
     title: entity.displayName,

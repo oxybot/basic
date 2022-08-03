@@ -4,9 +4,14 @@ import PageNew from "../Generic/PageNew";
 import { refresh } from "./slice";
 import AttachmentForm from "../Generic/AttachmentForm";
 
+const transformDef = (d) => {
+  d.fields = d.fields.filter((i) => i.name !== "attachments");
+  return d;
+};
+
 export function UserNew() {
   const dispatch = useDispatch();
-  const definition = useDefinition("UserForEdit");
+  const definition = useDefinition("UserForEdit", transformDef);
   const texts = {
     title: "Users",
     subTitle: "Add a new User",

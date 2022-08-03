@@ -69,6 +69,7 @@ namespace Basic.WebApi.Controllers
         /// Creates a new event with a notification.
         /// </summary>
         /// <param name="event">The event data.</param>
+        /// <param name="service">The service for email notification.</param>
         /// <returns>The event data after creation.</returns>
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
