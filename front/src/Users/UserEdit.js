@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
 import { refresh } from "./slice";
+import AttachmentForm from "../Generic/AttachmentForm";
 
 export function UserEdit({ full = false }) {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ export function UserEdit({ full = false }) {
       full={full}
       baseApiUrl="Users"
       entityId={userId}
+      extendedForm={(e, s, err) => <AttachmentForm entity={e} setEntity={s} errors={err} />}
       onUpdate={handleUpdate}
     />
   );

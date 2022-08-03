@@ -29,29 +29,29 @@ namespace Basic.WebApi.Controllers
         }
 
         /// <summary>
-        /// Retrieves all attachments.
+        /// Retrieves all attachments by entity.
         /// </summary>
         /// <returns>The list of attachments.</returns>
         [HttpGet]
         [AuthorizeRoles(Role.Time, Role.TimeRO)]
         [Produces("application/json")]
-        public IEnumerable<Attachment> GetAll(string hostAttachement, Guid entitieId)
+        public IEnumerable<Attachment> GetAll(string hostAttachment, Guid entityId)
         {
             var entities = Context.Set<Attachment>().ToList();
 
-            switch(hostAttachement)
+            switch(hostAttachment)
             {
                 case "event":
-                    entities = Context.Set<Attachment>().Where(c => c.EventIdentifier == entitieId).ToList();
+                    entities = Context.Set<Attachment>().Where(c => c.EventIdentifier == entityId).ToList();
                     break;
                 case "user":
-                    entities = entities.Where(c => c.UserIdentifier == entitieId).ToList();
+                    entities = entities.Where(c => c.UserIdentifier == entityId).ToList();
                     break;
                 case "agreement":
-                    entities = entities.Where(c => c.AgreementIdentifier == entitieId).ToList();
+                    entities = entities.Where(c => c.AgreementIdentifier == entityId).ToList();
                     break;
                 case "client":
-                    entities = entities.Where(c => c.ClientIdentifier == entitieId).ToList();
+                    entities = entities.Where(c => c.ClientIdentifier == entityId).ToList();
                     break;
             }
 

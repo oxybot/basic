@@ -11,17 +11,17 @@ import { refresh } from "./slice";
 import EntityList from "../Generic/EntityList";
 import AttachmentList from "../Attachments/AttachmentList";
 
-import EntityFieldView from "../Generic/EntityFieldView";
-
 const transform = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
   return d;
 };
 
 function EventViewAttachments({ eventId }) {
+  const host = "event";
   const definition = useDefinition("AttachmentForList");
-  const url = apiUrl("Attachment");
-  url.searchParams.set("eventId", eventId);
+  const url = apiUrl("Attachment/");
+  url.searchParams.set('entityId', eventId);
+  url.searchParams.set('hostAttachment', host);
   const [loading, elements] = useApiFetch(url, { method: "GET" }, []);
   return (
     <div className="card">
