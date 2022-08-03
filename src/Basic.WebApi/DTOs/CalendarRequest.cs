@@ -1,5 +1,6 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
+using Basic.Model;
 
 namespace Basic.WebApi.DTOs
 {
@@ -80,5 +81,10 @@ namespace Basic.WebApi.DTOs
                     new[] { nameof(StartDate), nameof(EndDate) });
             }
         }
+
+        /// <summary>
+        /// Gets or sets the list of the attachments of a new request.
+        /// </summary>
+        public List<Attachment> Attachments { get; set; }
     }
 }

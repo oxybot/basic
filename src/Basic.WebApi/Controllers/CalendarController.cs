@@ -149,6 +149,7 @@ namespace Basic.WebApi.Controllers
                 DurationFirstDay = request.DurationFirstDay ?? 8m,
                 DurationLastDay = request.DurationLastDay ?? 8m,
                 DurationTotal = context.TotalHours ?? 0m,
+                Attachments = request.Attachments
             };
 
             User user = this.GetConnectedUser();
@@ -176,7 +177,7 @@ namespace Basic.WebApi.Controllers
                 ModelState.AddModelError("Category", "The event category is invalid");
             }
 
-            // Send an email as a notification when an event is created
+            // Send an email notification when an event is created
             service.EmailToManagers(category, userRequest, model);
 
             Context.Set<Event>().Add(model);
