@@ -1,47 +1,27 @@
-import { IconLoader } from "@tabler/icons";
+import { IconArrowDown, IconLoader } from "@tabler/icons";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import EntityFieldView from "./EntityFieldView";
 import { useState, useEffect } from "react";
 import { refresh } from "../Users/slice";
 import { useDispatch } from "react-redux";
+import { IconArrowBigDown } from "@tabler/icons";
 
-/*
-var sortKey;
-var sortValue = 0;
-
-
-export function Sorting() {
-  sortValue==1?sortValue=-1:sortValue=1;
-  Essai();
-  console.log("fonction Sorting() " + sortValue);
-  return sortValue;
-}
-
-function Essai() {    
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(refresh());
-    console.log("fonction Essai() " + sortValue);
-  }, [sortKey, sortValue])
-}
-*/
 
 function filtered(fields) {
   if (!fields) {
     return fields;
   }
-
   return fields.filter((i) => i.type !== "key");
 }
 
 export default function EntityList({ loading, definition, entities, baseTo = null, selectedId }) {
   
-  window.onscroll = function(ev) {
+  window.onscroll = () => {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
       setPageNumber(pageNumber + 20)
     }
-};
+  };
   
   const navigate = useNavigate();
   const fields = filtered(definition?.fields);
@@ -106,10 +86,10 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
           )}
         </tbody>
       </table>
+      <button type="button" className="btn btn-icon btn-primary" onClick={() => setPageNumber(pageNumber + 20)}>
+        <IconArrowBigDown />
+      </button>
     </div>
     </>
   );
 }
-
-// export { sortKey, sortValue };
-//export Sorting;
