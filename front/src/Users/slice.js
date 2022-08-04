@@ -1,8 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiFetch } from "../api";
-import { useEffect } from "react";
-import { EntityList } from "../Generic/EntityList";
-import { sortValue, sortKey } from "../Generic/EntityList";
 
 const initialState = {
   connected: false,
@@ -10,21 +7,19 @@ const initialState = {
   values: [],
 };
 
-export const getAll = createAsyncThunk("users/getAll", async (sortValue, sortKey) => {
-  console.log("getAll: " + sortValue);
-  if(sortValue == null) {
-    sortValue = 0;
+export const getAll = createAsyncThunk("users/getAll", async (sortOptions) => {
+  if(sortOptions == null) {
+    sortOptions = [0, "Display Name"];
   }
-  const response = await apiFetch("Users?sortKey=" + "UserName" + "&sortValue=" + sortValue, { method: "GET" });
-
+  const response = await apiFetch("Users?sortKey=" + sortOptions[1] + "&sortValue=" + sortOptions[0], { method: "GET" });
   return response;
 });
 
 export const refresh = (sortValue, sortKey) => (dispatch, getState) => {
+  const sortOptions = [sortValue, sortKey];
   const { connected, loading } = usersState(getState());
-  console.log("refresh : " + sortValue);
   if (connected && !loading) {
-      dispatch(getAll(sortValue, sortKey));
+      dispatch(getAll(sortOptions));
   }
 };
 

@@ -1,11 +1,11 @@
-import { IconArrowDown, IconLoader } from "@tabler/icons";
+import { IconArrowBigDown, IconLoader } from "@tabler/icons";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import EntityFieldView from "./EntityFieldView";
 import { useState, useEffect } from "react";
 import { refresh } from "../Users/slice";
 import { useDispatch } from "react-redux";
-import { IconArrowBigDown } from "@tabler/icons";
+
 
 
 function filtered(fields) {
@@ -34,7 +34,6 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
 
   useEffect(() => {
     dispatch(refresh(sortValue, sortKey));
-    console.log("useEffect " + sortValue);
   }, [sortKey, sortValue])
 
   return (
@@ -48,7 +47,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
           <tr>
             {fields &&
               fields.map((field, index) => (
-                <th key={index} className={clsx({ "w-1": index === 0 })} >
+                <th key={index} className={clsx({ "w-1": index === 0 })} onClick={() => {setSortValue(sortValue==1?-1:1); setSortKey(field.displayName);}}>
                   {field.displayName}
                 </th>
               ))}

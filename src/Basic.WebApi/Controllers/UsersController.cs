@@ -44,7 +44,7 @@ namespace Basic.WebApi.Controllers
 
             switch(sortKey)
             {
-                case "UserName":
+                case "User Name":
                     if(sortValue == 1)
                     {
                         entities = entities.OrderBy(o => o.UserName);
@@ -66,7 +66,29 @@ namespace Basic.WebApi.Controllers
                     }
                     break;
 
-                case "DisplayName":
+                case "Display Name":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.DisplayName);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.DisplayName).Reverse();
+                    }
+                    break;
+
+                case "Email":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.Email);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.Email).Reverse();
+                    }
+                    break;
+
+                case "Avatar":
                     if(sortValue == 1)
                     {
                         entities = entities.OrderBy(o => o.DisplayName);
