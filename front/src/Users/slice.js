@@ -12,7 +12,11 @@ const initialState = {
 
 export const getAll = createAsyncThunk("users/getAll", async (sortValue, sortKey) => {
   console.log("getAll: " + sortValue);
+  if(sortValue == null) {
+    sortValue = 0;
+  }
   const response = await apiFetch("Users?sortKey=" + "UserName" + "&sortValue=" + sortValue, { method: "GET" });
+
   return response;
 });
 

@@ -86,10 +86,10 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
           )}
         </tbody>
       </table>
-      <button type="button" className="btn btn-icon btn-primary" onClick={() => setPageNumber(pageNumber + 20)}>
-        <IconArrowBigDown />
-      </button>
     </div>
+    <button type="button" className="btn btn-icon btn-primary" onClick={() => setPageNumber(pageNumber + 20)}>
+      <IconArrowBigDown />
+    </button>
     </>
   );
 }
