@@ -3,7 +3,10 @@ import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import EntityFieldView from "./EntityFieldView";
 import { useState, useEffect } from "react";
-import { refresh } from "../Users/slice";
+import { refresh as refreshUsers} from "../Users/slice";
+import { refresh as refreshEvents } from "../Events/slice";
+import { refresh as refreshBalances } from "../Balances/slice";
+import { refresh as refreshSchedules } from "../Schedules/slice";
 import { useDispatch } from "react-redux";
 
 
@@ -29,19 +32,19 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
   const [sortValue, setSortValue] = useState(0);
   const [sortKey, setSortKey] = useState("UserName");
   const dispatch = useDispatch();
-
-  const [pageNumber, setPageNumber] = useState(20);
+  const numberOfRowToDisplay = 20;
+  const [pageNumber, setPageNumber] = useState(numberOfRowToDisplay);
 
   useEffect(() => {
-    dispatch(refresh(sortValue, sortKey));
+    dispatch(refreshUsers(sortValue, sortKey));
+    dispatch(refreshEvents(sortValue, sortKey));
+    dispatch(refreshBalances(sortValue, sortKey));
+    dispatch(refreshSchedules(sortValue, sortKey));
   }, [sortKey, sortValue])
 
   return (
     <>
     <div className="table-responsive">
-    <button onClick={() => setSortValue(sortValue==1?-1:1)}>
-      sorting
-    </button>
       <table className="table card-table table-vcenter text-nowrap datatable table-hover">
         <thead>
           <tr>

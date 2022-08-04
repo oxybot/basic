@@ -7,15 +7,19 @@ const initialState = {
   values: [],
 };
 
-export const getAll = createAsyncThunk("schedules/getAll", async () => {
-  const response = await apiFetch("Schedules", { method: "GET" });
+export const getAll = createAsyncThunk("schedules/getAll", async (sortOptions) => {
+  if(sortOptions == null) {
+    sortOptions = [0, "None"];
+  }
+  const response = await apiFetch("Schedules?sortKey=" + sortOptions[1] + "&sortValue=" + sortOptions[0], { method: "GET" });
   return response;
 });
 
-export const refresh = () => (dispatch, getState) => {
+export const refresh = (sortValue, sortKey) => (dispatch, getState) => {
+  const sortOptions = [sortValue, sortKey];
   const { connected, loading } = schedulesState(getState());
   if (connected && !loading) {
-    dispatch(getAll());
+      dispatch(getAll(sortOptions));
   }
 };
 

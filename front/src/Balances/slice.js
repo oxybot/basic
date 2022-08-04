@@ -7,15 +7,19 @@ const initialState = {
   values: [],
 };
 
-export const getAll = createAsyncThunk("balances/getAll", async () => {
-  const response = await apiFetch("Balances", { method: "GET" });
+export const getAll = createAsyncThunk("balances/getAll", async (sortOptions) => {
+  if(sortOptions == null) {
+    sortOptions = [0, "User"];
+  }
+  const response = await apiFetch("Balances?sortKey=" + sortOptions[1] + "&sortValue=" + sortOptions[0], { method: "GET" });
   return response;
 });
 
-export const refresh = () => (dispatch, getState) => {
+export const refresh = (sortValue, sortKey) => (dispatch, getState) => {
+  const sortOptions = [sortValue, sortKey];
   const { connected, loading } = balancesState(getState());
   if (connected && !loading) {
-    dispatch(getAll());
+      dispatch(getAll(sortOptions));
   }
 };
 

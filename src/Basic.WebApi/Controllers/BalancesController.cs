@@ -35,11 +35,71 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [AuthorizeRoles(Role.TimeRO, Role.Time)]
         [Produces("application/json")]
-        public IEnumerable<BalanceForList> GetAll()
+        public IEnumerable<BalanceForList> GetAll(string filter, string sortKey, int sortValue)
         {
-            return AddIncludesForList(Context.Set<Balance>())
+            var entities = AddIncludesForList(Context.Set<Balance>())
                 .ToList()
                 .Select(e => Mapper.Map<BalanceForList>(e));
+
+            switch(sortKey)
+            {
+                case "User":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.User.DisplayName);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
+                    }
+                    break;
+                    
+                case "Category":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.Category.DisplayName);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.Category.DisplayName).Reverse();
+                    }
+                    break;
+
+                case "Year":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.Year);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.Year).Reverse();
+                    }
+                    break;
+
+                case "Allowed":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.Allowed);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.Allowed).Reverse();
+                    }
+                    break;
+
+                case "Transfered":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.Transfered);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.Transfered).Reverse();
+                    }
+                    break;
+            }
+                
+            return entities;
         }
 
         /// <summary>

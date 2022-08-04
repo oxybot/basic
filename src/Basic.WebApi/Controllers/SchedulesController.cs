@@ -36,11 +36,49 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [AuthorizeRoles(Role.TimeRO, Role.Time)]
         [Produces("application/json")]
-        public IEnumerable<ScheduleForList> GetAll()
+        public IEnumerable<ScheduleForList> GetAll(string filter, string sortKey, int sortValue)
         {
-            return AddIncludesForList(Context.Set<Schedule>())
+            var entities = AddIncludesForList(Context.Set<Schedule>())
                 .ToList()
                 .Select(e => Mapper.Map<ScheduleForList>(e));
+
+            switch(sortKey)
+            {
+                case "User":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.User.DisplayName);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
+                    }
+                    break;
+                    
+                case "Active From":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.ActiveFrom);
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.ActiveFrom).Reverse();
+                    }
+                    break;
+                /*
+                case "Working Schedule":
+                    if(sortValue == 1)
+                    {
+                        entities = entities.OrderBy(o => o.WorkingSchedule.ToString());
+                    }
+                    else if (sortValue == -1)
+                    {
+                        entities = entities.OrderBy(o => o.WorkingSchedule.ToString().Reverse());
+                    }
+                    break;*/
+            }
+                
+            return entities;
         }
 
         /// <summary>

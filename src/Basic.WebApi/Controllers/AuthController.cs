@@ -62,7 +62,7 @@ namespace Basic.WebApi.Controllers
         {
             var user = Context.Set<User>()
                 .Include(u => u.Roles)
-                .SingleOrDefault(u => u.Username == signIn.Username && u.Email != null);
+                .SingleOrDefault(u => u.Username == signIn.Username);
 
            if (!ValidateUser("incertgie.local", signIn.Username, signIn.Password) && (user == null || user.HashPassword(signIn.Password) != user.Password))
             {
