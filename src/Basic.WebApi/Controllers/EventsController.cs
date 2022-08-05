@@ -46,27 +46,7 @@ namespace Basic.WebApi.Controllers
                 .ToList()
                 .Select(e => Mapper.Map<EventForList>(e))
                 .Reverse();
-/*
-            filter = "2";
-            foreach (EventForList elem in entities)
-            {
-                foreach(PropertyDescriptor prop in TypeDescriptor.GetProperties(elem)) 
-                {
-                    string value = prop.GetValue(elem).ToString();
-                    if(value.Contains(filter))
-                    {
-                        Console.WriteLine("OUI");
-                        Console.WriteLine("{0} = {1}", prop.Name, prop.GetValue(elem)); 
-                    }
-                    else
-                    {
-                        Console.WriteLine("NON");
-                        Console.WriteLine("{0} = {1}", prop.Name, prop.GetValue(elem)); 
 
-                    }
-                }
-            }
-        */
             switch(sortKey)
             {
                 case "User":
