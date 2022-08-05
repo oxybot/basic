@@ -14,7 +14,6 @@ import { useDispatch } from "react-redux";
 export default function PageList({ definition, loading, elements, selectedId, texts, newRole = null }) {
   const outlet = useOutlet();
   const isInRole = useInRole();
-
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
 
@@ -54,7 +53,7 @@ export default function PageList({ definition, loading, elements, selectedId, te
                 <div className="d-flex">
                   {isInRole(newRole) && (
                     <>
-                      <div className="mb-3 d-none d-md-block"><input
+                      <div className="d-none d-md-block"><input
                           type="text"
                           className={clsx("form-control")}
                           required={true}
