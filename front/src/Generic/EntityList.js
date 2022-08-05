@@ -9,16 +9,16 @@ import { refresh as refreshBalances } from "../Balances/slice";
 import { refresh as refreshSchedules } from "../Schedules/slice";
 import { useDispatch } from "react-redux";
 
+// ICI filter a supprimer
 
-
-function filtered(fields) {
+function filtered(fields, filter) {
   if (!fields) {
     return fields;
   }
   return fields.filter((i) => i.type !== "key");
 }
 
-export default function EntityList({ loading, definition, entities, baseTo = null, selectedId }) {
+export default function EntityList({ loading, definition, entities, baseTo = null, selectedId, filter }) {
   
   window.onscroll = () => {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
@@ -27,19 +27,19 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
   };
   
   const navigate = useNavigate();
-  const fields = filtered(definition?.fields);
+  const fields = filtered(definition?.fields, filter);
   
   const [sortValue, setSortValue] = useState(0);
   const [sortKey, setSortKey] = useState("UserName");
   const dispatch = useDispatch();
-  const numberOfRowToDisplay = 20;
+  const numberOfRowToDisplay = 24;
   const [pageNumber, setPageNumber] = useState(numberOfRowToDisplay);
 
   useEffect(() => {
-    dispatch(refreshUsers(sortValue, sortKey));
-    dispatch(refreshEvents(sortValue, sortKey));
-    dispatch(refreshBalances(sortValue, sortKey));
-    dispatch(refreshSchedules(sortValue, sortKey));
+    dispatch(refreshUsers(sortValue, sortKey, null));
+    dispatch(refreshEvents(sortValue, sortKey, null));
+    dispatch(refreshBalances(sortValue, sortKey, null));
+    dispatch(refreshSchedules(sortValue, sortKey, null));
   }, [sortKey, sortValue])
 
   return (
@@ -89,9 +89,6 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
         </tbody>
       </table>
     </div>
-    <button type="button" className="btn btn-icon btn-primary" onClick={() => setPageNumber(pageNumber + 20)}>
-      <IconArrowBigDown />
-    </button>
     </>
   );
 }

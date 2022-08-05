@@ -11,12 +11,12 @@ export const getAll = createAsyncThunk("users/getAll", async (sortOptions) => {
   if(sortOptions == null) {
     sortOptions = [0, "Display Name"];
   }
-  const response = await apiFetch("Users?sortKey=" + sortOptions[1] + "&sortValue=" + sortOptions[0], { method: "GET" });
+  const response = await apiFetch("Users?sortKey=" + sortOptions[1] + "&sortValue=" + sortOptions[0] + "&filter=" + sortOptions[2], { method: "GET" });
   return response;
 });
 
-export const refresh = (sortValue, sortKey) => (dispatch, getState) => {
-  const sortOptions = [sortValue, sortKey];
+export const refresh = (sortValue, sortKey, search = null) => (dispatch, getState) => {
+  const sortOptions = [sortValue, sortKey, search];
   const { connected, loading } = usersState(getState());
   if (connected && !loading) {
       dispatch(getAll(sortOptions));
