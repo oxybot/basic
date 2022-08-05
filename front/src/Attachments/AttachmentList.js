@@ -41,7 +41,6 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
               className={clsx({
                 "table-active": entity.identifier === selectedId,
               })}
-              onClick={() => baseTo !== null && navigate([baseTo, entity.identifier].filter((i) => i).join("/"))}
             >
               {entity &&
                 fields &&
