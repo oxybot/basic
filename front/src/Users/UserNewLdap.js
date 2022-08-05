@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { apiFetch } from "../api";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import { refresh } from "./slice";
+import axios from 'axios';
 
 
 export function UserNewLdap() {
@@ -39,7 +40,6 @@ export function UserNewLdap() {
     useEffect(() => {
         if (displaySearch !== search && !loading) {
             setLoading(true);
-
             apiFetch("users/ldap?searchTerm=" + search, { method: "GET" })
                 .then(({ occurrencesNumber, listOfLdapUsers }) => {
                     setResults(listOfLdapUsers);
@@ -50,6 +50,29 @@ export function UserNewLdap() {
         }
     }, [search, displaySearch, loading])
 
+// work in progress
+/*
+    useEffect(() => {
+        if (displaySearch !== search && !loading) {
+            setLoading(true);
+            let cancel;
+            axios({
+                method: 'GET',
+                url: 'https://localhost:7268/users/ldap',
+                params: { searchTerm: search},
+                cancelToken: new axios.CancelToken(c => cancel = c)
+            })
+            .then(({ occurrencesNumber, listOfLdapUsers }) => {
+                setResults(listOfLdapUsers);
+                setOccurrences(occurrencesNumber);
+                setDisplaySearch(search);
+            })
+            setLoading(false);
+
+            return () => cancel();
+        }
+    }, [search, displaySearch, loading])
+*/
     function t(code) {
         const text = texts[code];
         return text;
