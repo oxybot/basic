@@ -35,7 +35,7 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [AuthorizeRoles(Role.TimeRO, Role.Time)]
         [Produces("application/json")]
-        public IEnumerable<BalanceForList> GetAll(string filter, string sortKey, int sortValue)
+        public IEnumerable<BalanceForList> GetAll(string filter = "", string sortKey= "", string sortValue = "")
         {
             var entities = AddIncludesForList(Context.Set<Balance>())
                 .ToList()
@@ -44,55 +44,55 @@ namespace Basic.WebApi.Controllers
             switch(sortKey)
             {
                 case "User":
-                    if(sortValue == 1)
+                    if(sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName);
                     }
-                    else if (sortValue == -1)
+                    else if (sortValue.Equals("desc"))
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
                     }
                     break;
                     
                 case "Category":
-                    if(sortValue == 1)
+                    if(sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.Category.DisplayName);
                     }
-                    else if (sortValue == -1)
+                    else if (sortValue.Equals("desc"))
                     {
                         entities = entities.OrderBy(o => o.Category.DisplayName).Reverse();
                     }
                     break;
 
                 case "Year":
-                    if(sortValue == 1)
+                    if(sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.Year);
                     }
-                    else if (sortValue == -1)
+                    else if (sortValue.Equals("desc"))
                     {
                         entities = entities.OrderBy(o => o.Year).Reverse();
                     }
                     break;
 
                 case "Allowed":
-                    if(sortValue == 1)
+                    if(sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.Allowed);
                     }
-                    else if (sortValue == -1)
+                    else if (sortValue.Equals("desc"))
                     {
                         entities = entities.OrderBy(o => o.Allowed).Reverse();
                     }
                     break;
 
                 case "Transfered":
-                    if(sortValue == 1)
+                    if(sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.Transfered);
                     }
-                    else if (sortValue == -1)
+                    else if (sortValue.Equals("desc"))
                     {
                         entities = entities.OrderBy(o => o.Transfered).Reverse();
                     }

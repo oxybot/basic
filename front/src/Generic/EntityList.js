@@ -29,7 +29,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
   const navigate = useNavigate();
   const fields = filtered(definition?.fields, filter);
   
-  const [sortValue, setSortValue] = useState(0);
+  const [sortValue, setSortValue] = useState("noSort");
   const [sortKey, setSortKey] = useState("UserName");
   const dispatch = useDispatch();
   const numberOfRowToDisplay = 24;
@@ -50,7 +50,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
           <tr>
             {fields &&
               fields.map((field, index) => (
-                <th key={index} className={"sorting " + clsx({ "w-1": index === 0 })} onClick={() => {setSortValue(sortValue==1?-1:1); setSortKey(field.displayName);}}>
+                <th key={index} className={"sorting " + clsx({ "w-1": index === 0 })} onClick={() => {setSortValue(sortValue=="asc"?"desc":"asc"); setSortKey(field.displayName);}}>
                   {field.displayName}
                 </th>
               ))}

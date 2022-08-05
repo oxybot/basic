@@ -36,7 +36,7 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [AuthorizeRoles(Role.TimeRO, Role.Time)]
         [Produces("application/json")]
-        public IEnumerable<ScheduleForList> GetAll(string filter, string sortKey, int sortValue)
+        public IEnumerable<ScheduleForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
         {
             var entities = AddIncludesForList(Context.Set<Schedule>())
                 .ToList()
@@ -45,37 +45,26 @@ namespace Basic.WebApi.Controllers
             switch(sortKey)
             {
                 case "User":
-                    if(sortValue == 1)
+                    if(sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName);
                     }
-                    else if (sortValue == -1)
+                    else if (sortValue.Equals("desc"))
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
                     }
                     break;
                     
                 case "Active From":
-                    if(sortValue == 1)
+                    if(sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.ActiveFrom);
                     }
-                    else if (sortValue == -1)
+                    else if (sortValue.Equals("desc"))
                     {
                         entities = entities.OrderBy(o => o.ActiveFrom).Reverse();
                     }
                     break;
-                /*
-                case "Working Schedule":
-                    if(sortValue == 1)
-                    {
-                        entities = entities.OrderBy(o => o.WorkingSchedule.ToString());
-                    }
-                    else if (sortValue == -1)
-                    {
-                        entities = entities.OrderBy(o => o.WorkingSchedule.ToString().Reverse());
-                    }
-                    break;*/
             }
                 
             return entities;

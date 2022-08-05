@@ -9,7 +9,7 @@ const initialState = {
 
 export const getAll = createAsyncThunk("schedules/getAll", async (sortOptions) => {
   if(sortOptions == null) {
-    sortOptions = [0, "None"];
+    sortOptions = ["noSort", "None"];
   }
   const response = await apiFetch("Schedules?sortKey=" + sortOptions[1] + "&sortValue=" + sortOptions[0] + "&filter=" + sortOptions[2], { method: "GET" });
   return response;
