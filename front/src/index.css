@@ -341,3 +341,7 @@ th.required:after {
 .container-xl {
   max-width: 1620px;
 }
+
+.sorting:hover {
+  cursor: pointer;
+}

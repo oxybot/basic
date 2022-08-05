@@ -50,7 +50,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
           <tr>
             {fields &&
               fields.map((field, index) => (
-                <th key={index} className={clsx({ "w-1": index === 0 })} onClick={() => {setSortValue(sortValue==1?-1:1); setSortKey(field.displayName);}}>
+                <th key={index} className={"sorting " + clsx({ "w-1": index === 0 })} onClick={() => {setSortValue(sortValue==1?-1:1); setSortKey(field.displayName);}}>
                   {field.displayName}
                 </th>
               ))}
