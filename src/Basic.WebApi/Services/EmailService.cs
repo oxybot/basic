@@ -87,7 +87,7 @@ namespace Basic.WebApi.Services
             message.From.Add(new MailboxAddress("Basic", "system.basic@incert.lu"));            
             message.To.Add(new MailboxAddress(toName, toEmail));
 
-            string template = @"basic\src\Basic.WebApi\Templates\email-to-employee-template.txt";
+            string template = @"Template/email-to-employee-template.txt";
 
             // formating the template to fill the email with variables
             string textFromTemplate = System.IO.File.ReadAllText(template);
@@ -132,7 +132,7 @@ namespace Basic.WebApi.Services
             message.From.Add(new MailboxAddress(sender, senderEmail));
 
             // formating the template to fill the email with variables
-            string templateLink = @"X:\_Projects\basic\front\public\email-to-managing-hr-template.txt";
+            string templateLink = @"Template/email-to-managment-hr-template.txt";
             string textFromTemplate = System.IO.File.ReadAllText(templateLink);
             textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
 
