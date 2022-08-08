@@ -42,6 +42,11 @@ namespace Basic.Model
         public const string User = "user";
 
         /// <summary>
+        /// The right to view and manage the beta features for a development purpose.
+        /// </summary>
+        public const string Beta = "beta";
+
+        /// <summary>
         /// Gets or sets the code of the role.
         /// </summary>
         [Required]

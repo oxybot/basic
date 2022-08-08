@@ -149,7 +149,6 @@ namespace Basic.WebApi.Controllers
                 DurationFirstDay = request.DurationFirstDay ?? 8m,
                 DurationLastDay = request.DurationLastDay ?? 8m,
                 DurationTotal = context.TotalHours ?? 0m,
-                Attachments = request.Attachments
             };
 
             User user = this.GetConnectedUser();

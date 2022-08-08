@@ -1,3 +1,4 @@
+using Basic.DataAccess;
 using Basic.Model;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -12,10 +13,14 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Email service constructor
         /// </summary>
-        public EmailService(IConfiguration configuration) 
+        public EmailService(IConfiguration configuration, Context context)
         {
                   this.Configuration = configuration;
+                  this.context = context;
         }
+
+        public  Context context { get; }
+
         /// <summary>
         /// Provides a configuration for the email server.
         /// </summary>
@@ -82,7 +87,7 @@ namespace Basic.WebApi.Services
             message.From.Add(new MailboxAddress("Basic", "system.basic@incert.lu"));            
             message.To.Add(new MailboxAddress(toName, toEmail));
 
-            string template = @"X:\_Projects\basic\front\public\email-to-employee-template.txt";
+            string template = @"basic\src\Basic.WebApi\Templates\email-to-employee-template.txt";
 
             // formating the template to fill the email with variables
             string textFromTemplate = System.IO.File.ReadAllText(template);
@@ -101,14 +106,6 @@ namespace Basic.WebApi.Services
         /// </summary>
         public void EmailToManagers(EventCategory category, User fromUser, Event @event)
         {
-            // Get the managers emails list
-            string managersEmails = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\managers-emails.txt");
-            string[] managersEmailsList = managersEmails.Split(' ');
-            
-            /* Methode de Mohamed à essayer
-            var test = @event as Event;
-            */
-
             // set up the string variables to display
             string fromDate = @event.StartDate.ToString();
             string toDate =  @event.EndDate.ToString();
@@ -119,16 +116,23 @@ namespace Basic.WebApi.Services
             // message creation
             MimeMessage message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Basic", "system.basic@incert.lu"));
+            // get the managers informations sending
+            List<User> managers = context.Set<User>().Where(m => m.Roles.Any( u=> u.Code.Equals("time") || u.Code.Equals("time-ro"))).ToList();
+            
             // for loop to add multiple receivers
-            foreach(string manager in managersEmailsList)
+            foreach(User manager in managers)
             {
-                message.To.Add(new MailboxAddress("Management team", manager));
+                message.To.Add(new MailboxAddress(manager.DisplayName, manager.Email));
             }
 
-            string templateLink = @"X:\_Projects\basic\front\public\email-to-managing-hr-template.txt";
+            // get the sender informations
+            var emailServer = this.Configuration.GetRequiredSection("EmailServer");
+            string sender = emailServer.GetValue<string>("sender");
+            string senderEmail = emailServer.GetValue<string>("senderEmail");
+            message.From.Add(new MailboxAddress(sender, senderEmail));
 
             // formating the template to fill the email with variables
+            string templateLink = @"X:\_Projects\basic\front\public\email-to-managing-hr-template.txt";
             string textFromTemplate = System.IO.File.ReadAllText(templateLink);
             textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
 

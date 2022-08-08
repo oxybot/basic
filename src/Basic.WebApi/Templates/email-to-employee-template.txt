@@ -1,0 +1,8 @@
+Dear {0},
+
+Your request status has changed:
+
+{1}
+
+Best wishes,
+Basic team.

@@ -73,6 +73,6 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the list of the attachments.
         /// </summary>
-        public virtual ICollection<Attachment> Attachments { get; set; }
+        public virtual ICollection<Attachment> Attachments { get; }
     }
 }

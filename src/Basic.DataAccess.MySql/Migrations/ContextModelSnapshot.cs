@@ -51,7 +51,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("OwnerIdentifier");
 
-                    b.ToTable("Agreement");
+                    b.ToTable("Agreement", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.AgreementItem", b =>
@@ -82,7 +82,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("ProductIdentifier");
 
-                    b.ToTable("AgreementItem");
+                    b.ToTable("AgreementItem", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.AgreementStatus", b =>
@@ -111,7 +111,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UpdatedByIdentifier");
 
-                    b.ToTable("AgreementStatus");
+                    b.ToTable("AgreementStatus", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.Attachment", b =>
@@ -146,7 +146,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UserIdentifier");
 
-                    b.ToTable("Attachment");
+                    b.ToTable("Attachment", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.Balance", b =>
@@ -176,7 +176,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UserIdentifier");
 
-                    b.ToTable("Balance");
+                    b.ToTable("Balance", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.Client", b =>
@@ -195,7 +195,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("Client");
+                    b.ToTable("Client", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.Event", b =>
@@ -234,7 +234,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UserIdentifier");
 
-                    b.ToTable("Event");
+                    b.ToTable("Event", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.EventCategory", b =>
@@ -260,7 +260,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("EventCategory");
+                    b.ToTable("EventCategory", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.EventStatus", b =>
@@ -289,7 +289,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UpdatedByIdentifier");
 
-                    b.ToTable("EventStatus");
+                    b.ToTable("EventStatus", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.GlobalDayOff", b =>
@@ -309,7 +309,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.HasIndex("Date")
                         .IsUnique();
 
-                    b.ToTable("GlobalDayOff");
+                    b.ToTable("GlobalDayOff", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.Invoice", b =>
@@ -325,7 +325,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("AgreementIdentifier");
 
-                    b.ToTable("Invoice");
+                    b.ToTable("Invoice", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.Product", b =>
@@ -349,7 +349,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("Product");
+                    b.ToTable("Product", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.Role", b =>
@@ -364,7 +364,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("Role");
+                    b.ToTable("Role", (string)null);
 
                     b.HasData(
                         new
@@ -417,7 +417,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UserIdentifier");
 
-                    b.ToTable("Schedule");
+                    b.ToTable("Schedule", (string)null);
                 });
 
             modelBuilder.Entity("Basic.Model.Status", b =>
@@ -438,7 +438,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("Status");
+                    b.ToTable("Status", (string)null);
 
                     b.HasData(
                         new
@@ -499,7 +499,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
 
                     b.HasData(
                         new
@@ -525,7 +525,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("UsersIdentifier");
 
-                    b.ToTable("RoleUser");
+                    b.ToTable("RoleUser", (string)null);
 
                     b.HasData(
                         new
@@ -630,7 +630,7 @@ namespace Basic.DataAccess.MySql.Migrations
                         .WithMany("Attachments")
                         .HasForeignKey("UserIdentifier");
 
-                    b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
+                    b.OwnsOne("Basic.Model.Attachment.AttachmentContent#Basic.Model.TypedFile", "AttachmentContent", b1 =>
                         {
                             b1.Property<Guid>("AttachmentIdentifier")
                                 .HasColumnType("char(36)");
@@ -645,7 +645,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                             b1.HasKey("AttachmentIdentifier");
 
-                            b1.ToTable("Attachment");
+                            b1.ToTable("Attachment", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("AttachmentIdentifier");
@@ -676,7 +676,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
             modelBuilder.Entity("Basic.Model.Client", b =>
                 {
-                    b.OwnsOne("Basic.Model.StreetAddress", "Address", b1 =>
+                    b.OwnsOne("Basic.Model.Client.Address#Basic.Model.StreetAddress", "Address", b1 =>
                         {
                             b1.Property<Guid>("ClientIdentifier")
                                 .HasColumnType("char(36)");
@@ -698,7 +698,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                             b1.HasKey("ClientIdentifier");
 
-                            b1.ToTable("Client");
+                            b1.ToTable("Client", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ClientIdentifier");
@@ -770,7 +770,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
             modelBuilder.Entity("Basic.Model.User", b =>
                 {
-                    b.OwnsOne("Basic.Model.TypedFile", "Avatar", b1 =>
+                    b.OwnsOne("Basic.Model.User.Avatar#Basic.Model.TypedFile", "Avatar", b1 =>
                         {
                             b1.Property<Guid>("UserIdentifier")
                                 .HasColumnType("char(36)");
@@ -785,7 +785,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                             b1.HasKey("UserIdentifier");
 
-                            b1.ToTable("User");
+                            b1.ToTable("User", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("UserIdentifier");
