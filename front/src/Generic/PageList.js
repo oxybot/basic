@@ -52,7 +52,7 @@ export default function PageList({ definition, loading, elements, selectedId, te
               <div className="col-auto ms-auto d-print-none">
                 <div className="d-flex">
                   {isInRole(newRole) && (
-                    <>
+                    <>{isInRole("beta") && 
                       <div className="d-none d-md-block"><input
                           type="text"
                           className={clsx("form-control")}
@@ -64,6 +64,7 @@ export default function PageList({ definition, loading, elements, selectedId, te
                           onChange={handleChange}
                       />
                       </div>
+                    }
                       <Link to="new" className="ms-3 btn btn-primary d-none d-md-block">
                         <IconPlus />
                         {texts.add}
