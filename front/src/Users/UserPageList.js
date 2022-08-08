@@ -21,7 +21,7 @@ export default function UserPageList({ definition, loading, elements, selectedId
   }
 
   useEffect(() => {
-    dispatch(refreshEvents(0, "None", search));
+    dispatch(refreshEvents("None", "None", search));
     console.log(search);
   }, [search])
 

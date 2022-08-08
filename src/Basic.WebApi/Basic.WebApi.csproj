@@ -39,4 +39,12 @@
     <ProjectReference Include="..\Basic.Model\Basic.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Templates/email-to-employee-template.txt">
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Templates/email-to-managment-hr-template.txt">
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
