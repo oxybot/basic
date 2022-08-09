@@ -6,7 +6,7 @@ namespace Basic.Model
     /// <summary>
     /// Represents a user of the application.
     /// </summary>
-    public class User : BaseModel
+    public class User : BaseModel, IWithAttachments
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
