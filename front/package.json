@@ -12,6 +12,7 @@
     "axios": "^0.27.2",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.3",
+    "file-saver": "^2.0.5",
     "history": "5",
     "pluralize": "^8.0.0",
     "react": "^18.2.0",
