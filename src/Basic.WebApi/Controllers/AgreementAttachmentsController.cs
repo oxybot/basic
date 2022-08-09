@@ -5,7 +5,6 @@ using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Basic.WebApi.Controllers
 {
@@ -15,10 +14,10 @@ namespace Basic.WebApi.Controllers
     [ApiController]
     [Authorize]
     [Route("Agreements/{agreementId}/Attachments")]
-    public class AgreementAttachmentsController : BaseController
+    public class AgreementAttachmentsController : BaseAttachmentsController<Agreement>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AttachmentController"/> class.
+        /// Initializes a new instance of the <see cref="AgreementAttachmentsController"/> class.
         /// </summary>
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
@@ -37,17 +36,9 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [AuthorizeRoles(Role.Client, Role.ClientRO)]
         [Produces("application/json")]
-        public virtual IEnumerable<AttachmentForList> GetAll([FromRoute] Guid agreementId)
+        public override IEnumerable<AttachmentForList> GetAll([FromRoute] Guid agreementId)
         {
-            var parent = Context.Set<Agreement>()
-                .Include(a => a.Attachments)
-                .SingleOrDefault(a => a.Identifier == agreementId);
-            if (parent == null)
-            {
-                throw new NotFoundException("Unknown agreement");
-            }
-
-            return parent.Attachments.Select(a => Mapper.Map<AttachmentForList>(a));
+            return base.GetAll(agreementId);
         }
 
         /// <summary>
@@ -62,18 +53,9 @@ namespace Basic.WebApi.Controllers
         [AuthorizeRoles(Role.Client, Role.ClientRO)]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public virtual AttachmentForView GetOne([FromRoute] Guid agreementId, Guid identifier)
+        public override AttachmentForView GetOne([FromRoute] Guid agreementId, Guid identifier)
         {
-            var parent = Context.Set<Agreement>()
-               .Include(a => a.Attachments)
-               .SingleOrDefault(a => a.Identifier == agreementId);
-            if (parent == null)
-            {
-                throw new NotFoundException("Unknown agreement");
-            }
-
-            var attachment = parent.Attachments.SingleOrDefault(a => a.Identifier == identifier);
-            return Mapper.Map<AttachmentForView>(attachment);
+            return base.GetOne(agreementId, identifier);
         }
 
         /// <summary>
@@ -87,28 +69,9 @@ namespace Basic.WebApi.Controllers
         [HttpPost]
         [AuthorizeRoles(Role.Client)]
         [Produces("application/json")]
-        public virtual AttachmentForList Post([FromRoute] Guid agreementId, AttachmentForEdit entity)
+        public override AttachmentForList Post([FromRoute] Guid agreementId, AttachmentForEdit entity)
         {
-            var parent = Context.Set<Agreement>()
-               .Include(a => a.Attachments)
-               .SingleOrDefault(a => a.Identifier == agreementId);
-            if (parent == null)
-            {
-                throw new NotFoundException("Unknown agreement");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                throw new InvalidModelStateException(ModelState);
-            }
-
-            Attachment model = Mapper.Map<Attachment>(entity);
-            model.AgreementIdentifier = agreementId;
-
-            Context.Set<Attachment>().Add(model);
-            Context.SaveChanges();
-
-            return Mapper.Map<AttachmentForList>(model);
+            return base.Post(agreementId, entity);
         }
 
         /// <summary>
@@ -122,24 +85,20 @@ namespace Basic.WebApi.Controllers
         [AuthorizeRoles(Role.Client)]
         [Produces("application/json")]
         [Route("{identifier}")]
-        public virtual void Delete([FromRoute] Guid agreementId, Guid identifier)
+        public override void Delete([FromRoute] Guid agreementId, Guid identifier)
         {
-            var parent = Context.Set<Agreement>()
-               .Include(a => a.Attachments)
-               .SingleOrDefault(a => a.Identifier == agreementId);
-            if (parent == null)
-            {
-                throw new NotFoundException("Unknown agreement");
-            }
+            base.Delete(agreementId, identifier);
+        }
 
-            var entity = parent.Attachments.SingleOrDefault(a => a.Identifier == identifier);
-            if (entity == null)
-            {
-                throw new NotFoundException("Not existing entity");
-            }
-
-            Context.Set<Attachment>().Remove(entity);
-            Context.SaveChanges();
+        /// <summary>
+        /// Prepares a new attachment instance before saving it.
+        /// </summary>
+        /// <param name="model">The prepared model instance.</param>
+        /// <param name="parentId">The identifier of the parent.</param>
+        /// <param name="entity">The attachment data as provided by the user.</param>
+        protected override void PrePostCore(Attachment model, Guid parentId, AttachmentForEdit entity)
+        {
+            model.AgreementIdentifier = parentId;
         }
     }
 }

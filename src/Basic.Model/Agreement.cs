@@ -8,7 +8,7 @@ namespace Basic.Model
     /// <summary>
     /// Represents an agreement toward a client.
     /// </summary>
-    public class Agreement : BaseModel, IWithStatus<AgreementStatus>
+    public class Agreement : BaseModel, IWithStatus<AgreementStatus>, IWithAttachments
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Agreement"/> class.
