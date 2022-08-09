@@ -9,7 +9,7 @@ const initialState = {
 
 export const getAll = createAsyncThunk("balances/getAll", async (sortOptions) => {
   if(sortOptions == null) {
-    sortOptions = ["noSort", "User"];
+    sortOptions = ["none", "none"];
   }
   const response = await apiFetch("Balances?sortKey=" + sortOptions[1] + "&sortValue=" + sortOptions[0] + "&filter=" + sortOptions[2], { method: "GET" });
   return response;

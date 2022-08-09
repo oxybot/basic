@@ -1,4 +1,4 @@
-import { IconArrowBigDown, IconLoader } from "@tabler/icons";
+import { IconLoader } from "@tabler/icons";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import EntityFieldView from "./EntityFieldView";
@@ -29,8 +29,8 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
   const navigate = useNavigate();
   const fields = filtered(definition?.fields, filter);
   
-  const [sortValue, setSortValue] = useState("noSort");
-  const [sortKey, setSortKey] = useState("UserName");
+  const [sortValue, setSortValue] = useState("none");
+  const [sortKey, setSortKey] = useState("none");
   const dispatch = useDispatch();
   const numberOfRowToDisplay = 24;
   const [pageNumber, setPageNumber] = useState(numberOfRowToDisplay);
@@ -51,7 +51,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
             {fields &&
               fields.map((field, index) => (
                 <th key={index} className={"sorting " + clsx({ "w-1": index === 0 })} onClick={() => {
-                  setSortValue(sortValue=="asc"?"desc":"asc"); 
+                  setSortValue(sortValue==="asc"?"desc":"asc"); 
                   setSortKey(field.displayName);
                   }}>
                   {field.displayName}
