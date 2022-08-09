@@ -13,6 +13,11 @@ export default function ItemsForm({ entity, setEntity, errors = {} }) {
     setEntity(updated);
   }
 
+  function handleRemoveItem() {
+    let updated = { ...entity, items: [...(entity.items || [])] };
+    updated.items.pop({});
+    setEntity(updated);
+  }
   return (
     <div className="card pb-3 col-lg-12">
       <div className="card-header">
@@ -58,7 +63,7 @@ export default function ItemsForm({ entity, setEntity, errors = {} }) {
                       </td>
                     ))}
                   <td>
-                    <button type="button" className="btn btn-outline-primary btn-sm btn-icon">
+                    <button type="button" className="btn btn-outline-primary btn-sm btn-icon" onClick={() => handleRemoveItem()}>
                       <IconMinus />
                     </button>
                   </td>
