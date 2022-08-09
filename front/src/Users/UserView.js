@@ -29,7 +29,7 @@ export function UserView({ backTo = null, full = false }) {
   const { userId } = useParams();
   const get = { method: "GET" };
   const [, entity] = useApiFetch(["Users", userId], get, {});
-  const [, links] = useApiFetch(["Events", userId, "links"], get, {});
+  const [, links] = useApiFetch(["Users", userId, "links"], get, {});
 
 
   return (

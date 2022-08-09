@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Basic.WebApi.Services;
+
 using System.Text.RegularExpressions;
 using System.Reflection;
 using System.ComponentModel;
@@ -256,119 +257,31 @@ namespace Basic.WebApi.Controllers
                 .Include(c => c.Statuses)
                 .ThenInclude(s => s.Status);
         }
-        
-        /*
-        /// <summary>
-        /// Creates a new event attachment.
-        /// </summary>
-        /// <param name="eventId">The identifier of the event.</param>
-        /// <param name="attachment">The event attachment data.</param>
-        /// <returns>The event attachment data after creation.</returns>
-        /// <response code="400">The provided data are invalid.</response>
-        /// <response code="404">The <paramref name="eventId"/> is not associated to any event.</response>
-        [HttpPost]
-        [AuthorizeRoles(Role.Client)]
-        [Route("{eventId}/attachments")]
-        [Produces("application/json")]
-        public AttachmentForList PostAttachment([FromRoute] Guid eventId, AttachmentForEdit attachment)
-        {
-            var event = Context.Set<Event>().SingleOrDefault(e => e.Identifier == eventId);
-            if (event == null)
-            {
-                throw new NotFoundException("Unknown event");
-            }
-
-            Attachment model = Mapper.Map<Attachment>(attachment);
-            model.Event = event;
-            if (attachment.ProductIdentifier.HasValue)
-            {
-                model.Product = Context.Set<Product>()
-                    .SingleOrDefault(p => p.Identifier == attachment.ProductIdentifier.Value);
-                if (model.Product == null)
-                {
-                    ModelState.AddModelError("ProductIdentifier", "Invalid product");
-                    throw new InvalidModelStateException(ModelState);
-                }
-            }
-
-            Context.Set<Attachment>().Add(model);
-            Context.SaveChanges();
-
-            return Mapper.Map<AttachmentForList>(model);
-        }
 
         /// <summary>
-        /// Updates an existing event attachment.
+        /// Retrieves the basic information about the linked entities.
         /// </summary>
-        /// <param name="eventId">The identifier of the event.</param>
-        /// <param name="attachmentId">The identifier of the updated attachment.</param>
-        /// <param name="attachment">The event attachment data.</param>
-        /// <returns>The event attachment data after update.</returns>
-        /// <response code="400">The provided data are invalid.</response>
-        /// <response code="404">The <paramref name="eventId"/> is not associated to any event.</response>
-        [HttpPut]
-        [AuthorizeRoles(Role.Client)]
-        [Route("{eventId}/attachments/{attachmentId}")]
+        /// <param name="identifier">The identifier of the event.</param>
+        /// <returns>The linked entities information.</returns>
+        [HttpGet]
+        [AuthorizeRoles(Role.Time, Role.TimeRO)]
         [Produces("application/json")]
-        public AttachmentForList PutAttachment([FromRoute] Guid eventId, Guid attachmentId, AttachmentForEdit attachment)
+        [Route("{identifier}/links")]
+        public AttachmentLinks GetLinks(Guid identifier)
         {
-            var event = Context.Set<Event>().SingleOrDefault(e => e.Identifier == eventId);
-            if (event == null)
-            {
-                throw new NotFoundException("Unknown event");
-            }
-
-            var model = Context.Set<Attachment>().SingleOrDefault(e => e.Identifier == attachmentId && e.Event == event);
-            if (model == null)
-            {
-                throw new NotFoundException("Unknown event attachment");
-            }
-
-            Mapper.Map(attachment, model);
-            if (attachment.ProductIdentifier.HasValue)
-            {
-                model.Product = Context.Set<Product>()
-                    .SingleOrDefault(p => p.Identifier == attachment.ProductIdentifier.Value);
-                if (model.Product == null)
-                {
-                    ModelState.AddModelError("ProductIdentifier", "Invalid product identifier");
-                    throw new InvalidModelStateException(ModelState);
-                }
-            }
-
-            Context.SaveChanges();
-
-            return Mapper.Map<AttachmentForList>(model);
-        }
-
-        /// <summary>
-        /// Deletes a specific event attachment.
-        /// </summary>
-        /// <param name="eventId">The identifier of the event.</param>
-        /// <param name="attachmentId">The identifier of the attachment to delete.</param>
-        /// <response code="404">No attachment is associated to the provided <paramref name="attachmentId"/>.</response>
-        [HttpDelete]
-        [AuthorizeRoles(Role.Client)]
-        [Route("{eventId}/attachments/{attachmentId}")]
-        [Produces("application/json")]
-        public void DeleteAttachment([FromRoute] Guid eventId, Guid attachmentId)
-        {
-            var event = Context.Set<Event>()
-                .SingleOrDefault(e => e.Identifier == eventId);
-            if (event == null)
-            {
-                throw new NotFoundException("Unknown event");
-            }
-
-            var entity = Context.Set<Attachment>()
-                .SingleOrDefault(e => e.Identifier == attachmentId && e.Event == event);
+            var entity = Context
+                .Set<Event>()
+                .Include(c => c.Attachments)
+                .SingleOrDefault(c => c.Identifier == identifier);
             if (entity == null)
             {
-                throw new NotFoundException($"Not existing entity");
+                throw new NotFoundException("Not existing entity");
             }
 
-            Context.Set<Attachment>().Remove(entity);
-            Context.SaveChanges();
-        }*/
+            return new AttachmentLinks()
+            {
+                Attachments = entity.Attachments.Count
+            };
+        }        
     }
 }

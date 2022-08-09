@@ -1,3 +1,4 @@
+using System.Reflection;
 using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
@@ -6,6 +7,7 @@ using Basic.WebApi.Framework;
 using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Basic.WebApi.Controllers
 {
@@ -41,6 +43,15 @@ namespace Basic.WebApi.Controllers
             var entities = AddIncludesForList(Context.Set<User>())
                 .ToList()
                 .Select(e => Mapper.Map<UserForList>(e));
+
+            /*
+            string name = "UserName";
+            // Compare name with definitions
+            UserForList element = null;
+
+            PropertyInfo property = element.GetType().GetProperty(name);
+            string userName = (string) property.GetValue(element);
+            */
 
             switch(sortKey)
             {
@@ -218,6 +229,33 @@ namespace Basic.WebApi.Controllers
         public override void Delete(Guid identifier)
         {
             base.Delete(identifier);
+        }
+
+        /// <summary>
+        /// Retrieves the basic information about the linked entities.
+        /// </summary>
+        /// <param name="identifier">The identifier of the user.</param>
+        /// <returns>The linked entities information.</returns>
+        [HttpGet]
+        [AuthorizeRoles(Role.Time, Role.TimeRO)]
+        [Produces("application/json")]
+        [Route("{identifier}/links")]
+        public AttachmentLinks GetLinks(Guid identifier)
+        {
+            var entity = Context
+                .Set<User>()
+                .Include(c => c.Attachments)
+                .SingleOrDefault(c => c.Identifier == identifier);
+            if (entity == null)
+            {
+                throw new NotFoundException("Not existing entity");
+            }
+            Console.WriteLine(entity.Attachments);
+            Console.WriteLine(entity.Attachments.Count);
+            return new AttachmentLinks()
+            {
+                Attachments = entity.Attachments.Count
+            };
         }
     }
 }
