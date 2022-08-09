@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import { apiFetch } from "../api";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import { refresh } from "./slice";
-import axios from 'axios';
-
 
 export function UserNewLdap() {
 
@@ -30,11 +28,6 @@ export function UserNewLdap() {
     function handleChange(event) {
         const value = event.target.value;
         setSearch(value);
-    }
-
-    // To use Timeout : " await timeout([number in milliseconds]); "
-    function timeout(delay) {
-        return new Promise(res => setTimeout(res, delay));
     }
 
     useEffect(() => {
