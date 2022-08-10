@@ -8,7 +8,7 @@ namespace Basic.Model
     /// <summary>
     /// Represents a time management event for a user.
     /// </summary>
-    public class Event : BaseModel, IWithStatus<EventStatus>
+    public class Event : BaseModel, IWithStatus<EventStatus>, IWithAttachments
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Event"/> class.

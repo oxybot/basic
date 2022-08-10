@@ -6,7 +6,7 @@ namespace Basic.Model
     /// <summary>
     /// Represents the data of a client.
     /// </summary>
-    public class Client : BaseModel
+    public class Client : BaseModel, IWithAttachments
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Client"/> class.
