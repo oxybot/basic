@@ -9,7 +9,6 @@ import AttachmentList from "../Attachments/AttachmentList";
 const get = { method: "GET" };
 
 function UserAttachmentList({ userId }) {
-  const host = "user";
   const definition = useDefinition("AttachmentForList");
   const [loading, elements] = useApiFetch(["Users", userId, "Attachments"], get, []);
   return (
