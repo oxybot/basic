@@ -14,22 +14,44 @@ function filtered(fields) {
 }
 
 export default function EntityList({ loading, definition, entities, baseTo = null, selectedId }) {
-
+  
   const [attachment, setAttachment] = useState();
+  const fields = filtered(definition?.fields);
 
-  function GetAttachment(attachmentId) {
+  const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+  
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+  
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+  
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+  
+    const blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
+
+  function getAttachment(attachmentId) {
     const get = { method: "GET" };
-    apiFetch(["attachment", attachmentId], get, {})
+
+    apiFetch(["attachment", {attachmentId}], get, {})
       .then((attachmentFromDb) => {
         setAttachment(attachmentFromDb);
       })
-      console.log(attachment);
-      var file = new File([attachment.attachmentContent], attachment.displayName, {type: attachment.attachmentContent.mimeType});
+
+      var dataForFile = b64toBlob(attachment.attachmentContent.data, attachment.attachmentContent.mimeType);
+      var file = new File([dataForFile], attachment.displayName, { type: attachment.attachmentContent.mimeType})
+
       console.log(file);
       saveAs(file);
   }
-
-  const fields = filtered(definition?.fields);
   
   return (
     <div className="table-responsive">
@@ -50,7 +72,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
               {entity && fields &&
                 <>
                   <td>
-                    <button className="btn btn-primary" onClick={() => GetAttachment(entity.identifier)}>
+                    <button className="btn btn-primary" onClick={() => getAttachment(entity.identifier)}>
                       < IconDownload />
                     <EntityFieldView type={fields[0].type} value={entity[fields[0].name]} list />
                     </button>
