@@ -3,47 +3,52 @@ using System;
 using Basic.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Basic.DataAccess.MySql.Migrations
+namespace Basic.DataAccess.SqlServer.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220810091155_UpdateAttachmentStrategy")]
+    partial class UpdateAttachmentStrategy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.6")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Basic.Model.Agreement", b =>
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ClientIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("InternalCode")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("OwnerIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PrivateNotes")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("SignatureDate")
                         .HasColumnType("date");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Identifier");
 
@@ -58,14 +63,14 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ParentIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Identifier");
 
@@ -78,17 +83,17 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AgreementIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ProductIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,6)");
@@ -109,19 +114,19 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("AgreementIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("StatusIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UpdatedByIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Identifier");
 
@@ -138,19 +143,19 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Allowed")
                         .HasColumnType("int");
 
                     b.Property<Guid>("CategoryIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Transfered")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
@@ -168,15 +173,15 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Identifier");
 
@@ -187,14 +192,14 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ParentIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Identifier");
 
@@ -207,13 +212,13 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CategoryIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("DurationFirstDay")
                         .HasColumnType("decimal(18,6)");
@@ -231,7 +236,7 @@ namespace Basic.DataAccess.MySql.Migrations
                         .HasColumnType("date");
 
                     b.Property<Guid>("UserIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Identifier");
 
@@ -246,14 +251,14 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ParentIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Identifier");
 
@@ -266,22 +271,22 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ColorClass")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mapping")
                         .IsRequired()
                         .HasColumnType("nvarchar(24)");
 
                     b.Property<bool>("RequireBalance")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.HasKey("Identifier");
 
@@ -292,19 +297,19 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("EventIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("StatusIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UpdatedByIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Identifier");
 
@@ -321,13 +326,13 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Identifier");
 
@@ -341,10 +346,10 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("AgreementIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Identifier");
 
@@ -357,10 +362,10 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DefaultDescription")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("DefaultQuantity")
                         .HasColumnType("decimal(18,6)");
@@ -370,7 +375,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Identifier");
 
@@ -381,11 +386,11 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Identifier");
 
@@ -428,7 +433,7 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ActiveFrom")
                         .HasColumnType("date");
@@ -437,11 +442,11 @@ namespace Basic.DataAccess.MySql.Migrations
                         .HasColumnType("date");
 
                     b.Property<Guid>("UserIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("WorkingSchedule")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Identifier");
 
@@ -454,17 +459,17 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.HasKey("Identifier");
 
@@ -505,27 +510,27 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Salt")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Identifier");
 
@@ -547,14 +552,14 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     b.Property<Guid>("Identifier")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ParentIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Identifier");
 
@@ -566,10 +571,10 @@ namespace Basic.DataAccess.MySql.Migrations
             modelBuilder.Entity("RoleUser", b =>
                 {
                     b.Property<Guid>("RolesIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UsersIdentifier")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("RolesIdentifier", "UsersIdentifier");
 
@@ -638,15 +643,15 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
                         {
                             b1.Property<Guid>("AgreementAttachmentIdentifier")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<byte[]>("Data")
                                 .IsRequired()
-                                .HasColumnType("longblob");
+                                .HasColumnType("varbinary(max)");
 
                             b1.Property<string>("MimeType")
                                 .IsRequired()
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("AgreementAttachmentIdentifier");
 
@@ -726,22 +731,22 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.OwnsOne("Basic.Model.StreetAddress", "Address", b1 =>
                         {
                             b1.Property<Guid>("ClientIdentifier")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("City")
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("Country")
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("Line1")
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("Line2")
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("PostalCode")
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("ClientIdentifier");
 
@@ -766,15 +771,15 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
                         {
                             b1.Property<Guid>("ClientAttachmentIdentifier")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<byte[]>("Data")
                                 .IsRequired()
-                                .HasColumnType("longblob");
+                                .HasColumnType("varbinary(max)");
 
                             b1.Property<string>("MimeType")
                                 .IsRequired()
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("ClientAttachmentIdentifier");
 
@@ -820,15 +825,15 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
                         {
                             b1.Property<Guid>("EventAttachmentIdentifier")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<byte[]>("Data")
                                 .IsRequired()
-                                .HasColumnType("longblob");
+                                .HasColumnType("varbinary(max)");
 
                             b1.Property<string>("MimeType")
                                 .IsRequired()
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("EventAttachmentIdentifier");
 
@@ -890,15 +895,15 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.OwnsOne("Basic.Model.TypedFile", "Avatar", b1 =>
                         {
                             b1.Property<Guid>("UserIdentifier")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<byte[]>("Data")
                                 .IsRequired()
-                                .HasColumnType("longblob");
+                                .HasColumnType("varbinary(max)");
 
                             b1.Property<string>("MimeType")
                                 .IsRequired()
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("UserIdentifier");
 
@@ -922,15 +927,15 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
                         {
                             b1.Property<Guid>("UserAttachmentIdentifier")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<byte[]>("Data")
                                 .IsRequired()
-                                .HasColumnType("longblob");
+                                .HasColumnType("varbinary(max)");
 
                             b1.Property<string>("MimeType")
                                 .IsRequired()
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("UserAttachmentIdentifier");
 
