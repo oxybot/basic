@@ -13,7 +13,7 @@ function filtered(fields) {
   return fields.filter((i) => i.type !== "key");
 }
 
-export default function EntityList({ loading, definition, entities, baseTo = null, selectedId }) {
+export default function AttachmentList({ loading, definition, entities, baseTo = null, selectedId, parentId }) {
   
   const [attachment, setAttachment] = useState();
   const fields = filtered(definition?.fields);
@@ -38,19 +38,26 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
     return blob;
   }
 
-  function getAttachment(attachmentId) {
+  function getAttachment(attachmentId, parentId) {
     const get = { method: "GET" };
+    console.log(attachmentId + " + " + parentId)
 
-    apiFetch(["attachment", {attachmentId}], get, {})
+    apiFetch(["users", parentId, "attachments", attachmentId], get, {})
       .then((attachmentFromDb) => {
         setAttachment(attachmentFromDb);
       })
-
+      console.log(attachment);
       var dataForFile = b64toBlob(attachment.attachmentContent.data, attachment.attachmentContent.mimeType);
       var file = new File([dataForFile], attachment.displayName, { type: attachment.attachmentContent.mimeType})
 
       console.log(file);
       saveAs(file);
+  }
+
+  function deleteAttachment(attachmentId, parentId) {
+    const get = { method: "DELETE" };
+
+    apiFetch(["users", {parentId}, "attachments", {attachmentId}], get, {})
   }
   
   return (
@@ -72,9 +79,9 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
               {entity && fields &&
                 <>
                   <td>
-                    <button className="btn btn-primary" onClick={() => getAttachment(entity.identifier)}>
-                      < IconDownload />
                     <EntityFieldView type={fields[0].type} value={entity[fields[0].name]} list />
+                    <button className="btn btn-tertiary" onClick={() => getAttachment(entity.identifier, parentId)}>
+                      < IconDownload />
                     </button>
                   </td>
                 </>
