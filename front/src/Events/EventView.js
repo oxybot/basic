@@ -21,7 +21,7 @@ function EventAttachmentList({ eventId }) {
   const [loading, elements] = useApiFetch(["Events", eventId, "Attachments"], { method: "GET" }, []);
   return (
     <div className="card">
-      <AttachmentList loading={loading} definition={definition} entities={elements} baseTo="/attachment" parentId={eventId} />
+      <AttachmentList loading={loading} definition={definition} entities={elements} baseTo="/attachment" typeOfParent="events" parentId={eventId} />
     </div>
   );
 }

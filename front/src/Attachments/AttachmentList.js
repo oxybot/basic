@@ -1,4 +1,4 @@
-import { IconLoader, IconDownload } from "@tabler/icons";
+import { IconLoader, IconDownload, IconCircleX } from "@tabler/icons";
 import clsx from "clsx";
 import EntityFieldView from "../Generic/EntityFieldView";
 import { apiFetch } from "../api";
@@ -13,7 +13,7 @@ function filtered(fields) {
   return fields.filter((i) => i.type !== "key");
 }
 
-export default function AttachmentList({ loading, definition, entities, baseTo = null, selectedId, parentId }) {
+export default function AttachmentList({ loading, definition, entities, baseTo = null, selectedId, typeOfParent, parentId }) {
   
   const [attachment, setAttachment] = useState();
   const fields = filtered(definition?.fields);
@@ -38,11 +38,11 @@ export default function AttachmentList({ loading, definition, entities, baseTo =
     return blob;
   }
 
-  function getAttachment(attachmentId, parentId) {
+  function getAttachment(attachmentId) {
     const get = { method: "GET" };
     console.log(attachmentId + " + " + parentId)
 
-    apiFetch(["users", parentId, "attachments", attachmentId], get, {})
+    apiFetch([typeOfParent, parentId, "attachments", attachmentId], get, {})
       .then((attachmentFromDb) => {
         setAttachment(attachmentFromDb);
       })
@@ -54,10 +54,9 @@ export default function AttachmentList({ loading, definition, entities, baseTo =
       saveAs(file);
   }
 
-  function deleteAttachment(attachmentId, parentId) {
-    const get = { method: "DELETE" };
-
-    apiFetch(["users", {parentId}, "attachments", {attachmentId}], get, {})
+  function deleteAttachment(attachmentId) {
+      const deleteMethod = { method: "DELETE" };
+      apiFetch([typeOfParent, parentId, "attachments", attachmentId], deleteMethod, {})
   }
   
   return (
@@ -79,9 +78,11 @@ export default function AttachmentList({ loading, definition, entities, baseTo =
               {entity && fields &&
                 <>
                   <td>
-                    <EntityFieldView type={fields[0].type} value={entity[fields[0].name]} list />
-                    <button className="btn btn-tertiary" onClick={() => getAttachment(entity.identifier, parentId)}>
-                      < IconDownload />
+                    <button className="btn btn-tertiary" onClick={() => getAttachment(entity.identifier)}>
+                    <EntityFieldView type={fields[0].type} value={entity[fields[0].name]} list /> < IconDownload />
+                    </button>
+                    <button className="btn btn-danger" onClick={() => {if(window.confirm('Are you sure you want to delete this attachment?')){deleteAttachment(entity.identifier)}}}>
+                    <IconCircleX/>
                     </button>
                   </td>
                 </>

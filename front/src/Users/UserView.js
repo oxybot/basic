@@ -13,7 +13,7 @@ function UserAttachmentList({ userId }) {
   const [loading, elements] = useApiFetch(["Users", userId, "Attachments"], get, []);
   return (
     <div className="card">
-      <AttachmentList loading={loading} definition={definition} entities={elements} baseTo="/attachment" parentId={userId} />
+      <AttachmentList loading={loading} definition={definition} entities={elements} baseTo="/attachment" typeOfParent="users" parentId={userId} />
     </div>
   );
 }
