@@ -1,6 +1,5 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
-using Basic.Model;
 
 namespace Basic.WebApi.DTOs
 {
@@ -62,10 +61,5 @@ namespace Basic.WebApi.DTOs
         [Required]
         [SwaggerSchema(Format = "hours")]
         public decimal? DurationTotal { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the list of the attachments.
-        /// </summary>
-        public List<Attachment> Attachments { get; set; }
     }
 }
