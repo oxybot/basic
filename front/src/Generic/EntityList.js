@@ -9,8 +9,6 @@ import { refresh as refreshBalances } from "../Balances/slice";
 import { refresh as refreshSchedules } from "../Schedules/slice";
 import { useDispatch } from "react-redux";
 
-// ICI filter a supprimer
-
 function filtered(fields, filter) {
   if (!fields) {
     return fields;
