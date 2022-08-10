@@ -2,7 +2,7 @@ import { IconCheck, IconX } from "@tabler/icons";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
-import { apiUrl, apiFetch, useApiFetch, useDefinition } from "../api";
+import { apiFetch, useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import PageView from "../Generic/PageView";
 import Sections from "../Generic/Sections";
@@ -16,13 +16,9 @@ const transform = (d) => {
   return d;
 };
 
-function EventViewAttachments({ eventId }) {
-  const host = "event";
+function EventAttachmentList({ eventId }) {
   const definition = useDefinition("AttachmentForList");
-  const url = apiUrl("Attachment/");
-  url.searchParams.set('entityId', eventId);
-  url.searchParams.set('hostAttachment', host);
-  const [loading, elements] = useApiFetch(url, { method: "GET" }, []);
+  const [loading, elements] = useApiFetch(["Events", eventId, "Attachments"], { method: "GET" }, []);
   return (
     <div className="card">
       <AttachmentList loading={loading} definition={definition} entities={elements} baseTo="/attachment" />
@@ -123,7 +119,7 @@ export function EventView({ backTo = null, full = false }) {
         <Section code="statuses" element={<StatusList eventId={eventId} />}>
           Statuses
         </Section>
-        <Section code="attachments" element={<EventViewAttachments eventId={eventId} />}>
+        <Section code="attachments" element={<EventAttachmentList eventId={eventId} />}>
           Attachments
           <span className="badge ms-2 bg-green">{links.attachments || ""}</span>
         </Section>
