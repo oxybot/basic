@@ -17,23 +17,34 @@ function filtered(fields, filter) {
 }
 
 export default function EntityList({ loading, definition, entities, baseTo = null, selectedId, filter }) {
-  
+
+  const [numberOfRowToDisplay, setNumberOfRowToDisplay] = useState(Math.trunc(window.innerHeight / 40));
+  const [pageNumber, setPageNumber] = useState(numberOfRowToDisplay);
+
   window.onscroll = () => {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-      setPageNumber(pageNumber + 20)
+      setPageNumber(pageNumber + 20);
     }
   };
+
+  const handleResize = () => {
+    setNumberOfRowToDisplay(window.innerHeight / 40)
+  }
+
+  useEffect(() => {
+    if(pageNumber < (window.innerHeight / 40)) {
+       setPageNumber(window.innerHeight / 40);
+    }
+    window.addEventListener('resize', handleResize);
+    
+  }, [window.innerHeight])
   
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fields = filtered(definition?.fields, filter);
-  
   const [sortKey, setSortKey] = useState(null);
   const [sortValue, setSortValue] = useState(null);
-
-  const numberOfRowToDisplay = 24;
-  const [pageNumber, setPageNumber] = useState(numberOfRowToDisplay);
-
+    
   useEffect(() => {
     dispatch(refreshUsers(sortValue, sortKey, null));
     dispatch(refreshEvents(sortValue, sortKey, null));
