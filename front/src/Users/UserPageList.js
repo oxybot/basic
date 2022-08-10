@@ -22,7 +22,7 @@ export default function UserPageList({ definition, loading, elements, selectedId
 
   useEffect(() => {
     dispatch(refreshEvents(null, null, search));
-  }, [search])
+  }, [search, dispatch])
 
   return (
     <div className="container-xl">

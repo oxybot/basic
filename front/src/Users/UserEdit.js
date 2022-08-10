@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
 import { refresh } from "./slice";
-import AttachmentForm from "../Generic/AttachmentForm";
+import AttachmentForm from "../Attachments/AttachmentForm";
 
 const transformDef = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");

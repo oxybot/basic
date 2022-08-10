@@ -24,7 +24,7 @@ export default function PageList({ definition, loading, elements, selectedId, te
 
   useEffect(() => {
     dispatch(refreshEvents(null, null, search));
-  }, [search])
+  }, [search, dispatch])
 
   return (
     <div className="container-xl">

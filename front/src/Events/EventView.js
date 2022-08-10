@@ -29,8 +29,6 @@ function EventAttachmentList({ eventId }) {
 function EventViewDetail({ entity }) {
   const definition = useDefinition("EventForView", transform);
 
-  const attachments = entity.attachments || []; 
-
   return (
     <>
     <EntityDetail definition={definition} entity={entity} />

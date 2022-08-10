@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
-import AttachmentForm from "../Generic/AttachmentForm";
+import AttachmentForm from "../Attachments/AttachmentForm";
 import { refresh } from "./slice";
 
 const transform = (d) => {

@@ -1,6 +1,6 @@
 import { IconLoader, IconArrowNarrowUp, IconArrowNarrowDown } from "@tabler/icons";
 import clsx from "clsx";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import EntityFieldView from "./EntityFieldView";
 import { useState, useEffect } from "react";
 import { refresh as refreshUsers} from "../Users/slice";
@@ -8,8 +8,6 @@ import { refresh as refreshEvents } from "../Events/slice";
 import { refresh as refreshBalances } from "../Balances/slice";
 import { refresh as refreshSchedules } from "../Schedules/slice";
 import { useDispatch } from "react-redux";
-
-// ICI filter a supprimer
 
 function filtered(fields, filter) {
   if (!fields) {
@@ -32,8 +30,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
   
   const [sortKey, setSortKey] = useState(null);
   const [sortValue, setSortValue] = useState(null);
-  let [searchParams, setSearchParams] = useSearchParams();
-  
+
   const numberOfRowToDisplay = 24;
   const [pageNumber, setPageNumber] = useState(numberOfRowToDisplay);
 
@@ -42,7 +39,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
     dispatch(refreshEvents(sortValue, sortKey, null));
     dispatch(refreshBalances(sortValue, sortKey, null));
     dispatch(refreshSchedules(sortValue, sortKey, null));
-  }, [sortKey, sortValue])
+  }, [sortKey, sortValue, dispatch])
 
   return (
     <>

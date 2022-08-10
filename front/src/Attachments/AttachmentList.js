@@ -1,7 +1,9 @@
-import { IconLoader} from "@tabler/icons";
+import { IconLoader, IconDownload } from "@tabler/icons";
 import clsx from "clsx";
-import { useNavigate } from "react-router-dom";
 import EntityFieldView from "../Generic/EntityFieldView";
+import { apiFetch } from "../api";
+import { saveAs } from 'file-saver';
+import { useState } from "react";
 
 function filtered(fields) {
   if (!fields) {
@@ -13,22 +15,25 @@ function filtered(fields) {
 
 export default function EntityList({ loading, definition, entities, baseTo = null, selectedId }) {
 
-  const navigate = useNavigate();
+  const [attachment, setAttachment] = useState();
+
+  function GetAttachment(attachmentId) {
+    const get = { method: "GET" };
+    apiFetch(["attachment", attachmentId], get, {})
+      .then((attachmentFromDb) => {
+        setAttachment(attachmentFromDb);
+      })
+      console.log(attachment);
+      var file = new File([attachment.attachmentContent], attachment.displayName, {type: attachment.attachmentContent.mimeType});
+      console.log(file);
+      saveAs(file);
+  }
+
   const fields = filtered(definition?.fields);
   
   return (
     <div className="table-responsive">
       <table className="table card-table table-vcenter text-nowrap datatable table-hover">
-        <thead>
-          <tr>
-            {fields &&
-              fields.map((field, index) => (
-                <th key={index} className={clsx({ "w-1": index === 0 })}>
-                  {field.displayName}
-                </th>
-              ))}
-          </tr>
-        </thead>
         <tbody>
           <tr className={loading ? "" : "d-none"}>
             <td colSpan={fields?.length}>
@@ -42,13 +47,16 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
                 "table-active": entity.identifier === selectedId,
               })}
             >
-              {entity &&
-                fields &&
-                fields.map((field, index) => (
-                  <td key={index}>
-                    <EntityFieldView type={field.type} value={entity[field.name]} list />
+              {entity && fields &&
+                <>
+                  <td>
+                    <button className="btn btn-primary" onClick={() => GetAttachment(entity.identifier)}>
+                      < IconDownload />
+                    <EntityFieldView type={fields[0].type} value={entity[fields[0].name]} list />
+                    </button>
                   </td>
-                ))}
+                </>
+              }
             </tr>
           ))}
           {!loading && entities.length === 0 && (
