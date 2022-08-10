@@ -1,7 +1,5 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
-using Basic.Model;
-
 
 namespace Basic.WebApi.DTOs
 {
@@ -42,10 +40,5 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         [SwaggerSchema(Format = "image")]
         public Base64File Avatar { get; set; } 
-
-        /// <summary>
-        /// Gets or sets the list of the attachments.
-        /// </summary>
-        public List<Attachment> Attachments { get; set; }
     }
 }
