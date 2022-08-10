@@ -1,6 +1,6 @@
-import { IconLoader } from "@tabler/icons";
+import { IconLoader, IconArrowNarrowUp, IconArrowNarrowDown } from "@tabler/icons";
 import clsx from "clsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import EntityFieldView from "./EntityFieldView";
 import { useState, useEffect } from "react";
 import { refresh as refreshUsers} from "../Users/slice";
@@ -27,11 +27,13 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
   };
   
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const fields = filtered(definition?.fields, filter);
   
-  const [sortValue, setSortValue] = useState("none");
-  const [sortKey, setSortKey] = useState("none");
-  const dispatch = useDispatch();
+  const [sortKey, setSortKey] = useState(null);
+  const [sortValue, setSortValue] = useState(null);
+  let [searchParams, setSearchParams] = useSearchParams();
+  
   const numberOfRowToDisplay = 24;
   const [pageNumber, setPageNumber] = useState(numberOfRowToDisplay);
 
@@ -50,11 +52,18 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
           <tr>
             {fields &&
               fields.map((field, index) => (
-                <th key={index} className={"sorting " + clsx({ "w-1": index === 0 })} onClick={() => {
-                  setSortValue(sortValue==="asc"?"desc":"asc"); 
-                  setSortKey(field.displayName);
-                  }}>
-                  {field.displayName}
+                <th 
+                  key={index} 
+                  className={"sorting"} 
+                  onClick={() => {
+                    setSortValue(sortValue==="asc"?"desc":"asc");
+                    setSortKey(field.displayName);
+                    navigate([baseTo] + "?sortKey=" + sortKey + "&sortValue=" + sortValue+ "&filter=" + filter);
+                  }}
+                >
+                  {field.displayName}    {(sortKey === field.displayName) && sortValue !== null &&
+                                          sortValue==="asc"?<IconArrowNarrowUp/>:
+                                          (sortKey === field.displayName && sortValue==="desc"?<IconArrowNarrowDown/>:null)}
                 </th>
               ))}
           </tr>

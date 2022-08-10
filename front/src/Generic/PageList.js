@@ -23,8 +23,7 @@ export default function PageList({ definition, loading, elements, selectedId, te
   }
 
   useEffect(() => {
-    dispatch(refreshEvents(0, "None", search));
-    console.log(search);
+    dispatch(refreshEvents(null, null, search));
   }, [search])
 
   return (
