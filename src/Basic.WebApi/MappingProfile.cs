@@ -91,9 +91,9 @@ namespace Basic.WebApi
             CreateMap<User, UserForView>();
             CreateMap<User, UserForEdit>().ReverseMap();
 
-            CreateMap<Attachment, AttachmentForList>();
-            CreateMap<Attachment, AttachmentForView>();
-            CreateMap<Attachment, AttachmentForEdit>().ReverseMap();
+            CreateMap<BaseAttachment, AttachmentForList>();
+            CreateMap<BaseAttachment, AttachmentForView>();
+            CreateMap<BaseAttachment, AttachmentForEdit>().ReverseMap();
         }
     }
 }

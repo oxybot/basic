@@ -8,7 +8,7 @@ namespace Basic.Model
     /// <summary>
     /// Represents a time management event for a user.
     /// </summary>
-    public class Event : BaseModel, IWithStatus<EventStatus>, IWithAttachments
+    public class Event : BaseModel, IWithStatus<EventStatus>, IWithAttachments<EventAttachment>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Event"/> class.
@@ -16,7 +16,7 @@ namespace Basic.Model
         public Event()
         {
             this.Statuses = new List<EventStatus>();
-            this.Attachments = new List<Attachment>();
+            this.Attachments = new List<EventAttachment>();
         }
 
         /// <summary>
@@ -82,6 +82,6 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the list of the attachments.
         /// </summary>
-        public virtual ICollection<Attachment> Attachments { get; }
+        public virtual ICollection<EventAttachment> Attachments { get; }
     }
 }

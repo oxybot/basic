@@ -6,7 +6,7 @@ namespace Basic.Model
     /// <summary>
     /// Represents the data of a client.
     /// </summary>
-    public class Client : BaseModel, IWithAttachments
+    public class Client : BaseModel, IWithAttachments<ClientAttachment>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Client"/> class.
@@ -14,7 +14,7 @@ namespace Basic.Model
         public Client()
         {
             this.Agreements = new List<Agreement>();
-            this.Attachments = new List<Attachment>();
+            this.Attachments = new List<ClientAttachment>();
         }
 
         /// <summary>
@@ -43,6 +43,6 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the list of the attachments.
         /// </summary>
-        public virtual ICollection<Attachment> Attachments { get; }
+        public virtual ICollection<ClientAttachment> Attachments { get; }
     }
 }

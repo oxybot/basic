@@ -14,16 +14,17 @@ namespace Basic.WebApi.Controllers
     /// </summary>
     [ApiController]
     [Authorize]
-    public abstract class BaseAttachmentsController<TModel> : BaseController
-        where TModel : BaseModel, IWithAttachments, new()
+    public abstract class BaseAttachmentsController<TModel, TAttachment> : BaseController
+        where TModel : BaseModel, IWithAttachments<TAttachment>, new()
+        where TAttachment : BaseAttachment<TModel>, new()
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseAttachmentsController{TModel}"/> class.
+        /// Initializes a new instance of the <see cref="BaseAttachmentsController{TModel, TAttachment}"/> class.
         /// </summary>
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
-        public BaseAttachmentsController(Context context, IMapper mapper, ILogger<BaseAttachmentsController<TModel>> logger)
+        public BaseAttachmentsController(Context context, IMapper mapper, ILogger<BaseAttachmentsController<TModel, TAttachment>> logger)
             : base(context, mapper, logger)
         {
         }
@@ -100,10 +101,10 @@ namespace Basic.WebApi.Controllers
                 throw new InvalidModelStateException(ModelState);
             }
 
-            Attachment model = Mapper.Map<Attachment>(entity);
-            this.PrePostCore(model, parentId, entity);
-            
-            Context.Set<Attachment>().Add(model);
+            TAttachment model = Mapper.Map<AttachmentForEdit, TAttachment>(entity, new TAttachment());
+            model.Parent = parent;
+
+            Context.Set<TAttachment>().Add(model);
             Context.SaveChanges();
 
             return Mapper.Map<AttachmentForList>(model);
@@ -135,16 +136,8 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Not existing entity");
             }
 
-            Context.Set<Attachment>().Remove(entity);
+            Context.Set<TAttachment>().Remove(entity);
             Context.SaveChanges();
         }
-
-        /// <summary>
-        /// Updates the attachment with any specificities of the targeted entity.
-        /// </summary>
-        /// <param name="model">The prepared model instance.</param>
-        /// <param name="parentId">The identifier of the parent.</param>
-        /// <param name="entity">The attachment data as provided by the user.</param>
-        protected abstract void PrePostCore(Attachment model, Guid parentId, AttachmentForEdit entity);
     }
 }

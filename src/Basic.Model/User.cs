@@ -6,7 +6,7 @@ namespace Basic.Model
     /// <summary>
     /// Represents a user of the application.
     /// </summary>
-    public class User : BaseModel, IWithAttachments
+    public class User : BaseModel, IWithAttachments<UserAttachment>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
@@ -17,7 +17,7 @@ namespace Basic.Model
             this.Events = new List<Event>();
             this.Balances = new List<Balance>();
             this.Schedules = new List<Schedule>();
-            this.Attachments = new List<Attachment>();
+            this.Attachments = new List<UserAttachment>();
         }
 
         /// <summary>
@@ -86,6 +86,6 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the list of the attachments.
         /// </summary>
-        public virtual ICollection<Attachment> Attachments { get; }
+        public virtual ICollection<UserAttachment> Attachments { get; }
     }
 }

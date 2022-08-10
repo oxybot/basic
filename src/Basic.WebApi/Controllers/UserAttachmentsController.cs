@@ -14,7 +14,7 @@ namespace Basic.WebApi.Controllers
     [ApiController]
     [Authorize]
     [Route("Users/{userId}/Attachments")]
-    public class UserAttachmentsController : BaseAttachmentsController<User>
+    public class UserAttachmentsController : BaseAttachmentsController<User, UserAttachment>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserAttachmentsController"/> class.
@@ -88,17 +88,6 @@ namespace Basic.WebApi.Controllers
         public override void Delete([FromRoute] Guid userId, Guid identifier)
         {
             base.Delete(userId, identifier);
-        }
-
-        /// <summary>
-        /// Prepares a new attachment instance before saving it.
-        /// </summary>
-        /// <param name="model">The prepared model instance.</param>
-        /// <param name="parentId">The identifier of the parent.</param>
-        /// <param name="entity">The attachment data as provided by the user.</param>
-        protected override void PrePostCore(Attachment model, Guid parentId, AttachmentForEdit entity)
-        {
-            model.UserIdentifier = parentId;
         }
     }
 }

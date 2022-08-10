@@ -57,6 +57,26 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.ToTable("Agreement");
                 });
 
+            modelBuilder.Entity("Basic.Model.AgreementAttachment", b =>
+                {
+                    b.Property<Guid>("Identifier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ParentIdentifier")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Identifier");
+
+                    b.HasIndex("ParentIdentifier");
+
+                    b.ToTable("AgreementAttachment");
+                });
+
             modelBuilder.Entity("Basic.Model.AgreementItem", b =>
                 {
                     b.Property<Guid>("Identifier")
@@ -117,41 +137,6 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.ToTable("AgreementStatus");
                 });
 
-            modelBuilder.Entity("Basic.Model.Attachment", b =>
-                {
-                    b.Property<Guid>("Identifier")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AgreementIdentifier")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ClientIdentifier")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("EventIdentifier")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UserIdentifier")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Identifier");
-
-                    b.HasIndex("AgreementIdentifier");
-
-                    b.HasIndex("ClientIdentifier");
-
-                    b.HasIndex("EventIdentifier");
-
-                    b.HasIndex("UserIdentifier");
-
-                    b.ToTable("Attachment");
-                });
-
             modelBuilder.Entity("Basic.Model.Balance", b =>
                 {
                     b.Property<Guid>("Identifier")
@@ -201,6 +186,26 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.ToTable("Client");
                 });
 
+            modelBuilder.Entity("Basic.Model.ClientAttachment", b =>
+                {
+                    b.Property<Guid>("Identifier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ParentIdentifier")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Identifier");
+
+                    b.HasIndex("ParentIdentifier");
+
+                    b.ToTable("ClientAttachment");
+                });
+
             modelBuilder.Entity("Basic.Model.Event", b =>
                 {
                     b.Property<Guid>("Identifier")
@@ -238,6 +243,26 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.HasIndex("UserIdentifier");
 
                     b.ToTable("Event");
+                });
+
+            modelBuilder.Entity("Basic.Model.EventAttachment", b =>
+                {
+                    b.Property<Guid>("Identifier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ParentIdentifier")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Identifier");
+
+                    b.HasIndex("ParentIdentifier");
+
+                    b.ToTable("EventAttachment");
                 });
 
             modelBuilder.Entity("Basic.Model.EventCategory", b =>
@@ -521,6 +546,26 @@ namespace Basic.DataAccess.SqlServer.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Basic.Model.UserAttachment", b =>
+                {
+                    b.Property<Guid>("Identifier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ParentIdentifier")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Identifier");
+
+                    b.HasIndex("ParentIdentifier");
+
+                    b.ToTable("UserAttachment");
+                });
+
             modelBuilder.Entity("RoleUser", b =>
                 {
                     b.Property<Guid>("RolesIdentifier")
@@ -585,6 +630,41 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.Navigation("Owner");
                 });
 
+            modelBuilder.Entity("Basic.Model.AgreementAttachment", b =>
+                {
+                    b.HasOne("Basic.Model.Agreement", "Parent")
+                        .WithMany("Attachments")
+                        .HasForeignKey("ParentIdentifier")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
+                        {
+                            b1.Property<Guid>("AgreementAttachmentIdentifier")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<byte[]>("Data")
+                                .IsRequired()
+                                .HasColumnType("varbinary(max)");
+
+                            b1.Property<string>("MimeType")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("AgreementAttachmentIdentifier");
+
+                            b1.ToTable("AgreementAttachment");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AgreementAttachmentIdentifier");
+                        });
+
+                    b.Navigation("AttachmentContent")
+                        .IsRequired();
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("Basic.Model.AgreementItem", b =>
                 {
                     b.HasOne("Basic.Model.Agreement", "Agreement")
@@ -623,49 +703,6 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.Navigation("Status");
 
                     b.Navigation("UpdatedBy");
-                });
-
-            modelBuilder.Entity("Basic.Model.Attachment", b =>
-                {
-                    b.HasOne("Basic.Model.Agreement", null)
-                        .WithMany("Attachments")
-                        .HasForeignKey("AgreementIdentifier");
-
-                    b.HasOne("Basic.Model.Client", null)
-                        .WithMany("Attachments")
-                        .HasForeignKey("ClientIdentifier");
-
-                    b.HasOne("Basic.Model.Event", null)
-                        .WithMany("Attachments")
-                        .HasForeignKey("EventIdentifier");
-
-                    b.HasOne("Basic.Model.User", null)
-                        .WithMany("Attachments")
-                        .HasForeignKey("UserIdentifier");
-
-                    b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
-                        {
-                            b1.Property<Guid>("AttachmentIdentifier")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<byte[]>("Data")
-                                .IsRequired()
-                                .HasColumnType("varbinary(max)");
-
-                            b1.Property<string>("MimeType")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("AttachmentIdentifier");
-
-                            b1.ToTable("Attachment");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AttachmentIdentifier");
-                        });
-
-                    b.Navigation("AttachmentContent")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Basic.Model.Balance", b =>
@@ -721,6 +758,41 @@ namespace Basic.DataAccess.SqlServer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Basic.Model.ClientAttachment", b =>
+                {
+                    b.HasOne("Basic.Model.Client", "Parent")
+                        .WithMany("Attachments")
+                        .HasForeignKey("ParentIdentifier")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
+                        {
+                            b1.Property<Guid>("ClientAttachmentIdentifier")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<byte[]>("Data")
+                                .IsRequired()
+                                .HasColumnType("varbinary(max)");
+
+                            b1.Property<string>("MimeType")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ClientAttachmentIdentifier");
+
+                            b1.ToTable("ClientAttachment");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ClientAttachmentIdentifier");
+                        });
+
+                    b.Navigation("AttachmentContent")
+                        .IsRequired();
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("Basic.Model.Event", b =>
                 {
                     b.HasOne("Basic.Model.EventCategory", "Category")
@@ -738,6 +810,41 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Basic.Model.EventAttachment", b =>
+                {
+                    b.HasOne("Basic.Model.Event", "Parent")
+                        .WithMany("Attachments")
+                        .HasForeignKey("ParentIdentifier")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
+                        {
+                            b1.Property<Guid>("EventAttachmentIdentifier")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<byte[]>("Data")
+                                .IsRequired()
+                                .HasColumnType("varbinary(max)");
+
+                            b1.Property<string>("MimeType")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("EventAttachmentIdentifier");
+
+                            b1.ToTable("EventAttachment");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EventAttachmentIdentifier");
+                        });
+
+                    b.Navigation("AttachmentContent")
+                        .IsRequired();
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Basic.Model.EventStatus", b =>
@@ -805,6 +912,41 @@ namespace Basic.DataAccess.SqlServer.Migrations
                         });
 
                     b.Navigation("Avatar");
+                });
+
+            modelBuilder.Entity("Basic.Model.UserAttachment", b =>
+                {
+                    b.HasOne("Basic.Model.User", "Parent")
+                        .WithMany("Attachments")
+                        .HasForeignKey("ParentIdentifier")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Basic.Model.TypedFile", "AttachmentContent", b1 =>
+                        {
+                            b1.Property<Guid>("UserAttachmentIdentifier")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<byte[]>("Data")
+                                .IsRequired()
+                                .HasColumnType("varbinary(max)");
+
+                            b1.Property<string>("MimeType")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("UserAttachmentIdentifier");
+
+                            b1.ToTable("UserAttachment");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserAttachmentIdentifier");
+                        });
+
+                    b.Navigation("AttachmentContent")
+                        .IsRequired();
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("RoleUser", b =>
