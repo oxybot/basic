@@ -13,6 +13,12 @@ export default function AttachmentForm({ entity, setEntity, errors = {} }) {
     setEntity(updated);
   }
 
+  function handleRemoveAttachment() {
+    let updated = { ...entity, attachments: [...(entity.attachments || [])] };
+    updated.attachments.pop({});
+    setEntity(updated);
+  }
+
   return (
     <div className="card pb-3 col-lg-12">
       <div className="card-header">
@@ -58,7 +64,7 @@ export default function AttachmentForm({ entity, setEntity, errors = {} }) {
                       </td>
                     ))}
                   <td>
-                    <button type="button" className="btn btn-outline-primary btn-sm btn-icon">
+                    <button type="button" className="btn btn-outline-primary btn-sm btn-icon" onClick={() => handleRemoveAttachment()}>
                       <IconMinus />
                     </button>
                   </td>

@@ -4,6 +4,8 @@ import dayjs from "dayjs";
 import pluralize from "pluralize";
 import { Link } from "react-router-dom";
 import { toCurrency } from "../helpers";
+import React from "react";
+
 
 export default function EntityFieldView({ type, value, list = false }) {
   if (value === undefined || value === null) {
@@ -151,14 +153,12 @@ export default function EntityFieldView({ type, value, list = false }) {
     case "string":
       return value;
 
-      case "attachment":
-        return (
-          <img
-            className={clsx("avatar", { "avatar-sm": list }, { "avatar-lg mt-1": !list })}
-            alt=""
-            src={`data:${value.mimeType};base64,${value.data}`}
-          />
-        );
+    case "attachment":
+      return (
+      <button>
+        {value.mimeType}
+      </button>
+        )
 
     default:
       console.warn("unknown field type: " + type + " - rendered as string");

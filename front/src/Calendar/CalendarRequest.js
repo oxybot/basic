@@ -10,8 +10,7 @@ import { apiFetch, useApiFetch, useDefinition } from "../api";
 import EntityFieldEdit from "../Generic/EntityFieldEdit";
 import EntityFieldLabel from "../Generic/EntityFieldLabel";
 import MobilePageTitle from "../Generic/MobilePageTitle";
-
-import AttachmentForm from "../Generic/AttachmentForm";
+import AttachmentForm from "../Attachments/AttachmentForm";
 
 function Status({ value, text, message }) {
   return (
