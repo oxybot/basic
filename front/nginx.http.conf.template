@@ -7,6 +7,7 @@ server {
         index  index.html;
         ssi on;
         set $apirooturl ${API_ROOT_URL};
+        try_files $uri $uri/ $uri.html /index.html;
     }
 
     #error_page  404              /404.html;
