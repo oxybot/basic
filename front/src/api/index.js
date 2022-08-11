@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addFatal } from "../Alerts/slice";
@@ -62,8 +63,7 @@ export function useDefinition(type, transform = defaultTransform) {
 
 export async function apiFetch(url, options) {
   const uri = typeof url === "string" ? apiUrl(url) : url;
-  const tokenCookie = await window.cookieStore.get("access-token");
-  const token = tokenCookie.value;
+  const token = Cookies.get("access-token");
   const headers = options.headers || {};
   const connectedOptions = {
     ...options,

@@ -12,6 +12,7 @@ import {
   IconApiApp,
   IconBrandGithub,
 } from "@tabler/icons";
+import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { authenticationState, useInRole, disconnect} from "./Authentication";
@@ -35,7 +36,7 @@ export default function LayoutMenu() {
   function logout() {
     closeMenu();
     dispatch(disconnect());
-    window.cookieStore.delete("access-token");
+    Cookies.remove("access-token");
   }
 
   return (
