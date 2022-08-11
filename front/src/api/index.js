@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { addFatal } from "../Alerts/slice";
 import { disconnect } from "../Authentication/slice";
 
-const rootApiUrl = process.env.REACT_APP_API_ROOT_URL;
+const rootApiUrl = process.env.REACT_APP_API_ROOT_URL || document.getElementById("apirooturl").innerHTML.trim();
 
 // Based on: https://stackoverflow.com/a/44577075/17681099
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));

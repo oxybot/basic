@@ -18,6 +18,8 @@ import { authenticationState, useInRole, disconnect} from "./Authentication";
 import LayoutMenuDemo from "./LayoutMenuDemo";
 import LayoutTheme from "./LayoutTheme";
 
+const rootApiUrl = process.env.REACT_APP_API_ROOT_URL || document.getElementById("apirooturl").innerHTML.trim();
+
 export default function LayoutMenu() {
   const { user } = useSelector(authenticationState);
   const isInrole = useInRole();
@@ -210,7 +212,7 @@ export default function LayoutMenu() {
               className="btn btn-icon btn-outline-secondary"
               target="_blank"
               rel="noreferrer"
-              href={process.env.REACT_APP_API_ROOT_URL}
+              href={rootApiUrl}
             >
               <IconApiApp />
             </a>

@@ -8,6 +8,8 @@ server {
     location / {
         root   /usr/share/nginx/html;
         index  index.html;
+        ssi on;
+        set $apirooturl ${API_ROOT_URL};
     }
 
     #error_page  404              /404.html;
