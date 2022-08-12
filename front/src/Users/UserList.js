@@ -12,6 +12,7 @@ export function UserList() {
   const texts = {
     title: "Users",
     add: "Add user",
+    research: "Import user"
   };
   const { loading, values: elements } = useSelector(usersState);
   

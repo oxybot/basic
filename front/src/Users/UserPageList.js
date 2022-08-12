@@ -1,4 +1,4 @@
-import { IconPlus, IconSearch } from "@tabler/icons";
+import { IconChevronsDown, IconPlus } from "@tabler/icons";
 import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";
 import { useInRole } from "../Authentication";
@@ -36,7 +36,7 @@ export default function UserPageList({ definition, loading, elements, selectedId
                 <IconPlus />
               </Link>
               <Link to="newldap?search=" className="btn btn-primary btn-icon" aria-label={texts.research}>
-                <IconSearch />
+                <IconChevronsDown />
               </Link>
               </>
             )}
@@ -71,12 +71,12 @@ export default function UserPageList({ definition, loading, elements, selectedId
                       <Link to="new" className="ms-3 btn btn-primary btn-icon d-md-none" aria-label={texts.add}>
                         <IconPlus />
                       </Link>
-                      <Link to="newldap?search=" className="ms-3 btn btn-primary btn-icon d-md-none" aria-label={texts.research}>
-                        <IconSearch />
+                      <Link to="newldap?search=" className="ms-3 btn btn-primary d-none d-md-block">
+                        <IconChevronsDown />
+                        {texts.research}
                       </Link>
-                      <Link hidden={false} to="newldap?search=" className="ms-3 btn btn-primary d-none d-md-block">
-                        <IconSearch />
-                        Research
+                      <Link to="newldap?search=" className="ms-3 btn btn-primary btn-icon d-md-none" aria-label={texts.research}>
+                        <IconChevronsDown />
                       </Link>
                     </>
                   )}
