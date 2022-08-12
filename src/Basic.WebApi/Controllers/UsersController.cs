@@ -38,7 +38,7 @@ namespace Basic.WebApi.Controllers
         [AllowAnonymous]
         // [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
-        public IEnumerable<UserForList> GetAll(string filter = "", string sortKey = "", string sortValue = "" )
+        public IEnumerable<UserForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
         {
             var entities = AddIncludesForList(Context.Set<User>())
                 .ToList()
@@ -53,10 +53,10 @@ namespace Basic.WebApi.Controllers
             string userName = (string) property.GetValue(element);
             */
 
-            switch(sortKey)
+            switch (sortKey)
             {
                 case "User Name":
-                    if(sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.UserName);
                     }
@@ -65,9 +65,9 @@ namespace Basic.WebApi.Controllers
                         entities = entities.OrderBy(o => o.UserName).Reverse();
                     }
                     break;
-                    
+
                 case "Title":
-                    if(sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.Title);
                     }
@@ -78,7 +78,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Display Name":
-                    if(sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.DisplayName);
                     }
@@ -89,7 +89,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Email":
-                    if(sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.Email);
                     }
@@ -100,7 +100,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Avatar":
-                    if(sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.DisplayName);
                     }
@@ -110,7 +110,7 @@ namespace Basic.WebApi.Controllers
                     }
                     break;
             }
-                
+
             return entities;
         }
 
@@ -143,14 +143,18 @@ namespace Basic.WebApi.Controllers
         // [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
         [Route("ldap")]
-        public LdapUsers GetLdapUser([FromServices]LdapSearchService service, string searchTerm)
+        public LdapUsers GetLdapUser([FromServices] LdapSearchService service, string searchTerm)
         {
             LdapUsers ldapUsers = service.LdapSearch(searchTerm);
             var usersFromDb = Context.Set<User>();
 
-            ldapUsers.ListOfLdapUsers.ToList().ForEach(d => d.Importable =! usersFromDb.Any(sd => sd.Email.ToLower() == d.Email.ToLower()));
-            
-            if(ldapUsers.ListOfLdapUsers.Count > 0){string imageString = ldapUsers.ListOfLdapUsers[0].Avatar;}
+            ldapUsers.ListOfLdapUsers.ToList()
+                .ForEach(d => d.Importable = !usersFromDb.Any(sd => sd.Email.ToLowerInvariant() == d.Email.ToLowerInvariant()));
+
+            if (ldapUsers.ListOfLdapUsers.Count > 0)
+            {
+                string imageString = ldapUsers.ListOfLdapUsers[0].Avatar;
+            }
 
             return ldapUsers;
         }

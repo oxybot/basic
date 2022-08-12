@@ -1,4 +1,5 @@
 using Basic.WebApi.DTOs;
+using Microsoft.Extensions.Options;
 using Novell.Directory.Ldap;
 
 namespace Basic.WebApi.Services
@@ -11,36 +12,38 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Ldap search service constructor.
         /// </summary>
-        public LdapSearchService(IConfiguration configuration)
+        /// <param name="options">The active directory configuration options.</param>
+        /// <param name="logger">The logger associated to the class.</param>
+        public LdapSearchService(IOptions<ActiveDirectoryOptions> options, ILogger<LdapSearchService> logger)
         {
-            this.Configuration = configuration;
-            this.Connection = LdapConnect();
+            this.Options = options.Value;
+            this.Logger = logger;
+            this.Connection = new LdapConnection();
         }
 
         /// <summary>
         /// Provides a configuration for the connection to the Active Directory.
         /// </summary>
-        public IConfiguration Configuration { get; }
+        public ActiveDirectoryOptions Options { get; }
+
+        /// <summary>
+        /// Gets the associated logger.
+        /// </summary>
+        public ILogger<LdapSearchService> Logger { get; }
 
         /// <summary>
         /// Provides a connection to the Active Directory.
         /// </summary>
-        public LdapConnection Connection { get; set; }
+        public LdapConnection Connection { get; }
 
         /// <summary>
         /// Establish a connection to the Active Directory.
         /// </summary>
-        public LdapConnection LdapConnect()
+        public void LdapConnect()
         {
-            var configuration = Configuration.GetRequiredSection("ActiveDirectory");
-
-            var connection = new LdapConnection { SecureSocketLayer = false };
-
-            string userDn = configuration.GetValue<string>("UserDN");
-            connection.Connect(configuration.GetValue<string>("Server"), configuration.GetValue<int>("Port"));
-            connection.Bind(userDn, configuration.GetValue<string>("Password"));
-
-            return connection;
+            this.Connection.SecureSocketLayer = false;
+            Connection.Connect(Options.Server, Options.Port);
+            Connection.Bind(Options.UserDN, Options.Password);
         }
 
         /// <summary>
@@ -60,34 +63,28 @@ namespace Basic.WebApi.Services
             List<LdapUser> ldapUsersList = new List<LdapUser>();
             LdapUsers ldapUsers = new LdapUsers();
 
-            var configuration = Configuration.GetRequiredSection("ActiveDirectory");
-            var ldapSearchConfiguration = Configuration.GetRequiredSection("LdapUserSearch");
-            var searchBase = configuration.GetValue<string>("Base");
-
             try
             {
-                if (! this.Connection.Connected) 
+                if (!this.Connection.Connected)
                 {
                     this.LdapConnect();
                 }
 
-                // Count loops number to fill in the list of users to return:
-                var counter = 0;
-                // Get the occurrences number to display:
-                int occurrencesToDisplay = ldapSearchConfiguration.GetValue<int>("occurrencesToDisplay");
+                string filter = $"(&(objectClass=person)(cn=*{searchTerm}*))";
+                LdapSearchConstraints constraints = new LdapSearchConstraints() { MaxResults = Options.UserSearchLimit };
+                LdapSearchQueue queue = Connection.Search(Options.BaseDN, LdapConnection.ScopeSub, filter, null, false, (LdapSearchQueue)null, constraints);
 
-                LdapSearchQueue queue = Connection.Search(searchBase, LdapConnection.ScopeSub, $"(&(objectClass=person)(cn=*{searchTerm}*))",
-                                        null, false, (LdapSearchQueue)null, (LdapSearchConstraints)null);
                 LdapMessage message;
-
                 while ((message = queue.GetResponse()) != null)
                 {
                     if (message is LdapSearchResult)
                     {
                         LdapEntry entry = (message as LdapSearchResult).Entry;
+
                         // Get the attribute set of the entry
                         LdapAttributeSet attributeSet = entry.GetAttributeSet();
-                        System.Collections.IEnumerator ienum = attributeSet.GetEnumerator();
+                        var ienum = attributeSet.GetEnumerator();
+
                         // Parse through the attribute set to get the attributes and the corresponding values
 
                         LdapUser user = new LdapUser();
@@ -101,21 +98,17 @@ namespace Basic.WebApi.Services
                             user.Title = entry.GetAttributeAsString("description");
                             user.Avatar = entry.GetAttributeAsBase64("thumbnailPhoto");
                         }
-                        if (counter < occurrencesToDisplay)
-                        {
-                            ldapUsersList.Add(user);
-                        }
-                        counter++;
+
+                        ldapUsersList.Add(user);
                     }
                 }
-                ldapUsers.ListOfLdapUsers = ldapUsersList;
-                ldapUsers.OccurrencesNumber = counter;
 
-                return ldapUsers;
+                ldapUsers.ListOfLdapUsers = ldapUsersList;
+                ldapUsers.OccurrencesNumber = ldapUsersList.Count;
             }
             catch (LdapException ex)
             {
-                Console.WriteLine(ex);
+                Logger.LogError(ex, "Can't retrieve users from Active Directory");
             }
 
             return ldapUsers;
