@@ -15,27 +15,27 @@ namespace Basic.WebApi.Services
         /// </summary>
         public EmailService(IConfiguration configuration, Context context)
         {
-                  this.Configuration = configuration;
-                  this.context = context;
+            this.Configuration = configuration;
+            this.context = context;
         }
 
-        public  Context context { get; }
+        public Context context { get; }
 
         /// <summary>
         /// Provides a configuration for the email server.
         /// </summary>
-        public  IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// Provides emails sending test
         /// </summary>
-        public  void EmailSendingTest()
+        public void EmailSendingTest()
         {
             MimeMessage message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Basic", "system@incert.lu"));
-            message.To.Add(new MailboxAddress("Kevin", "kgerber@incert.lu"));
-            
+            message.From.Add(new MailboxAddress("Basic", "basic-system@example.com"));
+            message.To.Add(new MailboxAddress("John Doe", "demo@example.com"));
+
             // formating the template to fill the email with variables
             string textFromTemplate = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\email-to-employee-template copy.txt");
             textFromTemplate = string.Format(textFromTemplate, 12, 13);
@@ -71,7 +71,7 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides email to send to employee
         /// </summary>
-        public  void EmailToEmployee(User manager, User user, Event @event, Status from, Status to)
+        public void EmailToEmployee(User manager, User user, Event @event, Status from, Status to)
         {
             string toName = user.DisplayName.Split(' ')[0];
             string toEmail = user.Email;
@@ -84,7 +84,7 @@ namespace Basic.WebApi.Services
 
             MimeMessage message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Basic", "system.basic@incert.lu"));            
+            message.From.Add(new MailboxAddress("Basic", "basic-noreply@example.com"));
             message.To.Add(new MailboxAddress(toName, toEmail));
 
             string template = @"Template/email-to-employee-template.txt";
@@ -108,7 +108,7 @@ namespace Basic.WebApi.Services
         {
             // set up the string variables to display
             string fromDate = @event.StartDate.ToString();
-            string toDate =  @event.EndDate.ToString();
+            string toDate = @event.EndDate.ToString();
             string displayCategory = category.DisplayName;
             string emailContent = $"{displayCategory} request from {fromDate}, to {toDate}.";
             string fromName = fromUser.DisplayName;
@@ -117,10 +117,10 @@ namespace Basic.WebApi.Services
             MimeMessage message = new MimeMessage();
 
             // get the managers informations sending
-            List<User> managers = context.Set<User>().Where(m => m.Roles.Any( u=> u.Code.Equals("time") || u.Code.Equals("time-ro"))).ToList();
-            
+            List<User> managers = context.Set<User>().Where(m => m.Roles.Any(u => u.Code.Equals("time") || u.Code.Equals("time-ro"))).ToList();
+
             // for loop to add multiple receivers
-            foreach(User manager in managers)
+            foreach (User manager in managers)
             {
                 message.To.Add(new MailboxAddress(manager.DisplayName, manager.Email));
             }
@@ -147,7 +147,7 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides emails sending
         /// </summary>
-        public  void EmailSending(MimeMessage message)
+        public void EmailSending(MimeMessage message)
         {
             SmtpClient client = new SmtpClient();
 

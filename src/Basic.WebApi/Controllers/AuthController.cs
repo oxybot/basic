@@ -63,11 +63,30 @@ namespace Basic.WebApi.Controllers
             var user = Context.Set<User>()
                 .Include(u => u.Roles)
                 .SingleOrDefault(u => u.Username == signIn.Username);
-
-           if (!ValidateUser("incertgie.local", signIn.Username, signIn.Password) && (user == null || user.HashPassword(signIn.Password) != user.Password))
+            if (user == null)
             {
+                // The user doesn't exists
                 ModelState.AddModelError("", "Invalid credentials");
                 throw new InvalidModelStateException(ModelState);
+            }
+
+            if (user.Password == null)
+            {
+                // Use AD connection to authenticate
+                if (!ValidateUser("incertgie.local", signIn.Username, signIn.Password))
+                {
+                    ModelState.AddModelError("", "Invalid credentials");
+                    throw new InvalidModelStateException(ModelState);
+                }
+            }
+            else
+            {
+                // Use local password
+                if (user.HashPassword(signIn.Password) != user.Password)
+                {
+                    ModelState.AddModelError("", "Invalid credentials");
+                    throw new InvalidModelStateException(ModelState);
+                }
             }
 
             var token = BuildJWTToken(user);
@@ -126,6 +145,7 @@ namespace Basic.WebApi.Controllers
             {
                 Console.WriteLine(ex);
             }
+
             return false;
         }
 

@@ -117,6 +117,7 @@ namespace Basic.WebApi.Services
             {
                 Console.WriteLine(ex);
             }
+
             return ldapUsers;
         }
     }
