@@ -91,9 +91,8 @@ namespace Basic.WebApi.Services
 
                         while (ienum.MoveNext())
                         {
-                            user.DisplayName = entry.GetAttributeAsString("givenName") + " " + entry.GetAttributeAsString("sn");
-                            if (entry.GetAttributeAsString("mail") == null) { user.Email = "-"; }
-                            else { user.Email = entry.GetAttributeAsString("mail"); }
+                            user.DisplayName = entry.GetAttributeAsString("cn");
+                            user.Email = entry.GetAttributeAsString("mail") ?? "-";
                             user.UserName = entry.GetAttributeAsString("sAMAccountName");
                             user.Title = entry.GetAttributeAsString("description");
                             user.Avatar = entry.GetAttributeAsBase64("thumbnailPhoto");
