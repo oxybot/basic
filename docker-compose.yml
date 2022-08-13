@@ -64,3 +64,11 @@ services:
     ports:
       - 5002:1080
       - 1025:1025
+
+  ldap:
+    image: dwimberger/ldap-ad-it:latest
+    restart: always
+    volumes:
+      - ./support/ldap.ldif:/ldap/users.ldif:ro
+    ports:
+      - 10389:10389
