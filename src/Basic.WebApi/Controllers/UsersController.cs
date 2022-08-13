@@ -149,7 +149,7 @@ namespace Basic.WebApi.Controllers
             var usersFromDb = Context.Set<User>();
 
             ldapUsers.ListOfLdapUsers.ToList()
-                .ForEach(d => d.Importable = !usersFromDb.Any(sd => sd.Email.ToLowerInvariant() == d.Email.ToLowerInvariant()));
+                .ForEach(d => d.Importable = !usersFromDb.Any(sd => sd.Email.ToLower() == d.Email.ToLower()));
 
             if (ldapUsers.ListOfLdapUsers.Count > 0)
             {
