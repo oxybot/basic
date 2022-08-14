@@ -100,6 +100,7 @@ namespace Basic.DataAccess
                 DisplayName = "John Doe",
                 Title = "User Group Evangelist",
                 Salt = "demo",
+                IsActive = true,
             };
             demoUser.Password = demoUser.HashPassword("demo");
 

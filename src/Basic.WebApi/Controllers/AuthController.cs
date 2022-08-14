@@ -98,6 +98,14 @@ namespace Basic.WebApi.Controllers
                 }
             }
 
+            // The provided credential are valid - checking that the user is active
+            if (!user.IsActive)
+            {
+                ModelState.AddModelError("", "This account is inactive");
+                throw new InvalidModelStateException(ModelState);
+            }
+
+            // All good - create and provide a token for the session
             var token = BuildJWTToken(user);
             return new AuthResult()
             {

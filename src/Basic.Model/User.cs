@@ -31,7 +31,12 @@ namespace Basic.Model
         /// </summary>
         [Required]
         public string Username { get; set; }
-        
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user is active or not.
+        /// </summary>
+        public bool IsActive { get; set; } = true;
+
         /// <summary>
         /// Gets or sets the e-mail of the user.
         /// </summary>
@@ -40,9 +45,6 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the password of the user, if any.
         /// </summary>
-        /// <remarks>
-        /// A user without a password can't connect to the application.
-        /// </remarks>
         public string Password { get; set; }
 
         /// <summary>

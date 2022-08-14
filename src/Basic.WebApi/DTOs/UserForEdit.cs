@@ -39,6 +39,11 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the avatar of the user.
         /// </summary>
         [SwaggerSchema(Format = "image")]
-        public Base64File Avatar { get; set; } 
+        public Base64File Avatar { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user is authorized to connect.
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }

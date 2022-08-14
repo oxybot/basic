@@ -47,5 +47,10 @@ namespace Basic.WebApi.DTOs
         [Display(Order = 1)]
         [SwaggerSchema(Format = "image")]
         public Base64File Avatar { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user is authorized to connect.
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }

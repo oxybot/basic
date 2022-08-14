@@ -16,7 +16,7 @@ namespace Basic.Model
         /// <param name="newPassword">The new password, if any.</param>
         /// <remarks>
         /// If <paramref name="newPassword"/> is <c>null</c> or empty, the password of the user
-        /// will be removed so that the user can't connect anymore.
+        /// will be removed so that the user can't connect anymore via a direct account.
         /// </remarks>
         public static void ChangePassword(this User user, string newPassword)
         {
