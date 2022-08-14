@@ -6,20 +6,25 @@ using MimeKit;
 namespace Basic.WebApi.Services
 {
     /// <summary>
-    /// Provides email services
+    /// Provides email services.
     /// </summary>
     public class EmailService
     {
         /// <summary>
-        /// Email service constructor
+        /// Initializes a new instance of the <see cref="EmailService"/> class.
         /// </summary>
+        /// <param name="configuration">The current configuration.</param>
+        /// <param name="context">The current database context.</param>
         public EmailService(IConfiguration configuration, Context context)
         {
             this.Configuration = configuration;
-            this.context = context;
+            this.Context = context;
         }
 
-        public Context context { get; }
+        /// <summary>
+        /// Gets the current database context.
+        /// </summary>
+        public Context Context { get; }
 
         /// <summary>
         /// Provides a configuration for the email server.
@@ -117,7 +122,7 @@ namespace Basic.WebApi.Services
             MimeMessage message = new MimeMessage();
 
             // get the managers informations sending
-            List<User> managers = context.Set<User>().Where(m => m.Roles.Any(u => u.Code.Equals("time") || u.Code.Equals("time-ro"))).ToList();
+            List<User> managers = Context.Set<User>().Where(m => m.Roles.Any(u => u.Code.Equals("time") || u.Code.Equals("time-ro"))).ToList();
 
             // for loop to add multiple receivers
             foreach (User manager in managers)

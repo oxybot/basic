@@ -26,7 +26,7 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthController"/> class.
         /// </summary>
-        /// <param name="options">The options associated with AD authentication.<param>
+        /// <param name="options">The options associated with AD authentication.</param>
         /// <param name="configuration">The associated configuration.</param>
         /// <param name="context">The datasource context.</param>
         /// <param name="logger">The associated logger.</param>

@@ -116,12 +116,13 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Creates a request.
         /// </summary>
+        /// <param name="notification">The email service used for notification.</param>
         /// <param name="request">The request data.</param>
         /// <returns>The balance data after creation.</returns>
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [Produces("application/json")]
-        public EventForList Post([FromServices]EmailService service, CalendarRequest request)
+        public EventForList Post([FromServices]EmailService notification, CalendarRequest request)
         {
             var context = CreateContext(request);
             if (context.Category == null)
@@ -160,24 +161,20 @@ namespace Basic.WebApi.Controllers
                 UpdatedBy = user
             });
 
-            var usersFromDb = Context.Set<User>();
             User userRequest = model.User;
-
             if (userRequest == null)
             {
                 ModelState.AddModelError("User", "The User is invalid");
             }
 
-            var categories = Context.Set<EventCategory>();
             EventCategory category = model.Category;
-
             if (category == null)
             {
                 ModelState.AddModelError("Category", "The event category is invalid");
             }
 
             // Send an email notification when an event is created
-            service.EmailToManagers(category, userRequest, model);
+            notification.EmailToManagers(category, userRequest, model);
 
             Context.Set<Event>().Add(model);
             Context.SaveChanges();

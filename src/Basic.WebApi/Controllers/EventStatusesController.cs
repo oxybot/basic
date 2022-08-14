@@ -96,6 +96,7 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Updates the current status of a specific event.
         /// </summary>
+        /// <param name="notification">The notification service.</param>
         /// <param name="eventId">The identifier of the event.</param>
         /// <param name="update">The details of the update.</param>
         /// <returns>The identifier of the created status.</returns>
@@ -103,7 +104,7 @@ namespace Basic.WebApi.Controllers
         [HttpPost]
         [AuthorizeRoles(Role.Time)]
         [Produces("application/json")]
-        public EntityReference EditStatus([FromServices]EmailService service,Guid eventId, StatusUpdate update)
+        public EntityReference EditStatus([FromServices] EmailService notification, Guid eventId, StatusUpdate update)
         {
             var entity = Context.Set<Event>().Include(e => e.Statuses)
                 .SingleOrDefault(c => c.Identifier == eventId);
@@ -146,7 +147,7 @@ namespace Basic.WebApi.Controllers
             var user = this.GetConnectedUser();
             var status = new EventStatus() { Status = to, UpdatedBy = user, UpdatedOn = DateTime.UtcNow };
             entity.Statuses.Add(status);
-            Context.SaveChanges();      
+            Context.SaveChanges();
 
             var usersFromDb = Context.Set<User>();
             var eventsFromDb = Context.Set<Event>();
@@ -154,7 +155,7 @@ namespace Basic.WebApi.Controllers
             Event @event = eventsFromDb.ToList().Find(e => e.Identifier == eventId);
             User eventUser = usersFromDb.ToList().Find(u => u.Identifier == @event.User.Identifier);
 
-            service.EmailToEmployee(user,eventUser, entity, from, to);
+            notification.EmailToEmployee(user, eventUser, entity, from, to);
 
             return Mapper.Map<EntityReference>(status);
         }

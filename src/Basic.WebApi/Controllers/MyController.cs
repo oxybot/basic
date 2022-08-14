@@ -181,11 +181,9 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Updates the connected user password.
         /// </summary>
-        /// <param name="user">The current user.</param>
         /// <param name="password">The password data.</param>
         /// <returns>The user data after update.</returns>
         /// <response code="400">The provided data are invalid.</response>
-        /// <response code="404">No user is associated to the provided <paramref name="user"/>.</response>
         [HttpPut]
         [Produces("application/json")]
         [Route("password")]
@@ -201,37 +199,6 @@ namespace Basic.WebApi.Controllers
             Context.SaveChanges();
 
             return Mapper.Map<UserForList>(model);
-
-            // return Mapper.Map<UserForList>(user);
         }
-/*
-        /// <summary>
-        /// Get the list of attachments of the user.
-        /// </summary>
-        [HttpGet]
-        [AllowAnonymous]
-        [Produces("application/json")]
-        [Route("attachments")]
-        public List<TypedFile> GetAttachments()
-        {
-            var user = this.GetConnectedUser();
-
-            return user.Attachments;
-        }
-        
-        /// <summary>
-        /// Adding an new attachment to the attachment list of the user.
-        /// </summary>
-        /// <param name="attachment">The TypedFile you want to add to the Attachment list.</param>
-        [HttpPost]
-        [AllowAnonymous]
-        [Produces("application/json")]
-        [Route("attachments")]
-        public void AddAttachment(TypedFile attachment)
-        {
-            var user = this.GetConnectedUser();
-
-            user.Attachments.Add(attachment);
-}*/
     }
 }
