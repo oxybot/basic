@@ -37,6 +37,11 @@
         public string Password { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the associated domain.
+        /// </summary>
+        public string DomainName { get; set; }
+
+        /// <summary>
         /// Gets or sets the base DN used during search.
         /// </summary>
         public string BaseDN { get; set; }

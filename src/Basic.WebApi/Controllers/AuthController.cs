@@ -3,9 +3,11 @@ using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Models;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Novell.Directory.Ldap;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,15 +26,22 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthController"/> class.
         /// </summary>
+        /// <param name="options">The options associated with AD authentication.<param>
         /// <param name="configuration">The associated configuration.</param>
         /// <param name="context">The datasource context.</param>
         /// <param name="logger">The associated logger.</param>
-        public AuthController(IConfiguration configuration, Context context, ILogger<AuthController> logger)
+        public AuthController(IOptions<ActiveDirectoryOptions> options, IConfiguration configuration, Context context, ILogger<AuthController> logger)
         {
+            this.Options = options.Value;
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             Context = context ?? throw new ArgumentNullException(nameof(context));
             Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
+
+        /// <summary>
+        /// Gets the options associated with AD authentication.
+        /// </summary>
+        protected ActiveDirectoryOptions Options { get; }
 
         /// <summary>
         /// Gets the associated configuration.
@@ -73,7 +82,7 @@ namespace Basic.WebApi.Controllers
             if (user.Password == null)
             {
                 // Use AD connection to authenticate
-                if (!ValidateUser("incertgie.local", signIn.Username, signIn.Password))
+                if (!ValidateUser(signIn.Username, signIn.Password))
                 {
                     ModelState.AddModelError("", "Invalid credentials");
                     throw new InvalidModelStateException(ModelState);
@@ -126,14 +135,15 @@ namespace Basic.WebApi.Controllers
             };
         }
 
-        private bool ValidateUser(string domainName, string username, string password)
+        private bool ValidateUser(string username, string password)
         {
+            string domainName = Options.DomainName;
             string userDn = $"{username}@{domainName}";
             try
             {
                 using (var connection = new LdapConnection { SecureSocketLayer = false })
                 {
-                    connection.Connect(domainName, 389);
+                    connection.Connect(Options.Server, Options.Port);
                     connection.Bind(userDn, password);
                     if (connection.Bound)
                     {
