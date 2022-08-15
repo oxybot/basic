@@ -101,7 +101,7 @@ export function useApiFetch(url, options, defaultState = null, transform = defau
         setLoading(false);
       })
       .catch((err) => {
-        if (err === 401) {
+        if (err !== null && err.message === "401") {
           dispatch(disconnect());
         } else {
           console.log(err);
