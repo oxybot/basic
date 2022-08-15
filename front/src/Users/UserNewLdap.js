@@ -1,3 +1,4 @@
+import { IconAtom2 } from "@tabler/icons";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -101,48 +102,43 @@ export function UserNewLdap() {
             </div>
           </div>
 
-          <div hidden={loading}>
-            {occurrences} matching user{occurrences < "2" ? "" : "s"}
-          </div>
+          {!loading && (
+            <div>
+              {occurrences} matching user{occurrences < "2" ? "" : "s"}
+            </div>
+          )}
 
           <div className="card col-lg-12">
-            {results.map((result, index) => (
-              <div className="ldap-card" hidden={!results} key={index}>
-                <img
-                  hidden={result.avatar}
-                  className="picture"
-                  src="/no-picture.png"
-                  alt="user pp"
-                  width="100"
-                  height="150"
-                ></img>
-                <img
-                  hidden={!result.avatar}
-                  className="picture"
-                  src={"data:image/gif;base64," + result.avatar}
-                  alt="user pp"
-                  width="100"
-                  height="150"
-                ></img>
+            <ul className="list-group list-group-flush">
+              {results.map((result, index) => (
+                <li className="list-group-item" key={index}>
+                  <div className="d-flex flex-row">
+                    <div className={clsx("avatar", "avatar-lg mt-1")}>
+                      {!result.avatar && <IconAtom2 />}
+                      {result.avatar && <img alt="" src={`data:image/jpeg;base64,${result.avatar}`} />}
+                    </div>
 
-                <div className="ldap-attributs">
-                  <div className="lead">{result.displayName}</div>
-                  <div className="lead">{result.email !== "" ? result.email : "-"}</div>
-                  <div className="lead">{result.title !== "" ? result.title : "-"}</div>
-                </div>
-                <div className="importable">
-                  <button
-                    className="btn btn-primary"
-                    disabled={!result.importable}
-                    onClick={() => {
-                      importLdapUser(result);
-                    }}
-                  >
-                    Import user
-                  </button>
-                </div>
-              </div>
-            ))}
+                    <div className="ms-3">
+                      <div className="lead">{result.displayName}</div>
+                      <div className="">{result.title || "-"}</div>
+                      <div className="">{result.email || "-"}</div>
+                    </div>
+                  </div>
+
+                  <div className="d-flex flex-row mt-2">
+                    <button
+                      className="btn btn-primary ms-auto"
+                      disabled={!result.importable}
+                      onClick={() => {
+                        importLdapUser(result);
+                      }}
+                    >
+                      Import user
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
