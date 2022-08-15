@@ -26,7 +26,7 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the e-mail of the user.
         /// </summary>
         [SwaggerSchema("The display name of the user")]
-        [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         /// <summary>
