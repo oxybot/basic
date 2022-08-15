@@ -137,7 +137,7 @@ builder.Services.AddSwaggerGen(options =>
 // Business services
 builder.Services.AddScoped<ConsumptionService>();
 builder.Services.AddScoped<Context>();
-builder.Services.AddSingleton<LdapSearchService>();
+builder.Services.AddSingleton<ExternalAuthenticatorService>();
 builder.Services.AddScoped<EmailService>();
 
 var app = builder.Build();

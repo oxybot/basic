@@ -7,9 +7,7 @@ using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Novell.Directory.Ldap;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -26,22 +24,15 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthController"/> class.
         /// </summary>
-        /// <param name="options">The options associated with AD authentication.</param>
         /// <param name="configuration">The associated configuration.</param>
         /// <param name="context">The datasource context.</param>
         /// <param name="logger">The associated logger.</param>
-        public AuthController(IOptions<ActiveDirectoryOptions> options, IConfiguration configuration, Context context, ILogger<AuthController> logger)
+        public AuthController(IConfiguration configuration, Context context, ILogger<AuthController> logger)
         {
-            this.Options = options.Value;
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             Context = context ?? throw new ArgumentNullException(nameof(context));
             Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        /// <summary>
-        /// Gets the options associated with AD authentication.
-        /// </summary>
-        protected ActiveDirectoryOptions Options { get; }
 
         /// <summary>
         /// Gets the associated configuration.
@@ -61,13 +52,14 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Sign in a specific user.
         /// </summary>
+        /// <param name="externalAuthenticator">The service to manage external authentications.</param>
         /// <param name="signIn">The sign in information.</param>
         /// <returns>The JWT token to be used for this connection.</returns>
         [AllowAnonymous]
         [HttpPost]
         [Produces("application/json")]
         [ProducesResponseType(typeof(InvalidResult), StatusCodes.Status400BadRequest)]
-        public AuthResult SignIn([FromBody] AuthRequest signIn)
+        public AuthResult SignIn([FromServices] ExternalAuthenticatorService externalAuthenticator, [FromBody] AuthRequest signIn)
         {
             var user = Context.Set<User>()
                 .Include(u => u.Roles)
@@ -79,16 +71,16 @@ namespace Basic.WebApi.Controllers
                 throw new InvalidModelStateException(ModelState);
             }
 
-            if (user.Password == null)
+            if (user.ExternalIdentifier != null)
             {
-                // Use AD connection to authenticate
-                if (!ValidateUser(signIn.Username, signIn.Password))
+                // Use the external authenticator
+                if (!externalAuthenticator.ValidateUser(user.ExternalIdentifier, signIn.Password))
                 {
                     ModelState.AddModelError("", "Invalid credentials");
                     throw new InvalidModelStateException(ModelState);
                 }
             }
-            else
+            else if (user.Password != null)
             {
                 // Use local password
                 if (user.HashPassword(signIn.Password) != user.Password)
@@ -96,6 +88,11 @@ namespace Basic.WebApi.Controllers
                     ModelState.AddModelError("", "Invalid credentials");
                     throw new InvalidModelStateException(ModelState);
                 }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Invalid credentials");
+                throw new InvalidModelStateException(ModelState);
             }
 
             // The provided credential are valid - checking that the user is active
@@ -141,30 +138,6 @@ namespace Basic.WebApi.Controllers
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
                 Expire = new DateTimeOffset(token.ValidTo).ToUnixTimeMilliseconds(),
             };
-        }
-
-        private bool ValidateUser(string username, string password)
-        {
-            string domainName = Options.DomainName;
-            string userDn = $"{username}@{domainName}";
-            try
-            {
-                using (var connection = new LdapConnection { SecureSocketLayer = false })
-                {
-                    connection.Connect(Options.Server, Options.Port);
-                    connection.Bind(userDn, password);
-                    if (connection.Bound)
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (LdapException ex)
-            {
-                Console.WriteLine(ex);
-            }
-
-            return false;
         }
 
         private JwtSecurityToken BuildJWTToken(User user)

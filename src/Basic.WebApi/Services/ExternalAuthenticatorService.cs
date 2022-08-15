@@ -5,16 +5,19 @@ using Novell.Directory.Ldap;
 namespace Basic.WebApi.Services
 {
     /// <summary>
-    /// Provides ldap search services.
+    /// Provides authentication of user using an external service.
     /// </summary>
-    public class LdapSearchService : IDisposable
+    /// <remarks>
+    /// The current implementation uses LDAP / Active Directory as a reference.
+    /// </remarks>
+    public class ExternalAuthenticatorService : IDisposable
     {
         /// <summary>
-        /// Ldap search service constructor.
+        /// Initializes a new instance of the <see cref="ExternalAuthenticatorService"/> class.
         /// </summary>
         /// <param name="options">The active directory configuration options.</param>
         /// <param name="logger">The logger associated to the class.</param>
-        public LdapSearchService(IOptions<ActiveDirectoryOptions> options, ILogger<LdapSearchService> logger)
+        public ExternalAuthenticatorService(IOptions<ActiveDirectoryOptions> options, ILogger<ExternalAuthenticatorService> logger)
         {
             this.Options = options.Value;
             this.Logger = logger;
@@ -22,32 +25,22 @@ namespace Basic.WebApi.Services
         }
 
         /// <summary>
-        /// Provides a configuration for the connection to the Active Directory.
+        /// Gets a configuration for the connection to the Active Directory.
         /// </summary>
         public ActiveDirectoryOptions Options { get; }
 
         /// <summary>
         /// Gets the associated logger.
         /// </summary>
-        public ILogger<LdapSearchService> Logger { get; }
+        public ILogger<ExternalAuthenticatorService> Logger { get; }
 
         /// <summary>
-        /// Provides a connection to the Active Directory.
+        /// Gets a connection to the Active Directory.
         /// </summary>
         public LdapConnection Connection { get; }
 
         /// <summary>
-        /// Establish a connection to the Active Directory.
-        /// </summary>
-        public void LdapConnect()
-        {
-            this.Connection.SecureSocketLayer = false;
-            Connection.Connect(Options.Server, Options.Port);
-            Connection.Bind(Options.UserDN, Options.Password);
-        }
-
-        /// <summary>
-        /// Disconnect from the Active Directory.
+        /// Disconnects from the Active Directory.
         /// </summary>
         public void Dispose()
         {
@@ -58,7 +51,7 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Keyword search for an user in the Active Directory.
         /// </summary>
-        public LdapUsers LdapSearch(string searchTerm)
+        public LdapUsers Search(string searchTerm)
         {
             List<LdapUser> ldapUsersList = new List<LdapUser>();
             LdapUsers ldapUsers = new LdapUsers();
@@ -111,6 +104,56 @@ namespace Basic.WebApi.Services
             }
 
             return ldapUsers;
+        }
+
+        /// <summary>
+        /// Validates the credential of a user.
+        /// </summary>
+        /// <param name="username">The identifier of the user on the external authenticator.</param>
+        /// <param name="password">The password of the user.</param>
+        /// <returns></returns>
+        public bool ValidateUser(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new ArgumentException($"'{nameof(username)}' cannot be null or empty.", nameof(username));
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new ArgumentException($"'{nameof(password)}' cannot be null or empty.", nameof(password));
+            }
+
+            string domainName = Options.DomainName;
+            string userDn = $"{username}@{domainName}";
+            try
+            {
+                using (var connection = new LdapConnection { SecureSocketLayer = false })
+                {
+                    connection.Connect(Options.Server, Options.Port);
+                    connection.Bind(userDn, password);
+                    if (connection.Bound)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (LdapException ex)
+            {
+                Logger.LogError(ex, "Error while connecting to the external authenticator");
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Establishes a connection to the Active Directory.
+        /// </summary>
+        protected void LdapConnect()
+        {
+            this.Connection.SecureSocketLayer = false;
+            Connection.Connect(Options.Server, Options.Port);
+            Connection.Bind(Options.UserDN, Options.Password);
         }
     }
 }

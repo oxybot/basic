@@ -143,9 +143,9 @@ namespace Basic.WebApi.Controllers
         // [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
         [Route("ldap")]
-        public LdapUsers GetLdapUser([FromServices] LdapSearchService service, string searchTerm)
+        public LdapUsers GetLdapUser([FromServices] ExternalAuthenticatorService service, string searchTerm)
         {
-            LdapUsers ldapUsers = service.LdapSearch(searchTerm);
+            LdapUsers ldapUsers = service.Search(searchTerm);
             var usersFromDb = Context.Set<User>();
 
             ldapUsers.ListOfLdapUsers.ToList()

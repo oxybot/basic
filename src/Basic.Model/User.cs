@@ -66,6 +66,11 @@ namespace Basic.Model
         public TypedFile Avatar { get; set; }
 
         /// <summary>
+        /// Gets or sets the identifier of the user in the external authenticator.
+        /// </summary>
+        public string ExternalIdentifier { get; set; }
+
+        /// <summary>
         /// Gets the associated roles.
         /// </summary>
         public virtual ICollection<Role> Roles { get; }
