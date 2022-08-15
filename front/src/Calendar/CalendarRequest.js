@@ -190,7 +190,7 @@ export function CalendarRequest() {
                   entity={entity}
                   onChange={handleChange}
                 />
-                <AttachmentForm entity={entity} setEntity={setEntity}/>
+                <AttachmentForm entity={entity} setEntity={setEntity} />
               </div>
             </div>
           )}

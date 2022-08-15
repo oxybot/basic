@@ -4,7 +4,7 @@ import clsx from "clsx";
 export default function LayoutTheme({ className = "btn nav-link" }) {
   // Initialize the page with the current theme
   document.body.className = localStorage.getItem("theme") || "theme-light";
-  
+
   function enableTheme(theme) {
     document.body.className = theme;
     localStorage.setItem("theme", theme);

@@ -22,7 +22,7 @@ export default function UserPageList({ definition, loading, elements, selectedId
 
   useEffect(() => {
     dispatch(refreshEvents(null, null, search));
-  }, [search, dispatch])
+  }, [search, dispatch]);
 
   return (
     <div className="container-xl">
@@ -32,12 +32,12 @@ export default function UserPageList({ definition, loading, elements, selectedId
             <div className="navbar-brand flex-fill">{texts.title}</div>
             {isInRole(newRole) && (
               <>
-              <Link to="new" className="btn btn-primary btn-icon" aria-label={texts.add}>
-                <IconPlus />
-              </Link>
-              <Link to="newldap?search=" className="btn btn-primary btn-icon" aria-label={texts.research}>
-                <IconChevronsDown />
-              </Link>
+                <Link to="new" className="btn btn-primary btn-icon" aria-label={texts.add}>
+                  <IconPlus />
+                </Link>
+                <Link to="newldap?search=" className="btn btn-primary btn-icon" aria-label={texts.research}>
+                  <IconChevronsDown />
+                </Link>
               </>
             )}
           </MobilePageTitle>
@@ -53,7 +53,8 @@ export default function UserPageList({ definition, loading, elements, selectedId
                 <div className="d-flex">
                   {isInRole(newRole) && (
                     <>
-                      <div className="d-none d-md-block"><input
+                      <div className="d-none d-md-block">
+                        <input
                           type="text"
                           className={clsx("form-control")}
                           required={true}
@@ -75,7 +76,11 @@ export default function UserPageList({ definition, loading, elements, selectedId
                         <IconChevronsDown />
                         {texts.research}
                       </Link>
-                      <Link to="newldap?search=" className="ms-3 btn btn-primary btn-icon d-md-none" aria-label={texts.research}>
+                      <Link
+                        to="newldap?search="
+                        className="ms-3 btn btn-primary btn-icon d-md-none"
+                        aria-label={texts.research}
+                      >
                         <IconChevronsDown />
                       </Link>
                     </>
@@ -95,7 +100,7 @@ export default function UserPageList({ definition, loading, elements, selectedId
                 entities={elements}
                 baseTo={""}
                 selectedId={selectedId}
-                filter={""} 
+                filter={""}
               />
             </div>
           </div>

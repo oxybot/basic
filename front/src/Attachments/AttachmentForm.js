@@ -64,7 +64,11 @@ export default function AttachmentForm({ entity, setEntity, errors = {} }) {
                       </td>
                     ))}
                   <td>
-                    <button type="button" className="btn btn-outline-primary btn-sm btn-icon" onClick={() => handleRemoveAttachment()}>
+                    <button
+                      type="button"
+                      className="btn btn-outline-primary btn-sm btn-icon"
+                      onClick={() => handleRemoveAttachment()}
+                    >
                       <IconMinus />
                     </button>
                   </td>

@@ -15,7 +15,7 @@ import {
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { authenticationState, useInRole, disconnect} from "./Authentication";
+import { authenticationState, useInRole, disconnect } from "./Authentication";
 import LayoutMenuDemo from "./LayoutMenuDemo";
 import LayoutTheme from "./LayoutTheme";
 
@@ -209,12 +209,7 @@ export default function LayoutMenu() {
             )}
           </div>
           <div className="offcanvas-footer text-end">
-            <a
-              className="btn btn-icon btn-outline-secondary"
-              target="_blank"
-              rel="noreferrer"
-              href={rootApiUrl}
-            >
+            <a className="btn btn-icon btn-outline-secondary" target="_blank" rel="noreferrer" href={rootApiUrl}>
               <IconApiApp />
             </a>
             <a

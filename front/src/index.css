@@ -312,9 +312,10 @@ th.required:after {
 
 .picture {
   position: relative;
-  bottom: 15%; left: 0%;
-  max-width : 80%;
-  height : auto;
+  bottom: 15%;
+  left: 0%;
+  max-width: 80%;
+  height: auto;
 }
 
 .ldap-card {
@@ -324,13 +325,15 @@ th.required:after {
 
 .importable {
   position: relative;
-  bottom: 22%; left: 70%;
+  bottom: 22%;
+  left: 70%;
 }
 
 @media (min-width: 1320px) {
   .importable {
     position: relative;
-    bottom: 22%; left: 80%;
+    bottom: 22%;
+    left: 80%;
   }
 }
 

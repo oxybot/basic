@@ -45,7 +45,7 @@ export default function EntityFieldInputSchedule({ field, value, hasErrors, onCh
           Odd/Even weeks mapping
         </label>
       </div>
-      <div className={clsx({ "is-invalid": hasErrors, }, "schedule form-control")}>
+      <div className={clsx({ "is-invalid": hasErrors }, "schedule form-control")}>
         <div className="row g-0">
           {days.map((d) => {
             const dayLabel = dayjs().day(d).format("dddd").toLowerCase();
@@ -80,7 +80,7 @@ export default function EntityFieldInputSchedule({ field, value, hasErrors, onCh
                     id={prefix + "-" + dayLabel}
                     value={value[7 + d] || "0"}
                     onChange={(e) => handleChange(e, 7 + d)}
-                    />
+                  />
                 </div>
               );
             })}

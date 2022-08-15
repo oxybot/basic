@@ -12,10 +12,10 @@ export function UserList() {
   const texts = {
     title: "Users",
     add: "Add user",
-    research: "Import user"
+    research: "Import user",
   };
   const { loading, values: elements } = useSelector(usersState);
-  
+
   useEffect(() => {
     dispatch(getAll());
     return () => dispatch(disconnect());
@@ -29,6 +29,6 @@ export function UserList() {
       selectedId={userId}
       texts={texts}
       newRole="user"
-      />
+    />
   );
 }

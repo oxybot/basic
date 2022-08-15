@@ -63,7 +63,11 @@ export default function ItemsForm({ entity, setEntity, errors = {} }) {
                       </td>
                     ))}
                   <td>
-                    <button type="button" className="btn btn-outline-primary btn-sm btn-icon" onClick={() => handleRemoveItem()}>
+                    <button
+                      type="button"
+                      className="btn btn-outline-primary btn-sm btn-icon"
+                      onClick={() => handleRemoveItem()}
+                    >
                       <IconMinus />
                     </button>
                   </td>

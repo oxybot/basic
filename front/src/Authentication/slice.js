@@ -33,7 +33,7 @@ export const authenticationSlice = createSlice({
         state.authenticated = true;
       }
     },
-    disconnect: () => ({ ...initialState })
+    disconnect: () => ({ ...initialState }),
   },
 });
 
