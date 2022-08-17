@@ -77,43 +77,54 @@ namespace Basic.WebApi.Services
         public void EmailToManagers(EventCategory category, User fromUser, Event @event)
         {
             // get the managers informations sending
-            List<User> managers = Context.Set<User>().Where(m => m.Roles.Any( u=> u.Code.Equals("time") || u.Code.Equals("time-ro"))).ToList();
-            if(managers.Count != 0)
+            List<User> managers = Context.Set<User>()
+                .Where(m => m.Roles.Any(u => u.Code.Equals("time") || u.Code.Equals("time-ro")))
+                .Where(m => m.IsActive)
+                .ToList();
+
+            if (managers.Count == 0)
             {
-                // set up the string variables to display
-                string fromDate = @event.StartDate.ToString();
-                string toDate =  @event.EndDate.ToString();
-                string displayCategory = category.DisplayName;
-                string emailContent = $"{displayCategory} request from {fromDate}, to {toDate}.";
-                string fromName = fromUser.DisplayName;
+                // No manager to send the notification to
+                Logger.LogWarning("Setup inconsistency - No time manager defined");
+                return;
+            }
 
-                // message creation
-                MimeMessage message = new MimeMessage();
+            // set up the string variables to display
+            string fromDate = @event.StartDate.ToString();
+            string toDate = @event.EndDate.ToString();
+            string displayCategory = category.DisplayName;
+            string emailContent = $"{displayCategory} request from {fromDate}, to {toDate}.";
+            string fromName = fromUser.DisplayName;
 
-                // for loop to add multiple receivers
-                foreach(User manager in managers)
+            // message creation
+            MimeMessage message = new MimeMessage();
+
+            // for loop to add multiple receivers
+            foreach (User manager in managers)
+            {
+                if (manager.Email != null)
                 {
                     message.To.Add(new MailboxAddress(manager.DisplayName, manager.Email));
                 }
-
-                // get the sender informations
-                var emailServer = this.Configuration.GetRequiredSection("EmailServer");
-                string sender = emailServer.GetValue<string>("sender");
-                string senderEmail = emailServer.GetValue<string>("senderEmail");
-                message.From.Add(new MailboxAddress(sender, senderEmail));
-
-                // formating the template and fill the email with variables
-                string templateLink = @"Template/email-to-managment-hr-template.txt";
-                string textFromTemplate = System.IO.File.ReadAllText(templateLink);
-                textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
-
-                message.Body = new TextPart("plain")
-                {
-                    Text = textFromTemplate
-                };
-
-                EmailSending(message);
             }
+
+            // get the sender informations
+            var emailServer = this.Configuration.GetRequiredSection("EmailServer");
+            string sender = emailServer.GetValue<string>("sender");
+            string senderEmail = emailServer.GetValue<string>("senderEmail");
+            message.From.Add(new MailboxAddress(sender, senderEmail));
+
+            // formating the template and fill the email with variables
+            string templateLink = @"Template/email-to-managment-hr-template.txt";
+            string textFromTemplate = File.ReadAllText(templateLink);
+            textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
+
+            message.Body = new TextPart("plain")
+            {
+                Text = textFromTemplate
+            };
+
+            EmailSending(message);
         }
 
         /// <summary>
