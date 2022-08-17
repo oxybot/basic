@@ -244,8 +244,7 @@ namespace Basic.WebApi.Controllers
             {
                 throw new NotFoundException("Not existing entity");
             }
-            Console.WriteLine(entity.Attachments);
-            Console.WriteLine(entity.Attachments.Count);
+
             return new AttachmentLinks()
             {
                 Attachments = entity.Attachments.Count

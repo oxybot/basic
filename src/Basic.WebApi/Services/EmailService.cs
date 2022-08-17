@@ -15,10 +15,12 @@ namespace Basic.WebApi.Services
         /// </summary>
         /// <param name="configuration">The current configuration.</param>
         /// <param name="context">The current database context.</param>
-        public EmailService(IConfiguration configuration, Context context)
+        /// <param name="logger">The associated logger.</param>
+        public EmailService(IConfiguration configuration, Context context, ILogger<EmailService> logger)
         {
             this.Configuration = configuration;
             this.Context = context;
+            this.Logger = logger;
         }
 
         /// <summary>
@@ -27,51 +29,14 @@ namespace Basic.WebApi.Services
         public Context Context { get; }
 
         /// <summary>
+        /// Gets the associated logger.
+        /// </summary>
+        public ILogger<EmailService> Logger { get; }
+
+        /// <summary>
         /// Provides a configuration for the email server.
         /// </summary>
         public IConfiguration Configuration { get; }
-
-        /// <summary>
-        /// Provides emails sending test
-        /// </summary>
-        public void EmailSendingTest()
-        {
-            MimeMessage message = new MimeMessage();
-
-            message.From.Add(new MailboxAddress("Basic", "basic-system@example.com"));
-            message.To.Add(new MailboxAddress("John Doe", "demo@example.com"));
-
-            // formating the template to fill the email with variables
-            string textFromTemplate = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\email-to-employee-template copy.txt");
-            textFromTemplate = string.Format(textFromTemplate, 12, 13);
-
-            message.Body = new TextPart("plain")
-            {
-                Text = textFromTemplate
-            };
-
-            SmtpClient client = new SmtpClient();
-
-            try
-            {
-                Console.WriteLine("Try to connect");
-                client.Connect("localhost", 1025, false);
-
-                Console.WriteLine("Try to send email");
-                client.Send(message);
-                Console.WriteLine("Success");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("error: " + e.Message);
-            }
-            finally
-            {
-                client.Disconnect(true);
-                client.Dispose();
-            }
-            Console.WriteLine("Over");
-        }
 
         /// <summary>
         /// Provides email to send to employee
@@ -166,24 +131,18 @@ namespace Basic.WebApi.Services
 
             try
             {
-                Console.WriteLine("Try to connect");
                 client.Connect(host, port, ssl);
-
-                Console.WriteLine("Try to send email");
                 client.Send(message);
-
-                Console.WriteLine("Success");
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.WriteLine("error: " + e.Message);
+                Logger.LogError(exception, "Can't send a notification email");
             }
             finally
             {
                 client.Disconnect(true);
                 client.Dispose();
             }
-            Console.WriteLine("Over");
         }
     }
 }
