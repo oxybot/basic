@@ -20,5 +20,11 @@ namespace Basic.Model
         /// </summary>
         [Required]
         public DateTime Expiration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user's token.
+        /// </summary>
+        [Required]
+        public User User { get; set; }
     }
 }

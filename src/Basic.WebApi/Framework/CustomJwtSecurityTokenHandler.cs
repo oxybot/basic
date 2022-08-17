@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Basic.Model;
 
 namespace Basic.WebApi.Framework
 {
@@ -39,6 +40,10 @@ namespace Basic.WebApi.Framework
             using (var scope = this.Services.CreateScope())
             {
                 Context context = scope.ServiceProvider.GetService<Context>();
+
+                claims.FindFirstValue("sid:guid");
+
+                var tokens = context.Set<Token>();
             }
 
             return claims;
