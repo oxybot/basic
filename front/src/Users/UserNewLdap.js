@@ -33,7 +33,7 @@ export function UserNewLdap() {
   useEffect(() => {
     if (displaySearch !== search && !loading) {
       setLoading(true);
-      apiFetch("users/ldap?searchTerm=" + search, { method: "GET" }).then(({ occurrencesNumber, listOfLdapUsers }) => {
+      apiFetch("users/import?searchTerm=" + search, { method: "GET" }).then(({ occurrencesNumber, listOfLdapUsers }) => {
         setResults(listOfLdapUsers);
         setOccurrences(occurrencesNumber);
         setDisplaySearch(search);

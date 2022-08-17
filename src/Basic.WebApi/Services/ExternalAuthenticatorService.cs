@@ -53,8 +53,7 @@ namespace Basic.WebApi.Services
         /// </summary>
         public LdapUsers Search(string searchTerm)
         {
-            List<LdapUser> ldapUsersList = new List<LdapUser>();
-            LdapUsers ldapUsers = new LdapUsers();
+            LdapUsers results = new LdapUsers();
 
             try
             {
@@ -70,40 +69,31 @@ namespace Basic.WebApi.Services
                 LdapMessage message;
                 while ((message = queue.GetResponse()) != null)
                 {
-                    if (message is LdapSearchResult)
+                    if (message is LdapSearchResult searchResult)
                     {
-                        LdapEntry entry = (message as LdapSearchResult).Entry;
-
-                        // Get the attribute set of the entry
-                        LdapAttributeSet attributeSet = entry.GetAttributeSet();
-                        var ienum = attributeSet.GetEnumerator();
-
-                        // Parse through the attribute set to get the attributes and the corresponding values
-
-                        LdapUser user = new LdapUser();
-
-                        while (ienum.MoveNext())
+                        LdapEntry entry = searchResult.Entry;
+                        LdapUser user = new LdapUser
                         {
-                            user.DisplayName = entry.GetAttributeAsString("cn");
-                            user.Email = entry.GetAttributeAsString("mail");
-                            user.UserName = entry.GetAttributeAsString("sAMAccountName");
-                            user.Title = entry.GetAttributeAsString("description");
-                            user.Avatar = entry.GetAttributeAsBase64("thumbnailPhoto");
-                        }
+                            DisplayName = entry.GetAttributeAsString("cn"),
+                            Email = entry.GetAttributeAsString("mail"),
+                            UserName = entry.GetAttributeAsString("sAMAccountName"),
+                            Title = entry.GetAttributeAsString("description"),
+                            Avatar = entry.GetAttributeAsBase64("thumbnailPhoto")
+                        };
 
-                        ldapUsersList.Add(user);
+                        results.ListOfLdapUsers.Add(user);
                     }
                 }
 
-                ldapUsers.ListOfLdapUsers = ldapUsersList.OrderBy(u => u.DisplayName).ToList();
-                ldapUsers.OccurrencesNumber = ldapUsersList.Count;
+                results.ListOfLdapUsers.Sort((u,v) => u.DisplayName.CompareTo(v.DisplayName));
             }
             catch (LdapException ex)
             {
                 Logger.LogError(ex, "Can't retrieve users from Active Directory");
             }
 
-            return ldapUsers;
+            results.OccurrencesNumber = results.ListOfLdapUsers.Count;
+            return results;
         }
 
         /// <summary>
