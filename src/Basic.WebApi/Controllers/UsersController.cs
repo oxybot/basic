@@ -1,4 +1,3 @@
-using System.Reflection;
 using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
@@ -36,9 +35,9 @@ namespace Basic.WebApi.Controllers
         /// <returns>The list of users.</returns>
         [HttpGet]
         [AllowAnonymous]
-        // [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
+        [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
-        public IEnumerable<UserForList> GetAll(string filter = "", string sortKey = "", string sortValue = "" )
+        public IEnumerable<UserForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
         {
             var entities = AddIncludesForList(Context.Set<User>())
                 .ToList()
@@ -53,10 +52,10 @@ namespace Basic.WebApi.Controllers
             string userName = (string) property.GetValue(element);
             */
 
-            switch(sortKey)
+            switch (sortKey)
             {
                 case "User Name":
-                    if(sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.UserName);
                     }
@@ -65,9 +64,9 @@ namespace Basic.WebApi.Controllers
                         entities = entities.OrderBy(o => o.UserName).Reverse();
                     }
                     break;
-                    
+
                 case "Title":
-                    if(sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.Title);
                     }
@@ -78,7 +77,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Display Name":
-                    if(sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.DisplayName);
                     }
@@ -89,7 +88,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Email":
-                    if(sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.Email);
                     }
@@ -100,7 +99,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Avatar":
-                    if(sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc"))
                     {
                         entities = entities.OrderBy(o => o.DisplayName);
                     }
@@ -110,7 +109,7 @@ namespace Basic.WebApi.Controllers
                     }
                     break;
             }
-                
+
             return entities;
         }
 
@@ -121,38 +120,12 @@ namespace Basic.WebApi.Controllers
         /// <returns>The detailed data about the user identified by <paramref name="identifier"/>.</returns>
         /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
         [HttpGet]
-        [AllowAnonymous]
-        // [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
+        [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
         [Route("{identifier}")]
         public override UserForView GetOne(Guid identifier)
         {
             return base.GetOne(identifier);
-        }
-
-
-        /// <summary>
-        /// Retrieves a specific user.
-        /// </summary>
-        /// <param name="service"></param>
-        /// <param name="searchTerm">The identifier of the user.</param>
-        /// <returns>The detailed data about the user identified by <paramref name="searchTerm"/>.</returns>
-        /// <response code="404">No user is associated to the provided <paramref name="searchTerm"/>.</response>
-        [HttpGet]
-        [AllowAnonymous]
-        // [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
-        [Produces("application/json")]
-        [Route("ldap")]
-        public LdapUsers GetLdapUser([FromServices]LdapSearchService service, string searchTerm)
-        {
-            LdapUsers ldapUsers = service.LdapSearch(searchTerm);
-            var usersFromDb = Context.Set<User>();
-
-            ldapUsers.ListOfLdapUsers.ToList().ForEach(d => d.Importable =! usersFromDb.Any(sd => sd.Email.ToLower() == d.Email.ToLower()));
-            
-            if(ldapUsers.ListOfLdapUsers.Count > 0){string imageString = ldapUsers.ListOfLdapUsers[0].Avatar;}
-
-            return ldapUsers;
         }
 
         /// <summary>
@@ -229,6 +202,27 @@ namespace Basic.WebApi.Controllers
         public override void Delete(Guid identifier)
         {
             base.Delete(identifier);
+        }
+
+        /// <summary>
+        /// Supports the import process from the external authenticator by providing the top results of a specific search.
+        /// </summary>
+        /// <param name="service">The external authenticator service.</param>
+        /// <param name="searchTerm">The search criteria.</param>
+        /// <returns>The top results associated with <paramref name="searchTerm"/>.</returns>
+        [HttpGet]
+        [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
+        [Produces("application/json")]
+        [Route("import")]
+        public LdapUsers Import([FromServices] ExternalAuthenticatorService service, string searchTerm)
+        {
+            var ldapUsers = service.Search(searchTerm);
+            var usersFromDb = Context.Set<User>();
+
+            ldapUsers.ListOfLdapUsers.ToList()
+                .ForEach(d => d.Importable = !usersFromDb.Any(sd => sd.Email.ToLower() == d.Email.ToLower()));
+
+            return ldapUsers;
         }
 
         /// <summary>

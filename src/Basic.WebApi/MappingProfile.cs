@@ -94,6 +94,9 @@ namespace Basic.WebApi
             CreateMap<BaseAttachment, AttachmentForList>();
             CreateMap<BaseAttachment, AttachmentForView>();
             CreateMap<BaseAttachment, AttachmentForEdit>().ReverseMap();
+
+            CreateMap<Role, EntityReference>()
+                .ForMember(e => e.DisplayName, options => options.MapFrom(r => r.Code));
         }
     }
 }

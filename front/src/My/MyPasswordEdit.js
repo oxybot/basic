@@ -10,12 +10,6 @@ export function MyPasswordEdit({ full = false }) {
   };
 
   return (
-    <PageEdit
-      definition={definition}
-      entity={entity}
-      texts={texts}
-      full={full}
-      baseApiUrl="My/profile/password"
-    />
+    <PageEdit definition={definition} entity={entity} texts={texts} full={full} baseApiUrl="My/profile/password" />
   );
 }

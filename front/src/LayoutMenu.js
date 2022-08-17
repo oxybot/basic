@@ -12,11 +12,14 @@ import {
   IconApiApp,
   IconBrandGithub,
 } from "@tabler/icons";
+import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { authenticationState, useInRole, disconnect} from "./Authentication";
+import { authenticationState, useInRole, disconnect } from "./Authentication";
 import LayoutMenuDemo from "./LayoutMenuDemo";
 import LayoutTheme from "./LayoutTheme";
+
+const rootApiUrl = process.env.REACT_APP_API_ROOT_URL || document.getElementById("apirooturl").innerHTML.trim();
 
 export default function LayoutMenu() {
   const { user } = useSelector(authenticationState);
@@ -33,7 +36,7 @@ export default function LayoutMenu() {
   function logout() {
     closeMenu();
     dispatch(disconnect());
-    window.cookieStore.delete("access-token");
+    Cookies.remove("access-token");
   }
 
   return (
@@ -206,12 +209,7 @@ export default function LayoutMenu() {
             )}
           </div>
           <div className="offcanvas-footer text-end">
-            <a
-              className="btn btn-icon btn-outline-secondary"
-              target="_blank"
-              rel="noreferrer"
-              href={process.env.REACT_APP_API_ROOT_URL}
-            >
+            <a className="btn btn-icon btn-outline-secondary" target="_blank" rel="noreferrer" href={rootApiUrl}>
               <IconApiApp />
             </a>
             <a

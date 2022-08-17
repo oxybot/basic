@@ -3,11 +3,11 @@ using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Models;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Novell.Directory.Ldap;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -52,24 +52,57 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Sign in a specific user.
         /// </summary>
+        /// <param name="externalAuthenticator">The service to manage external authentications.</param>
         /// <param name="signIn">The sign in information.</param>
         /// <returns>The JWT token to be used for this connection.</returns>
         [AllowAnonymous]
         [HttpPost]
         [Produces("application/json")]
         [ProducesResponseType(typeof(InvalidResult), StatusCodes.Status400BadRequest)]
-        public AuthResult SignIn([FromBody] AuthRequest signIn)
+        public AuthResult SignIn([FromServices] ExternalAuthenticatorService externalAuthenticator, [FromBody] AuthRequest signIn)
         {
             var user = Context.Set<User>()
                 .Include(u => u.Roles)
                 .SingleOrDefault(u => u.Username == signIn.Username);
+            if (user == null)
+            {
+                // The user doesn't exists
+                ModelState.AddModelError("", "Invalid credentials");
+                throw new InvalidModelStateException(ModelState);
+            }
 
-           if (!ValidateUser("incertgie.local", signIn.Username, signIn.Password) && (user == null || user.HashPassword(signIn.Password) != user.Password))
+            if (user.ExternalIdentifier != null)
+            {
+                // Use the external authenticator
+                if (!externalAuthenticator.ValidateUser(user.ExternalIdentifier, signIn.Password))
+                {
+                    ModelState.AddModelError("", "Invalid credentials");
+                    throw new InvalidModelStateException(ModelState);
+                }
+            }
+            else if (user.Password != null)
+            {
+                // Use local password
+                if (user.HashPassword(signIn.Password) != user.Password)
+                {
+                    ModelState.AddModelError("", "Invalid credentials");
+                    throw new InvalidModelStateException(ModelState);
+                }
+            }
+            else
             {
                 ModelState.AddModelError("", "Invalid credentials");
                 throw new InvalidModelStateException(ModelState);
             }
 
+            // The provided credential are valid - checking that the user is active
+            if (!user.IsActive)
+            {
+                ModelState.AddModelError("", "This account is inactive");
+                throw new InvalidModelStateException(ModelState);
+            }
+
+            // All good - create and provide a token for the session
             var token = BuildJWTToken(user);
             return new AuthResult()
             {
@@ -105,28 +138,6 @@ namespace Basic.WebApi.Controllers
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
                 Expire = new DateTimeOffset(token.ValidTo).ToUnixTimeMilliseconds(),
             };
-        }
-
-        private bool ValidateUser(string domainName, string username, string password)
-        {
-            string userDn = $"{username}@{domainName}";
-            try
-            {
-                using (var connection = new LdapConnection { SecureSocketLayer = false })
-                {
-                    connection.Connect(domainName, 389);
-                    connection.Bind(userDn, password);
-                    if (connection.Bound)
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (LdapException ex)
-            {
-                Console.WriteLine(ex);
-            }
-            return false;
         }
 
         private JwtSecurityToken BuildJWTToken(User user)

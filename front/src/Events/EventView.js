@@ -21,7 +21,14 @@ function EventAttachmentList({ eventId }) {
   const [loading, elements] = useApiFetch(["Events", eventId, "Attachments"], { method: "GET" }, []);
   return (
     <div className="card">
-      <AttachmentList loading={loading} definition={definition} entities={elements} baseTo="/attachment" typeOfParent="events" parentId={eventId} />
+      <AttachmentList
+        loading={loading}
+        definition={definition}
+        entities={elements}
+        baseTo="/attachment"
+        typeOfParent="events"
+        parentId={eventId}
+      />
     </div>
   );
 }
@@ -31,7 +38,7 @@ function EventViewDetail({ entity }) {
 
   return (
     <>
-    <EntityDetail definition={definition} entity={entity} />
+      <EntityDetail definition={definition} entity={entity} />
     </>
   );
 }
@@ -68,7 +75,7 @@ export function EventView({ backTo = null, full = false }) {
     if (next.length === 0) {
       return null;
     }
-    
+
     return next.map((status, index) => {
       switch (status.displayName) {
         case "Approved":
@@ -95,8 +102,8 @@ export function EventView({ backTo = null, full = false }) {
               </button>
             </NavLink>
           );
-      default:
-        return null;
+        default:
+          return null;
       }
     });
   }

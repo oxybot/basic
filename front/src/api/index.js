@@ -1,9 +1,10 @@
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addFatal } from "../Alerts/slice";
 import { disconnect } from "../Authentication/slice";
 
-const rootApiUrl = process.env.REACT_APP_API_ROOT_URL;
+const rootApiUrl = process.env.REACT_APP_API_ROOT_URL || document.getElementById("apirooturl").innerHTML.trim();
 
 // Based on: https://stackoverflow.com/a/44577075/17681099
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -62,8 +63,7 @@ export function useDefinition(type, transform = defaultTransform) {
 
 export async function apiFetch(url, options) {
   const uri = typeof url === "string" ? apiUrl(url) : url;
-  const tokenCookie = await window.cookieStore.get("access-token");
-  const token = tokenCookie.value;
+  const token = Cookies.get("access-token");
   const headers = options.headers || {};
   const connectedOptions = {
     ...options,
@@ -101,7 +101,7 @@ export function useApiFetch(url, options, defaultState = null, transform = defau
         setLoading(false);
       })
       .catch((err) => {
-        if (err === 401) {
+        if (err !== null && err.message === "401") {
           dispatch(disconnect());
         } else {
           console.log(err);

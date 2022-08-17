@@ -22,12 +22,12 @@ export function UserNew() {
   }
 
   return (
-    <PageNew 
-    definition={definition} 
-    baseApiUrl="Users" 
-    texts={texts} 
-    onCreate={handleCreate} 
-    extendedForm={(e, s, err) => <AttachmentForm entity={e} setEntity={s} errors={err} />}
+    <PageNew
+      definition={definition}
+      baseApiUrl="Users"
+      texts={texts}
+      onCreate={handleCreate}
+      extendedForm={(e, s, err) => <AttachmentForm entity={e} setEntity={s} errors={err} />}
     />
   );
 }

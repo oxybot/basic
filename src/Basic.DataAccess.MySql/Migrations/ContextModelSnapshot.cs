@@ -514,6 +514,12 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ExternalIdentifier")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Password")
                         .HasColumnType("longtext");
 
@@ -536,6 +542,7 @@ namespace Basic.DataAccess.MySql.Migrations
                         {
                             Identifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5"),
                             DisplayName = "John Doe",
+                            IsActive = true,
                             Password = "QBG6AuURBMZ4wxp2pERIWzjzhl5QTYnDoKgLQ5uxojc=",
                             Salt = "demo",
                             Title = "User Group Evangelist",

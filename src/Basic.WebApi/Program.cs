@@ -39,8 +39,11 @@ builder.Services.AddDbContext<Context>(options =>
     }
 });
 
+// Add custom options for the project
+builder.Services.Configure<ActiveDirectoryOptions>(builder.Configuration.GetSection(ActiveDirectoryOptions.Section));
+
 // Enforce lowercase controller names
-builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true); 
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -134,7 +137,7 @@ builder.Services.AddSwaggerGen(options =>
 // Business services
 builder.Services.AddScoped<ConsumptionService>();
 builder.Services.AddScoped<Context>();
-builder.Services.AddSingleton<LdapSearchService>();
+builder.Services.AddSingleton<ExternalAuthenticatorService>();
 builder.Services.AddScoped<EmailService>();
 
 var app = builder.Build();

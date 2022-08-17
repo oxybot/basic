@@ -1,4 +1,4 @@
-import { IconPlus} from "@tabler/icons";
+import { IconPlus } from "@tabler/icons";
 import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";
 import { useInRole } from "../Authentication";
@@ -24,7 +24,7 @@ export default function PageList({ definition, loading, elements, selectedId, te
 
   useEffect(() => {
     dispatch(refreshEvents(null, null, search));
-  }, [search, dispatch])
+  }, [search, dispatch]);
 
   return (
     <div className="container-xl">
@@ -34,9 +34,9 @@ export default function PageList({ definition, loading, elements, selectedId, te
             <div className="navbar-brand flex-fill">{texts.title}</div>
             {isInRole(newRole) && (
               <>
-              <Link to="new" className="btn btn-primary btn-icon" aria-label={texts.add}>
-                <IconPlus />
-              </Link>
+                <Link to="new" className="btn btn-primary btn-icon" aria-label={texts.add}>
+                  <IconPlus />
+                </Link>
               </>
             )}
           </MobilePageTitle>
@@ -51,19 +51,21 @@ export default function PageList({ definition, loading, elements, selectedId, te
               <div className="col-auto ms-auto d-print-none">
                 <div className="d-flex">
                   {isInRole(newRole) && (
-                    <>{isInRole("beta") && 
-                      <div className="d-none d-md-block"><input
-                          type="text"
-                          className={clsx("form-control")}
-                          required={true}
-                          id="search"
-                          name="search"
-                          placeholder="Search bar"
-                          value={search}
-                          onChange={handleChange}
-                      />
-                      </div>
-                    }
+                    <>
+                      {isInRole("beta") && (
+                        <div className="d-none d-md-block">
+                          <input
+                            type="text"
+                            className={clsx("form-control")}
+                            required={true}
+                            id="search"
+                            name="search"
+                            placeholder="Search bar"
+                            value={search}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      )}
                       <Link to="new" className="ms-3 btn btn-primary d-none d-md-block">
                         <IconPlus />
                         {texts.add}

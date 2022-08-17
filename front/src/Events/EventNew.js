@@ -23,12 +23,12 @@ export function EventNew() {
   }
 
   return (
-    <PageNew 
-    definition={definition} 
-    baseApiUrl="Events/notify"
-    texts={texts}
-    extendedForm={(e, s, err) => <AttachmentForm entity={e} setEntity={s} errors={err} />}
-    onCreate={handleCreate} 
+    <PageNew
+      definition={definition}
+      baseApiUrl="Events/notify"
+      texts={texts}
+      extendedForm={(e, s, err) => <AttachmentForm entity={e} setEntity={s} errors={err} />}
+      onCreate={handleCreate}
     />
   );
 }

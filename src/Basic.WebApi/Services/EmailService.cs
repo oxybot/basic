@@ -6,36 +6,41 @@ using MimeKit;
 namespace Basic.WebApi.Services
 {
     /// <summary>
-    /// Provides email services
+    /// Provides email services.
     /// </summary>
     public class EmailService
     {
         /// <summary>
-        /// Email service constructor
+        /// Initializes a new instance of the <see cref="EmailService"/> class.
         /// </summary>
+        /// <param name="configuration">The current configuration.</param>
+        /// <param name="context">The current database context.</param>
         public EmailService(IConfiguration configuration, Context context)
         {
-                  this.Configuration = configuration;
-                  this.context = context;
+            this.Configuration = configuration;
+            this.Context = context;
         }
 
-        public  Context context { get; }
+        /// <summary>
+        /// Gets the current database context.
+        /// </summary>
+        public Context Context { get; }
 
         /// <summary>
         /// Provides a configuration for the email server.
         /// </summary>
-        public  IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// Provides emails sending test
         /// </summary>
-        public  void EmailSendingTest()
+        public void EmailSendingTest()
         {
             MimeMessage message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Basic", "system@incert.lu"));
-            message.To.Add(new MailboxAddress("Kevin", "kgerber@incert.lu"));
-            
+            message.From.Add(new MailboxAddress("Basic", "basic-system@example.com"));
+            message.To.Add(new MailboxAddress("John Doe", "demo@example.com"));
+
             // formating the template to fill the email with variables
             string textFromTemplate = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\email-to-employee-template copy.txt");
             textFromTemplate = string.Format(textFromTemplate, 12, 13);
@@ -71,7 +76,7 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides email to send to employee
         /// </summary>
-        public  void EmailToEmployee(User manager, User user, Event @event, Status from, Status to)
+        public void EmailToEmployee(User manager, User user, Event @event, Status from, Status to)
         {
             string toName = user.DisplayName.Split(' ')[0];
             string toEmail = user.Email;
@@ -84,7 +89,7 @@ namespace Basic.WebApi.Services
 
             MimeMessage message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Basic", "system.basic@incert.lu"));            
+            message.From.Add(new MailboxAddress("Basic", "basic-noreply@example.com"));
             message.To.Add(new MailboxAddress(toName, toEmail));
 
             string template = @"Template/email-to-employee-template.txt";
@@ -149,7 +154,7 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides emails sending
         /// </summary>
-        public  void EmailSending(MimeMessage message)
+        public void EmailSending(MimeMessage message)
         {
             SmtpClient client = new SmtpClient();
 

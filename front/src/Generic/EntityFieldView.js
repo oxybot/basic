@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { toCurrency } from "../helpers";
 import React from "react";
 
-
 export default function EntityFieldView({ type, value, list = false }) {
   if (value === undefined || value === null) {
     if (type === "image") {
@@ -154,11 +153,7 @@ export default function EntityFieldView({ type, value, list = false }) {
       return value;
 
     case "attachment":
-      return (
-      <button>
-        {value.mimeType}
-      </button>
-        )
+      return <button>{value.mimeType}</button>;
 
     default:
       console.warn("unknown field type: " + type + " - rendered as string");

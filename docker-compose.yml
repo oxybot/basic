@@ -5,8 +5,6 @@ services:
     image: basic-front
     build:
       context: ./front
-      args:
-        REACT_APP_API_ROOT_URL: https://localhost:5001
     restart: always
     depends_on:
       - service
@@ -14,6 +12,7 @@ services:
       NGINX_SERVER_NAME: localhost
       NGINX_SSL_CERTIFICATE: /etc/nginx/certs/basic.pem
       NGINX_SSL_CERTIFICATE_KEY: /etc/nginx/certs/basic.key
+      API_ROOT_URL: https://localhost:5001
     volumes:
       - ${APPDATA}/ASP.NET/https/basic.pem:/etc/nginx/certs/basic.pem:ro
       - ${APPDATA}/ASP.NET/https/basic.key:/etc/nginx/certs/basic.key:ro
@@ -65,3 +64,11 @@ services:
     ports:
       - 5002:1080
       - 1025:1025
+
+  ldap:
+    image: dwimberger/ldap-ad-it:latest
+    restart: always
+    volumes:
+      - ./support/ldap.ldif:/ldap/users.ldif:ro
+    ports:
+      - 10389:10389

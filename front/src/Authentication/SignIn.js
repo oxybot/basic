@@ -1,4 +1,5 @@
 import { IconAlertTriangle } from "@tabler/icons";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addError } from "../Alerts/slice";
@@ -21,33 +22,33 @@ export function SignIn() {
   };
 
   useEffect(() => {
-    window.cookieStore.get("access-token").then(async (cookie) => {
-      if (!cookie) {
-        // No previous connection
-        setLoading(false);
-      } else {
-        const response = await fetch(apiUrl("Auth/renew"), {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            accept: "application/json",
-            authorization: "Bearer " + cookie.value,
-          },
-        });
+    const token = Cookies.get("access-token");
+    if (!token) {
+      // No previous connection
+      setLoading(false);
+    } else {
+      fetch(apiUrl("Auth/renew"), {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          accept: "application/json",
+          authorization: "Bearer " + token,
+        },
+      }).then(async (response) => {
         if (!response.ok) {
           // previous connection invalid
-          window.cookieStore.delete("access-token");
+          Cookies.remove("access-token");
           setLoading(false);
         } else {
           // previous connection valid - autoconnect
           const json = await response.json();
-          window.cookieStore.set("access-token", json.accessToken);
+          Cookies.set("access-token", json.accessToken);
           dispatch(connect(json));
           apiFetch("My/User", { method: "GET" }).then((response) => dispatch(setUser(response)));
           apiFetch("My/Roles", { method: "GET" }).then((response) => dispatch(setRoles(response)));
         }
-      }
-    });
+      });
+    }
   }, [dispatch]);
 
   function handleSubmit(e) {
@@ -70,7 +71,7 @@ export function SignIn() {
         }
       } else {
         response.json().then((response) => {
-          window.cookieStore.set("access-token", response.accessToken);
+          Cookies.set("access-token", response.accessToken);
           dispatch(connect(response));
           apiFetch("My/User", { method: "GET" }).then((response) => dispatch(setUser(response)));
           apiFetch("My/Roles", { method: "GET" }).then((response) => dispatch(setRoles(response)));

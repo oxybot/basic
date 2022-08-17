@@ -517,6 +517,12 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ExternalIdentifier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
@@ -539,6 +545,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                         {
                             Identifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5"),
                             DisplayName = "John Doe",
+                            IsActive = true,
                             Password = "QBG6AuURBMZ4wxp2pERIWzjzhl5QTYnDoKgLQ5uxojc=",
                             Salt = "demo",
                             Title = "User Group Evangelist",

@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticationState, connect, setRoles, setUser } from ".";
@@ -38,7 +39,7 @@ export function usePersistedAuthentication() {
       apiFetch("Auth/renew", { method: "POST" }).then((response) => {
         if (response.ok) {
           response.json().then((response) => {
-            window.cookieStore.set("access-token", response.accessToken);
+            Cookies.set("access-token", response.accessToken);
             dispatch(connect(response));
             apiFetch("My/User", { method: "GET" }).then((response) => dispatch(setUser(response)));
             apiFetch("My/Roles", { method: "GET" }).then((response) => dispatch(setRoles(response)));
