@@ -35,7 +35,7 @@ export default function UserPageList({ definition, loading, elements, selectedId
                 <Link to="new" className="btn btn-primary btn-icon" aria-label={texts.add}>
                   <IconPlus />
                 </Link>
-                <Link to="newldap?search=" className="btn btn-primary btn-icon" aria-label={texts.research}>
+                <Link to="import" className="btn btn-primary btn-icon" aria-label={texts.research}>
                   <IconChevronsDown />
                 </Link>
               </>
@@ -72,12 +72,12 @@ export default function UserPageList({ definition, loading, elements, selectedId
                       <Link to="new" className="ms-3 btn btn-primary btn-icon d-md-none" aria-label={texts.add}>
                         <IconPlus />
                       </Link>
-                      <Link to="newldap?search=" className="ms-3 btn btn-primary d-none d-md-block">
+                      <Link to="import" className="ms-3 btn btn-primary d-none d-md-block">
                         <IconChevronsDown />
                         {texts.research}
                       </Link>
                       <Link
-                        to="newldap?search="
+                        to="import"
                         className="ms-3 btn btn-primary btn-icon d-md-none"
                         aria-label={texts.research}
                       >

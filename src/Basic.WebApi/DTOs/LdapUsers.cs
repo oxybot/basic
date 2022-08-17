@@ -13,14 +13,14 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         public LdapUsers()
         {
-            this.ListOfLdapUsers = new List<LdapUser>();
+            this.ListOfLdapUsers = new List<ExternalUser>();
         }
 
         /// <summary>
         /// Gets or sets the list of ldap users.
         /// </summary>
         [Required]
-        public List<LdapUser> ListOfLdapUsers { get; set; }
+        public List<ExternalUser> ListOfLdapUsers { get; set; }
 
         /// <summary>
         /// Gets or sets the number of occurrence of the specific research.

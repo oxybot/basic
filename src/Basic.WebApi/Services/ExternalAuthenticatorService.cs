@@ -72,20 +72,21 @@ namespace Basic.WebApi.Services
                     if (message is LdapSearchResult searchResult)
                     {
                         LdapEntry entry = searchResult.Entry;
-                        LdapUser user = new LdapUser
+                        ExternalUser user = new ExternalUser
                         {
                             DisplayName = entry.GetAttributeAsString("cn"),
                             Email = entry.GetAttributeAsString("mail"),
                             UserName = entry.GetAttributeAsString("sAMAccountName"),
                             Title = entry.GetAttributeAsString("description"),
-                            Avatar = entry.GetAttributeAsBase64("thumbnailPhoto")
+                            Avatar = new Base64File() { MimeType = "image/jpeg", Data = entry.GetAttributeAsBase64("thumbnailPhoto") },
+                            ExternalIdentifier = entry.GetAttributeAsString("userPrincipalName"),
                         };
 
                         results.ListOfLdapUsers.Add(user);
                     }
                 }
 
-                results.ListOfLdapUsers.Sort((u,v) => u.DisplayName.CompareTo(v.DisplayName));
+                results.ListOfLdapUsers.Sort((u, v) => u.DisplayName.CompareTo(v.DisplayName));
             }
             catch (LdapException ex)
             {

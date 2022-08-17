@@ -13,7 +13,7 @@ import { MyEventList, MyEventView, MyPasswordEdit, ProfileEdit, ProfileView } fr
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
 import { ScheduleEdit, ScheduleList, ScheduleNew, ScheduleView } from "./Schedules";
 import Settings from "./Settings";
-import { UserEdit, UserList, UserNew, UserView, UserNewLdap } from "./Users";
+import { UserEdit, UserImport, UserList, UserNew, UserView } from "./Users";
 
 export default function App() {
   usePersistedAuthentication();
@@ -84,7 +84,7 @@ export default function App() {
           <Route path=":userId" element={<UserView backTo="/users" />} />
           <Route path=":userId/edit" element={<UserEdit />} />
           <Route path="new" element={<UserNew />} />
-          <Route path="newldap" element={<UserNewLdap />} />
+          <Route path="import" element={<UserImport />} />
         </Route>
 
         {/* Balances */}

@@ -7,7 +7,7 @@ import { apiFetch } from "../api";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import { refresh } from "./slice";
 
-export function UserNewLdap() {
+export function UserImport() {
   const dispatch = useDispatch();
   const texts = {
     title: "Users",
@@ -33,11 +33,13 @@ export function UserNewLdap() {
   useEffect(() => {
     if (displaySearch !== search && !loading) {
       setLoading(true);
-      apiFetch("users/import?searchTerm=" + search, { method: "GET" }).then(({ occurrencesNumber, listOfLdapUsers }) => {
-        setResults(listOfLdapUsers);
-        setOccurrences(occurrencesNumber);
-        setDisplaySearch(search);
-      });
+      apiFetch("users/import?searchTerm=" + search, { method: "GET" }).then(
+        ({ occurrencesNumber, listOfLdapUsers }) => {
+          setResults(listOfLdapUsers);
+          setOccurrences(occurrencesNumber);
+          setDisplaySearch(search);
+        }
+      );
       setLoading(false);
     }
   }, [search, displaySearch, loading]);
@@ -47,20 +49,17 @@ export function UserNewLdap() {
     return text;
   }
 
-  function importLdapUser(entity) {
-    entity.avatar = {
-      data: entity.avatar,
-      mimeType: "image/jpeg",
-    };
-
-    apiFetch("users/", {
+  function importUser(entity) {
+    apiFetch("users", {
       method: "POST",
       body: JSON.stringify(entity),
+    }).then(() => {
+      dispatch(refresh());
     });
   }
 
   return (
-    <form onSubmit={() => handleSearch} noValidate={true}>
+    <>
       <MobilePageTitle back="./..">
         <div className="navbar-brand flex-fill">{t("title")}</div>
       </MobilePageTitle>
@@ -84,21 +83,23 @@ export function UserNewLdap() {
           {errors[""] && <div className="alert show fade alert-danger">{errors[""]}</div>}
           <div className="card col-lg-12">
             <div className="card-body">
-              <label htmlFor="search" className="form-label required">
-                Search
-              </label>
-              <div className="mb-3">
-                <input
-                  type="text"
-                  className={clsx("form-control")}
-                  required={true}
-                  id="search"
-                  name="search"
-                  placeholder="My Best Employee"
-                  value={search}
-                  onChange={handleChange}
-                />
-              </div>
+              <form onSubmit={() => handleSearch} noValidate={true}>
+                <label htmlFor="search" className="form-label required">
+                  Search
+                </label>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className={clsx("form-control")}
+                    required={true}
+                    id="search"
+                    name="search"
+                    placeholder="My Best Employee"
+                    value={search}
+                    onChange={handleChange}
+                  />
+                </div>
+              </form>
             </div>
           </div>
 
@@ -115,7 +116,9 @@ export function UserNewLdap() {
                   <div className="d-flex flex-row">
                     <div className={clsx("avatar", "avatar-lg mt-1")}>
                       {!result.avatar && <IconAtom2 />}
-                      {result.avatar && <img alt="" src={`data:image/jpeg;base64,${result.avatar}`} />}
+                      {result.avatar && (
+                        <img alt="" src={`data:${result.avatar.mimeType};base64,${result.avatar.data}`} />
+                      )}
                     </div>
 
                     <div className="ms-3">
@@ -129,9 +132,7 @@ export function UserNewLdap() {
                     <button
                       className="btn btn-primary ms-auto"
                       disabled={!result.importable}
-                      onClick={() => {
-                        importLdapUser(result);
-                      }}
+                      onClick={() => importUser(result)}
                     >
                       Import user
                     </button>
@@ -142,6 +143,6 @@ export function UserNewLdap() {
           </div>
         </div>
       </div>
-    </form>
+    </>
   );
 }
