@@ -100,14 +100,14 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Validates the credential of a user.
         /// </summary>
-        /// <param name="username">The identifier of the user on the external authenticator.</param>
+        /// <param name="externalIdentifier">The identifier of the user on the external authenticator.</param>
         /// <param name="password">The password of the user.</param>
         /// <returns></returns>
-        public bool ValidateUser(string username, string password)
+        public bool ValidateUser(string externalIdentifier, string password)
         {
-            if (string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(externalIdentifier))
             {
-                throw new ArgumentException($"'{nameof(username)}' cannot be null or empty.", nameof(username));
+                throw new ArgumentException($"'{nameof(externalIdentifier)}' cannot be null or empty.", nameof(externalIdentifier));
             }
 
             if (string.IsNullOrEmpty(password))
@@ -115,14 +115,12 @@ namespace Basic.WebApi.Services
                 throw new ArgumentException($"'{nameof(password)}' cannot be null or empty.", nameof(password));
             }
 
-            string domainName = Options.DomainName;
-            string userDn = $"{username}@{domainName}";
             try
             {
                 using (var connection = new LdapConnection { SecureSocketLayer = false })
                 {
                     connection.Connect(Options.Server, Options.Port);
-                    connection.Bind(userDn, password);
+                    connection.Bind(externalIdentifier, password);
                     if (connection.Bound)
                     {
                         return true;

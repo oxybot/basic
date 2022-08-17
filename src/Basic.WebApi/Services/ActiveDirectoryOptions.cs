@@ -14,8 +14,11 @@
         public const string Section = "ActiveDirectory";
 
         /// <summary>
-        /// Gets or sets the domain name of the Active Directory.
+        /// Gets or sets the server name of the Active Directory.
         /// </summary>
+        /// <remarks>
+        /// If the DNS is properly configured, using the domain name is as well possible.
+        /// </remarks>
         public string Server { get; set; }
 
         /// <summary>
@@ -35,11 +38,6 @@
         /// Gets or sets the password of the account used to connect to the Active Directory.
         /// </summary>
         public string Password { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the associated domain.
-        /// </summary>
-        public string DomainName { get; set; }
 
         /// <summary>
         /// Gets or sets the base DN used during search.
