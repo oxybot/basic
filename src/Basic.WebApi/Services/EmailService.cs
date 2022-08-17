@@ -106,42 +106,44 @@ namespace Basic.WebApi.Services
         /// </summary>
         public void EmailToManagers(EventCategory category, User fromUser, Event @event)
         {
-            // set up the string variables to display
-            string fromDate = @event.StartDate.ToString();
-            string toDate =  @event.EndDate.ToString();
-            string displayCategory = category.DisplayName;
-            string emailContent = $"{displayCategory} request from {fromDate}, to {toDate}.";
-            string fromName = fromUser.DisplayName;
-
-            // message creation
-            MimeMessage message = new MimeMessage();
-
             // get the managers informations sending
             List<User> managers = context.Set<User>().Where(m => m.Roles.Any( u=> u.Code.Equals("time") || u.Code.Equals("time-ro"))).ToList();
-            
-            // for loop to add multiple receivers
-            foreach(User manager in managers)
+            if(managers.Count != 0)
             {
-                message.To.Add(new MailboxAddress(manager.DisplayName, manager.Email));
+                // set up the string variables to display
+                string fromDate = @event.StartDate.ToString();
+                string toDate =  @event.EndDate.ToString();
+                string displayCategory = category.DisplayName;
+                string emailContent = $"{displayCategory} request from {fromDate}, to {toDate}.";
+                string fromName = fromUser.DisplayName;
+
+                // message creation
+                MimeMessage message = new MimeMessage();
+
+                // for loop to add multiple receivers
+                foreach(User manager in managers)
+                {
+                    message.To.Add(new MailboxAddress(manager.DisplayName, manager.Email));
+                }
+
+                // get the sender informations
+                var emailServer = this.Configuration.GetRequiredSection("EmailServer");
+                string sender = emailServer.GetValue<string>("sender");
+                string senderEmail = emailServer.GetValue<string>("senderEmail");
+                message.From.Add(new MailboxAddress(sender, senderEmail));
+
+                // formating the template and fill the email with variables
+                string templateLink = @"Template/email-to-managment-hr-template.txt";
+                string textFromTemplate = System.IO.File.ReadAllText(templateLink);
+                textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
+
+                message.Body = new TextPart("plain")
+                {
+                    Text = textFromTemplate
+                };
+
+                EmailSending(message);
             }
-
-            // get the sender informations
-            var emailServer = this.Configuration.GetRequiredSection("EmailServer");
-            string sender = emailServer.GetValue<string>("sender");
-            string senderEmail = emailServer.GetValue<string>("senderEmail");
-            message.From.Add(new MailboxAddress(sender, senderEmail));
-
-            // formating the template to fill the email with variables
-            string templateLink = @"Template/email-to-managment-hr-template.txt";
-            string textFromTemplate = System.IO.File.ReadAllText(templateLink);
-            textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
-
-            message.Body = new TextPart("plain")
-            {
-                Text = textFromTemplate
-            };
-
-            EmailSending(message);
         }
 
         /// <summary>
