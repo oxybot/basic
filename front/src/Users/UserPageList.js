@@ -53,6 +53,7 @@ export default function UserPageList({ definition, loading, elements, selectedId
                 <div className="d-flex">
                   {isInRole(newRole) && (
                     <>
+                      {isInRole("beta") && (
                       <div className="d-none d-md-block">
                         <input
                           type="text"
@@ -65,6 +66,7 @@ export default function UserPageList({ definition, loading, elements, selectedId
                           onChange={handleChange}
                         />
                       </div>
+                    )}
                       <Link to="new" className="ms-3 btn btn-primary d-none d-md-block">
                         <IconPlus />
                         {texts.add}

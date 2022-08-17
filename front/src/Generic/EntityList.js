@@ -64,7 +64,6 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
                     onClick={() => {
                       setSortValue(sortValue === "asc" ? "desc" : "asc");
                       setSortKey(field.displayName);
-                      navigate([baseTo] + "?sortKey=" + sortKey + "&sortValue=" + sortValue + "&filter=" + filter);
                     }}
                   >
                     {field.displayName}{" "}

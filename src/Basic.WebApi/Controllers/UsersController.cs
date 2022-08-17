@@ -34,7 +34,6 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <returns>The list of users.</returns>
         [HttpGet]
-        [AllowAnonymous]
         [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
         public IEnumerable<UserForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
