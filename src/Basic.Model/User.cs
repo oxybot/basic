@@ -94,5 +94,10 @@ namespace Basic.Model
         /// Gets or sets the list of the attachments.
         /// </summary>
         public virtual ICollection<UserAttachment> Attachments { get; }
+
+        /// <summary>
+        /// Gets or sets the list of the tokens.
+        /// </summary>
+        public virtual ICollection<Token> Tokens { get; }
     }
 }
