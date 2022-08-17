@@ -112,7 +112,7 @@ namespace Basic.WebApi.Services
         public void EmailToManagers(EventCategory category, User fromUser, Event @event)
         {
             // get the managers informations sending
-            List<User> managers = context.Set<User>().Where(m => m.Roles.Any( u=> u.Code.Equals("time") || u.Code.Equals("time-ro"))).ToList();
+            List<User> managers = Context.Set<User>().Where(m => m.Roles.Any( u=> u.Code.Equals("time") || u.Code.Equals("time-ro"))).ToList();
             if(managers.Count != 0)
             {
                 // set up the string variables to display
