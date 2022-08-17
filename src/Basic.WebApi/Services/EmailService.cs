@@ -92,7 +92,7 @@ namespace Basic.WebApi.Services
             message.From.Add(new MailboxAddress("Basic", "basic-noreply@example.com"));
             message.To.Add(new MailboxAddress(toName, toEmail));
 
-            string template = @"Template/email-to-employee-template.txt";
+            string template = @"Templates/email-to-employee-template.txt";
 
             // formating the template to fill the email with variables
             string textFromTemplate = System.IO.File.ReadAllText(template);
@@ -138,7 +138,7 @@ namespace Basic.WebApi.Services
                 message.From.Add(new MailboxAddress(sender, senderEmail));
 
                 // formating the template and fill the email with variables
-                string templateLink = @"Template/email-to-managment-hr-template.txt";
+                string templateLink = @"Templates/email-to-managment-hr-template.txt";
                 string textFromTemplate = System.IO.File.ReadAllText(templateLink);
                 textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
 
