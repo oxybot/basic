@@ -15,10 +15,12 @@ namespace Basic.WebApi.Services
         /// </summary>
         /// <param name="configuration">The current configuration.</param>
         /// <param name="context">The current database context.</param>
-        public EmailService(IConfiguration configuration, Context context)
+        /// <param name="logger">The associated logger.</param>
+        public EmailService(IConfiguration configuration, Context context, ILogger<EmailService> logger)
         {
             this.Configuration = configuration;
             this.Context = context;
+            this.Logger = logger;
         }
 
         /// <summary>
@@ -27,51 +29,14 @@ namespace Basic.WebApi.Services
         public Context Context { get; }
 
         /// <summary>
+        /// Gets the associated logger.
+        /// </summary>
+        public ILogger<EmailService> Logger { get; }
+
+        /// <summary>
         /// Provides a configuration for the email server.
         /// </summary>
         public IConfiguration Configuration { get; }
-
-        /// <summary>
-        /// Provides emails sending test
-        /// </summary>
-        public void EmailSendingTest()
-        {
-            MimeMessage message = new MimeMessage();
-
-            message.From.Add(new MailboxAddress("Basic", "basic-system@example.com"));
-            message.To.Add(new MailboxAddress("John Doe", "demo@example.com"));
-
-            // formating the template to fill the email with variables
-            string textFromTemplate = System.IO.File.ReadAllText(@"X:\_Projects\basic\front\public\email-to-employee-template copy.txt");
-            textFromTemplate = string.Format(textFromTemplate, 12, 13);
-
-            message.Body = new TextPart("plain")
-            {
-                Text = textFromTemplate
-            };
-
-            SmtpClient client = new SmtpClient();
-
-            try
-            {
-                Console.WriteLine("Try to connect");
-                client.Connect("localhost", 1025, false);
-
-                Console.WriteLine("Try to send email");
-                client.Send(message);
-                Console.WriteLine("Success");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("error: " + e.Message);
-            }
-            finally
-            {
-                client.Disconnect(true);
-                client.Dispose();
-            }
-            Console.WriteLine("Over");
-        }
 
         /// <summary>
         /// Provides email to send to employee
@@ -112,43 +77,54 @@ namespace Basic.WebApi.Services
         public void EmailToManagers(EventCategory category, User fromUser, Event @event)
         {
             // get the managers informations sending
-            List<User> managers = Context.Set<User>().Where(m => m.Roles.Any( u=> u.Code.Equals("time") || u.Code.Equals("time-ro"))).ToList();
-            if(managers.Count != 0)
+            List<User> managers = Context.Set<User>()
+                .Where(m => m.Roles.Any(u => u.Code.Equals("time") || u.Code.Equals("time-ro")))
+                .Where(m => m.IsActive)
+                .ToList();
+
+            if (managers.Count == 0)
             {
-                // set up the string variables to display
-                string fromDate = @event.StartDate.ToString();
-                string toDate =  @event.EndDate.ToString();
-                string displayCategory = category.DisplayName;
-                string emailContent = $"{displayCategory} request from {fromDate}, to {toDate}.";
-                string fromName = fromUser.DisplayName;
+                // No manager to send the notification to
+                Logger.LogWarning("Setup inconsistency - No time manager defined");
+                return;
+            }
 
-                // message creation
-                MimeMessage message = new MimeMessage();
+            // set up the string variables to display
+            string fromDate = @event.StartDate.ToString();
+            string toDate = @event.EndDate.ToString();
+            string displayCategory = category.DisplayName;
+            string emailContent = $"{displayCategory} request from {fromDate}, to {toDate}.";
+            string fromName = fromUser.DisplayName;
 
-                // for loop to add multiple receivers
-                foreach(User manager in managers)
+            // message creation
+            MimeMessage message = new MimeMessage();
+
+            // for loop to add multiple receivers
+            foreach (User manager in managers)
+            {
+                if (manager.Email != null)
                 {
                     message.To.Add(new MailboxAddress(manager.DisplayName, manager.Email));
                 }
-
-                // get the sender informations
-                var emailServer = this.Configuration.GetRequiredSection("EmailServer");
-                string sender = emailServer.GetValue<string>("sender");
-                string senderEmail = emailServer.GetValue<string>("senderEmail");
-                message.From.Add(new MailboxAddress(sender, senderEmail));
-
-                // formating the template and fill the email with variables
-                string templateLink = @"Templates/email-to-managment-hr-template.txt";
-                string textFromTemplate = System.IO.File.ReadAllText(templateLink);
-                textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
-
-                message.Body = new TextPart("plain")
-                {
-                    Text = textFromTemplate
-                };
-
-                EmailSending(message);
             }
+
+            // get the sender informations
+            var emailServer = this.Configuration.GetRequiredSection("EmailServer");
+            string sender = emailServer.GetValue<string>("sender");
+            string senderEmail = emailServer.GetValue<string>("senderEmail");
+            message.From.Add(new MailboxAddress(sender, senderEmail));
+
+            // formating the template and fill the email with variables
+            string templateLink = @"Templates/email-to-managment-hr-template.txt";
+            string textFromTemplate = File.ReadAllText(templateLink);
+            textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
+
+            message.Body = new TextPart("plain")
+            {
+                Text = textFromTemplate
+            };
+
+            EmailSending(message);
         }
 
         /// <summary>
@@ -166,24 +142,18 @@ namespace Basic.WebApi.Services
 
             try
             {
-                Console.WriteLine("Try to connect");
                 client.Connect(host, port, ssl);
-
-                Console.WriteLine("Try to send email");
                 client.Send(message);
-
-                Console.WriteLine("Success");
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.WriteLine("error: " + e.Message);
+                Logger.LogError(exception, "Can't send a notification email");
             }
             finally
             {
                 client.Disconnect(true);
                 client.Dispose();
             }
-            Console.WriteLine("Over");
         }
     }
 }
