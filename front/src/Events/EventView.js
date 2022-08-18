@@ -10,6 +10,7 @@ import Section from "../Generic/Section";
 import { refresh } from "./slice";
 import EntityList from "../Generic/EntityList";
 import AttachmentList from "../Attachments/AttachmentList";
+import { useInRole } from "../Authentication";
 
 const transform = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
@@ -60,6 +61,7 @@ export function EventView({ backTo = null, full = false }) {
   const [, entity] = useApiFetch(["Events", eventId], get, {});
   const [, next] = useApiFetch(["Events", eventId, "Statuses/Next"], get, []);
   const [, links] = useApiFetch(["Events", eventId, "links"], get, {});
+  const isInRole = useInRole();
 
   function handleStatusChange(newStatus) {
     apiFetch(["events", eventId, "statuses"], {
@@ -124,10 +126,12 @@ export function EventView({ backTo = null, full = false }) {
         <Section code="statuses" element={<StatusList eventId={eventId} />}>
           Statuses
         </Section>
+        {isInRole("beta") && (
         <Section code="attachments" element={<EventAttachmentList eventId={eventId} />}>
           Attachments
           <span className="badge ms-2 bg-green">{links.attachments || ""}</span>
         </Section>
+        )}
       </Sections>
     </PageView>
   );

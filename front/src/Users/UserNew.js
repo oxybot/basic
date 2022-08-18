@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
 import { refresh } from "./slice";
-import AttachmentForm from "../Attachments/AttachmentForm";
+
 
 const transformDef = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
@@ -27,7 +27,6 @@ export function UserNew() {
       baseApiUrl="Users"
       texts={texts}
       onCreate={handleCreate}
-      extendedForm={(e, s, err) => <AttachmentForm entity={e} setEntity={s} errors={err} />}
     />
   );
 }

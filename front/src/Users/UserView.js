@@ -5,6 +5,7 @@ import PageView from "../Generic/PageView";
 import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
 import AttachmentList from "../Attachments/AttachmentList";
+import { useInRole } from "../Authentication";
 
 const get = { method: "GET" };
 
@@ -34,6 +35,7 @@ export function UserView({ backTo = null, full = false }) {
   const { userId } = useParams();
   const [, entity] = useApiFetch(["Users", userId], get, {});
   const [, links] = useApiFetch(["Users", userId, "links"], get, {});
+  const isInRole = useInRole();
 
   return (
     <PageView backTo={backTo} full={full} entity={entity} editRole="user">
@@ -41,10 +43,12 @@ export function UserView({ backTo = null, full = false }) {
         <Section code="detail" element={<UserViewDetail entity={entity} />}>
           Detail
         </Section>
+        {isInRole("beta") && (
         <Section code="attachments" element={<UserAttachmentList userId={userId} />}>
           Attachments
           <span className="badge ms-2 bg-green">{links.attachments || ""}</span>
         </Section>
+        )}
       </Sections>
     </PageView>
   );

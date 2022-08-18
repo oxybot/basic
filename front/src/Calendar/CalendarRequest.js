@@ -11,6 +11,7 @@ import EntityFieldEdit from "../Generic/EntityFieldEdit";
 import EntityFieldLabel from "../Generic/EntityFieldLabel";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import AttachmentForm from "../Attachments/AttachmentForm";
+import { useInRole } from "../Authentication";
 
 function Status({ value, text, message }) {
   return (
@@ -42,6 +43,7 @@ export function CalendarRequest() {
   const options = categories.map((e) => ({ value: e.identifier, label: e.displayName }));
   const categoryField = definition && definition.fields.find((f) => f.name === "categoryIdentifier");
   const category = entity.categoryIdentifier && categories.find((c) => c.identifier === entity.categoryIdentifier);
+  const isInRole = useInRole();
 
   function switchPartialStartDate() {
     if (partialStartDate) {
@@ -190,7 +192,9 @@ export function CalendarRequest() {
                   entity={entity}
                   onChange={handleChange}
                 />
+                {isInRole("beta") && (
                 <AttachmentForm entity={entity} setEntity={setEntity} />
+                )}
               </div>
             </div>
           )}

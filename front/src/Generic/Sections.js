@@ -8,6 +8,8 @@ export default function Sections({ children }) {
     children = [children];
   }
 
+  children = children.filter(c => c !== false);
+
   let defaultCurrent = null;
   if (children.length > 0) {
     defaultCurrent = children[0].props.code;
