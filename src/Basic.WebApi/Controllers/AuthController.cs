@@ -164,6 +164,10 @@ namespace Basic.WebApi.Controllers
                 expires: jwtValidity,
                 signingCredentials: creds);
 
+            var tokenDb = new Token{ Expiration = jwtValidity, User = user };
+            Context.Add<Token>(tokenDb);
+            Context.SaveChanges();
+
             return token;
         }
 
