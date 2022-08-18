@@ -193,6 +193,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public CalendarRequestCheck Check(CalendarRequest request)
         {
+            var context = CreateContext(request);
             var check = new CalendarRequestCheck();
             if (!ModelState.IsValid)
             {
@@ -207,7 +208,6 @@ namespace Basic.WebApi.Controllers
                 return check;
             }
 
-            var context = CreateContext(request);
             check.RequestComplete = context.Category != null
                 && request.StartDate != DateOnly.MinValue
                 && request.EndDate != DateOnly.MinValue;
@@ -236,7 +236,8 @@ namespace Basic.WebApi.Controllers
                 // Conflicts on time-off
                 var conflicts = Context.Set<Event>()
                     .Where(e => e.Category.Mapping != EventTimeMapping.Active)
-                    .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate);
+                    .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate)
+                    .Where(e => e.User == context.User);
 
                 check.NoConflict = !conflicts.Any();
                 if (!check.NoConflict)
