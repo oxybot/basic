@@ -50,6 +50,7 @@ namespace Basic.WebApi.Controllers
                     .ThenInclude(e => e.Statuses)
                         .ThenInclude(e => e.Status)
                 .Where(u => u.Schedules.Any(s => s.ActiveFrom <= endOfMonth && (s.ActiveTo == null || s.ActiveTo >= startOfMonth)))
+                .OrderBy(u => u.DisplayName)
                 .ToList();
 
             foreach (var user in users)
