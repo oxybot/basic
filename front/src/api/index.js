@@ -92,25 +92,26 @@ export async function apiFetch(url, options) {
 export function useApiFetch(url, options, defaultState = null, transform = defaultTransform) {
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState(defaultState);
-  const [error, setError] = useState(false);
+  const [errors, setErrors] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     apiFetch(url, options)
       .then((response) => {
         setResponse(transform(response));
+        setErrors([]);
         setLoading(false);
       })
       .catch((err) => {
         if (err !== null && err.message === "401") {
           dispatch(disconnect());
         } else {
-          setError(err);
+          setErrors(err);
         }
       });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url.toString(), JSON.stringify(options), transform]);
 
-  return [loading, response, error];
+  return [loading, response, errors];
 }
