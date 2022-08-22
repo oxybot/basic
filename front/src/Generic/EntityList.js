@@ -36,7 +36,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
     }
     window.addEventListener('resize', handleResize);
 
-  }, [window.innerHeight])
+  }, [pageNumber])
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
