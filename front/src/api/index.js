@@ -92,20 +92,21 @@ export async function apiFetch(url, options) {
 export function useApiFetch(url, options, defaultState = null, transform = defaultTransform) {
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState(defaultState);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     apiFetch(url, options)
       .then((response) => {
         setResponse(transform(response));
-        setErrors([]);
+        setErrors(null);
         setLoading(false);
       })
       .catch((err) => {
         if (err !== null && err.message === "401") {
           dispatch(disconnect());
         } else {
+          setResponse(defaultState);
           setErrors(err);
         }
       });
