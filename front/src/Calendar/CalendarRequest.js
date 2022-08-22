@@ -4,7 +4,6 @@ import pluralize from "pluralize";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import Select from "react-select";
 import { addError } from "../Alerts/slice";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
 import EntityFieldEdit from "../Generic/EntityFieldEdit";
@@ -12,11 +11,11 @@ import EntityFieldLabel from "../Generic/EntityFieldLabel";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import AttachmentForm from "../Attachments/AttachmentForm";
 import { useInRole } from "../Authentication";
+import EntityFieldInputReference from "../Generic/EntityFieldInputReference";
 
 function Status({ value, text, message }) {
   return (
     <>
-      {" "}
       <div className="d-flex align-items-center">
         {value && <IconCircleCheck className="icon-md text-success" />}
         {!value && message && <IconCircleX className="icon-md text-danger" />}
@@ -39,8 +38,7 @@ export function CalendarRequest() {
   const [partialStartDate, setPartialStartDate] = useState(false);
   const [partialEndDate, setPartialEndDate] = useState(false);
   const [, categories] = useApiFetch("EventCategories", { method: "GET" }, []);
-  const [, check] = useApiFetch("Calendar/check", { method: "POST", body: JSON.stringify(entity) }, null);
-  const options = categories.map((e) => ({ value: e.identifier, label: e.displayName }));
+  const [, check, errors] = useApiFetch("Calendar/check", { method: "POST", body: JSON.stringify(entity) }, null);
   const categoryField = definition && definition.fields.find((f) => f.name === "categoryIdentifier");
   const category = entity.categoryIdentifier && categories.find((c) => c.identifier === entity.categoryIdentifier);
   const isInRole = useInRole();
@@ -113,30 +111,36 @@ export function CalendarRequest() {
               <div className="card-body">
                 <div className="mb-3">
                   <EntityFieldLabel field={categoryField} />
-                  <Select
-                    name={categoryField.name}
-                    required={categoryField.required}
-                    classNamePrefix="react-select"
-                    placeholder={categoryField.placeholder}
-                    options={options}
-                    value={options.filter((s) => s.value === entity.categoryIdentifier)}
-                    onChange={(s) => handleChange({ target: { name: categoryField.name, value: s.value } })}
+                  <EntityFieldInputReference
+                    baseApiUrl="EventCategories"
+                    field={categoryField}
+                    value={entity.categoryIdentifier}
+                    hasErrors={errors && errors[categoryField.name]}
+                    onChange={handleChange}
                   />
+                  {errors &&
+                    errors[categoryField.name] &&
+                    errors[categoryField.name].map((error, index) => (
+                      <div key={index} className="invalid-feedback">
+                        {error}
+                      </div>
+                    ))}
                   {category && (
                     <div className="text-muted mt-1">
                       <strong>Note: </strong>
                       {category.mapping === "Active" && "Considered as working time"}
-                      {category.mapping === "TimeOff" && "Considered as standard time-off"}
+                      {category.mapping === "TimeOff" && "Considered as time-off"}
                     </div>
                   )}
                 </div>
                 <EntityFieldEdit
                   field={definition.fields.find((f) => f.name === "startDate")}
                   entity={entity}
+                  errors={errors && errors["startDate"]}
                   onChange={handleChange}
                 />
 
-                {entity.startDate && category.mapping !== "Active" && (
+                {entity.startDate && category && category.mapping !== "Active" && (
                   <div className="form-check form-switch">
                     <input
                       className="form-check-input"
@@ -151,10 +155,11 @@ export function CalendarRequest() {
                     </label>
                   </div>
                 )}
-                {partialStartDate && category.mapping !== "Active" && (
+                {partialStartDate && category && category.mapping !== "Active" && (
                   <EntityFieldEdit
                     field={definition.fields.find((f) => f.name === "durationFirstDay")}
                     entity={entity}
+                    errors={errors && errors["durationFirstDay"]}
                     onChange={handleChange}
                   />
                 )}
@@ -162,10 +167,11 @@ export function CalendarRequest() {
                 <EntityFieldEdit
                   field={definition.fields.find((f) => f.name === "endDate")}
                   entity={entity}
+                  errors={errors && errors["endDate"]}
                   onChange={handleChange}
                 />
 
-                {entity.endDate && category.mapping !== "Active" && entity.startDate !== entity.endDate && (
+                {entity.endDate && category && category.mapping !== "Active" && entity.startDate !== entity.endDate && (
                   <div className="form-check form-switch">
                     <input
                       className="form-check-input"
@@ -180,39 +186,39 @@ export function CalendarRequest() {
                     </label>
                   </div>
                 )}
-                {partialEndDate && entity.startDate !== entity.endDate && category.mapping !== "Active" && (
+                {partialEndDate && category && entity.startDate !== entity.endDate && category.mapping !== "Active" && (
                   <EntityFieldEdit
                     field={definition.fields.find((f) => f.name === "durationLastDay")}
                     entity={entity}
+                    errors={errors && errors["durationLastDay"]}
                     onChange={handleChange}
                   />
                 )}
                 <EntityFieldEdit
                   field={definition.fields.find((f) => f.name === "comment")}
                   entity={entity}
+                  errors={errors && errors["comment"]}
                   onChange={handleChange}
                 />
-                {isInRole("beta") && (
-                <AttachmentForm entity={entity} setEntity={setEntity} />
-                )}
+                {isInRole("beta") && <AttachmentForm entity={entity} setEntity={setEntity} />}
               </div>
             </div>
           )}
           {check && (
-            <div className="col-lg-6 p-3">
+          <div className="col-lg-6 p-3">
               <Status value={check.requestComplete} text="Request complete" message={check.requestCompleteMessage} />
               <Status value={check.activeSchedule} text="Active schedule" message={check.activeScheduleMessage} />
               <Status value={check.noConflict} text="No conflict" message={check.noConflictMessage} />
               {check.totalHours && (
-                <div className="m-3 lead">
-                  Request for:
-                  <br />
-                  {pluralize("hour", check.totalHours, true)}
-                  <span> on </span>
-                  {pluralize("business day", check.totalDays, true)}
-                </div>
-              )}
-            </div>
+              <div className="m-3 lead">
+                Request for:
+                <br />
+                {pluralize("hour", check.totalHours, true)}
+                <span> on </span>
+                {pluralize("business day", check.totalDays, true)}
+              </div>
+            )}
+          </div>
           )}
         </div>
       </div>
