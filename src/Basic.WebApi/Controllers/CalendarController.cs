@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using Basic.WebApi.Services;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Basic.WebApi.Controllers
 {
@@ -123,18 +125,10 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [Produces("application/json")]
-        public EventForList Post([FromServices]EmailService notification, CalendarRequest request)
+        public EventForList Post([FromServices] EmailService notification, CalendarRequest request)
         {
             var context = CreateContext(request);
-            if (context.Category == null)
-            {
-                ModelState.AddModelError("CategoryIdentifier", "Invalid category");
-            }
-
-            if (context.Schedule == null)
-            {
-                ModelState.AddModelError("", "Missing working schedule for this period");
-            }
+            Validate(context, request);
 
             if (!ModelState.IsValid)
             {
@@ -162,23 +156,11 @@ namespace Basic.WebApi.Controllers
                 UpdatedBy = user
             });
 
-            User userRequest = model.User;
-            if (userRequest == null)
-            {
-                ModelState.AddModelError("User", "The User is invalid");
-            }
-
-            EventCategory category = model.Category;
-            if (category == null)
-            {
-                ModelState.AddModelError("Category", "The event category is invalid");
-            }
-
-            // Send an email notification when an event is created
-            notification.EmailToManagers(category, userRequest, model);
-
             Context.Set<Event>().Add(model);
             Context.SaveChanges();
+
+            // Send an email notification when an event is created
+            notification.EmailToManagers(model.Category, model.User, model);
 
             return Mapper.Map<EventForList>(model);
         }
@@ -188,47 +170,51 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <param name="request">The current request.</param>
         /// <returns>The status and impacts of the request.</returns>
+        /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [Route("check")]
         [Produces("application/json")]
         public CalendarRequestCheck Check(CalendarRequest request)
         {
+            // All the technical tests are managed prior to this point (i.e. required fields...)
+            // Are added here the business and reference checks
+
             var context = CreateContext(request);
-            var check = new CalendarRequestCheck();
+            Validate(context, request);
             if (!ModelState.IsValid)
             {
-                check.RequestCompleteMessage = ModelState.SelectMany(m => m.Value.Errors).First().ErrorMessage;
-                return check;
+                throw new InvalidModelStateException(ModelState);
             }
 
-            var errors = request.Validate(null);
-            if (errors.Any())
+            return new CalendarRequestCheck
             {
-                check.RequestCompleteMessage = errors.First().ErrorMessage;
-                return check;
+                TotalHours = context.TotalHours,
+                TotalDays = context.TotalDays
+            };
+        }
+
+        private void Validate(CalendarRequestContext context, CalendarRequest request)
+        {
+            if (context.Category == null)
+            {
+                ModelState.AddModelError(nameof(request.CategoryIdentifier), "Invalid category selected");
             }
 
-            check.RequestComplete = context.Category != null
-                && request.StartDate != DateOnly.MinValue
-                && request.EndDate != DateOnly.MinValue;
-
-            if (!check.RequestComplete)
+            if (context.Schedule == null)
             {
-                return check;
-            }
-
-            check.ActiveSchedule = context.Schedule != null;
-            if (!check.ActiveSchedule)
-            {
-                check.ActiveSchedule = false;
                 var schedules = Context.Set<Schedule>()
                     .Where(s => s.User == context.User)
                     .Where(s => s.ActiveFrom <= request.EndDate && (s.ActiveTo == null || request.StartDate < s.ActiveTo.Value));
-                check.ActiveScheduleMessage = schedules.Any()
-                    ? "Multiple working schedules are impacted. Please do one request for each."
-                    : "No working schedule defined for this period";
 
-                return check;
+                ModelState.AddModelError("", schedules.Any()
+                    ? "Multiple working schedules are impacted. Please do one request for each."
+                    : "No working schedule defined for this period");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                // Errors already present on the basic elements
+                return;
             }
 
             if (context.Category.Mapping != EventTimeMapping.Active)
@@ -239,11 +225,17 @@ namespace Basic.WebApi.Controllers
                     .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate)
                     .Where(e => e.User == context.User);
 
-                check.NoConflict = !conflicts.Any();
-                if (!check.NoConflict)
+                if (conflicts.Any())
                 {
-                    check.NoConflictMessage = "There is already registered time-off on the same period";
-                    return check;
+                    string message = "There is already registered time-off on the same period";
+                    ModelState.AddModelError(nameof(request.StartDate), message);
+                    ModelState.AddModelError(nameof(request.EndDate), message);
+                }
+
+                // Refuse time-off request for 0 hours
+                if (context.TotalHours.HasValue && context.TotalHours.Value == 0m)
+                {
+                    ModelState.AddModelError(string.Empty, "Can't request a time-off on non-working time");
                 }
             }
             else
@@ -253,18 +245,13 @@ namespace Basic.WebApi.Controllers
                     .Where(e => e.Category == context.Category)
                     .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate);
 
-                check.NoConflict = !conflicts.Any();
-                if (!check.NoConflict)
+                if (conflicts.Any())
                 {
-                    check.NoConflictMessage = "There is already registered '" + context.Category.DisplayName + "' on the same period";
-                    return check;
+                    string message = $"There is already registered '{context.Category.DisplayName}' on the same period";
+                    ModelState.AddModelError(nameof(request.StartDate), message);
+                    ModelState.AddModelError(nameof(request.EndDate), message);
                 }
             }
-
-            check.TotalHours = context.TotalHours;
-            check.TotalDays = context.TotalDays;
-
-            return check;
         }
 
         /// <summary>

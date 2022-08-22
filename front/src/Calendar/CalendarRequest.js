@@ -1,4 +1,4 @@
-import { IconCircleCheck, IconCircleDashed, IconCircleX, IconSend } from "@tabler/icons";
+import { IconAlertTriangle, IconCheck, IconSend } from "@tabler/icons";
 import clsx from "clsx";
 import pluralize from "pluralize";
 import { useState } from "react";
@@ -12,22 +12,6 @@ import MobilePageTitle from "../Generic/MobilePageTitle";
 import AttachmentForm from "../Attachments/AttachmentForm";
 import { useInRole } from "../Authentication";
 import EntityFieldInputReference from "../Generic/EntityFieldInputReference";
-
-function Status({ value, text, message }) {
-  return (
-    <>
-      <div className="d-flex align-items-center">
-        {value && <IconCircleCheck className="icon-md text-success" />}
-        {!value && message && <IconCircleX className="icon-md text-danger" />}
-        {!value && !message && <IconCircleDashed className="icon-md text-secondary" />}
-        <div className="ms-1">
-          <div className="m-0">{text}</div>
-        </div>
-      </div>
-      {!value && <div className="my-3 lead text-muted">{message}</div>}
-    </>
-  );
-}
 
 export function CalendarRequest() {
   const navigate = useNavigate();
@@ -74,7 +58,7 @@ export function CalendarRequest() {
 
   function handleChange(event) {
     const name = event.target.name;
-    const value = event.target.value;
+    const value = event.target.value === "" ? null : event.target.value;
     setEntity({ ...entity, [name]: value });
   }
 
@@ -82,7 +66,7 @@ export function CalendarRequest() {
     <form onSubmit={handleSubmit} noValidate={true} className={clsx("container-xl", { "was-validated": validated })}>
       <MobilePageTitle back="./..">
         <div className="navbar-brand flex-fill">Event request</div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary" disabled={errors}>
           <IconSend /> Send
         </button>
       </MobilePageTitle>
@@ -97,7 +81,7 @@ export function CalendarRequest() {
               <Link to="./.." className="btn btn-link me-3">
                 Cancel
               </Link>
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary" disabled={errors}>
                 <IconSend /> Send
               </button>
             </div>
@@ -105,9 +89,41 @@ export function CalendarRequest() {
         </div>
       </div>
       <div className="page-body">
+        <div className="row">
+          {errors && (
+            <div className="alert show fade alert-danger offset-lg-3 col-lg-6">
+              <div className="d-flex">
+                <div>
+                  <IconAlertTriangle className="alert-icon" />
+                </div>
+                <div>
+                  <h4 className="alert-title">Please complete the form</h4>
+                  <div className="text-muted">{errors[""]}</div>
+                </div>
+              </div>
+            </div>
+          )}
+          {check && (
+            <div className="alert show fade alert-info offset-lg-3 col-lg-6">
+              <div className="d-flex">
+                <div>
+                  <IconCheck className="alert-icon" />
+                </div>
+                <div>
+                  <h4 className="alert-title">Valid request for:</h4>
+                  <div className="text-muted">
+                    {pluralize("hour", check.totalHours, true)}
+                    <span> on </span>
+                    {pluralize("business day", check.totalDays, true)}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
         <div className="row row-cards">
           {definition && (
-            <div className="card col-lg-6">
+            <div className="card offset-lg-3 col-lg-6">
               <div className="card-body">
                 <div className="mb-3">
                   <EntityFieldLabel field={categoryField} />
@@ -203,22 +219,6 @@ export function CalendarRequest() {
                 {isInRole("beta") && <AttachmentForm entity={entity} setEntity={setEntity} />}
               </div>
             </div>
-          )}
-          {check && (
-          <div className="col-lg-6 p-3">
-              <Status value={check.requestComplete} text="Request complete" message={check.requestCompleteMessage} />
-              <Status value={check.activeSchedule} text="Active schedule" message={check.activeScheduleMessage} />
-              <Status value={check.noConflict} text="No conflict" message={check.noConflictMessage} />
-              {check.totalHours && (
-              <div className="m-3 lead">
-                Request for:
-                <br />
-                {pluralize("hour", check.totalHours, true)}
-                <span> on </span>
-                {pluralize("business day", check.totalDays, true)}
-              </div>
-            )}
-          </div>
           )}
         </div>
       </div>
