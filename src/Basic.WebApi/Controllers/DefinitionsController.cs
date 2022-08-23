@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
 using Basic.DataAccess;
-using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Models;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
-using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
 
 namespace Basic.WebApi.Controllers
 {
@@ -24,12 +20,19 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
+        /// <param name="definitions">The DTO definitions service.</param>
         /// <param name="logger">The associated logger.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public DefinitionsController(Context context, IMapper mapper, ILogger<DefinitionsController> logger)
-            :base(context, mapper, logger)
+        public DefinitionsController(Context context, IMapper mapper, DefinitionsService definitions, ILogger<DefinitionsController> logger)
+            : base(context, mapper, logger)
         {
+            this.Definitions = definitions ?? throw new ArgumentNullException(nameof(definitions));
         }
+
+        /// <summary>
+        /// Gets the DTO definitions service.
+        /// </summary>
+        public DefinitionsService Definitions { get; }
 
         /// <summary>
         /// Retrieves the list of available entities.
@@ -38,116 +41,20 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         public IEnumerable<string> GetAll()
         {
-            var types = ExtractEntityTypes();
-            return types.Keys.OrderBy(k => k);
+            return Definitions.GetAll();
         }
 
         /// <summary>
         /// Retrieves one detailed entity definition.
         /// </summary>
         /// <param name="name">The name of the entity.</param>
-        /// <param name="provider">The current metadata provider.</param>
         /// <returns>The associated definition.</returns>
         /// <exception cref="NotFoundException">The <paramref name="name"/> is invalid.</exception>
         [HttpGet]
         [Route("{name}")]
-        public Definition GetOne([Required] string name, [FromServices] IModelMetadataProvider provider)
+        public Definition GetOne([Required] string name)
         {
-            if (provider is null)
-            {
-                throw new ArgumentNullException(nameof(provider));
-            }
-
-            var types = ExtractEntityTypes();
-            if (!types.ContainsKey(name))
-            {
-                throw new NotFoundException("Not existing entity");
-            }
-
-            ModelMetadata metadata = provider.GetMetadataForType(types[name]);
-            return Build(metadata);
-        }
-
-        private static IDictionary<string, Type> ExtractEntityTypes()
-        {
-            return typeof(BaseEntityDTO).Assembly.GetTypes()
-                .Where(t => typeof(BaseEntityDTO).IsAssignableFrom(t))
-                .Where(t => !t.IsAbstract)
-                .ToDictionary(t =>
-                {
-                    var schemaAttribute = t.GetCustomAttribute<SwaggerSchemaAttribute>();
-                    return schemaAttribute?.Title ?? t.Name;
-                });
-        }
-
-        private static Definition Build(ModelMetadata metadata)
-        {
-            var definition = new Definition
-            {
-                Name = metadata.Name,
-            };
-
-            foreach (DefaultModelMetadata property in metadata.Properties)
-            {
-                definition.Fields.Add(BuildProperty(property));
-            }
-
-            return definition;
-        }
-
-        private static DefinitionField BuildProperty(DefaultModelMetadata property)
-        {
-            var displayAttribute = property.GetCustomAttribute<DisplayAttribute>();
-            return new DefinitionField
-            {
-                Name = property.Name.ToJsonFieldName(),
-                DisplayName = property.GetDisplayName(),
-                Required = property.IsRequired,
-                Placeholder = property.Placeholder,
-                Group = displayAttribute?.GetGroupName(),
-                Type = BuildFieldType(property),
-            };
-        }
-
-        private static string BuildFieldType(DefaultModelMetadata property)
-        {
-
-            var type = property.ModelType;
-            var swaggerAttribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
-            if (swaggerAttribute != null && !string.IsNullOrEmpty(swaggerAttribute.Format))
-            {
-                return swaggerAttribute.Format;
-            }
-
-            var keyAttribute = property.GetCustomAttribute<KeyAttribute>();
-            if (keyAttribute != null)
-            {
-                return "key";
-            }
-            else if (type == typeof(DateTime) || type == typeof(DateTime?))
-            {
-                return "datetime";
-            }
-            else if (type == typeof(DateOnly) || type == typeof(DateOnly?))
-            {
-                return "date";
-            }
-            else if (type == typeof(bool) || type == typeof(bool?))
-            {
-                return "boolean";
-            }
-            else if (type == typeof(EntityReference))
-            {
-                return "reference";
-            }
-            else if (type == typeof(Base64File))
-            {
-                return "file";
-            }
-            else
-            {
-                return "string";
-            }
+            return Definitions.GetOne(name);
         }
     }
 }
