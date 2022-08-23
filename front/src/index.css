@@ -348,3 +348,16 @@ th.required:after {
 .sorting:hover {
   cursor: pointer;
 }
+
+.thead {
+  display: block;
+}
+
+.tbody {
+  display: block;
+  width: 100%;
+  height: 65vh;
+}
+tr > th:first-child, tr > td:first-child { 
+  border-right: 1px solid #00000030; 
+}

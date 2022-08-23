@@ -12,7 +12,7 @@ function CalendarUserLine({ days, entry }) {
     // No data for this user
     return (
       <tr>
-        <td>{entry.user.displayName}</td>
+        <td className="w-100">{entry.user.displayName}</td>
         {days.map((i) => (
           <td key={i} className={clsx({ "bg-off": entry.daysOff.includes(i) })}></td>
         ))}
@@ -134,7 +134,7 @@ export function Calendar() {
         <div className="card">
           <div className="table-responsive table-calendar">
             <table className="table table-vcenter text-nowrap">
-              <thead>
+              <thead className="thead sticky-top w-100">
                 <tr>
                   <th className="w-100"></th>
                   {days.map((i) => (
@@ -142,7 +142,7 @@ export function Calendar() {
                   ))}
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="tbody">
                 <tr className={clsx({ "d-none": !loading })}>
                   <td colSpan={month.daysInMonth() + 1}>
                     <IconLoader /> Loading...
