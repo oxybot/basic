@@ -11,8 +11,8 @@ function CalendarUserLine({ days, entry }) {
   if (entry.lines.length === 0) {
     // No data for this user
     return (
-      <tr className="first-col">
-        <td className="w-100">{entry.user.displayName}</td>
+      <tr>
+        <td rowSpan={1} className="w-100">{entry.user.displayName}</td>
         {days.map((i) => (
           <td key={i} className={clsx({ "bg-off": entry.daysOff.includes(i) })}></td>
         ))}
@@ -134,15 +134,15 @@ export function Calendar() {
         <div className="card">
           <div className="table-responsive table-calendar">
             <table className="table table-vcenter text-nowrap">
-              <thead className="thead sticky-top w-100">
-                <tr className="first-col">
+              <thead className="sticky-top w-100">
+                <tr>
                   <th className="w-100"></th>
                   {days.map((i) => (
                     <th key={i}>{i}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="tbody">
+              <tbody>
                 <tr className={clsx({ "d-none": !loading })}>
                   <td colSpan={month.daysInMonth() + 1}>
                     <IconLoader /> Loading...

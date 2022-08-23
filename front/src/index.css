@@ -349,16 +349,16 @@ th.required:after {
   cursor: pointer;
 }
 
-.thead {
+.table-calendar thead {
   display: block;
 }
 
-.tbody {
+.table-calendar tbody {
   display: block;
   width: 100%;
-  height: 65vh;
+  max-height: 65vh;
 }
 
-.first-col > th:first-child, .first-col > td:first-child { 
+.table-calendar th:first-child, .table-calendar td[rowspan]:first-child { 
   border-right: 1px solid #00000030; 
 }
