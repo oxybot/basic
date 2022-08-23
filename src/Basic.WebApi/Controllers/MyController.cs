@@ -116,10 +116,10 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [Produces("application/json")]
         [Route("User")]
-        public UserForView GetUser()
+        public MyUserForView GetUser()
         {
             var user = this.GetConnectedUser();
-            return Mapper.Map<UserForView>(user);
+            return Mapper.Map<MyUserForView>(user);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Basic.WebApi.Controllers
         [HttpPut]
         [Produces("application/json")]
         [Route("User")]
-        public UserForView UpdateUser(UserForEdit user)
+        public MyUserForView UpdateUser(MyUserForEdit user)
         {
             var model = this.GetConnectedUser();
             Mapper.Map(user, model);
@@ -142,7 +142,7 @@ namespace Basic.WebApi.Controllers
 
             Context.SaveChanges();
 
-            return Mapper.Map<UserForView>(model);
+            return Mapper.Map<MyUserForView>(model);
         }
 
         /// <summary>

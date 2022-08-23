@@ -8,7 +8,7 @@ import Sections from "../Generic/Sections";
 
 export function ProfileView() {
   const { user } = useSelector(authenticationState);
-  const definition = useDefinition("UserForView");
+  const definition = useDefinition("MyUserForView");
 
   return (
     <PageView full={true} entity={user}>

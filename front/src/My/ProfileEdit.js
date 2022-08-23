@@ -5,7 +5,7 @@ import PageEdit from "../Generic/PageEdit";
 
 export function ProfileEdit({ full = false }) {
   const dispatch = useDispatch();
-  const definition = useDefinition("UserForEdit");
+  const definition = useDefinition("MyUserForEdit");
   const [, entity] = useApiFetch("My/User", { method: "GET" }, {});
   const texts = {
     title: entity?.displayName,
