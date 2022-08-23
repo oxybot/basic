@@ -96,6 +96,7 @@ namespace Basic.WebApi.Controllers
             var user = this.GetConnectedUser();
             var entity = Context.Set<Event>()
                 .Include(e => e.Statuses).ThenInclude(s => s.Status)
+                .Include(e => e.Statuses).ThenInclude(s => s.UpdatedBy)
                 .Include(e => e.User)
                 .SingleOrDefault(e => e.Identifier == eventId && e.User == user);
             if (entity == null)

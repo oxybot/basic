@@ -42,6 +42,7 @@ namespace Basic.WebApi.Controllers
         {
             var entity = Context.Set<Event>()
                 .Include(e => e.Statuses).ThenInclude(s => s.Status)
+                .Include(e => e.Statuses).ThenInclude(s => s.UpdatedBy)
                 .Include(e => e.User)
                 .SingleOrDefault(c => c.Identifier == eventId);
             if (entity == null)
