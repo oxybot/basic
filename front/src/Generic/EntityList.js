@@ -65,11 +65,11 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
                       setSortKey(field.displayName);
                     }}
                   >
-                    {field.displayName}{" "}
-                    {sortKey === field.displayName && sortValue !== null && sortValue === "asc" ? (
-                      <IconArrowNarrowUp />
+                    {field.displayName}
+                    {sortKey === field.displayName && sortValue === "asc" ? (
+                      <IconArrowNarrowUp className="icon-sm" />
                     ) : sortKey === field.displayName && sortValue === "desc" ? (
-                      <IconArrowNarrowDown />
+                      <IconArrowNarrowDown className="icon-sm" />
                     ) : null}
                   </th>
                 ))}
