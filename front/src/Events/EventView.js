@@ -127,10 +127,10 @@ export function EventView({ backTo = null, full = false }) {
           Statuses
         </Section>
         {isInRole("beta") && (
-        <Section code="attachments" element={<EventAttachmentList eventId={eventId} />}>
-          Attachments
-          <span className="badge ms-2 bg-green">{links.attachments || ""}</span>
-        </Section>
+          <Section code="attachments" element={<EventAttachmentList eventId={eventId} />}>
+            Attachments
+            <span className="badge ms-2 bg-green">{links.attachments || ""}</span>
+          </Section>
         )}
       </Sections>
     </PageView>

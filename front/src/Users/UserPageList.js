@@ -54,19 +54,19 @@ export default function UserPageList({ definition, loading, elements, selectedId
                   {isInRole(newRole) && (
                     <>
                       {isInRole("beta") && (
-                      <div className="d-none d-md-block">
-                        <input
-                          type="text"
-                          className={clsx("form-control")}
-                          required={true}
-                          id="search"
-                          name="search"
-                          placeholder="Search bar"
-                          value={search}
-                          onChange={handleChange}
-                        />
-                      </div>
-                    )}
+                        <div className="d-none d-md-block">
+                          <input
+                            type="text"
+                            className={clsx("form-control")}
+                            required={true}
+                            id="search"
+                            name="search"
+                            placeholder="Search bar"
+                            value={search}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      )}
                       <Link to="new" className="ms-3 btn btn-primary d-none d-md-block">
                         <IconPlus />
                         {texts.add}
@@ -78,11 +78,7 @@ export default function UserPageList({ definition, loading, elements, selectedId
                         <IconChevronsDown />
                         {texts.research}
                       </Link>
-                      <Link
-                        to="import"
-                        className="ms-3 btn btn-primary btn-icon d-md-none"
-                        aria-label={texts.research}
-                      >
+                      <Link to="import" className="ms-3 btn btn-primary btn-icon d-md-none" aria-label={texts.research}>
                         <IconChevronsDown />
                       </Link>
                     </>

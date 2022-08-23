@@ -44,10 +44,10 @@ export function UserView({ backTo = null, full = false }) {
           Detail
         </Section>
         {isInRole("beta") && (
-        <Section code="attachments" element={<UserAttachmentList userId={userId} />}>
-          Attachments
-          <span className="badge ms-2 bg-green">{links.attachments || ""}</span>
-        </Section>
+          <Section code="attachments" element={<UserAttachmentList userId={userId} />}>
+            Attachments
+            <span className="badge ms-2 bg-green">{links.attachments || ""}</span>
+          </Section>
         )}
       </Sections>
     </PageView>

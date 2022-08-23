@@ -8,7 +8,7 @@ export default function Sections({ children }) {
     children = [children];
   }
 
-  children = children.filter(c => c !== false);
+  children = children.filter((c) => c !== false);
 
   let defaultCurrent = null;
   if (children.length > 0) {

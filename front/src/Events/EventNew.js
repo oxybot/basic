@@ -24,24 +24,17 @@ export function EventNew() {
     dispatch(refresh());
   }
 
-  if(isInRole("beta")) {
+  if (isInRole("beta")) {
     return (
       <PageNew
-      definition={definition}
-      baseApiUrl="Events/notify"
-      texts={texts}
-      extendedForm={(e, s, err) => <AttachmentForm entity={e} setEntity={s} errors={err} />}
-      onCreate={handleCreate}
+        definition={definition}
+        baseApiUrl="Events/notify"
+        texts={texts}
+        extendedForm={(e, s, err) => <AttachmentForm entity={e} setEntity={s} errors={err} />}
+        onCreate={handleCreate}
       />
     );
   } else {
-    return (
-      <PageNew
-      definition={definition}
-      baseApiUrl="Events/notify"
-      texts={texts}
-      onCreate={handleCreate}
-      />
-    );
+    return <PageNew definition={definition} baseApiUrl="Events/notify" texts={texts} onCreate={handleCreate} />;
   }
 }

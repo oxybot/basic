@@ -3,7 +3,6 @@ import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
 import { refresh } from "./slice";
 
-
 const transformDef = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
   return d;
@@ -21,12 +20,5 @@ export function UserNew() {
     dispatch(refresh());
   }
 
-  return (
-    <PageNew
-      definition={definition}
-      baseApiUrl="Users"
-      texts={texts}
-      onCreate={handleCreate}
-    />
-  );
+  return <PageNew definition={definition} baseApiUrl="Users" texts={texts} onCreate={handleCreate} />;
 }
