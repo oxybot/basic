@@ -19,7 +19,8 @@ EXPOSE 443
 RUN rm -rf ./*
 
 COPY --from=build /app/build .
-COPY ./nginx.http.conf.template /etc/nginx/templates/default.conf.template
+COPY ./nginx.ssh-activate.sh /docker-entrypoint.d/15-ssh-activate.sh
+COPY ./nginx.http.conf.template /etc/nginx/templates/http.conf.template
 COPY ./nginx.https.conf.template /etc/nginx/templates/https.conf.template
 
 # ENTRYPOINT ["/docker-entrypoint.sh"]

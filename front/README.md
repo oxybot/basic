@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# Basic - Front
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project provides the front end of the `basic` application.
 
-## Available Scripts
+# How to use it?
 
-In the project directory, you can run:
+This project can be run via docker or by downloading and running the code.
 
-### `yarn start`
+## Docker
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The basis are:
+`docker run -e API_ROOT_URL="https://api.example.com" -p:80:80 ghcr.io/oxybot/basic/front:latest`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+With this configuration, the front app will be served on the port 80.
 
-### `yarn test`
+Complete list of the accepted environment variables:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Name | Status | Usage |
+|------|--------|-------|
+| `API_ROOT_URL` | Mandatory | Defined the root url of the associated api service (basic-api) |
+| `NGINX_SERVER_NAME` | Mandatory | Server name |
+| `NGINX_SSL_CERTIFICATE` | Optional | Enable HTTPS on 443 |
+| `NGINX_SSL_CERTIFICATE_KEY` | Optional | Enable HTTPS on 443 |
 
-### `yarn build`
+## Build and Run
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The project requires (yarn)[] to run.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`yarn` - install the dependencies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`yarn start` - starts the project
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+To update the environment variables, create a `.env.development.local` file and add your specific configuration.
+The `.env.development` file contains the possible environment variables for the project.
