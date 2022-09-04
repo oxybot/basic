@@ -82,7 +82,7 @@ export function EventView({ backTo = null, full = false }) {
       switch (status.displayName) {
         case "Approved":
           return (
-            <NavLink to={backTo}>
+            <NavLink key={index} to={backTo}>
               <button key={index} className="btn btn-success mx-1" onClick={() => handleStatusChange(status)}>
                 <IconCheck /> Approve
               </button>
@@ -90,7 +90,7 @@ export function EventView({ backTo = null, full = false }) {
           );
         case "Rejected":
           return (
-            <NavLink to={backTo}>
+            <NavLink key={index} to={backTo}>
               <button key={index} className="btn btn-danger mx-1" onClick={() => handleStatusChange(status)}>
                 <IconX /> Reject
               </button>
@@ -98,7 +98,7 @@ export function EventView({ backTo = null, full = false }) {
           );
         case "Canceled":
           return (
-            <NavLink to={backTo}>
+            <NavLink key={index} to={backTo}>
               <button key={index} className="btn btn-outline-primary mx-1" onClick={() => handleStatusChange(status)}>
                 <IconX /> Cancel
               </button>
