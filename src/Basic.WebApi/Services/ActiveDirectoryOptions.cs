@@ -16,9 +16,6 @@
         /// <summary>
         /// Gets or sets the server name of the Active Directory.
         /// </summary>
-        /// <remarks>
-        /// If the DNS is properly configured, using the domain name is as well possible.
-        /// </remarks>
         public string Server { get; set; }
 
         /// <summary>

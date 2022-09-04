@@ -1,0 +1,15 @@
+Dear {Event.User.DisplayName},
+
+The request for '{Event.Category.DisplayName}' from {Event.StartDate:D} to {Event.EndDate:D}
+as been updated to the following status:
+
+{Change.Status.DisplayName}
+
+In case of question on this change, please consider contacting {Change.UpdatedBy.DisplayName} who did the update.
+
+The full detail on this request is available here:
+{FrontBaseUrl}/my/events/{Event.Identifier}
+
+Kind Regards,
+
+Your Basic Bot.

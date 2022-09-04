@@ -107,7 +107,9 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public EntityReference EditStatus([FromServices] EmailService notification, Guid eventId, StatusUpdate update)
         {
-            var entity = Context.Set<Event>().Include(e => e.Statuses)
+            var entity = Context.Set<Event>()
+                .Include(e => e.Statuses)
+                .Include(e => e.Category)
                 .SingleOrDefault(c => c.Identifier == eventId);
             if (entity == null)
             {
@@ -150,13 +152,7 @@ namespace Basic.WebApi.Controllers
             entity.Statuses.Add(status);
             Context.SaveChanges();
 
-            var usersFromDb = Context.Set<User>();
-            var eventsFromDb = Context.Set<Event>();
-
-            Event @event = eventsFromDb.ToList().Find(e => e.Identifier == eventId);
-            User eventUser = usersFromDb.ToList().Find(u => u.Identifier == @event.User.Identifier);
-
-            notification.EmailToEmployee(user, eventUser, entity, from, to);
+            notification.EventStatusChanged(entity, status);
 
             return Mapper.Map<EntityReference>(status);
         }

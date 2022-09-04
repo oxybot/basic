@@ -139,10 +139,13 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Business services
+builder.Services.Configure<EmailServiceOptions>(builder.Configuration.GetSection(EmailServiceOptions.Section));
+builder.Services.AddScoped(sp => sp.GetRequiredService<IOptions<EmailServiceOptions>>().Value);
+builder.Services.AddScoped<EmailService>();
+
 builder.Services.AddScoped<ConsumptionService>();
 builder.Services.AddScoped<Context>();
 builder.Services.AddSingleton<ExternalAuthenticatorService>();
-builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<DefinitionsService>();
 
 var app = builder.Build();
