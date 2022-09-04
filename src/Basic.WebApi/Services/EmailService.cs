@@ -65,6 +65,7 @@ namespace Basic.WebApi.Services
 
             var data = new
             {
+                FrontBaseUrl = this.Options.FrontBaseUrl,
                 Event = @event,
                 Change = change,
             };

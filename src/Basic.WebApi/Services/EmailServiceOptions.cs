@@ -37,5 +37,10 @@
         /// Gets or sets the email of the sender.
         /// </summary>
         public string SenderEmail { get; set; }
+
+        /// <summary>
+        /// Gets or sets the base url for the front project.
+        /// </summary>
+        public string FrontBaseUrl { get; set; }
     }
 }
