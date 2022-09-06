@@ -41,7 +41,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Templates\email-to-managment-hr-template.txt">
+    <None Update="Templates\EventCreated-Content.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\EventCreated-Subject.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\EventStatusChanged-Content.txt">

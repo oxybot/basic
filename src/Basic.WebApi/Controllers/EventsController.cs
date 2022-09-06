@@ -177,8 +177,8 @@ namespace Basic.WebApi.Controllers
                 DurationLastDay = @event.DurationLastDay ?? 8m,
             };
 
-            // Send an email as a notification when a event is created
-            service.EmailToManagers(category, user, model);
+            // Send a notification when an event is created
+            service.EventCreated(model);
 
             return Post(@event);
         }

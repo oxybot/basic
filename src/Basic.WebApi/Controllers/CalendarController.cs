@@ -159,8 +159,8 @@ namespace Basic.WebApi.Controllers
             Context.Set<Event>().Add(model);
             Context.SaveChanges();
 
-            // Send an email notification when an event is created
-            notification.EmailToManagers(model.Category, model.User, model);
+            // Send a notification when an event is created
+            notification.EventCreated(model);
 
             return Mapper.Map<EventForList>(model);
         }

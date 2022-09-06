@@ -1,0 +1,15 @@
+Dear time request approvers,
+
+A new request has been created and await your review.
+
+Requestor: {Event.User.DisplayName}
+Category:  {Event.Category.DisplayName}
+From:      {Event.StartDate:D}
+To:        {Event.EndDate:D}
+
+Here is the link to see and manage this request:
+{FrontBaseUrl}/events/{Event.Identifier}
+
+Kind Regards,
+
+Your Basic Bot

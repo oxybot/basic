@@ -83,7 +83,6 @@ namespace Basic.WebApi.Services
             // Prepare the content
             string template = File.ReadAllText(@"Templates/EventStatusChanged-Content.txt");
             string content = Smart.Format(template, data).Trim();
-
             message.Body = new TextPart("plain")
             {
                 Text = content
@@ -95,49 +94,46 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Provides email to send to managment team
         /// </summary>
-        public void EmailToManagers(EventCategory category, User fromUser, Event @event)
+        public void EventCreated(Event @event)
         {
-            // get the managers informations sending
-            List<User> managers = Context.Set<User>()
-                .Where(m => m.Roles.Any(u => u.Code.Equals("time") || u.Code.Equals("time-ro")))
-                .Where(m => m.IsActive)
+            // get the time approvers informations sending
+            List<User> approvers = Context.Set<User>()
+                .Where(u => u.Roles.Any(r => r.Code.Equals("time")))
+                .Where(u => u.IsActive)
+                .Where(u => !string.IsNullOrEmpty(u.Email))
                 .ToList();
 
-            if (managers.Count == 0)
+            if (approvers.Count == 0)
             {
                 // No manager to send the notification to
-                Logger.LogWarning("Setup inconsistency - No time manager defined");
+                Logger.LogWarning("Setup inconsistency - No user with email defined has the role 'time' defined");
                 return;
             }
 
-            // set up the string variables to display
-            string fromDate = @event.StartDate.ToString();
-            string toDate = @event.EndDate.ToString();
-            string displayCategory = category.DisplayName;
-            string emailContent = $"{displayCategory} request from {fromDate}, to {toDate}.";
-            string fromName = fromUser.DisplayName;
+            var data = new {
+                FrontBaseUrl = this.Options.FrontBaseUrl,
+                Event = @event,
+            };
 
-            // message creation
+            // Prepare the headers
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(this.Options.SenderName, this.Options.SenderEmail));
-
-            // for loop to add multiple receivers
-            foreach (User manager in managers)
+            foreach (User manager in approvers)
             {
-                if (manager.Email != null)
-                {
-                    message.To.Add(new MailboxAddress(manager.DisplayName, manager.Email));
-                }
+                message.To.Add(new MailboxAddress(manager.DisplayName, manager.Email));
             }
 
-            // formating the template and fill the email with variables
-            string templateLink = @"Templates/email-to-managment-hr-template.txt";
-            string textFromTemplate = File.ReadAllText(templateLink);
-            textFromTemplate = string.Format(textFromTemplate, emailContent, fromName);
+            // Prepare the subject
+            string subjectTemplate = File.ReadAllText(@"Templates/EventCreated-Subject.txt");
+            string subjectContent = Smart.Format(subjectTemplate, data).Trim();
+            message.Subject = subjectContent;
 
+            // Prepare the content
+            string template = File.ReadAllText(@"Templates/EventCreated-Content.txt");
+            string content = Smart.Format(template, data).Trim();
             message.Body = new TextPart("plain")
             {
-                Text = textFromTemplate
+                Text = content
             };
 
             this.Send(message);
