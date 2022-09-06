@@ -1,6 +1,6 @@
 Dear {Event.User.DisplayName},
 
-The request for '{Event.Category.DisplayName}' from {Event.StartDate:D} to {Event.EndDate:D}
+Your request for '{Event.Category.DisplayName}' from {Event.StartDate:D} to {Event.EndDate:D}
 has been updated to the following status:
 
 {Change.Status.DisplayName}
@@ -12,4 +12,4 @@ The full detail on this request is available here:
 
 Kind Regards,
 
-Your Basic Bot.
+Your Basic Bot
