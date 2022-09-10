@@ -9,12 +9,12 @@ export function useInRole() {
 
   return (...acceptedRoles) => {
     // Missing initialization or no acceptedRoles
-    if (roles === null) {
-      return false;
-    } else if (acceptedRoles === null || acceptedRoles.length === 0) {
+    if (acceptedRoles === null || acceptedRoles.length === 0) {
       return true;
     } else if (acceptedRoles.length === 1 && acceptedRoles[0] === null) {
       return true;
+    } else if (roles === null) {
+      return false;
     }
 
     // Standard cases

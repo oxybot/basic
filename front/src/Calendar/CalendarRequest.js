@@ -13,7 +13,7 @@ import AttachmentForm from "../Attachments/AttachmentForm";
 import { useInRole } from "../Authentication";
 import EntityFieldInputReference from "../Generic/EntityFieldInputReference";
 
-export function CalendarRequest() {
+export function CalendarRequest({ full = false }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const definition = useDefinition("CalendarRequest");
@@ -91,7 +91,7 @@ export function CalendarRequest() {
       <div className="page-body">
         <div className="row">
           {errors && (
-            <div className="alert show fade alert-danger offset-lg-3 col-lg-6">
+            <div className={clsx("alert show fade alert-danger", { "offset-lg-3 col-lg-6": full })}>
               <div className="d-flex">
                 <div>
                   <IconAlertTriangle className="alert-icon" />
@@ -104,7 +104,7 @@ export function CalendarRequest() {
             </div>
           )}
           {check && (
-            <div className="alert show fade alert-info offset-lg-3 col-lg-6">
+            <div className={clsx("alert show fade alert-info", { "offset-lg-3 col-lg-6": full })}>
               <div className="d-flex">
                 <div>
                   <IconCheck className="alert-icon" />
@@ -123,7 +123,7 @@ export function CalendarRequest() {
         </div>
         <div className="row row-cards">
           {definition && (
-            <div className="card offset-lg-3 col-lg-6">
+            <div className={clsx("card", { "offset-lg-3 col-lg-6": full })}>
               <div className="card-body">
                 <div className="mb-3">
                   <EntityFieldLabel field={categoryField} />

@@ -26,7 +26,7 @@ export default function App() {
         {/* Calendar */}
         <Route path="/calendar">
           <Route index element={<Calendar />} />
-          <Route path="request" element={<CalendarRequest />} />
+          <Route path="request" element={<CalendarRequest full />} />
         </Route>
 
         {/* Settings */}
@@ -47,7 +47,8 @@ export default function App() {
         <Route path="/my/profile/edit" element={<ProfileEdit full />} />
         <Route path="/my/profile/password" element={<MyPasswordEdit full />} />
         <Route path="/my/events" element={<MyEventList />}>
-          <Route path="/my/events/:eventId" element={<MyEventView backTo="/my/events" />} />
+          <Route path=":eventId" element={<MyEventView backTo="/my/events" />} />
+          <Route path="new" element={<CalendarRequest />} />
         </Route>
 
         {/* Clients */}

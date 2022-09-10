@@ -11,6 +11,7 @@ export function MyEventList() {
 
   const texts = {
     title: "Events",
+    add: "Add a new Request",
   };
 
   const [loading, elements] = useApiFetch("My/Events", { method: "GET" }, []);
@@ -22,7 +23,6 @@ export function MyEventList() {
       elements={elements}
       selectedId={eventId}
       texts={texts}
-      newRole=""
     />
   );
 }
