@@ -98,13 +98,13 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
       );
 
     case "image":
-      return <EntityFieldInputImage field={field} value={value} onChange={onChange} />;
+      return <EntityFieldInputImage field={field} value={value} hasErrors={hasErrors} onChange={onChange} />;
 
     case "schedule":
       return <EntityFieldInputSchedule field={field} value={value} hasErrors={hasErrors} onChange={onChange} />;
 
     case "color":
-      return <EntityFieldInputColor field={field} value={value} onChange={onChange} />;
+      return <EntityFieldInputColor field={field} value={value} hasErrors={hasErrors} onChange={onChange} />;
 
     case "boolean":
       function handleChange(e) {
@@ -112,7 +112,7 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
       }
 
       return (
-        <div className="form-check form-switch">
+        <div className={clsx("form-check form-switch", { "is-invalid": hasErrors })}>
           <input
             className="form-check-input"
             type="checkbox"

@@ -1,4 +1,6 @@
-export default function EntityFieldInputImage({ field, value, onChange }) {
+import clsx from "clsx";
+
+export default function EntityFieldInputImage({ field, value, hasErrors, onChange }) {
   function handleRemove() {
     onChange({ target: { name: field.name, value: null } });
   }
@@ -19,7 +21,7 @@ export default function EntityFieldInputImage({ field, value, onChange }) {
   }
 
   return (
-    <div className="d-flex">
+    <div className={clsx("d-flex", { "is-invalid": hasErrors })}>
       {value && <img className="avatar avatar-lg me-2" alt="" src={`data:${value.mimeType};base64,${value.data}`} />}
       {!value && <div className="avatar avatar-lg me-2"></div>}
       <div className="d-flex flex-column align-items-start justify-content-between">

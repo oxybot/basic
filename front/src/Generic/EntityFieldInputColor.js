@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 const colors = [
   "blue",
   "azure",
@@ -13,9 +15,9 @@ const colors = [
   "cyan",
 ];
 
-export default function EntityFieldInputColor({ field, value, onChange }) {
+export default function EntityFieldInputColor({ field, value, hasErrors, onChange }) {
   return (
-    <div className="row g-2">
+    <div className={clsx("row g-2", { "is-invalid": hasErrors })}>
       {colors.map((color) => (
         <div key={color} className="col-auto">
           <label className="form-colorinput">
