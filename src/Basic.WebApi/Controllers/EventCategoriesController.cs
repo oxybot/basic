@@ -101,5 +101,20 @@ namespace Basic.WebApi.Controllers
         {
             base.Delete(identifier);
         }
+
+        /// <summary>
+        /// Overriden to manage the value of ColorClass.
+        /// </summary>
+        /// <param name="entity">The received entity.</param>
+        /// <param name="model">The associated modei.</param>
+        protected override void CheckDependencies(EventCategoryForEdit entity, EventCategory model)
+        {
+            base.CheckDependencies(entity, model);
+
+            if (model.Mapping == EventTimeMapping.TimeOff)
+            {
+                model.ColorClass = String.Empty;
+            }
+        }
     }
 }

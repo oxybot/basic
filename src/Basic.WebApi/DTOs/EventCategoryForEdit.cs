@@ -31,7 +31,7 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the css class associated to the category.
         /// </summary>
-        [Required]
+        [RequiredWhen(nameof(Mapping), EventTimeMapping.Active)]
         [SwaggerSchema(Format = "color")]
         public string ColorClass { get; set; }
     }

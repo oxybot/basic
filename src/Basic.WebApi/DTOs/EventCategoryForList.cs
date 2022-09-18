@@ -38,7 +38,6 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the css class associated to the category.
         /// </summary>
-        [Required]
         [SwaggerSchema(Format = "color")]
         public string ColorClass { get; set; }
     }
