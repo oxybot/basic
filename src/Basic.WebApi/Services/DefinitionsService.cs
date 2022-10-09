@@ -101,6 +101,7 @@ namespace Basic.WebApi.Services
             {
                 Name = property.Name.ToJsonFieldName(),
                 DisplayName = property.GetDisplayName(),
+                Description = property.Description,
                 Required = property.IsRequired,
                 Placeholder = property.Placeholder,
                 Group = displayAttribute?.GetGroupName(),

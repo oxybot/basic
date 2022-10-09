@@ -15,6 +15,7 @@ export default function EntityFieldEdit({ field, entity, errors, onChange }) {
             {error}
           </div>
         ))}
+      {field.description && <div className="form-text">{field.description}</div>}
     </div>
   );
 }

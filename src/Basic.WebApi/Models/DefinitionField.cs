@@ -20,6 +20,11 @@ namespace Basic.WebApi.Models
         public string DisplayName { get; set; }
 
         /// <summary>
+        /// Gets or sets the description associated to the field.
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
         /// Gets or sets the type of field.
         /// </summary>
         [Required]

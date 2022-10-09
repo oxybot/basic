@@ -123,7 +123,7 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
             onChange={handleChange}
           />
           <label className="form-check-label" htmlFor={field.name}>
-            {field.description || "Yes"}
+            {field.placeholder || "Yes"}
           </label>
         </div>
       );
