@@ -111,7 +111,6 @@ namespace Basic.WebApi.Services
 
         private static string BuildFieldType(DefaultModelMetadata property)
         {
-
             var type = property.ModelType;
             var swaggerAttribute = property.GetCustomAttribute<SwaggerSchemaAttribute>();
             if (swaggerAttribute != null && !string.IsNullOrEmpty(swaggerAttribute.Format))
