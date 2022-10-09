@@ -154,15 +154,15 @@ export function Calendar() {
             </table>
           </div>
         </div>
-        <div className="m-3 d-flex align-items-stretch">
+        <div className="m-3 mb-0 d-flex align-items-stretch flex-wrap">
           {categories &&
             categories.map((category, index) => (
-              <Fragment key={index}>
+              <div className="d-flex mb-3" key={index}>
                 <div className="my-auto calendar-line me-2">
                   <div className={category.colorClass} style={{ width: "1.5rem", height: "0.5rem" }}></div>
                 </div>
-                <div className="me-5">{category.category}</div>
-              </Fragment>
+                <div className="me-4 me-lg-4 me-xl-5 text-nowrap">{category.category}</div>
+              </div>
             ))}
         </div>
       </div>
