@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Basic.Model
@@ -91,12 +94,12 @@ namespace Basic.Model
         public virtual ICollection<Schedule> Schedules { get; }
 
         /// <summary>
-        /// Gets or sets the list of the attachments.
+        /// Gets the list of the attachments.
         /// </summary>
         public virtual ICollection<UserAttachment> Attachments { get; }
 
         /// <summary>
-        /// Gets or sets the list of the tokens.
+        /// Gets the list of the tokens.
         /// </summary>
         public virtual ICollection<Token> Tokens { get; }
     }

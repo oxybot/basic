@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Basic.Model
@@ -39,9 +42,9 @@ namespace Basic.Model
         /// Gets the associated agreements.
         /// </summary>
         public virtual ICollection<Agreement> Agreements { get; }
-        
+
         /// <summary>
-        /// Gets or sets the list of the attachments.
+        /// Gets the list of the attachments.
         /// </summary>
         public virtual ICollection<ClientAttachment> Attachments { get; }
     }

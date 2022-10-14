@@ -1,5 +1,9 @@
-﻿using System;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.Model
 {
@@ -32,6 +36,7 @@ namespace Basic.Model
         /// 7 or 14 values expected.
         /// </value>
         [Required]
+        [SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "Special conversion in place")]
         public decimal[] WorkingSchedule { get; set; }
     }
 }

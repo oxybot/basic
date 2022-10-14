@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using System.Collections.Generic;
 
 namespace Basic.Model
 {
     /// <summary>
     /// Indicates that the associated model instances are linked to a workflow.
     /// </summary>
+    /// <typeparam name="TStatus">The concrete type of status.</typeparam>
     public interface IWithStatus<TStatus>
         where TStatus : BaseModelStatus
     {

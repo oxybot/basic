@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -71,7 +74,7 @@ namespace Basic.Model
         public virtual ICollection<AgreementStatus> Statuses { get; }
 
         /// <summary>
-        /// Gets or sets the list of the attachments.
+        /// Gets the list of the attachments.
         /// </summary>
         public virtual ICollection<AgreementAttachment> Attachments { get; }
     }

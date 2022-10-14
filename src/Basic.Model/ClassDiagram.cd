@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Basic.Model.Client">
-    <Position X="1.5" Y="6.25" Width="1.5" />
+    <Position X="1.5" Y="9.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAIAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAEAAAAAAAAIEAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Client.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="Agreements" />
     </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Basic.Model.AgreementItem">
-    <Position X="7" Y="6.25" Width="1.5" />
+    <Position X="7" Y="9.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAACAAAAAAAgAAAAAAACAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
       <FileName>AgreementItem.cs</FileName>
@@ -22,16 +23,16 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Basic.Model.Product">
-    <Position X="9.75" Y="6.25" Width="1.5" />
+    <Position X="9.75" Y="9.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAAAAAAIAEAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
       <FileName>Product.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Basic.Model.Agreement">
-    <Position X="4.25" Y="6.25" Width="1.5" />
+    <Position X="4.25" Y="9.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAiAAAAACEAAEAAAQAAAAAAAAAAAAAAAACAAAAQ=</HashCode>
+      <HashCode>AAAAAAiAAAAACEEEEAAAQAAAAAAAAAAAAAAAACAAAAQ=</HashCode>
       <FileName>Agreement.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -41,20 +42,23 @@
     <ShowAsCollectionAssociation>
       <Property Name="Items" />
     </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Basic.Model.User">
-    <Position X="4.25" Y="3.5" Width="1.5" />
+    <Position X="4.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAEAAAAAAEAAAAQAAAAAAgAAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AABAEAEAACAAAEEAEQQAAAAAAkAAAAACAAAAAAABAgA=</HashCode>
       <FileName>User.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Balances" />
       <Property Name="Events" />
+      <Property Name="Balances" />
+      <Property Name="Roles" />
     </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Basic.Model.Balance">
-    <Position X="7" Y="3.5" Width="1.5" />
+    <Position X="7" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAAABAAAAAAAIBAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
       <FileName>Balance.cs</FileName>
@@ -67,20 +71,31 @@
   <Class Name="Basic.Model.EventCategory">
     <Position X="7" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIEAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAIEAAAAAABAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>EventCategory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Basic.Model.Event">
     <Position X="4.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABAAQEAAAAAAAAAAAAAAAgAEAAAAAAAAIAAEAACAA=</HashCode>
+      <HashCode>AAABAAQEAAAAEAEEAAAAAAAgAEAAAAAAAAIAAEAACAA=</HashCode>
       <FileName>Event.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="User" />
       <Property Name="Category" />
     </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Basic.Model.Role">
+    <Position X="1.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABACAAAAIAAAAAAAAgAAAAAAQAAEAAAAAAAAAAAQQ=</HashCode>
+      <FileName>Role.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Users" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

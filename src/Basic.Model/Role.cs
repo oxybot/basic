@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Basic.Model
@@ -8,14 +11,6 @@ namespace Basic.Model
     /// </summary>
     public class Role : BaseModel
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Role"/> class.
-        /// </summary>
-        public Role()
-        {
-            this.Users = new List<User>();
-        }
-
         /// <summary>
         /// The right to view all data related to clients.
         /// </summary>
@@ -45,6 +40,14 @@ namespace Basic.Model
         /// The right to view and manage the beta features for a development purpose.
         /// </summary>
         public const string Beta = "beta";
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Role"/> class.
+        /// </summary>
+        public Role()
+        {
+            this.Users = new List<User>();
+        }
 
         /// <summary>
         /// Gets or sets the code of the role.

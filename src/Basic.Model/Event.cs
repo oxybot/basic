@@ -1,6 +1,10 @@
-﻿using System;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Basic.Model
@@ -8,6 +12,7 @@ namespace Basic.Model
     /// <summary>
     /// Represents a time management event for a user.
     /// </summary>
+    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Defined as business vocabulary")]
     public class Event : BaseModel, IWithStatus<EventStatus>, IWithAttachments<EventAttachment>
     {
         /// <summary>
@@ -80,7 +85,7 @@ namespace Basic.Model
         public decimal DurationTotal { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of the attachments.
+        /// Gets the list of the attachments.
         /// </summary>
         public virtual ICollection<EventAttachment> Attachments { get; }
     }

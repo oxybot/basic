@@ -1,7 +1,10 @@
-﻿namespace Basic.Model
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Basic.Model
 {
     /// <summary>
-    /// Represents the various possibility to compute 
+    /// Represents the various possibility to compute time booking.
     /// </summary>
     public enum EventTimeMapping
     {

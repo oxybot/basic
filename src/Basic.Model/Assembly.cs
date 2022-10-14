@@ -1,9 +1,6 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Basic.Model
-{
-    public class Invoice : BaseModel
-    {
-    }
-}
+using System;
+
+[assembly: CLSCompliant(false)]

@@ -1,5 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.Model
 {
@@ -13,6 +17,7 @@ namespace Basic.Model
         /// Gets or sets the data of the file.
         /// </summary>
         [Required]
+        [SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "Standard format for file content")]
         public byte[] Data { get; set; }
 
         /// <summary>

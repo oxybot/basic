@@ -1,4 +1,8 @@
+// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.Model
 {
@@ -23,6 +27,8 @@ namespace Basic.Model
     /// <summary>
     /// Represents an attachment file.
     /// </summary>
+    /// <typeparam name="TParentModel">The parent entity.</typeparam>
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "Same class, two simple content")]
     public abstract class BaseAttachment<TParentModel> : BaseAttachment
         where TParentModel : BaseModel
     {
