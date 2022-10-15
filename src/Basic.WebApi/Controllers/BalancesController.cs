@@ -35,16 +35,16 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [AuthorizeRoles(Role.TimeRO, Role.Time)]
         [Produces("application/json")]
-        public IEnumerable<BalanceForList> GetAll(string filter = "", string sortKey= "", string sortValue = "")
+        public IEnumerable<BalanceForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
         {
             var entities = AddIncludesForList(Context.Set<Balance>())
                 .ToList()
                 .Select(e => Mapper.Map<BalanceForList>(e));
 
-            switch(sortKey)
+            switch (sortKey)
             {
                 case "User":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName);
                     }
@@ -53,9 +53,9 @@ namespace Basic.WebApi.Controllers
                         entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
                     }
                     break;
-                    
+
                 case "Category":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.Category.DisplayName);
                     }
@@ -66,7 +66,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Year":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.Year);
                     }
@@ -77,7 +77,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Allowed":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.Allowed);
                     }
@@ -88,7 +88,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Transfered":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.Transfered);
                     }
@@ -98,7 +98,7 @@ namespace Basic.WebApi.Controllers
                     }
                     break;
             }
-                
+
             return entities;
         }
 

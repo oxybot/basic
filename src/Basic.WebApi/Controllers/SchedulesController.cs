@@ -42,10 +42,10 @@ namespace Basic.WebApi.Controllers
                 .ToList()
                 .Select(e => Mapper.Map<ScheduleForList>(e));
 
-            switch(sortKey)
+            switch (sortKey)
             {
                 case "User":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName);
                     }
@@ -54,9 +54,9 @@ namespace Basic.WebApi.Controllers
                         entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
                     }
                     break;
-                    
+
                 case "Active From":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.ActiveFrom);
                     }
@@ -66,7 +66,7 @@ namespace Basic.WebApi.Controllers
                     }
                     break;
             }
-                
+
             return entities;
         }
 

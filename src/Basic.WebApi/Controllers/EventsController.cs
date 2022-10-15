@@ -48,10 +48,10 @@ namespace Basic.WebApi.Controllers
                 .Select(e => Mapper.Map<EventForList>(e))
                 .Reverse();
 
-            switch(sortKey)
+            switch (sortKey)
             {
                 case "User":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName);
                     }
@@ -60,9 +60,9 @@ namespace Basic.WebApi.Controllers
                         entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
                     }
                     break;
-                    
+
                 case "Category":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.Category.DisplayName);
                     }
@@ -73,7 +73,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Start Date":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.StartDate);
                     }
@@ -84,7 +84,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "End Date":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.EndDate);
                     }
@@ -95,7 +95,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Duration Total":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.DurationTotal);
                     }
@@ -106,7 +106,7 @@ namespace Basic.WebApi.Controllers
                     break;
 
                 case "Current Status":
-                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.CurrentStatus.DisplayName);
                     }
@@ -147,7 +147,7 @@ namespace Basic.WebApi.Controllers
         [AuthorizeRoles(Role.Time)]
         [Produces("application/json")]
         [Route("notify")]
-        public EventForList CreateEvent([FromServices]EmailService service, EventForEdit @event)
+        public EventForList CreateEvent([FromServices] EmailService service, EventForEdit @event)
         {
             if (service is null)
             {
@@ -168,7 +168,7 @@ namespace Basic.WebApi.Controllers
 
             var categories = Context.Set<EventCategory>();
             EventCategory category = categories.ToList().Find(c => c.Identifier == @event.CategoryIdentifier);
-            
+
             if (category == null)
             {
                 ModelState.AddModelError("Category", "The event category is invalid");
@@ -299,6 +299,6 @@ namespace Basic.WebApi.Controllers
             {
                 Attachments = entity.Attachments.Count
             };
-        }        
+        }
     }
 }
