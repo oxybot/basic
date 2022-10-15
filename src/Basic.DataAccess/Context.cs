@@ -15,41 +15,41 @@ namespace Basic.DataAccess
         {
         }
 
-        protected override void ConfigureConventions(ModelConfigurationBuilder builder)
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
-            if (builder is null)
+            if (configurationBuilder is null)
             {
-                throw new ArgumentNullException(nameof(builder));
+                throw new ArgumentNullException(nameof(configurationBuilder));
             }
 
-            base.ConfigureConventions(builder);
+            base.ConfigureConventions(configurationBuilder);
 
-            builder.Properties<decimal>()
+            configurationBuilder.Properties<decimal>()
                 .HaveColumnType("decimal(18,6)");
 
-            builder.Properties<Enum>()
+            configurationBuilder.Properties<Enum>()
                 .HaveColumnType("nvarchar(24)");
 
-            builder.Properties<DateOnly>()
+            configurationBuilder.Properties<DateOnly>()
                 .HaveColumnType("date");
 
-            builder.Properties<DateOnly?>()
+            configurationBuilder.Properties<DateOnly?>()
                 .HaveColumnType("date");
 
             // https://github.com/dotnet/efcore/issues/24507#issuecomment-891034323
-            builder.Properties<DateOnly>()
+            configurationBuilder.Properties<DateOnly>()
                 .HaveConversion<DateOnlyConverter>();
 
             // https://github.com/dotnet/efcore/issues/24507#issuecomment-891034323
-            builder.Properties<DateOnly?>()
+            configurationBuilder.Properties<DateOnly?>()
                 .HaveConversion<NullableDateOnlyConverter>();
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (builder is null)
+            if (modelBuilder is null)
             {
-                throw new ArgumentNullException(nameof(builder));
+                throw new ArgumentNullException(nameof(modelBuilder));
             }
 
             var modelTypes = typeof(BaseModel).Assembly.GetTypes()
@@ -58,11 +58,11 @@ namespace Basic.DataAccess
             // Register all model types
             foreach (Type type in modelTypes)
             {
-                builder.Entity(type);
+                modelBuilder.Entity(type);
             }
 
             // Special configuration
-            builder
+            modelBuilder
                 .Entity<Schedule>()
                 .Property(s => s.WorkingSchedule)
                     .HasConversion<ScheduleConverter, ScheduleComparer>();
@@ -101,7 +101,7 @@ namespace Basic.DataAccess
                     Code = Role.Beta,
                 }
             };
-            builder.Entity<Role>().HasData(roles);
+            modelBuilder.Entity<Role>().HasData(roles);
 
             var demoUser = new User()
             {
@@ -114,16 +114,16 @@ namespace Basic.DataAccess
             };
             demoUser.Password = demoUser.HashPassword("demo");
 
-            builder.Entity<User>()
+            modelBuilder.Entity<User>()
                 .HasData(demoUser);
 
             foreach (var role in roles)
             {
-                builder.Entity("RoleUser")
+                modelBuilder.Entity("RoleUser")
                     .HasData(new { RolesIdentifier = role.Identifier, UsersIdentifier = demoUser.Identifier });
             }
 
-            builder.Entity<Status>()
+            modelBuilder.Entity<Status>()
                 .HasData(new Status()
                 {
                     Identifier = Status.Requested,
