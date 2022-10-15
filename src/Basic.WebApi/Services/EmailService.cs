@@ -98,7 +98,7 @@ namespace Basic.WebApi.Services
         {
             // get the time approvers informations sending
             List<User> approvers = Context.Set<User>()
-                .Where(u => u.Roles.Any(r => r.Code.Equals("time")))
+                .Where(u => u.Roles.Any(r => r.Code.Equals(Role.Time, StringComparison.Ordinal)))
                 .Where(u => u.IsActive)
                 .Where(u => !string.IsNullOrEmpty(u.Email))
                 .ToList();

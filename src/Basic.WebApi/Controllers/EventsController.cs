@@ -51,66 +51,66 @@ namespace Basic.WebApi.Controllers
             switch(sortKey)
             {
                 case "User":
-                    if(sortValue.Equals("asc"))
+                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
                     }
                     break;
                     
                 case "Category":
-                    if(sortValue.Equals("asc"))
+                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.Category.DisplayName);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.Category.DisplayName).Reverse();
                     }
                     break;
 
                 case "Start Date":
-                    if(sortValue.Equals("asc"))
+                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.StartDate);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.StartDate).Reverse();
                     }
                     break;
 
                 case "End Date":
-                    if(sortValue.Equals("asc"))
+                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.EndDate);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.EndDate).Reverse();
                     }
                     break;
 
                 case "Duration Total":
-                    if(sortValue.Equals("asc"))
+                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.DurationTotal);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.DurationTotal).Reverse();
                     }
                     break;
 
                 case "Current Status":
-                    if(sortValue.Equals("asc"))
+                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.CurrentStatus.DisplayName);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.CurrentStatus.DisplayName).Reverse();
                     }

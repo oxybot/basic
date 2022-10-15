@@ -45,22 +45,22 @@ namespace Basic.WebApi.Controllers
             switch(sortKey)
             {
                 case "User":
-                    if(sortValue.Equals("asc"))
+                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
                     }
                     break;
                     
                 case "Active From":
-                    if(sortValue.Equals("asc"))
+                    if(sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.ActiveFrom);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.ActiveFrom).Reverse();
                     }
