@@ -4,7 +4,7 @@ using System;
 namespace Basic.DataAccess
 {
     /// <summary>
-    /// Converts <see cref="DateOnly?" /> to <see cref="DateTime?"/> and vice versa.
+    /// Converts <see cref="Nullable{DateOnly}" /> to <see cref="Nullable{DateTime}"/> and vice versa.
     /// </summary>
     /// <seealso href="https://github.com/dotnet/efcore/issues/24507#issuecomment-891034323" />
     public class NullableDateOnlyConverter : ValueConverter<DateOnly?, DateTime?>
