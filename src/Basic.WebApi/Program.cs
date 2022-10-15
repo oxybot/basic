@@ -16,17 +16,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<Context>(options =>
 {
-    string driver = builder.Configuration["DatabaseDriver"]?.ToLowerInvariant();
+    string driver = builder.Configuration["DatabaseDriver"]?.ToUpperInvariant();
     switch (driver)
     {
-        case "sqlserver":
+        case "SQLSERVER":
             options.UseSqlServer("name=ConnectionStrings:SqlServer", options =>
             {
                 options.MigrationsAssembly(typeof(Basic.DataAccess.SqlServer.Migrations.InitialCreate).Assembly.FullName);
             });
             break;
 
-        case "mysql":
+        case "MYSQL":
             string connectionString = builder.Configuration.GetConnectionString("MySql");
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), options =>
             {

@@ -1,4 +1,6 @@
-﻿namespace System
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace System
 {
     /// <summary>
     /// Defines extension methods for the <see cref="String"/> class.
@@ -10,13 +12,14 @@
         /// </summary>
         /// <param name="value">The field name to be converted.</param>
         /// <returns>The field name as part of a json payload.</returns>
+        [SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "Expected behaviour")]
         public static string ToJsonFieldName(this string value)
         {
             if (string.IsNullOrEmpty(value))
             {
                 return value;
             }
-            else if (value.Length ==1)
+            else if (value.Length == 1)
             {
                 return value.ToLowerInvariant();
             }
