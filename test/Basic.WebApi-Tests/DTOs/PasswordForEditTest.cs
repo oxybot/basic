@@ -15,7 +15,7 @@ namespace Basic.WebApi.DTOs
         /// Tests the <see cref="PasswordForEdit.Validate(ValidationContext)"/> method.
         /// </summary>
         [TestMethod]
-        [DataRow()]
+        [DataRow]
         public void ValidateNull()
         {
             var password = new PasswordForEdit();
