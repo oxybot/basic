@@ -56,6 +56,29 @@ namespace System.ComponentModel.DataAnnotations
         }
 
         /// <summary>
+        /// Overrides the formatting so that two parameters can be used in the error message.
+        /// </summary>
+        /// <param name="name">The display name of the field.</param>
+        /// <returns>The formatted error message.</returns>
+        /// <remarks>
+        /// The format parameters are:
+        /// <list type="table">
+        /// <item>
+        /// <term>0</term>
+        /// <description>The <paramref name="name"/> value.</description>
+        /// </item>
+        /// <item>
+        /// <term>1</term>
+        /// <description>The <see cref="LinkedProperty"/> value.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        public override string FormatErrorMessage(string name)
+        {
+            return string.Format(CultureInfo.CurrentCulture, this.ErrorMessageString, name, this.LinkedProperty);
+        }
+
+        /// <summary>
         /// Checks the assertion.
         /// </summary>
         /// <param name="value">The value of the instance to check.</param>
@@ -95,29 +118,6 @@ namespace System.ComponentModel.DataAnnotations
             }
 
             return ValidationResult.Success;
-        }
-
-        /// <summary>
-        /// Overrides the formatting so that two parameters can be used in the error message.
-        /// </summary>
-        /// <param name="name">The display name of the field.</param>
-        /// <returns>The formatted error message.</returns>
-        /// <remarks>
-        /// The format parameters are:
-        /// <list type="table">
-        /// <item>
-        /// <term>0</term>
-        /// <description>The <paramref name="name"/> value.</description>
-        /// </item>
-        /// <item>
-        /// <term>1</term>
-        /// <description>The <see cref="LinkedProperty"/> value.</description>
-        /// </item>
-        /// </list>
-        /// </remarks>
-        public override string FormatErrorMessage(string name)
-        {
-            return string.Format(CultureInfo.CurrentCulture, this.ErrorMessageString, name, this.LinkedProperty);
         }
     }
 }

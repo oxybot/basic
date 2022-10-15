@@ -206,6 +206,32 @@ namespace Basic.WebApi.Controllers
         }
 
         /// <summary>
+        /// Retrieves the basic information about the linked entities.
+        /// </summary>
+        /// <param name="identifier">The identifier of the event.</param>
+        /// <returns>The linked entities information.</returns>
+        [HttpGet]
+        [AuthorizeRoles(Role.Time, Role.TimeRO)]
+        [Produces("application/json")]
+        [Route("{identifier}/links")]
+        public AttachmentLinks GetLinks(Guid identifier)
+        {
+            var entity = this.Context
+                .Set<Event>()
+                .Include(c => c.Attachments)
+                .SingleOrDefault(c => c.Identifier == identifier);
+            if (entity == null)
+            {
+                throw new NotFoundException("Not existing entity");
+            }
+
+            return new AttachmentLinks()
+            {
+                Attachments = entity.Attachments.Count
+            };
+        }
+
+        /// <summary>
         /// Checks and maps <see cref="Event.User"/> and <see cref="Event.Category"/> info.
         /// </summary>
         /// <param name="event">The event data.</param>
@@ -273,32 +299,6 @@ namespace Basic.WebApi.Controllers
                 .Include(c => c.Category)
                 .Include(c => c.Statuses)
                 .ThenInclude(s => s.Status);
-        }
-
-        /// <summary>
-        /// Retrieves the basic information about the linked entities.
-        /// </summary>
-        /// <param name="identifier">The identifier of the event.</param>
-        /// <returns>The linked entities information.</returns>
-        [HttpGet]
-        [AuthorizeRoles(Role.Time, Role.TimeRO)]
-        [Produces("application/json")]
-        [Route("{identifier}/links")]
-        public AttachmentLinks GetLinks(Guid identifier)
-        {
-            var entity = this.Context
-                .Set<Event>()
-                .Include(c => c.Attachments)
-                .SingleOrDefault(c => c.Identifier == identifier);
-            if (entity == null)
-            {
-                throw new NotFoundException("Not existing entity");
-            }
-
-            return new AttachmentLinks()
-            {
-                Attachments = entity.Attachments.Count
-            };
         }
     }
 }
