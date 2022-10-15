@@ -16,17 +16,18 @@ namespace Basic.DataAccess.SqlServer.Migrations
                 columns: new[] { "Identifier", "DisplayName", "Password", "Title", "Username" },
                 values: new object[] { new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5"), "John Doe", "demo", "User Group Evangelist", "demo" });
 
+            var relations = new object[,]
+            {
+                { new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
+                { new Guid("7a42dca4-c92c-408b-af26-6ac2db418312"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
+                { new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
+                { new Guid("8087c59d-7db0-4c40-aa35-742f6e11816f"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
+                { new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
+            };
             migrationBuilder.InsertData(
                 table: "RoleUser",
                 columns: new[] { "RolesIdentifier", "UsersIdentifier" },
-                values: new object[,]
-                {
-                    { new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
-                    { new Guid("7a42dca4-c92c-408b-af26-6ac2db418312"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
-                    { new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
-                    { new Guid("8087c59d-7db0-4c40-aa35-742f6e11816f"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
-                    { new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") }
-                });
+                values: relations);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

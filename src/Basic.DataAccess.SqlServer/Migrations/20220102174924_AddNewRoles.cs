@@ -25,15 +25,17 @@ namespace Basic.DataAccess.SqlServer.Migrations
                 column: "Code",
                 value: "client-ro");
 
-            migrationBuilder.InsertData(
-                table: "Role",
-                columns: new[] { "Identifier", "Code" },
-                values: new object[,]
+            var roles = new object[,]
                 {
                     { new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"), "user" },
                     { new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"), "people" },
-                    { new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"), "people-ro" }
-                });
+                    { new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"), "people-ro" },
+                };
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Identifier", "Code" },
+                values: roles);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
