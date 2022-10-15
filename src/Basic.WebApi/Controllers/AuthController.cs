@@ -168,7 +168,8 @@ namespace Basic.WebApi.Controllers
                 claims.Add(new Claim(ClaimTypes.Role, role.Code));
             }
 
-            var token = new JwtSecurityToken(issuer,
+            var token = new JwtSecurityToken(
+                issuer,
                 audience,
                 claims: claims,
                 expires: jwtValidity,

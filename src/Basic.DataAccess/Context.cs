@@ -142,25 +142,29 @@ namespace Basic.DataAccess
             }
 
             modelBuilder.Entity<Status>()
-                .HasData(new Status()
+                .HasData(
+                new Status()
                 {
                     Identifier = Status.Requested,
                     DisplayName = "Requested",
                     Description = "The associated event has been created and is waiting for approval",
                     IsActive = true,
-                }, new Status()
+                },
+                new Status()
                 {
                     Identifier = Status.Approved,
                     DisplayName = "Approved",
                     Description = "The associated event has been approved",
                     IsActive = true,
-                }, new Status()
+                },
+                new Status()
                 {
                     Identifier = Status.Rejected,
                     DisplayName = "Rejected",
                     Description = "The associated event has been rejected",
                     IsActive = false,
-                }, new Status()
+                },
+                new Status()
                 {
                     Identifier = Status.Canceled,
                     DisplayName = "Canceled",
