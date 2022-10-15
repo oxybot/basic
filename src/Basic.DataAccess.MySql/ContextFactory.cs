@@ -18,8 +18,7 @@ namespace Basic.DataAccess.MySql
                 options =>
                 {
                     options.MigrationsAssembly("Basic.DataAccess.MySql");
-                }
-            );
+                });
 
             return new Context(optionsBuilder.Options);
         }
