@@ -52,6 +52,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
                     }
+
                     break;
 
                 case "Category":
@@ -63,6 +64,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.Category.DisplayName).Reverse();
                     }
+
                     break;
 
                 case "Year":
@@ -74,6 +76,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.Year).Reverse();
                     }
+
                     break;
 
                 case "Allowed":
@@ -85,6 +88,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.Allowed).Reverse();
                     }
+
                     break;
 
                 case "Transfered":
@@ -96,6 +100,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.Transfered).Reverse();
                     }
+
                     break;
             }
 

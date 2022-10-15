@@ -53,6 +53,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
                     }
+
                     break;
 
                 case "Active From":
@@ -64,6 +65,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.ActiveFrom).Reverse();
                     }
+
                     break;
             }
 

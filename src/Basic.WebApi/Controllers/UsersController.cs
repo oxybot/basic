@@ -62,6 +62,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.UserName).Reverse();
                     }
+
                     break;
 
                 case "Title":
@@ -73,6 +74,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.Title).Reverse();
                     }
+
                     break;
 
                 case "Display Name":
@@ -84,6 +86,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.DisplayName).Reverse();
                     }
+
                     break;
 
                 case "Email":
@@ -95,6 +98,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.Email).Reverse();
                     }
+
                     break;
 
                 case "Avatar":
@@ -106,6 +110,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.DisplayName).Reverse();
                     }
+
                     break;
             }
 

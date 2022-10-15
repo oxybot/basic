@@ -82,7 +82,6 @@ namespace Basic.WebApi.Controllers
             return this.Mapper.Map<EventForView>(entity);
         }
 
-
         /// <summary>
         /// Retrieves the statuses associated to a specific event.
         /// </summary>

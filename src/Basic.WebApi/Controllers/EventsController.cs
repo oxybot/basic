@@ -55,6 +55,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
                     }
+
                     break;
 
                 case "Category":
@@ -66,6 +67,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.Category.DisplayName).Reverse();
                     }
+
                     break;
 
                 case "Start Date":
@@ -77,6 +79,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.StartDate).Reverse();
                     }
+
                     break;
 
                 case "End Date":
@@ -88,6 +91,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.EndDate).Reverse();
                     }
+
                     break;
 
                 case "Duration Total":
@@ -99,6 +103,7 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.DurationTotal).Reverse();
                     }
+
                     break;
 
                 case "Current Status":
@@ -110,8 +115,10 @@ namespace Basic.WebApi.Controllers
                     {
                         entities = entities.OrderBy(o => o.CurrentStatus.DisplayName).Reverse();
                     }
+
                     break;
             }
+
             return entities;
         }
 
