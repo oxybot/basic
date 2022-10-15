@@ -92,7 +92,7 @@ namespace Basic.WebApi.Services
                     }
                 }
 
-                users.Sort((u, v) => u.DisplayName.CompareTo(v.DisplayName));
+                users.Sort((u, v) => string.Compare(u.DisplayName, v.DisplayName, StringComparison.CurrentCultureIgnoreCase));
                 results.ListOfLdapUsers.AddRange(users);
             }
             catch (LdapException ex)
