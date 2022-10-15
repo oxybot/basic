@@ -8,6 +8,7 @@
   <!-- Configure CodeAnalysis -->
   <PropertyGroup>
     <AnalysisMode>All</AnalysisMode>
+    <CodeAnalysisRuleSet>../../Global.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <!-- Enable StyleCop -->
