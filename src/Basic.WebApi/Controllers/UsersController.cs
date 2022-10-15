@@ -54,55 +54,55 @@ namespace Basic.WebApi.Controllers
             switch (sortKey)
             {
                 case "User Name":
-                    if (sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.UserName);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.UserName).Reverse();
                     }
                     break;
 
                 case "Title":
-                    if (sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.Title);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.Title).Reverse();
                     }
                     break;
 
                 case "Display Name":
-                    if (sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.DisplayName);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.DisplayName).Reverse();
                     }
                     break;
 
                 case "Email":
-                    if (sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.Email);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.Email).Reverse();
                     }
                     break;
 
                 case "Avatar":
-                    if (sortValue.Equals("asc"))
+                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.DisplayName);
                     }
-                    else if (sortValue.Equals("desc"))
+                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
                     {
                         entities = entities.OrderBy(o => o.DisplayName).Reverse();
                     }
