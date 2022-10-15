@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -155,7 +156,7 @@ namespace Basic.WebApi.Controllers
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var issuer = Configuration["BaseUrl"];
             var audience = Configuration["BaseUrl"];
-            var jwtValidity = DateTime.Now.AddSeconds(Convert.ToInt32(Configuration["JwtToken:ExpireIn"]));
+            var jwtValidity = DateTime.Now.AddSeconds(Convert.ToInt32(Configuration["JwtToken:ExpireIn"], CultureInfo.InvariantCulture));
 
             var claims = new List<Claim> {
                 new Claim(type: "sid:guid", user.Identifier.ToString("D")),
