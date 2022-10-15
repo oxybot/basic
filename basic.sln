@@ -6,9 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A62F00C-1F02-42CF-A7B0-BB3C3F9BE553}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
 		docker-compose.yml = docker-compose.yml
 		support\ldap.ldif = support\ldap.ldif
 		README.md = README.md
+		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basic.Model", "src\Basic.Model\Basic.Model.csproj", "{FFC96D18-0277-44D5-B98B-6CE649A252CB}"
