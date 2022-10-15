@@ -193,7 +193,7 @@ namespace Basic.WebApi.Controllers
             bool conflict = this.Context.Set<Balance>().Any(b => b.User == model.User && b.Category == model.Category && b.Year == model.Year && b.Identifier != model.Identifier);
             if (conflict)
             {
-                this.ModelState.AddModelError("", "Such balance is already defined (Same user, category and year)");
+                this.ModelState.AddModelError(string.Empty, "Such balance is already defined (Same user, category and year)");
             }
         }
 

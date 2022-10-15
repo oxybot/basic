@@ -77,7 +77,7 @@ namespace Basic.WebApi.Controllers
             if (user == null)
             {
                 // The user doesn't exists
-                this.ModelState.AddModelError("", "Invalid credentials");
+                this.ModelState.AddModelError(string.Empty, "Invalid credentials");
                 throw new InvalidModelStateException(this.ModelState);
             }
 
@@ -86,7 +86,7 @@ namespace Basic.WebApi.Controllers
                 // Use the external authenticator
                 if (!externalAuthenticator.ValidateUser(user.ExternalIdentifier, signIn.Password))
                 {
-                    this.ModelState.AddModelError("", "Invalid credentials");
+                    this.ModelState.AddModelError(string.Empty, "Invalid credentials");
                     throw new InvalidModelStateException(this.ModelState);
                 }
             }
@@ -95,20 +95,20 @@ namespace Basic.WebApi.Controllers
                 // Use local password
                 if (user.HashPassword(signIn.Password) != user.Password)
                 {
-                    this.ModelState.AddModelError("", "Invalid credentials");
+                    this.ModelState.AddModelError(string.Empty, "Invalid credentials");
                     throw new InvalidModelStateException(this.ModelState);
                 }
             }
             else
             {
-                this.ModelState.AddModelError("", "Invalid credentials");
+                this.ModelState.AddModelError(string.Empty, "Invalid credentials");
                 throw new InvalidModelStateException(this.ModelState);
             }
 
             // The provided credential are valid - checking that the user is active
             if (!user.IsActive)
             {
-                this.ModelState.AddModelError("", "This account is inactive");
+                this.ModelState.AddModelError(string.Empty, "This account is inactive");
                 throw new InvalidModelStateException(this.ModelState);
             }
 

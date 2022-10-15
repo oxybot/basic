@@ -144,7 +144,7 @@ namespace Basic.WebApi.Controllers
             }
             else if (entity.CurrentStatus.Identifier == update.To)
             {
-                this.ModelState.AddModelError("", "A similar transition was already applied");
+                this.ModelState.AddModelError(string.Empty, "A similar transition was already applied");
             }
             else if (entity.CurrentStatus.Identifier != update.From)
             {

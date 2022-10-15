@@ -159,7 +159,7 @@ app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "Basic API V1");
-    options.RoutePrefix = "";
+    options.RoutePrefix = string.Empty;
 });
 
 app.UseHttpsRedirection();

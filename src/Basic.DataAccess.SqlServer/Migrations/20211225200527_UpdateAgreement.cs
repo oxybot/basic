@@ -103,7 +103,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                 table: "Product",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
         }
     }
 }

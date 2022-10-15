@@ -13,7 +13,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                 table: "EventCategory",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -80,7 +80,7 @@ namespace Basic.WebApi.Controllers
                     var role = this.Context.Set<Role>().SingleOrDefault(r => r.Code == code);
                     if (role == null)
                     {
-                        this.ModelState.AddModelError("", $"Invalid role {role}");
+                        this.ModelState.AddModelError(string.Empty, $"Invalid role {role}");
                         throw new InvalidModelStateException(this.ModelState);
                     }
 

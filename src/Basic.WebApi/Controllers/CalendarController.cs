@@ -215,7 +215,7 @@ namespace Basic.WebApi.Controllers
                     .Where(s => s.User == context.User)
                     .Where(s => s.ActiveFrom <= request.EndDate && (s.ActiveTo == null || request.StartDate < s.ActiveTo.Value));
 
-                this.ModelState.AddModelError("", schedules.Any()
+                this.ModelState.AddModelError(string.Empty, schedules.Any()
                     ? "Multiple working schedules are impacted. Please do one request for each."
                     : "No working schedule defined for this period");
             }
