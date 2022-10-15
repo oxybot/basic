@@ -15,7 +15,8 @@ namespace Basic.WebApi.Framework
         /// Initializes a new instance of the <see cref="CustomJwtSecurityTokenHandler"/> class.
         /// </summary>
         /// <param name="services">The application service provider.</param>
-        public CustomJwtSecurityTokenHandler(IServiceProvider services) : base()
+        public CustomJwtSecurityTokenHandler(IServiceProvider services)
+            : base()
         {
             this.Services = services ?? throw new ArgumentNullException(nameof(services));
         }

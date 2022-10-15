@@ -12,7 +12,8 @@ namespace Basic.DataAccess
         /// <summary>
         /// Creates a new instance of this converter.
         /// </summary>
-        public DateOnlyConverter() : base(
+        public DateOnlyConverter()
+            : base(
                 d => d.ToDateTime(TimeOnly.MinValue),
                 d => DateOnly.FromDateTime(d))
         { }
