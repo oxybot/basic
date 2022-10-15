@@ -228,7 +228,7 @@ namespace Basic.WebApi.Controllers
             var usersFromDb = Context.Set<User>();
 
             ldapUsers.ListOfLdapUsers.ToList()
-                .ForEach(d => d.Importable = !usersFromDb.Any(sd => sd.Email.ToLower() == d.Email.ToLower()));
+                .ForEach(d => d.Importable = !usersFromDb.Any(sd => sd.Email.ToUpperInvariant() == d.Email.ToUpperInvariant()));
 
             return ldapUsers;
         }
