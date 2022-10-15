@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Basic.DataAccess
@@ -14,7 +15,7 @@ namespace Basic.DataAccess
         private static decimal[] ConvertFromProviderFunction(string provider)
         {
             return provider.Split(",", StringSplitOptions.None)
-                .Select(s => Convert.ToDecimal(s))
+                .Select(s => Convert.ToDecimal(s, CultureInfo.InvariantCulture))
                 .ToArray();
         }
     }
