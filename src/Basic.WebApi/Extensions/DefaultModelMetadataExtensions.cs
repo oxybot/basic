@@ -12,7 +12,7 @@
         /// <param name="metadata">The reference element.</param>
         /// <returns>The attribute, if any.</returns>
         public static TAttribute GetCustomAttribute<TAttribute>(this DefaultModelMetadata metadata)
-            where TAttribute: Attribute
+            where TAttribute : Attribute
         {
             if (metadata is null)
             {

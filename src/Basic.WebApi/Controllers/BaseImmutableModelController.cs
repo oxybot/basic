@@ -30,7 +30,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
         protected BaseImmutableModelController(Context context, IMapper mapper, ILogger logger)
-            :base(context, mapper, logger)
+            : base(context, mapper, logger)
         {
         }
 
