@@ -50,16 +50,24 @@ namespace Basic.WebApi.Framework
             }
 
             if (!string.IsNullOrEmpty(modelMetadata.SimpleDisplayProperty))
-               return false;
+            {
+                return false;
+            }
 
             if (propertyAttributes.OfType<DisplayNameAttribute>().Any())
+            {
                 return false;
+            }
 
             if (propertyAttributes.OfType<DisplayAttribute>().Any(d => d.Name != null))
+            {
                 return false;
+            }
 
             if (string.IsNullOrEmpty(propertyName))
+            {
                 return false;
+            }
 
             return true;
         }
