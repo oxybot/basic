@@ -1,7 +1,7 @@
 ﻿namespace System
 {
     /// <summary>
-    /// Extension methods for <see cref="Int32"/> instances.
+    /// Extension methods for <see cref="int"/> instances.
     /// </summary>
     internal static class IntegerExtensions
     {

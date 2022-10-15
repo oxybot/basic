@@ -3,7 +3,7 @@
 namespace System
 {
     /// <summary>
-    /// Defines extension methods for the <see cref="String"/> class.
+    /// Defines extension methods for the <see cref="string"/> class.
     /// </summary>
     public static class StringExtensions
     {
