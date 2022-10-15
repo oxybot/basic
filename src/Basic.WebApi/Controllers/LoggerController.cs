@@ -7,6 +7,7 @@ using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.WebApi.Controllers
 {
@@ -73,6 +74,8 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         [AuthorizeRoles(Role.User)]
         [Route("Exception")]
+        [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Used to help the technical setup")]
+        [SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Used to help the technical setup")]
         public void LogException(LogLevel level, string message)
         {
             try
@@ -80,7 +83,7 @@ namespace Basic.WebApi.Controllers
                 try
                 {
                     var array = new string[] { null, null };
-                    array.Aggregate(0, (t, s) => t + s.Length);
+                    _ = array.Aggregate(0, (t, s) => t + s.Length);
                 }
                 catch (Exception e1)
                 {
