@@ -48,7 +48,7 @@ namespace Basic.WebApi.Framework
             context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 
             var bodyResult = Convert(ModelState);
-            await context.HttpContext.Response.WriteAsJsonAsync(bodyResult);
+            await context.HttpContext.Response.WriteAsJsonAsync(bodyResult).ConfigureAwait(false);
         }
 
         /// <summary>

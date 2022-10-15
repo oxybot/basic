@@ -12,7 +12,7 @@ namespace System.Net.Http
                 throw new ArgumentNullException(nameof(content));
             }
 
-            string text = await content.ReadAsStringAsync();
+            string text = await content.ReadAsStringAsync().ConfigureAwait(false);
             return JsonConvert.DeserializeObject(text);
         }
 
@@ -23,7 +23,7 @@ namespace System.Net.Http
                 throw new ArgumentNullException(nameof(content));
             }
 
-            string text = await content.ReadAsStringAsync();
+            string text = await content.ReadAsStringAsync().ConfigureAwait(false);
             return JsonConvert.DeserializeObject<T>(text);
         }
     }

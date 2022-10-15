@@ -43,13 +43,13 @@ namespace Basic.WebApi.Framework
             try
             {
                 // Call the next delegate/middleware in the pipeline.
-                await this.next(context);
+                await this.next(context).ConfigureAwait(false);
             }
             catch (InvalidModelStateException ex)
             {
                 context.Response.Clear();
                 context.Response.StatusCode = ex.StatusCode;
-                await context.Response.WriteAsJsonAsync(InvalidModelStateActionResult.Convert(ex.ModelState));
+                await context.Response.WriteAsJsonAsync(InvalidModelStateActionResult.Convert(ex.ModelState)).ConfigureAwait(false);
             }
             catch (NotFoundException ex)
             {
