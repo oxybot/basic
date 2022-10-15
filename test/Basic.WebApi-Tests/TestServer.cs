@@ -26,6 +26,7 @@ namespace Basic.WebApi
         /// </exception>
         [AssemblyInitialize]
         [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Will be disposed on AssemblyCleanup")]
+        [SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Used for testing purpose only")]
         public static void AssemblyInitialize(TestContext context)
         {
             if (Application != null)
