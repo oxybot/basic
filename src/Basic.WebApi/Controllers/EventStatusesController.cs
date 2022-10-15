@@ -107,6 +107,15 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public EntityReference EditStatus([FromServices] EmailService notification, Guid eventId, StatusUpdate update)
         {
+            if (notification is null)
+            {
+                throw new ArgumentNullException(nameof(notification));
+            }
+            else if (update is null)
+            {
+                throw new ArgumentNullException(nameof(update));
+            }
+
             var entity = Context.Set<Event>()
                 .Include(e => e.Statuses)
                 .Include(e => e.Category)

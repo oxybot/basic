@@ -30,6 +30,15 @@ namespace Basic.WebApi.Framework
         /// <param name="context">The current context.</param>
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
+            if (operation is null)
+            {
+                throw new ArgumentNullException(nameof(operation));
+            }
+            else if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             if (context.GetControllerAndActionAttributes<AllowAnonymousAttribute>().Any())
             {
                 return;

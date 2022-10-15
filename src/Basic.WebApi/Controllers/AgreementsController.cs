@@ -123,6 +123,11 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public AgreementItemForList PostItem([FromRoute] Guid agreementId, AgreementItemForEdit item)
         {
+            if (item is null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
             var agreement = Context.Set<Agreement>().SingleOrDefault(e => e.Identifier == agreementId);
             if (agreement == null)
             {
@@ -163,6 +168,11 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public AgreementItemForList PutItem([FromRoute] Guid agreementId, Guid itemId, AgreementItemForEdit item)
         {
+            if (item is null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
             var agreement = Context.Set<Agreement>().SingleOrDefault(e => e.Identifier == agreementId);
             if (agreement == null)
             {
@@ -230,6 +240,15 @@ namespace Basic.WebApi.Controllers
         /// <exception cref="InvalidModelStateException"></exception>
         protected override void CheckDependencies(AgreementForEdit agreement, Agreement model)
         {
+            if (agreement is null)
+            {
+                throw new ArgumentNullException(nameof(agreement));
+            }
+            else if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
             model.Client = Context.Set<Client>().SingleOrDefault(c => c.Identifier == agreement.ClientIdentifier);
             if (model.Client == null)
             {

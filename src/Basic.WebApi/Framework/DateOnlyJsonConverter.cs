@@ -26,6 +26,11 @@ namespace Basic.WebApi.Framework
         /// <returns>The <see cref="DateOnly"/> value extracted from the reader.</returns>
         public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (typeToConvert is null)
+            {
+                throw new ArgumentNullException(nameof(typeToConvert));
+            }
+
             return DateOnly.ParseExact(reader.GetString(), Format, CultureInfo.InvariantCulture);
         }
 
@@ -37,6 +42,11 @@ namespace Basic.WebApi.Framework
         /// <param name="options">The parameter is not used.</param>
         public override void Write(Utf8JsonWriter writer, DateOnly value, JsonSerializerOptions options)
         {
+            if (writer is null)
+            {
+                throw new ArgumentNullException(nameof(writer));
+            }
+
             writer.WriteStringValue(value.ToString(Format, CultureInfo.InvariantCulture));
         }
     }

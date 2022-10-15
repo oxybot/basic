@@ -17,6 +17,11 @@ namespace Basic.DataAccess
 
         protected override void ConfigureConventions(ModelConfigurationBuilder builder)
         {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
             base.ConfigureConventions(builder);
 
             builder.Properties<decimal>()
@@ -42,6 +47,11 @@ namespace Basic.DataAccess
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
             var modelTypes = typeof(BaseModel).Assembly.GetTypes()
                 .Where(t => !t.IsAbstract && typeof(BaseModel).IsAssignableFrom(t));
 

@@ -19,8 +19,13 @@ namespace Basic.WebApi.Services
         /// <param name="logger">The logger associated to the class.</param>
         public ExternalAuthenticatorService(IOptions<ActiveDirectoryOptions> options, ILogger<ExternalAuthenticatorService> logger)
         {
+            if (options is null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
             this.Options = options.Value;
-            this.Logger = logger;
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.Connection = new LdapConnection();
         }
 

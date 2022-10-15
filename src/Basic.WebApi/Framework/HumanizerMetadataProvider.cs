@@ -16,6 +16,11 @@ namespace Basic.WebApi.Framework
         /// <param name="context">The current context.</param>
         public void CreateDisplayMetadata(DisplayMetadataProviderContext context)
         {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             var propertyAttributes = context.Attributes;
             var modelMetadata = context.DisplayMetadata;
             var propertyName = context.Key.Name;
@@ -35,6 +40,15 @@ namespace Basic.WebApi.Framework
         /// <returns></returns>
         private static bool IsTransformRequired(string propertyName, DisplayMetadata modelMetadata, IReadOnlyList<object> propertyAttributes)
         {
+            if (modelMetadata is null)
+            {
+                throw new ArgumentNullException(nameof(modelMetadata));
+            }
+            else if (propertyAttributes is null)
+            {
+                throw new ArgumentNullException(nameof(propertyAttributes));
+            }
+
             if (!string.IsNullOrEmpty(modelMetadata.SimpleDisplayProperty))
                return false;
 

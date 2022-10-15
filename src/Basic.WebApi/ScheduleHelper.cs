@@ -19,6 +19,15 @@ namespace Basic.WebApi
         /// <returns>The list of days in the period and the associated working time.</returns>
         public static IDictionary<DateOnly, decimal> CalculateWorkingSchedule(Context context, User user, DateOnly start, DateOnly end)
         {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+            else if (user is null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
             var schedules = context.Set<Schedule>()
                 .Where(s => s.User == user)
                 .Where(s => s.ActiveFrom <= end && (s.ActiveTo == null || s.ActiveTo >= start))

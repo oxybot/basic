@@ -127,6 +127,15 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public EventForList Post([FromServices] EmailService notification, CalendarRequest request)
         {
+            if (notification is null)
+            {
+                throw new ArgumentNullException(nameof(notification));
+            }
+            else if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             var context = CreateContext(request);
             Validate(context, request);
 

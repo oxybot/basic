@@ -29,6 +29,11 @@ namespace Basic.WebApi.Framework
         /// <param name="options">The current options.</param>
         public void PostConfigure(string name, JwtBearerOptions options)
         {
+            if (options is null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
             // Remove the default implementation
             options.SecurityTokenValidators.Clear();
 

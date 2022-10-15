@@ -169,6 +169,15 @@ namespace Basic.WebApi.Controllers
         /// <param name="model">The event model instance.</param>
         protected override void CheckDependencies(BalanceForEdit balance, Balance model)
         {
+            if (balance is null)
+            {
+                throw new ArgumentNullException(nameof(balance));
+            }
+            else if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
             model.User = Context.Set<User>().SingleOrDefault(u => u.Identifier == balance.UserIdentifier);
             if (model.User == null)
             {

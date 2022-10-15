@@ -13,6 +13,15 @@ namespace Novell.Directory.Ldap
         /// <returns>The value of the attribute identified by <paramref name="attrName"/>.</returns>
         public static string GetAttributeAsString(this LdapEntry entry, string attrName)
         {
+            if (entry is null)
+            {
+                throw new ArgumentNullException(nameof(entry));
+            }
+            else if (attrName is null)
+            {
+                throw new ArgumentNullException(nameof(attrName));
+            }
+
             LdapAttribute attribute;
             try
             {
@@ -41,6 +50,15 @@ namespace Novell.Directory.Ldap
         /// <returns>The value of the attribute identified by <paramref name="attrName"/>.</returns>
         public static string GetAttributeAsBase64(this LdapEntry entry, string attrName)
         {
+            if (entry is null)
+            {
+                throw new ArgumentNullException(nameof(entry));
+            }
+            else if (string.IsNullOrEmpty(attrName))
+            {
+                throw new ArgumentException($"'{nameof(attrName)}' cannot be null or empty.", nameof(attrName));
+            }
+
             LdapAttribute attribute;
             try
             {

@@ -175,6 +175,11 @@ namespace Basic.WebApi.Controllers
         [Route("Consumption")]
         public IEnumerable<ConsumptionForList> GetMyConsumption([FromServices] ConsumptionService consumptionService)
         {
+            if (consumptionService is null)
+            {
+                throw new ArgumentNullException(nameof(consumptionService));
+            }
+
             var user = this.GetConnectedUser();
             return consumptionService.GetConsumptionForUser(user);
         }

@@ -39,6 +39,11 @@ namespace Basic.WebApi.Framework
         /// <returns>The task associated to the current action.</returns>
         public async Task ExecuteResultAsync(ActionContext context)
         {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             context.HttpContext.Response.Clear();
             context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 

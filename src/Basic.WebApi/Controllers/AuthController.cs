@@ -61,6 +61,15 @@ namespace Basic.WebApi.Controllers
         [ProducesResponseType(typeof(InvalidResult), StatusCodes.Status400BadRequest)]
         public AuthResult SignIn([FromServices] ExternalAuthenticatorService externalAuthenticator, [FromBody] AuthRequest signIn)
         {
+            if (externalAuthenticator is null)
+            {
+                throw new ArgumentNullException(nameof(externalAuthenticator));
+            }
+            else if (signIn is null)
+            {
+                throw new ArgumentNullException(nameof(signIn));
+            }
+
             var user = Context.Set<User>()
                 .Include(u => u.Roles)
                 .SingleOrDefault(u => u.Username == signIn.Username);

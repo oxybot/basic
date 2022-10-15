@@ -109,6 +109,15 @@ namespace Basic.WebApi.Controllers
         /// <param name="model">The associated modei.</param>
         protected override void CheckDependencies(EventCategoryForEdit entity, EventCategory model)
         {
+            if (entity is null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+            else if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
             base.CheckDependencies(entity, model);
 
             if (model.Mapping == EventTimeMapping.TimeOff)

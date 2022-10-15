@@ -215,6 +215,15 @@ namespace Basic.WebApi.Controllers
         [Route("import")]
         public LdapUsers Import([FromServices] ExternalAuthenticatorService service, string searchTerm)
         {
+            if (service is null)
+            {
+                throw new ArgumentNullException(nameof(service));
+            }
+            else if (string.IsNullOrEmpty(searchTerm))
+            {
+                throw new ArgumentException($"'{nameof(searchTerm)}' cannot be null or empty.", nameof(searchTerm));
+            }
+
             var ldapUsers = service.Search(searchTerm);
             var usersFromDb = Context.Set<User>();
 

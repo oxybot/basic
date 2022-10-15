@@ -31,6 +31,15 @@ namespace Basic.WebApi.Framework
         [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Intended behavior - final catch of any exceptions")]
         public async Task InvokeAsync(HttpContext context, ILogger<ExceptionMiddleware> logger)
         {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+            else if (logger is null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
             try
             {
                 // Call the next delegate/middleware in the pipeline.

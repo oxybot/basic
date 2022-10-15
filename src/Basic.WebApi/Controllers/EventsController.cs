@@ -149,7 +149,15 @@ namespace Basic.WebApi.Controllers
         [Route("notify")]
         public EventForList CreateEvent([FromServices]EmailService service, EventForEdit @event)
         {
-            
+            if (service is null)
+            {
+                throw new ArgumentNullException(nameof(service));
+            }
+            else if (@event is null)
+            {
+                throw new ArgumentNullException(nameof(@event));
+            }
+
             var usersFromDb = Context.Set<User>();
             User user = usersFromDb.ToList().Find(u => u.Identifier == @event.UserIdentifier);
 
@@ -204,6 +212,15 @@ namespace Basic.WebApi.Controllers
         /// <param name="model">The event model instance.</param>
         protected override void CheckDependencies(EventForEdit @event, Event model)
         {
+            if (@event is null)
+            {
+                throw new ArgumentNullException(nameof(@event));
+            }
+            else if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
             model.User = Context.Set<User>().SingleOrDefault(u => u.Identifier == @event.UserIdentifier);
             if (model.User == null)
             {

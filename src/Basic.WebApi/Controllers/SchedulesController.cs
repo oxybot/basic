@@ -137,6 +137,15 @@ namespace Basic.WebApi.Controllers
         /// <param name="model">The datasource instance.</param>
         protected override void CheckDependencies(ScheduleForEdit entity, Schedule model)
         {
+            if (entity is null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+            else if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
             model.User = Context.Set<User>().SingleOrDefault(u => u.Identifier == entity.UserIdentifier);
             if (model.User == null || model.WorkingSchedule.ToList().Any(n => n < 0) || model.WorkingSchedule.ToList().All(n => n == 0))
             {
