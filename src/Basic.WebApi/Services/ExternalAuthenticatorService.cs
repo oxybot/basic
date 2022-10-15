@@ -147,7 +147,7 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Establishes a connection to the Active Directory.
         /// </summary>
-        protected void LdapConnect()
+        private void LdapConnect()
         {
             this.Connection.SecureSocketLayer = false;
             Connection.Connect(Options.Server, Options.Port);
