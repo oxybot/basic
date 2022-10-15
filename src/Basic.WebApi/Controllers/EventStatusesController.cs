@@ -55,7 +55,6 @@ namespace Basic.WebApi.Controllers
                 .Select(s => this.Mapper.Map<ModelStatusForList>(s));
         }
 
-
         /// <summary>
         /// Provides the possible future status for a specific event.
         /// </summary>

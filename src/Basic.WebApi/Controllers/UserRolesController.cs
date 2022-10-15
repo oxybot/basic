@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Basic.WebApi.Controllers
 {
-
     /// <summary>
     /// Provides API to retrieve and manage the roles of a user.
     /// </summary>
