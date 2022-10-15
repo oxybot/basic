@@ -1,6 +1,7 @@
 using Basic.WebApi.DTOs;
 using Microsoft.Extensions.Options;
 using Novell.Directory.Ldap;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.WebApi.Services
 {
@@ -56,6 +57,7 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Keyword search for an user in the Active Directory.
         /// </summary>
+        [SuppressMessage("Globalization", "CA1309:Use ordinal string comparison", Justification = "Comparison in CultureInfo expected")]
         public LdapUsers Search(string searchTerm)
         {
             LdapUsers results = new LdapUsers();
