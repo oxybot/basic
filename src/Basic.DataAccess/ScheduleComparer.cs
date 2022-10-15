@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Basic.DataAccess
 {
+    [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Part of a converter")]
     internal class ScheduleComparer : ValueComparer<decimal[]>
     {
         public ScheduleComparer()
