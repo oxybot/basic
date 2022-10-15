@@ -15,7 +15,7 @@ namespace Basic.WebApi.Controllers
         {
             using var client = TestServer.CreateClient();
             using var content = JsonContent.Create(new { Username = "demo", Password = "demo" });
-            using var response = await client.PostAsync("/Auth", content).ConfigureAwait(false);
+            using var response = await client.PostAsync(new Uri("/Auth", UriKind.Relative), content).ConfigureAwait(false);
             Assert.IsTrue(response.IsSuccessStatusCode);
 
             var body = await response.Content.ReadAsJsonAsync<AuthResult>().ConfigureAwait(false);
