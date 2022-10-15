@@ -39,7 +39,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public virtual IEnumerable<AttachmentForList> GetAll([FromRoute] Guid parentId)
         {
-            var parent = Context.Set<TModel>()
+            var parent = this.Context.Set<TModel>()
                 .Include(a => a.Attachments)
                 .SingleOrDefault(a => a.Identifier == parentId);
             if (parent == null)
@@ -47,7 +47,7 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Unknown entity");
             }
 
-            return parent.Attachments.Select(a => Mapper.Map<AttachmentForList>(a));
+            return parent.Attachments.Select(a => this.Mapper.Map<AttachmentForList>(a));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}")]
         public virtual AttachmentForView GetOne([FromRoute] Guid parentId, Guid identifier)
         {
-            var parent = Context.Set<TModel>()
+            var parent = this.Context.Set<TModel>()
                .Include(a => a.Attachments)
                .SingleOrDefault(a => a.Identifier == parentId);
             if (parent == null)
@@ -72,7 +72,7 @@ namespace Basic.WebApi.Controllers
             }
 
             var attachment = parent.Attachments.SingleOrDefault(a => a.Identifier == identifier);
-            return Mapper.Map<AttachmentForView>(attachment);
+            return this.Mapper.Map<AttachmentForView>(attachment);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public virtual AttachmentForList Post([FromRoute] Guid parentId, AttachmentForEdit entity)
         {
-            var parent = Context.Set<TModel>()
+            var parent = this.Context.Set<TModel>()
                .Include(a => a.Attachments)
                .SingleOrDefault(a => a.Identifier == parentId);
             if (parent == null)
@@ -96,18 +96,18 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Unknown entity");
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                throw new InvalidModelStateException(ModelState);
+                throw new InvalidModelStateException(this.ModelState);
             }
 
-            TAttachment model = Mapper.Map<AttachmentForEdit, TAttachment>(entity, new TAttachment());
+            TAttachment model = this.Mapper.Map<AttachmentForEdit, TAttachment>(entity, new TAttachment());
             model.Parent = parent;
 
-            Context.Set<TAttachment>().Add(model);
-            Context.SaveChanges();
+            this.Context.Set<TAttachment>().Add(model);
+            this.Context.SaveChanges();
 
-            return Mapper.Map<AttachmentForList>(model);
+            return this.Mapper.Map<AttachmentForList>(model);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}")]
         public virtual void Delete([FromRoute] Guid parentId, Guid identifier)
         {
-            var parent = Context.Set<TModel>()
+            var parent = this.Context.Set<TModel>()
                .Include(a => a.Attachments)
                .SingleOrDefault(a => a.Identifier == parentId);
             if (parent == null)
@@ -136,8 +136,8 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Not existing entity");
             }
 
-            Context.Set<TAttachment>().Remove(entity);
-            Context.SaveChanges();
+            this.Context.Set<TAttachment>().Remove(entity);
+            this.Context.SaveChanges();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Basic.WebApi.Controllers
         public IEnumerable<EventForList> GetEvents(int? limit)
         {
             var user = this.GetConnectedUser();
-            IQueryable<Event> query = Context.Set<Event>()
+            IQueryable<Event> query = this.Context.Set<Event>()
                 .Include(e => e.Category)
                 .Include(e => e.Statuses).ThenInclude(s => s.Status)
                 .Where(e => e.User == user)
@@ -54,7 +54,7 @@ namespace Basic.WebApi.Controllers
 
             return query
                 .ToList()
-                .Select(e => Mapper.Map<EventForList>(e));
+                .Select(e => this.Mapper.Map<EventForList>(e));
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Basic.WebApi.Controllers
         public EventForView GetEvent(Guid eventId)
         {
             var user = this.GetConnectedUser();
-            Event entity = Context.Set<Event>()
+            Event entity = this.Context.Set<Event>()
                 .Include(e => e.Category)
                 .Include(e => e.Statuses).ThenInclude(s => s.Status)
                 .SingleOrDefault(e => e.Identifier == eventId && e.User == user);
@@ -79,7 +79,7 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Not existing entity");
             }
 
-            return Mapper.Map<EventForView>(entity);
+            return this.Mapper.Map<EventForView>(entity);
         }
 
 
@@ -95,7 +95,7 @@ namespace Basic.WebApi.Controllers
         public IEnumerable<ModelStatusForList> GetEventStatuses(Guid eventId)
         {
             var user = this.GetConnectedUser();
-            var entity = Context.Set<Event>()
+            var entity = this.Context.Set<Event>()
                 .Include(e => e.Statuses).ThenInclude(s => s.Status)
                 .Include(e => e.Statuses).ThenInclude(s => s.UpdatedBy)
                 .Include(e => e.User)
@@ -107,7 +107,7 @@ namespace Basic.WebApi.Controllers
 
             return entity.Statuses
                 .OrderByDescending(s => s.UpdatedOn)
-                .Select(s => Mapper.Map<ModelStatusForList>(s));
+                .Select(s => this.Mapper.Map<ModelStatusForList>(s));
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Basic.WebApi.Controllers
         public MyUserForView GetUser()
         {
             var user = this.GetConnectedUser();
-            return Mapper.Map<MyUserForView>(user);
+            return this.Mapper.Map<MyUserForView>(user);
         }
 
         /// <summary>
@@ -136,15 +136,15 @@ namespace Basic.WebApi.Controllers
         public MyUserForView UpdateUser(MyUserForEdit user)
         {
             var model = this.GetConnectedUser();
-            Mapper.Map(user, model);
-            if (!ModelState.IsValid)
+            this.Mapper.Map(user, model);
+            if (!this.ModelState.IsValid)
             {
-                throw new InvalidModelStateException(ModelState);
+                throw new InvalidModelStateException(this.ModelState);
             }
 
-            Context.SaveChanges();
+            this.Context.SaveChanges();
 
-            return Mapper.Map<MyUserForView>(model);
+            return this.Mapper.Map<MyUserForView>(model);
         }
 
         /// <summary>
@@ -159,12 +159,12 @@ namespace Basic.WebApi.Controllers
             var userIdClaim = this.User.Claims.SingleOrDefault(c => c.Type == "sid:guid");
             var userId = Guid.Parse(userIdClaim.Value);
 
-            return Context.Set<User>()
+            return this.Context.Set<User>()
                 .Include(u => u.Roles)
                 .Single(u => u.Identifier == userId)
                 .Roles
                 .ToList()
-                .Select(r => Mapper.Map<RoleForList>(r));
+                .Select(r => this.Mapper.Map<RoleForList>(r));
         }
 
         /// <summary>
@@ -204,9 +204,9 @@ namespace Basic.WebApi.Controllers
 
             var model = this.GetConnectedUser();
 
-            Context.SaveChanges();
+            this.Context.SaveChanges();
 
-            return Mapper.Map<UserForList>(model);
+            return this.Mapper.Map<UserForList>(model);
         }
     }
 }

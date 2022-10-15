@@ -38,9 +38,9 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<ProductForList> GetAll()
         {
-            return AddIncludesForList(Context.Set<Product>())
+            return this.AddIncludesForList(this.Context.Set<Product>())
                 .ToList()
-                .Select(e => Mapper.Map<ProductForList>(e));
+                .Select(e => this.Mapper.Map<ProductForList>(e));
         }
 
         /// <summary>

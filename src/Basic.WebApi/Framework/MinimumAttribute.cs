@@ -60,12 +60,12 @@ namespace System.ComponentModel.DataAnnotations
                 return true;
             }
 
-            if (value.GetType() != Minimum.GetType())
+            if (value.GetType() != this.Minimum.GetType())
             {
                 return false;
             }
 
-            return Minimum.CompareTo(value) <= 0;
+            return this.Minimum.CompareTo(value) <= 0;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace System.ComponentModel.DataAnnotations
         /// </remarks>
         public override string FormatErrorMessage(string name)
         {
-            return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, Minimum);
+            return string.Format(CultureInfo.CurrentCulture, this.ErrorMessageString, name, this.Minimum);
         }
     }
 }

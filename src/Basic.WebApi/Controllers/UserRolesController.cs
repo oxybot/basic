@@ -40,7 +40,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<EntityReference> GetAll([FromRoute] Guid userId)
         {
-            var user = Context.Set<User>()
+            var user = this.Context.Set<User>()
                 .Include(a => a.Roles)
                 .SingleOrDefault(a => a.Identifier == userId);
             if (user == null)
@@ -48,7 +48,7 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Unknown entity");
             }
 
-            return user.Roles.Select(r => Mapper.Map<EntityReference>(r));
+            return user.Roles.Select(r => this.Mapper.Map<EntityReference>(r));
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<EntityReference> Put([FromRoute] Guid userId, IEnumerable<string> roles)
         {
-            var user = Context.Set<User>()
+            var user = this.Context.Set<User>()
                 .Include(a => a.Roles)
                 .SingleOrDefault(a => a.Identifier == userId);
             if (user == null)
@@ -77,20 +77,20 @@ namespace Basic.WebApi.Controllers
             {
                 foreach (var code in roles)
                 {
-                    var role = Context.Set<Role>().SingleOrDefault(r => r.Code == code);
+                    var role = this.Context.Set<Role>().SingleOrDefault(r => r.Code == code);
                     if (role == null)
                     {
-                        ModelState.AddModelError("", $"Invalid role {role}");
-                        throw new InvalidModelStateException(ModelState);
+                        this.ModelState.AddModelError("", $"Invalid role {role}");
+                        throw new InvalidModelStateException(this.ModelState);
                     }
 
                     user.Roles.Add(role);
                 }
             }
 
-            Context.SaveChanges();
+            this.Context.SaveChanges();
 
-            return user.Roles.Select(r => Mapper.Map<EntityReference>(r));
+            return user.Roles.Select(r => this.Mapper.Map<EntityReference>(r));
         }
     }
 }

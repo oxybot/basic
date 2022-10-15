@@ -24,9 +24,9 @@ namespace Basic.WebApi.Controllers
         /// <param name="logger">The associated logger.</param>
         protected BaseController(Context context, IMapper mapper, ILogger logger)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-            Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.Context = context ?? throw new ArgumentNullException(nameof(context));
+            this.Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>

@@ -45,6 +45,6 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         [Required]
         [SwaggerSchema(Format = "currency")]
-        public decimal TotalPrice { get => Quantity * UnitPrice; }
+        public decimal TotalPrice { get => this.Quantity * this.UnitPrice; }
     }
 }

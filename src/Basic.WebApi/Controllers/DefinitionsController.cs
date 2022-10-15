@@ -41,7 +41,7 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         public IEnumerable<string> GetAll()
         {
-            return Definitions.GetAll();
+            return this.Definitions.GetAll();
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Basic.WebApi.Controllers
         [Route("{name}")]
         public Definition GetOne([Required] string name)
         {
-            return Definitions.GetOne(name);
+            return this.Definitions.GetOne(name);
         }
     }
 }

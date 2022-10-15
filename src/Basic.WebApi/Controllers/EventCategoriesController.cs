@@ -37,9 +37,9 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<EventCategoryForList> GetAll()
         {
-            return AddIncludesForList(Context.Set<EventCategory>())
+            return this.AddIncludesForList(this.Context.Set<EventCategory>())
                 .ToList()
-                .Select(e => Mapper.Map<EventCategoryForList>(e));
+                .Select(e => this.Mapper.Map<EventCategoryForList>(e));
         }
 
         /// <summary>

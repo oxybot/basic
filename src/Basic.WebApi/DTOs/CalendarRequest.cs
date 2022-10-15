@@ -52,32 +52,32 @@ namespace Basic.WebApi.DTOs
         /// <returns>The errors during the validation of the instance.</returns>
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (CategoryIdentifier == Guid.Empty)
+            if (this.CategoryIdentifier == Guid.Empty)
             {
                 yield return new ValidationResult(
                     "The Category is mandatory",
-                    new[] { nameof(CategoryIdentifier) });
+                    new[] { nameof(this.CategoryIdentifier) });
             }
 
-            if (StartDate == DateOnly.MinValue)
+            if (this.StartDate == DateOnly.MinValue)
             {
                 yield return new ValidationResult(
                     "The Start Date is mandatory",
-                    new[] { nameof(StartDate) });
+                    new[] { nameof(this.StartDate) });
             }
 
-            if (EndDate == DateOnly.MinValue)
+            if (this.EndDate == DateOnly.MinValue)
             {
                 yield return new ValidationResult(
                     "The End Date is mandatory",
-                    new[] { nameof(EndDate) });
+                    new[] { nameof(this.EndDate) });
             }
 
-            if (StartDate > EndDate)
+            if (this.StartDate > this.EndDate)
             {
                 yield return new ValidationResult(
                     "The End Date can't be earlier than Start Date",
-                    new[] { nameof(StartDate), nameof(EndDate) });
+                    new[] { nameof(this.StartDate), nameof(this.EndDate) });
             }
         }
     }

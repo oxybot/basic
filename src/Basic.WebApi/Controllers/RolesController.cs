@@ -35,9 +35,9 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<RoleForList> GetAll()
         {
-            return Context.Set<Role>()
+            return this.Context.Set<Role>()
                 .ToList()
-                .Select(e => Mapper.Map<RoleForList>(e));
+                .Select(e => this.Mapper.Map<RoleForList>(e));
         }
     }
 }

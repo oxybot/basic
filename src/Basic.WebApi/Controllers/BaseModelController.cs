@@ -43,23 +43,23 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}")]
         public virtual TForList Put(Guid identifier, TForEdit entity)
         {
-            var model = AddIncludesForView(Context.Set<TModel>()).SingleOrDefault(e => e.Identifier == identifier);
+            var model = this.AddIncludesForView(this.Context.Set<TModel>()).SingleOrDefault(e => e.Identifier == identifier);
             if (model == null)
             {
                 throw new NotFoundException("Not existing entity");
             }
 
-            Mapper.Map(entity, model);
+            this.Mapper.Map(entity, model);
 
-            CheckDependencies(entity, model);
-            if (!ModelState.IsValid)
+            this.CheckDependencies(entity, model);
+            if (!this.ModelState.IsValid)
             {
-                throw new InvalidModelStateException(ModelState);
+                throw new InvalidModelStateException(this.ModelState);
             }
 
-            Context.SaveChanges();
+            this.Context.SaveChanges();
 
-            return Mapper.Map<TForList>(model);
+            return this.Mapper.Map<TForList>(model);
         }
     }
 }

@@ -43,9 +43,9 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<EventForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
         {
-            var entities = AddIncludesForList(Context.Set<Event>())
+            var entities = this.AddIncludesForList(this.Context.Set<Event>())
                 .ToList()
-                .Select(e => Mapper.Map<EventForList>(e))
+                .Select(e => this.Mapper.Map<EventForList>(e))
                 .Reverse();
 
             switch (sortKey)
@@ -158,20 +158,20 @@ namespace Basic.WebApi.Controllers
                 throw new ArgumentNullException(nameof(@event));
             }
 
-            var usersFromDb = Context.Set<User>();
+            var usersFromDb = this.Context.Set<User>();
             User user = usersFromDb.ToList().Find(u => u.Identifier == @event.UserIdentifier);
 
             if (user == null)
             {
-                ModelState.AddModelError("User", "The User is invalid");
+                this.ModelState.AddModelError("User", "The User is invalid");
             }
 
-            var categories = Context.Set<EventCategory>();
+            var categories = this.Context.Set<EventCategory>();
             EventCategory category = categories.ToList().Find(c => c.Identifier == @event.CategoryIdentifier);
 
             if (category == null)
             {
-                ModelState.AddModelError("Category", "The event category is invalid");
+                this.ModelState.AddModelError("Category", "The event category is invalid");
             }
 
             Event model = new Event()
@@ -188,7 +188,7 @@ namespace Basic.WebApi.Controllers
             // Send a notification when an event is created
             service.EventCreated(model);
 
-            return Post(@event);
+            return this.Post(@event);
         }
 
         /// <summary>
@@ -221,16 +221,16 @@ namespace Basic.WebApi.Controllers
                 throw new ArgumentNullException(nameof(model));
             }
 
-            model.User = Context.Set<User>().SingleOrDefault(u => u.Identifier == @event.UserIdentifier);
+            model.User = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == @event.UserIdentifier);
             if (model.User == null)
             {
-                ModelState.AddModelError("UserIdentifier", "Invalid User");
+                this.ModelState.AddModelError("UserIdentifier", "Invalid User");
             }
 
-            model.Category = Context.Set<EventCategory>().SingleOrDefault(c => c.Identifier == @event.CategoryIdentifier);
+            model.Category = this.Context.Set<EventCategory>().SingleOrDefault(c => c.Identifier == @event.CategoryIdentifier);
             if (model.Category == null)
             {
-                ModelState.AddModelError("CategoryIdentifier", "Invalid Category");
+                this.ModelState.AddModelError("CategoryIdentifier", "Invalid Category");
             }
 
             // Add the default status for a new event
@@ -286,7 +286,7 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}/links")]
         public AttachmentLinks GetLinks(Guid identifier)
         {
-            var entity = Context
+            var entity = this.Context
                 .Set<Event>()
                 .Include(c => c.Attachments)
                 .SingleOrDefault(c => c.Identifier == identifier);

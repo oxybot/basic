@@ -45,7 +45,7 @@ namespace Basic.WebApi.Controllers
             DateOnly startOfMonth = DateOnly.ParseExact(month, "yyyy-MM", CultureInfo.InvariantCulture);
             DateOnly endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
             var days = endOfMonth.Day;
-            var users = Context.Set<User>()
+            var users = this.Context.Set<User>()
                 .Include(e => e.Events)
                     .ThenInclude(e => e.Category)
                 .Include(e => e.Events)
@@ -63,10 +63,10 @@ namespace Basic.WebApi.Controllers
                 var timeoff = events.Where(e => e.Category.Mapping != EventTimeMapping.Active);
                 var active = events.Where(e => e.Category.Mapping == EventTimeMapping.Active);
 
-                var calendar = new UserCalendar() { User = Mapper.Map<EntityReference>(user) };
+                var calendar = new UserCalendar() { User = this.Mapper.Map<EntityReference>(user) };
 
                 // Add days off
-                var workingSchedule = ScheduleHelper.CalculateWorkingSchedule(Context, user, startOfMonth, endOfMonth);
+                var workingSchedule = ScheduleHelper.CalculateWorkingSchedule(this.Context, user, startOfMonth, endOfMonth);
                 foreach (var date in workingSchedule.Where(d => d.Value == 0m).Select(p => p.Key))
                 {
                     calendar.DaysOff.Add(date.Day);
@@ -136,12 +136,12 @@ namespace Basic.WebApi.Controllers
                 throw new ArgumentNullException(nameof(request));
             }
 
-            var context = CreateContext(request);
-            Validate(context, request);
+            var context = this.CreateContext(request);
+            this.Validate(context, request);
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                throw new InvalidModelStateException(ModelState);
+                throw new InvalidModelStateException(this.ModelState);
             }
 
             Event model = new Event()
@@ -165,13 +165,13 @@ namespace Basic.WebApi.Controllers
                 UpdatedBy = user
             });
 
-            Context.Set<Event>().Add(model);
-            Context.SaveChanges();
+            this.Context.Set<Event>().Add(model);
+            this.Context.SaveChanges();
 
             // Send a notification when an event is created
             notification.EventCreated(model);
 
-            return Mapper.Map<EventForList>(model);
+            return this.Mapper.Map<EventForList>(model);
         }
 
         /// <summary>
@@ -188,11 +188,11 @@ namespace Basic.WebApi.Controllers
             // All the technical tests are managed prior to this point (i.e. required fields...)
             // Are added here the business and reference checks
 
-            var context = CreateContext(request);
-            Validate(context, request);
-            if (!ModelState.IsValid)
+            var context = this.CreateContext(request);
+            this.Validate(context, request);
+            if (!this.ModelState.IsValid)
             {
-                throw new InvalidModelStateException(ModelState);
+                throw new InvalidModelStateException(this.ModelState);
             }
 
             return new CalendarRequestCheck
@@ -206,21 +206,21 @@ namespace Basic.WebApi.Controllers
         {
             if (context.Category == null)
             {
-                ModelState.AddModelError(nameof(request.CategoryIdentifier), "Invalid category selected");
+                this.ModelState.AddModelError(nameof(request.CategoryIdentifier), "Invalid category selected");
             }
 
             if (context.Schedule == null)
             {
-                var schedules = Context.Set<Schedule>()
+                var schedules = this.Context.Set<Schedule>()
                     .Where(s => s.User == context.User)
                     .Where(s => s.ActiveFrom <= request.EndDate && (s.ActiveTo == null || request.StartDate < s.ActiveTo.Value));
 
-                ModelState.AddModelError("", schedules.Any()
+                this.ModelState.AddModelError("", schedules.Any()
                     ? "Multiple working schedules are impacted. Please do one request for each."
                     : "No working schedule defined for this period");
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 // Errors already present on the basic elements
                 return;
@@ -229,7 +229,7 @@ namespace Basic.WebApi.Controllers
             if (context.Category.Mapping != EventTimeMapping.Active)
             {
                 // Conflicts on time-off
-                var conflicts = Context.Set<Event>()
+                var conflicts = this.Context.Set<Event>()
                     .Where(e => e.Category.Mapping != EventTimeMapping.Active)
                     .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate)
                     .Where(e => e.User == context.User);
@@ -237,28 +237,28 @@ namespace Basic.WebApi.Controllers
                 if (conflicts.Any())
                 {
                     string message = "There is already registered time-off on the same period";
-                    ModelState.AddModelError(nameof(request.StartDate), message);
-                    ModelState.AddModelError(nameof(request.EndDate), message);
+                    this.ModelState.AddModelError(nameof(request.StartDate), message);
+                    this.ModelState.AddModelError(nameof(request.EndDate), message);
                 }
 
                 // Refuse time-off request for 0 hours
                 if (context.TotalHours.HasValue && context.TotalHours.Value == 0m)
                 {
-                    ModelState.AddModelError(string.Empty, "Can't request a time-off on non-working time");
+                    this.ModelState.AddModelError(string.Empty, "Can't request a time-off on non-working time");
                 }
             }
             else
             {
                 // Conflicts on active days
-                var conflicts = Context.Set<Event>()
+                var conflicts = this.Context.Set<Event>()
                     .Where(e => e.Category == context.Category)
                     .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate);
 
                 if (conflicts.Any())
                 {
                     string message = $"There is already registered '{context.Category.DisplayName}' on the same period";
-                    ModelState.AddModelError(nameof(request.StartDate), message);
-                    ModelState.AddModelError(nameof(request.EndDate), message);
+                    this.ModelState.AddModelError(nameof(request.StartDate), message);
+                    this.ModelState.AddModelError(nameof(request.EndDate), message);
                 }
             }
         }
@@ -280,13 +280,13 @@ namespace Basic.WebApi.Controllers
             var context = new CalendarRequestContext();
 
             // Retrieve user
-            context.User = Context.Set<User>().SingleOrDefault(u => u.Identifier == userId);
+            context.User = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == userId);
 
             // Retrieve category
-            context.Category = Context.Set<EventCategory>().SingleOrDefault(c => c.Identifier == request.CategoryIdentifier);
+            context.Category = this.Context.Set<EventCategory>().SingleOrDefault(c => c.Identifier == request.CategoryIdentifier);
 
             // Retrieve schedule
-            context.Schedule = Context.Set<Schedule>()
+            context.Schedule = this.Context.Set<Schedule>()
                 .Where(s => s.User.Identifier == userId)
                 .Where(s => s.ActiveFrom <= request.StartDate && (s.ActiveTo == null || request.EndDate < s.ActiveTo.Value))
                 .SingleOrDefault();
@@ -298,7 +298,7 @@ namespace Basic.WebApi.Controllers
 
             if (context.Category.Mapping != EventTimeMapping.Active)
             {
-                var workingSchedule = ScheduleHelper.CalculateWorkingSchedule(Context, context.User, request.StartDate.Value, request.EndDate.Value);
+                var workingSchedule = ScheduleHelper.CalculateWorkingSchedule(this.Context, context.User, request.StartDate.Value, request.EndDate.Value);
 
                 // Compute total impacted hours
                 context.TotalHours = 0m;

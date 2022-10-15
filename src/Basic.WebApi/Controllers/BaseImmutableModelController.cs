@@ -45,13 +45,13 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}")]
         public virtual TForView GetOne(Guid identifier)
         {
-            var entity = AddIncludesForView(Context.Set<TModel>()).SingleOrDefault(c => c.Identifier == identifier);
+            var entity = this.AddIncludesForView(this.Context.Set<TModel>()).SingleOrDefault(c => c.Identifier == identifier);
             if (entity == null)
             {
                 throw new NotFoundException("Not existing entity");
             }
 
-            return Mapper.Map<TForView>(entity);
+            return this.Mapper.Map<TForView>(entity);
         }
 
         /// <summary>
@@ -64,18 +64,18 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public virtual TForList Post(TForEdit entity)
         {
-            TModel model = Mapper.Map<TModel>(entity);
+            TModel model = this.Mapper.Map<TModel>(entity);
 
-            CheckDependencies(entity, model);
-            if (!ModelState.IsValid)
+            this.CheckDependencies(entity, model);
+            if (!this.ModelState.IsValid)
             {
-                throw new InvalidModelStateException(ModelState);
+                throw new InvalidModelStateException(this.ModelState);
             }
 
-            Context.Set<TModel>().Add(model);
-            Context.SaveChanges();
+            this.Context.Set<TModel>().Add(model);
+            this.Context.SaveChanges();
 
-            return Mapper.Map<TForList>(model);
+            return this.Mapper.Map<TForList>(model);
         }
 
         /// <summary>
@@ -88,14 +88,14 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}")]
         public virtual void Delete(Guid identifier)
         {
-            var entity = Context.Set<TModel>().SingleOrDefault(e => e.Identifier == identifier);
+            var entity = this.Context.Set<TModel>().SingleOrDefault(e => e.Identifier == identifier);
             if (entity == null)
             {
                 throw new NotFoundException($"Not existing entity");
             }
 
-            Context.Set<TModel>().Remove(entity);
-            Context.SaveChanges();
+            this.Context.Set<TModel>().Remove(entity);
+            this.Context.SaveChanges();
         }
 
         /// <summary>

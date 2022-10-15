@@ -15,7 +15,7 @@ namespace Basic.WebApi.Framework
         /// <param name="modelState">The associated model state.</param>
         public InvalidModelStateActionResult(ModelStateDictionary modelState)
         {
-            ModelState = modelState ?? throw new ArgumentNullException(nameof(modelState));
+            this.ModelState = modelState ?? throw new ArgumentNullException(nameof(modelState));
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Basic.WebApi.Framework
             context.HttpContext.Response.Clear();
             context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-            var bodyResult = Convert(ModelState);
+            var bodyResult = Convert(this.ModelState);
             await context.HttpContext.Response.WriteAsJsonAsync(bodyResult).ConfigureAwait(false);
         }
 

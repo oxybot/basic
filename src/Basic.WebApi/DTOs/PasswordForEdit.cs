@@ -54,27 +54,27 @@ namespace Basic.WebApi.DTOs
                 throw new ArgumentNullException(nameof(validationContext));
             }
 
-            if (string.IsNullOrEmpty(NewPassword))
+            if (string.IsNullOrEmpty(this.NewPassword))
             {
                 yield break;
             }
 
-            if (NewPassword.Length >= 16)
+            if (this.NewPassword.Length >= 16)
             {
                 yield break;
             }
 
-            if (NewPassword.Length < 12)
+            if (this.NewPassword.Length < 12)
             {
-                yield return new ValidationResult(ErrorPasswordTooShort, new[] { nameof(NewPassword) });
+                yield return new ValidationResult(ErrorPasswordTooShort, new[] { nameof(this.NewPassword) });
             }
 
-            int numbers = Regex.Matches(NewPassword, "[0-9]").Count;
-            int lowers = Regex.Matches(NewPassword, "[a-z]").Count;
-            int uppers = Regex.Matches(NewPassword, "[A-Z]").Count;
-            int specials = NewPassword.Length - numbers - lowers - uppers;
+            int numbers = Regex.Matches(this.NewPassword, "[0-9]").Count;
+            int lowers = Regex.Matches(this.NewPassword, "[a-z]").Count;
+            int uppers = Regex.Matches(this.NewPassword, "[A-Z]").Count;
+            int specials = this.NewPassword.Length - numbers - lowers - uppers;
 
-            if (specials == NewPassword.Length)
+            if (specials == this.NewPassword.Length)
             {
                 yield break;
             }
@@ -85,9 +85,9 @@ namespace Basic.WebApi.DTOs
             score += uppers > 0 ? 1 : 0;
             score += specials > 0 ? 1 : 0;
 
-            if (score < 3 && TestOfNewPassword())
+            if (score < 3 && this.TestOfNewPassword())
             {
-                yield return new ValidationResult(ErrorPasswordTooWeak, new[] { nameof(NewPassword) });
+                yield return new ValidationResult(ErrorPasswordTooWeak, new[] { nameof(this.NewPassword) });
             }
         }
 
@@ -97,7 +97,7 @@ namespace Basic.WebApi.DTOs
         /// <returns> "true" if the new password match the confirm password.</returns>
         public bool TestOfNewPassword()
         {
-                return NewPassword == ConfirmPassword;
+                return this.NewPassword == this.ConfirmPassword;
         }
     }
 }

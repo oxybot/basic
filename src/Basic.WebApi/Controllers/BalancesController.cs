@@ -37,9 +37,9 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<BalanceForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
         {
-            var entities = AddIncludesForList(Context.Set<Balance>())
+            var entities = this.AddIncludesForList(this.Context.Set<Balance>())
                 .ToList()
-                .Select(e => Mapper.Map<BalanceForList>(e));
+                .Select(e => this.Mapper.Map<BalanceForList>(e));
 
             switch (sortKey)
             {
@@ -178,22 +178,22 @@ namespace Basic.WebApi.Controllers
                 throw new ArgumentNullException(nameof(model));
             }
 
-            model.User = Context.Set<User>().SingleOrDefault(u => u.Identifier == balance.UserIdentifier);
+            model.User = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == balance.UserIdentifier);
             if (model.User == null)
             {
-                ModelState.AddModelError("UserIdentifier", "Invalid User");
+                this.ModelState.AddModelError("UserIdentifier", "Invalid User");
             }
 
-            model.Category = Context.Set<EventCategory>().SingleOrDefault(c => c.Identifier == balance.CategoryIdentifier);
+            model.Category = this.Context.Set<EventCategory>().SingleOrDefault(c => c.Identifier == balance.CategoryIdentifier);
             if (model.Category == null)
             {
-                ModelState.AddModelError("CategoryIdentifier", "Invalid Category");
+                this.ModelState.AddModelError("CategoryIdentifier", "Invalid Category");
             }
 
-            bool conflict = Context.Set<Balance>().Any(b => b.User == model.User && b.Category == model.Category && b.Year == model.Year && b.Identifier != model.Identifier);
+            bool conflict = this.Context.Set<Balance>().Any(b => b.User == model.User && b.Category == model.Category && b.Year == model.Year && b.Identifier != model.Identifier);
             if (conflict)
             {
-                ModelState.AddModelError("", "Such balance is already defined (Same user, category and year)");
+                this.ModelState.AddModelError("", "Such balance is already defined (Same user, category and year)");
             }
         }
 

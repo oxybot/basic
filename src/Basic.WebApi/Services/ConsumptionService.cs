@@ -19,9 +19,9 @@ namespace Basic.WebApi.Services
         /// <param name="logger">The associated logger.</param>
         public ConsumptionService(Context context, IMapper mapper, ILogger<ConsumptionService> logger)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-            Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.Context = context ?? throw new ArgumentNullException(nameof(context));
+            this.Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -55,10 +55,10 @@ namespace Basic.WebApi.Services
             var startOfYear = new DateOnly(DateTime.Now.Year, 1, 1);
             var endOfYear = startOfYear.AddYears(1).AddDays(-1);
 
-            var balances = Context.Set<Balance>()
+            var balances = this.Context.Set<Balance>()
                 .Include(b => b.Category)
                 .Where(b => b.User == user && b.Year == startOfYear.Year).ToList();
-            var groupedEvents = Context.Set<Event>()
+            var groupedEvents = this.Context.Set<Event>()
                 .Include(e => e.Category)
                 .Include(e => e.Statuses)
                     .ThenInclude(s => s.Status)
@@ -75,7 +75,7 @@ namespace Basic.WebApi.Services
                 var requested = category.Where(e => e.CurrentStatus.Identifier == Status.Requested).ToList();
                 yield return new ConsumptionForList()
                 {
-                    Category = Mapper.Map<EntityReference>(category.Key),
+                    Category = this.Mapper.Map<EntityReference>(category.Key),
                     Allowed = balance?.Allowed,
                     Transfered = balance?.Transfered,
                     Planned = planned.Sum(e => e.DurationTotal),
@@ -88,7 +88,7 @@ namespace Basic.WebApi.Services
             {
                 yield return new ConsumptionForList()
                 {
-                    Category = Mapper.Map<EntityReference>(balance.Category),
+                    Category = this.Mapper.Map<EntityReference>(balance.Category),
                     Allowed = balance.Allowed,
                     Transfered = balance.Transfered,
                 };

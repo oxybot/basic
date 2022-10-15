@@ -38,9 +38,9 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<UserForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
         {
-            var entities = AddIncludesForList(Context.Set<User>())
+            var entities = this.AddIncludesForList(this.Context.Set<User>())
                 .ToList()
-                .Select(e => Mapper.Map<UserForList>(e));
+                .Select(e => this.Mapper.Map<UserForList>(e));
 
             /*
             string name = "UserName";
@@ -186,7 +186,7 @@ namespace Basic.WebApi.Controllers
             user.ChangePassword(password.NewPassword);
             this.Context.SaveChanges();
 
-            return Mapper.Map<UserForList>(user);
+            return this.Mapper.Map<UserForList>(user);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace Basic.WebApi.Controllers
             }
 
             var ldapUsers = service.Search(searchTerm);
-            var usersFromDb = Context.Set<User>();
+            var usersFromDb = this.Context.Set<User>();
 
             ldapUsers.ListOfLdapUsers.ToList()
                 .ForEach(d => d.Importable = !usersFromDb.Any(sd => sd.Email.ToUpperInvariant() == d.Email.ToUpperInvariant()));
@@ -244,7 +244,7 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}/links")]
         public AttachmentLinks GetLinks(Guid identifier)
         {
-            var entity = Context
+            var entity = this.Context
                 .Set<User>()
                 .Include(c => c.Attachments)
                 .SingleOrDefault(c => c.Identifier == identifier);

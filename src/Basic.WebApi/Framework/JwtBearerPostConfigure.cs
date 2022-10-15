@@ -38,7 +38,7 @@ namespace Basic.WebApi.Framework
             options.SecurityTokenValidators.Clear();
 
             // Add the custom implementation
-            options.SecurityTokenValidators.Add(new CustomJwtSecurityTokenHandler(Services));
+            options.SecurityTokenValidators.Add(new CustomJwtSecurityTokenHandler(this.Services));
         }
     }
 }

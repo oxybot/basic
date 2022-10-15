@@ -40,7 +40,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<ModelStatusForList> GetAll(Guid eventId)
         {
-            var entity = Context.Set<Event>()
+            var entity = this.Context.Set<Event>()
                 .Include(e => e.Statuses).ThenInclude(s => s.Status)
                 .Include(e => e.Statuses).ThenInclude(s => s.UpdatedBy)
                 .Include(e => e.User)
@@ -52,7 +52,7 @@ namespace Basic.WebApi.Controllers
 
             return entity.Statuses
                 .OrderByDescending(s => s.UpdatedOn)
-                .Select(s => Mapper.Map<ModelStatusForList>(s));
+                .Select(s => this.Mapper.Map<ModelStatusForList>(s));
         }
 
 
@@ -68,7 +68,7 @@ namespace Basic.WebApi.Controllers
         [Route("Next")]
         public IEnumerable<StatusReference> GetNext(Guid eventId)
         {
-            var entity = Context.Set<Event>()
+            var entity = this.Context.Set<Event>()
                 .Include(e => e.Statuses).ThenInclude(s => s.Status)
                 .SingleOrDefault(c => c.Identifier == eventId);
             if (entity == null)
@@ -79,16 +79,16 @@ namespace Basic.WebApi.Controllers
             if (entity.CurrentStatus.Identifier == Status.Requested)
             {
                 return new[] {
-                    Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Approved),
-                    Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Rejected),
-                }.Select(s => Mapper.Map<StatusReference>(s));
+                    this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Approved),
+                    this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Rejected),
+                }.Select(s => this.Mapper.Map<StatusReference>(s));
             }
 
             if (entity.CurrentStatus.Identifier == Status.Approved)
             {
                 return new[] {
-                    Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Canceled),
-                }.Select(s => Mapper.Map<StatusReference>(s));
+                    this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Canceled),
+                }.Select(s => this.Mapper.Map<StatusReference>(s));
             }
 
             return Array.Empty<StatusReference>();
@@ -116,7 +116,7 @@ namespace Basic.WebApi.Controllers
                 throw new ArgumentNullException(nameof(update));
             }
 
-            var entity = Context.Set<Event>()
+            var entity = this.Context.Set<Event>()
                 .Include(e => e.Statuses)
                 .Include(e => e.Category)
                 .SingleOrDefault(c => c.Identifier == eventId);
@@ -125,45 +125,45 @@ namespace Basic.WebApi.Controllers
                 throw new NotFoundException("Not existing entity");
             }
 
-            var from = Context.Set<Status>().SingleOrDefault(s => s.Identifier == update.From);
-            var to = Context.Set<Status>().SingleOrDefault(s => s.Identifier == update.To);
+            var from = this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == update.From);
+            var to = this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == update.To);
 
             if (from == null)
             {
-                ModelState.AddModelError("From", "The From status is invalid");
+                this.ModelState.AddModelError("From", "The From status is invalid");
             }
 
             if (to == null)
             {
-                ModelState.AddModelError("To", "The To status is invalid");
+                this.ModelState.AddModelError("To", "The To status is invalid");
             }
 
             if (update.To == update.From)
             {
-                ModelState.AddModelError("To", "The statuses From and To should be different");
+                this.ModelState.AddModelError("To", "The statuses From and To should be different");
             }
             else if (entity.CurrentStatus.Identifier == update.To)
             {
-                ModelState.AddModelError("", "A similar transition was already applied");
+                this.ModelState.AddModelError("", "A similar transition was already applied");
             }
             else if (entity.CurrentStatus.Identifier != update.From)
             {
-                ModelState.AddModelError("From", "The event is not in the right state");
+                this.ModelState.AddModelError("From", "The event is not in the right state");
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                throw new InvalidModelStateException(ModelState);
+                throw new InvalidModelStateException(this.ModelState);
             }
 
             var user = this.GetConnectedUser();
             var status = new EventStatus() { Status = to, UpdatedBy = user, UpdatedOn = DateTime.UtcNow };
             entity.Statuses.Add(status);
-            Context.SaveChanges();
+            this.Context.SaveChanges();
 
             notification.EventStatusChanged(entity, status);
 
-            return Mapper.Map<EntityReference>(status);
+            return this.Mapper.Map<EntityReference>(status);
         }
     }
 }

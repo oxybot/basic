@@ -54,11 +54,11 @@ namespace Basic.WebApi.Controllers
         {
             if (string.IsNullOrEmpty(message))
             {
-                Logger.Log(level, TestMessage);
+                this.Logger.Log(level, TestMessage);
             }
             else
             {
-                Logger.Log(level, message);
+                this.Logger.Log(level, message);
             }
         }
 
@@ -94,11 +94,11 @@ namespace Basic.WebApi.Controllers
             {
                 if (string.IsNullOrEmpty(message))
                 {
-                    Logger.Log(level, e2, TestMessage);
+                    this.Logger.Log(level, e2, TestMessage);
                 }
                 else
                 {
-                    Logger.Log(level, e2, message);
+                    this.Logger.Log(level, e2, message);
                 }
             }
         }

@@ -22,8 +22,8 @@ namespace System.ComponentModel.DataAnnotations
         public RequiredWhenAttribute(string linkedProperty, object linkedValue)
             : base(DefaultErrorMessage)
         {
-            LinkedProperty = linkedProperty ?? throw new ArgumentNullException(nameof(linkedProperty));
-            LinkedValue = linkedValue;
+            this.LinkedProperty = linkedProperty ?? throw new ArgumentNullException(nameof(linkedProperty));
+            this.LinkedValue = linkedValue;
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace System.ComponentModel.DataAnnotations
             var property = context.ObjectType.GetProperty(this.LinkedProperty);
             if (property == null)
             {
-                throw new ArgumentException($"The linked property {LinkedProperty} is not present in the {context.ObjectType.Name} class");
+                throw new ArgumentException($"The linked property {this.LinkedProperty} is not present in the {context.ObjectType.Name} class");
             }
 
             if (object.Equals(property.GetValue(context.ObjectInstance), this.LinkedValue))
@@ -86,11 +86,11 @@ namespace System.ComponentModel.DataAnnotations
                 // The field is required
                 if (value == null)
                 {
-                    return new ValidationResult(FormatErrorMessage(context.DisplayName));
+                    return new ValidationResult(this.FormatErrorMessage(context.DisplayName));
                 }
                 else if (value is string @string && string.IsNullOrEmpty(@string))
                 {
-                    return new ValidationResult(FormatErrorMessage(context.DisplayName));
+                    return new ValidationResult(this.FormatErrorMessage(context.DisplayName));
                 }
             }
 
@@ -117,7 +117,7 @@ namespace System.ComponentModel.DataAnnotations
         /// </remarks>
         public override string FormatErrorMessage(string name)
         {
-            return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, LinkedProperty);
+            return string.Format(CultureInfo.CurrentCulture, this.ErrorMessageString, name, this.LinkedProperty);
         }
     }
 }

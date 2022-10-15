@@ -15,7 +15,7 @@ namespace Basic.WebApi.Framework
         /// <param name="securitySchemaName">The name of the security schema.</param>
         public RoleRequirementsOperationFilter(string securitySchemaName = "oauth2")
         {
-            SecuritySchemaName = securitySchemaName ?? throw new ArgumentNullException(nameof(securitySchemaName));
+            this.SecuritySchemaName = securitySchemaName ?? throw new ArgumentNullException(nameof(securitySchemaName));
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Basic.WebApi.Framework
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
-                    Id = SecuritySchemaName
+                    Id = this.SecuritySchemaName
                 }
             };
 

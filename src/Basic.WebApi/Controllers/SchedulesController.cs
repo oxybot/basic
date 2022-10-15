@@ -38,9 +38,9 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<ScheduleForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
         {
-            var entities = AddIncludesForList(Context.Set<Schedule>())
+            var entities = this.AddIncludesForList(this.Context.Set<Schedule>())
                 .ToList()
-                .Select(e => Mapper.Map<ScheduleForList>(e));
+                .Select(e => this.Mapper.Map<ScheduleForList>(e));
 
             switch (sortKey)
             {
@@ -146,10 +146,10 @@ namespace Basic.WebApi.Controllers
                 throw new ArgumentNullException(nameof(model));
             }
 
-            model.User = Context.Set<User>().SingleOrDefault(u => u.Identifier == entity.UserIdentifier);
+            model.User = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == entity.UserIdentifier);
             if (model.User == null || model.WorkingSchedule.ToList().Any(n => n < 0) || model.WorkingSchedule.ToList().All(n => n == 0))
             {
-                ModelState.AddModelError("UserIdentifier", "Invalid User");
+                this.ModelState.AddModelError("UserIdentifier", "Invalid User");
             }
 
             if (model.WorkingSchedule.Length == 7 || model.WorkingSchedule.Length == 14)
@@ -166,7 +166,7 @@ namespace Basic.WebApi.Controllers
             }
             else if (model.WorkingSchedule.Length > 14)
             {
-                ModelState.AddModelError("WorkingSchedule", "Invalid schedule data");
+                this.ModelState.AddModelError("WorkingSchedule", "Invalid schedule data");
             }
         }
 

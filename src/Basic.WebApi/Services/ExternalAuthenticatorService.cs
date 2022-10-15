@@ -70,8 +70,8 @@ namespace Basic.WebApi.Services
                 }
 
                 string filter = $"(&(objectClass=person)(cn=*{searchTerm}*))";
-                LdapSearchConstraints constraints = new LdapSearchConstraints() { MaxResults = Options.UserSearchLimit };
-                LdapSearchQueue queue = Connection.Search(Options.BaseDN, LdapConnection.ScopeSub, filter, null, false, (LdapSearchQueue)null, constraints);
+                LdapSearchConstraints constraints = new LdapSearchConstraints() { MaxResults = this.Options.UserSearchLimit };
+                LdapSearchQueue queue = this.Connection.Search(this.Options.BaseDN, LdapConnection.ScopeSub, filter, null, false, (LdapSearchQueue)null, constraints);
 
                 LdapMessage message;
                 List<ExternalUser> users = new List<ExternalUser>();
@@ -99,7 +99,7 @@ namespace Basic.WebApi.Services
             }
             catch (LdapException ex)
             {
-                Logger.LogError(ex, "Can't retrieve users from Active Directory");
+                this.Logger.LogError(ex, "Can't retrieve users from Active Directory");
             }
 
             results.OccurrencesNumber = results.ListOfLdapUsers.Count;
@@ -128,7 +128,7 @@ namespace Basic.WebApi.Services
             {
                 using (var connection = new LdapConnection { SecureSocketLayer = false })
                 {
-                    connection.Connect(Options.Server, Options.Port);
+                    connection.Connect(this.Options.Server, this.Options.Port);
                     connection.Bind(externalIdentifier, password);
                     if (connection.Bound)
                     {
@@ -138,7 +138,7 @@ namespace Basic.WebApi.Services
             }
             catch (LdapException ex)
             {
-                Logger.LogError(ex, "Error while connecting to the external authenticator");
+                this.Logger.LogError(ex, "Error while connecting to the external authenticator");
             }
 
             return false;
@@ -150,8 +150,8 @@ namespace Basic.WebApi.Services
         private void LdapConnect()
         {
             this.Connection.SecureSocketLayer = false;
-            Connection.Connect(Options.Server, Options.Port);
-            Connection.Bind(Options.UserDN, Options.Password);
+            this.Connection.Connect(this.Options.Server, this.Options.Port);
+            this.Connection.Bind(this.Options.UserDN, this.Options.Password);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<AgreementForList> GetAll(Guid? clientId)
         {
-            var entities = AddIncludesForList(Context.Set<Agreement>());
+            var entities = this.AddIncludesForList(this.Context.Set<Agreement>());
             if (clientId.HasValue)
             {
                 entities = entities.Where(c => c.Client.Identifier == clientId.Value);
@@ -46,7 +46,7 @@ namespace Basic.WebApi.Controllers
 
             return entities
                 .ToList()
-                .Select(e => Mapper.Map<AgreementForList>(e));
+                .Select(e => this.Mapper.Map<AgreementForList>(e));
         }
 
         /// <summary>
@@ -128,29 +128,29 @@ namespace Basic.WebApi.Controllers
                 throw new ArgumentNullException(nameof(item));
             }
 
-            var agreement = Context.Set<Agreement>().SingleOrDefault(e => e.Identifier == agreementId);
+            var agreement = this.Context.Set<Agreement>().SingleOrDefault(e => e.Identifier == agreementId);
             if (agreement == null)
             {
                 throw new NotFoundException("Unknown agreement");
             }
 
-            AgreementItem model = Mapper.Map<AgreementItem>(item);
+            AgreementItem model = this.Mapper.Map<AgreementItem>(item);
             model.Agreement = agreement;
             if (item.ProductIdentifier.HasValue)
             {
-                model.Product = Context.Set<Product>()
+                model.Product = this.Context.Set<Product>()
                     .SingleOrDefault(p => p.Identifier == item.ProductIdentifier.Value);
                 if (model.Product == null)
                 {
-                    ModelState.AddModelError("ProductIdentifier", "Invalid product");
-                    throw new InvalidModelStateException(ModelState);
+                    this.ModelState.AddModelError("ProductIdentifier", "Invalid product");
+                    throw new InvalidModelStateException(this.ModelState);
                 }
             }
 
-            Context.Set<AgreementItem>().Add(model);
-            Context.SaveChanges();
+            this.Context.Set<AgreementItem>().Add(model);
+            this.Context.SaveChanges();
 
-            return Mapper.Map<AgreementItemForList>(model);
+            return this.Mapper.Map<AgreementItemForList>(model);
         }
 
         /// <summary>
@@ -173,33 +173,33 @@ namespace Basic.WebApi.Controllers
                 throw new ArgumentNullException(nameof(item));
             }
 
-            var agreement = Context.Set<Agreement>().SingleOrDefault(e => e.Identifier == agreementId);
+            var agreement = this.Context.Set<Agreement>().SingleOrDefault(e => e.Identifier == agreementId);
             if (agreement == null)
             {
                 throw new NotFoundException("Unknown agreement");
             }
 
-            var model = Context.Set<AgreementItem>().SingleOrDefault(e => e.Identifier == itemId && e.Agreement == agreement);
+            var model = this.Context.Set<AgreementItem>().SingleOrDefault(e => e.Identifier == itemId && e.Agreement == agreement);
             if (model == null)
             {
                 throw new NotFoundException("Unknown agreement item");
             }
 
-            Mapper.Map(item, model);
+            this.Mapper.Map(item, model);
             if (item.ProductIdentifier.HasValue)
             {
-                model.Product = Context.Set<Product>()
+                model.Product = this.Context.Set<Product>()
                     .SingleOrDefault(p => p.Identifier == item.ProductIdentifier.Value);
                 if (model.Product == null)
                 {
-                    ModelState.AddModelError("ProductIdentifier", "Invalid product identifier");
-                    throw new InvalidModelStateException(ModelState);
+                    this.ModelState.AddModelError("ProductIdentifier", "Invalid product identifier");
+                    throw new InvalidModelStateException(this.ModelState);
                 }
             }
 
-            Context.SaveChanges();
+            this.Context.SaveChanges();
 
-            return Mapper.Map<AgreementItemForList>(model);
+            return this.Mapper.Map<AgreementItemForList>(model);
         }
 
         /// <summary>
@@ -214,22 +214,22 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public void DeleteItem([FromRoute] Guid agreementId, Guid itemId)
         {
-            var agreement = Context.Set<Agreement>()
+            var agreement = this.Context.Set<Agreement>()
                 .SingleOrDefault(e => e.Identifier == agreementId);
             if (agreement == null)
             {
                 throw new NotFoundException("Unknown agreement");
             }
 
-            var entity = Context.Set<AgreementItem>()
+            var entity = this.Context.Set<AgreementItem>()
                 .SingleOrDefault(e => e.Identifier == itemId && e.Agreement == agreement);
             if (entity == null)
             {
                 throw new NotFoundException($"Not existing entity");
             }
 
-            Context.Set<AgreementItem>().Remove(entity);
-            Context.SaveChanges();
+            this.Context.Set<AgreementItem>().Remove(entity);
+            this.Context.SaveChanges();
         }
 
         /// <summary>
@@ -249,10 +249,10 @@ namespace Basic.WebApi.Controllers
                 throw new ArgumentNullException(nameof(model));
             }
 
-            model.Client = Context.Set<Client>().SingleOrDefault(c => c.Identifier == agreement.ClientIdentifier);
+            model.Client = this.Context.Set<Client>().SingleOrDefault(c => c.Identifier == agreement.ClientIdentifier);
             if (model.Client == null)
             {
-                ModelState.AddModelError("ClientIdentifier", "Invalid client");
+                this.ModelState.AddModelError("ClientIdentifier", "Invalid client");
             }
 
             if (agreement.Items == null)
@@ -266,16 +266,16 @@ namespace Basic.WebApi.Controllers
                 var modelItem = model.Items.SingleOrDefault(i => i.Identifier == item.Identifier.Value);
                 if (modelItem == null)
                 {
-                    ModelState.AddModelError("Items", "Unknown item identified by: " + item.Identifier.Value);
+                    this.ModelState.AddModelError("Items", "Unknown item identified by: " + item.Identifier.Value);
                 }
 
-                Mapper.Map(item, modelItem);
+                this.Mapper.Map(item, modelItem);
                 if (item.ProductIdentifier.HasValue)
                 {
-                    modelItem.Product = Context.Set<Product>().SingleOrDefault(i => i.Identifier == item.ProductIdentifier);
+                    modelItem.Product = this.Context.Set<Product>().SingleOrDefault(i => i.Identifier == item.ProductIdentifier);
                     if (modelItem.Product == null)
                     {
-                        ModelState.AddModelError("ProductIdentifier", "Unknown product identified by: " + item.ProductIdentifier.Value);
+                        this.ModelState.AddModelError("ProductIdentifier", "Unknown product identified by: " + item.ProductIdentifier.Value);
                     }
                 }
             }
@@ -290,14 +290,14 @@ namespace Basic.WebApi.Controllers
             // New items
             foreach (var item in agreement.Items.Where(i => !i.Identifier.HasValue))
             {
-                var modelItem = Mapper.Map<AgreementItem>(item);
+                var modelItem = this.Mapper.Map<AgreementItem>(item);
                 modelItem.Agreement = model;
                 if (item.ProductIdentifier.HasValue)
                 {
-                    modelItem.Product = Context.Set<Product>().SingleOrDefault(i => i.Identifier == item.ProductIdentifier);
+                    modelItem.Product = this.Context.Set<Product>().SingleOrDefault(i => i.Identifier == item.ProductIdentifier);
                     if (modelItem.Product == null)
                     {
-                        ModelState.AddModelError("ProductIdentifier", "Unknown product identified by: " + item.ProductIdentifier.Value);
+                        this.ModelState.AddModelError("ProductIdentifier", "Unknown product identified by: " + item.ProductIdentifier.Value);
                     }
                 }
 

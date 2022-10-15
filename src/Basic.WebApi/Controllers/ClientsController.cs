@@ -38,9 +38,9 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<ClientForList> GetAll()
         {
-            return AddIncludesForList(Context.Set<Client>())
+            return this.AddIncludesForList(this.Context.Set<Client>())
                 .ToList()
-                .Select(e => Mapper.Map<ClientForList>(e));
+                .Select(e => this.Mapper.Map<ClientForList>(e));
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}/links")]
         public ClientLinks GetLinks(Guid identifier)
         {
-            var entity = Context
+            var entity = this.Context
                 .Set<Client>()
                 .Include(c => c.Agreements)
                 .SingleOrDefault(c => c.Identifier == identifier);

@@ -13,7 +13,7 @@ namespace Basic.WebApi.Framework
         public InvalidModelStateException(ModelStateDictionary modelState)
             : base("Bad Request", StatusCodes.Status400BadRequest)
         {
-            ModelState = modelState ?? throw new ArgumentNullException(nameof(modelState));
+            this.ModelState = modelState ?? throw new ArgumentNullException(nameof(modelState));
         }
 
         /// <summary>

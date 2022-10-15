@@ -97,7 +97,7 @@ namespace Basic.WebApi.Services
         public void EventCreated(Event @event)
         {
             // get the time approvers informations sending
-            List<User> approvers = Context.Set<User>()
+            List<User> approvers = this.Context.Set<User>()
                 .Where(u => u.Roles.Any(r => r.Code.Equals(Role.Time, StringComparison.Ordinal)))
                 .Where(u => u.IsActive)
                 .Where(u => !string.IsNullOrEmpty(u.Email))
@@ -106,7 +106,7 @@ namespace Basic.WebApi.Services
             if (approvers.Count == 0)
             {
                 // No manager to send the notification to
-                Logger.LogWarning("Setup inconsistency - No user with email defined has the role 'time' defined");
+                this.Logger.LogWarning("Setup inconsistency - No user with email defined has the role 'time' defined");
                 return;
             }
 
@@ -155,7 +155,7 @@ namespace Basic.WebApi.Services
             }
             catch (Exception exception)
             {
-                Logger.LogError(exception, "Can't send a notification email");
+                this.Logger.LogError(exception, "Can't send a notification email");
             }
             finally
             {

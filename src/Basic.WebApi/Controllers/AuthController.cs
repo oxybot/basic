@@ -30,9 +30,9 @@ namespace Basic.WebApi.Controllers
         /// <param name="logger">The associated logger.</param>
         public AuthController(IConfiguration configuration, Context context, ILogger<AuthController> logger)
         {
-            Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.Context = context ?? throw new ArgumentNullException(nameof(context));
+            this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -71,14 +71,14 @@ namespace Basic.WebApi.Controllers
                 throw new ArgumentNullException(nameof(signIn));
             }
 
-            var user = Context.Set<User>()
+            var user = this.Context.Set<User>()
                 .Include(u => u.Roles)
                 .SingleOrDefault(u => u.Username == signIn.Username);
             if (user == null)
             {
                 // The user doesn't exists
-                ModelState.AddModelError("", "Invalid credentials");
-                throw new InvalidModelStateException(ModelState);
+                this.ModelState.AddModelError("", "Invalid credentials");
+                throw new InvalidModelStateException(this.ModelState);
             }
 
             if (user.ExternalIdentifier != null)
@@ -86,8 +86,8 @@ namespace Basic.WebApi.Controllers
                 // Use the external authenticator
                 if (!externalAuthenticator.ValidateUser(user.ExternalIdentifier, signIn.Password))
                 {
-                    ModelState.AddModelError("", "Invalid credentials");
-                    throw new InvalidModelStateException(ModelState);
+                    this.ModelState.AddModelError("", "Invalid credentials");
+                    throw new InvalidModelStateException(this.ModelState);
                 }
             }
             else if (user.Password != null)
@@ -95,25 +95,25 @@ namespace Basic.WebApi.Controllers
                 // Use local password
                 if (user.HashPassword(signIn.Password) != user.Password)
                 {
-                    ModelState.AddModelError("", "Invalid credentials");
-                    throw new InvalidModelStateException(ModelState);
+                    this.ModelState.AddModelError("", "Invalid credentials");
+                    throw new InvalidModelStateException(this.ModelState);
                 }
             }
             else
             {
-                ModelState.AddModelError("", "Invalid credentials");
-                throw new InvalidModelStateException(ModelState);
+                this.ModelState.AddModelError("", "Invalid credentials");
+                throw new InvalidModelStateException(this.ModelState);
             }
 
             // The provided credential are valid - checking that the user is active
             if (!user.IsActive)
             {
-                ModelState.AddModelError("", "This account is inactive");
-                throw new InvalidModelStateException(ModelState);
+                this.ModelState.AddModelError("", "This account is inactive");
+                throw new InvalidModelStateException(this.ModelState);
             }
 
             // All good - create and provide a token for the session
-            var token = BuildJWTToken(user);
+            var token = this.BuildJWTToken(user);
             return new AuthResult()
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
@@ -133,7 +133,7 @@ namespace Basic.WebApi.Controllers
         {
             var userIdClaim = this.User.Claims.SingleOrDefault(c => c.Type == "sid:guid");
             var userId = Guid.Parse(userIdClaim.Value);
-            var user = Context.Set<User>()
+            var user = this.Context.Set<User>()
                 .Include(u => u.Roles)
                 .SingleOrDefault(u => u.Identifier == userId);
 
@@ -142,7 +142,7 @@ namespace Basic.WebApi.Controllers
                 throw new UnauthorizedRequestException();
             }
 
-            var token = BuildJWTToken(user);
+            var token = this.BuildJWTToken(user);
             return new AuthResult()
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
@@ -152,11 +152,11 @@ namespace Basic.WebApi.Controllers
 
         private JwtSecurityToken BuildJWTToken(User user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtToken:SecretKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["JwtToken:SecretKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var issuer = Configuration["BaseUrl"];
-            var audience = Configuration["BaseUrl"];
-            var jwtValidity = DateTime.Now.AddSeconds(Convert.ToInt32(Configuration["JwtToken:ExpireIn"], CultureInfo.InvariantCulture));
+            var issuer = this.Configuration["BaseUrl"];
+            var audience = this.Configuration["BaseUrl"];
+            var jwtValidity = DateTime.Now.AddSeconds(Convert.ToInt32(this.Configuration["JwtToken:ExpireIn"], CultureInfo.InvariantCulture));
 
             var claims = new List<Claim> {
                 new Claim(type: "sid:guid", user.Identifier.ToString("D")),
@@ -175,8 +175,8 @@ namespace Basic.WebApi.Controllers
                 signingCredentials: creds);
 
             var tokenDb = new Token { Expiration = jwtValidity, User = user };
-            Context.Add<Token>(tokenDb);
-            Context.SaveChanges();
+            this.Context.Add<Token>(tokenDb);
+            this.Context.SaveChanges();
 
             return token;
         }
