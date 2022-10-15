@@ -14,7 +14,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                 {
                     Identifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Expiration = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 },
                 constraints: table =>
                 {

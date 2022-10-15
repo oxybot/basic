@@ -16,7 +16,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     UserIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ActiveFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ActiveTo = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    WorkingSchedule = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    WorkingSchedule = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 },
                 constraints: table =>
                 {

@@ -255,7 +255,7 @@ namespace Basic.WebApi.Controllers
 
             return new AttachmentLinks()
             {
-                Attachments = entity.Attachments.Count
+                Attachments = entity.Attachments.Count,
             };
         }
     }

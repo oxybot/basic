@@ -13,7 +13,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                 columns: table => new
                 {
                     Identifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -25,7 +25,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                 columns: table => new
                 {
                     RolesIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UsersIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UsersIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 },
                 constraints: table =>
                 {

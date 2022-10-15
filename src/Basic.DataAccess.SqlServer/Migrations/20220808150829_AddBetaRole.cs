@@ -19,7 +19,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     EventIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     AgreementIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ClientIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    ClientIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                 },
                 constraints: table =>
                 {

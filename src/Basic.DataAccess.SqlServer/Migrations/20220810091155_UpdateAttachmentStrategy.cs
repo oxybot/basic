@@ -19,7 +19,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AttachmentContent_Data = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     AttachmentContent_MimeType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ParentIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -40,7 +40,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AttachmentContent_Data = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     AttachmentContent_MimeType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ParentIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -61,7 +61,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AttachmentContent_Data = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     AttachmentContent_MimeType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ParentIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -82,7 +82,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AttachmentContent_Data = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     AttachmentContent_MimeType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ParentIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -141,7 +141,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     ClientIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EventIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    UserIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                 },
                 constraints: table =>
                 {

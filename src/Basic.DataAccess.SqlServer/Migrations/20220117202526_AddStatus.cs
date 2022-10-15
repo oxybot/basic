@@ -15,7 +15,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     Identifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -30,7 +30,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     AgreementIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StatusIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UpdatedByIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -62,7 +62,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     EventIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StatusIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UpdatedByIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                 },
                 constraints: table =>
                 {

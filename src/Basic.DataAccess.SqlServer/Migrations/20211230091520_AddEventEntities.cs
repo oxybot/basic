@@ -15,7 +15,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     Identifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RequireBalance = table.Column<bool>(type: "bit", nullable: false),
-                    Mapping = table.Column<string>(type: "nvarchar(24)", nullable: false)
+                    Mapping = table.Column<string>(type: "nvarchar(24)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -31,7 +31,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     CategoryIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
                     Allowed = table.Column<int>(type: "int", nullable: false),
-                    Transfered = table.Column<int>(type: "int", nullable: false)
+                    Transfered = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -62,7 +62,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DurationFirstDay = table.Column<int>(type: "int", nullable: false),
                     DurationLastDay = table.Column<int>(type: "int", nullable: false),
-                    DurationTotal = table.Column<int>(type: "int", nullable: false)
+                    DurationTotal = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {

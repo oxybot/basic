@@ -21,7 +21,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     AttachmentContent_Data = table.Column<byte[]>(type: "longblob", nullable: false),
                     AttachmentContent_MimeType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ParentIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    ParentIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                 },
                 constraints: table =>
                 {
@@ -45,7 +45,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     AttachmentContent_Data = table.Column<byte[]>(type: "longblob", nullable: false),
                     AttachmentContent_MimeType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ParentIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    ParentIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                 },
                 constraints: table =>
                 {
@@ -69,7 +69,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     AttachmentContent_Data = table.Column<byte[]>(type: "longblob", nullable: false),
                     AttachmentContent_MimeType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ParentIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    ParentIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                 },
                 constraints: table =>
                 {
@@ -93,7 +93,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     AttachmentContent_Data = table.Column<byte[]>(type: "longblob", nullable: false),
                     AttachmentContent_MimeType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ParentIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    ParentIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                 },
                 constraints: table =>
                 {
@@ -155,7 +155,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     DisplayName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     EventIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    UserIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    UserIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                 },
                 constraints: table =>
                 {

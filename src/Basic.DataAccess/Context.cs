@@ -118,7 +118,7 @@ namespace Basic.DataAccess
                 {
                     Identifier = new Guid("a0b62b59-6440-4031-ac22-0a74be98a409"),
                     Code = Role.Beta,
-                }
+                },
             };
             modelBuilder.Entity<Role>().HasData(roles);
 

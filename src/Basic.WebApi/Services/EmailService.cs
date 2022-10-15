@@ -84,7 +84,7 @@ namespace Basic.WebApi.Services
             string content = Smart.Format(template, data).Trim();
             message.Body = new TextPart("plain")
             {
-                Text = content
+                Text = content,
             };
 
             this.Send(message);
@@ -133,7 +133,7 @@ namespace Basic.WebApi.Services
             string content = Smart.Format(template, data).Trim();
             message.Body = new TextPart("plain")
             {
-                Text = content
+                Text = content,
             };
 
             this.Send(message);

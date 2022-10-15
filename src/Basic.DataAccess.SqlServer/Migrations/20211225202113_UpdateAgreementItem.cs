@@ -20,7 +20,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     ProductIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false)
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -62,7 +62,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     AgreementIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false)
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
                 },
                 constraints: table =>
                 {

@@ -67,8 +67,8 @@ namespace Basic.WebApi.Framework
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
-                    Id = this.SecuritySchemaName
-                }
+                    Id = this.SecuritySchemaName,
+                },
             };
 
             var policies = rolesAttributes

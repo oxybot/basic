@@ -14,7 +14,7 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     Identifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Expiration = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UserIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    UserIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                 },
                 constraints: table =>
                 {

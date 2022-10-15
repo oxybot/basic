@@ -31,7 +31,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     Address_City = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Address_Country = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                 },
                 constraints: table =>
                 {
@@ -49,7 +49,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     RequireBalance = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ColorClass = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Mapping = table.Column<string>(type: "nvarchar(24)", nullable: false)
+                    Mapping = table.Column<string>(type: "nvarchar(24)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -64,7 +64,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     Identifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                 },
                 constraints: table =>
                 {
@@ -82,7 +82,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     DefaultDescription = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DefaultUnitPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
-                    DefaultQuantity = table.Column<decimal>(type: "decimal(18,6)", nullable: false)
+                    DefaultQuantity = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -96,7 +96,7 @@ namespace Basic.DataAccess.MySql.Migrations
                 {
                     Identifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Code = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                 },
                 constraints: table =>
                 {
@@ -113,7 +113,7 @@ namespace Basic.DataAccess.MySql.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -140,7 +140,7 @@ namespace Basic.DataAccess.MySql.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Avatar_Data = table.Column<byte[]>(type: "longblob", nullable: true),
                     Avatar_MimeType = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                 },
                 constraints: table =>
                 {
@@ -161,7 +161,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     OwnerIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     SignatureDate = table.Column<DateTime>(type: "date", nullable: true),
                     PrivateNotes = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                 },
                 constraints: table =>
                 {
@@ -189,7 +189,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     CategoryIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Year = table.Column<int>(type: "int", nullable: false),
                     Allowed = table.Column<int>(type: "int", nullable: false),
-                    Transfered = table.Column<int>(type: "int", nullable: false)
+                    Transfered = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -222,7 +222,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
                     DurationFirstDay = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
                     DurationLastDay = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
-                    DurationTotal = table.Column<decimal>(type: "decimal(18,6)", nullable: false)
+                    DurationTotal = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -247,7 +247,7 @@ namespace Basic.DataAccess.MySql.Migrations
                 columns: table => new
                 {
                     RolesIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UsersIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    UsersIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                 },
                 constraints: table =>
                 {
@@ -276,7 +276,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     ActiveFrom = table.Column<DateTime>(type: "date", nullable: false),
                     ActiveTo = table.Column<DateTime>(type: "date", nullable: true),
                     WorkingSchedule = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                 },
                 constraints: table =>
                 {
@@ -300,7 +300,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Quantity = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false)
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -327,7 +327,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     AgreementIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     StatusIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UpdatedByIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    UpdatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -357,7 +357,7 @@ namespace Basic.DataAccess.MySql.Migrations
                 columns: table => new
                 {
                     Identifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    AgreementIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    AgreementIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                 },
                 constraints: table =>
                 {
@@ -383,7 +383,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     EventIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     UserIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     AgreementIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    ClientIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    ClientIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                 },
                 constraints: table =>
                 {
@@ -419,7 +419,7 @@ namespace Basic.DataAccess.MySql.Migrations
                     EventIdentifier = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     StatusIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UpdatedByIdentifier = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    UpdatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                 },
                 constraints: table =>
                 {

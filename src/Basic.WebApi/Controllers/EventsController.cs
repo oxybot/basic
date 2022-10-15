@@ -223,7 +223,7 @@ namespace Basic.WebApi.Controllers
 
             return new AttachmentLinks()
             {
-                Attachments = entity.Attachments.Count
+                Attachments = entity.Attachments.Count,
             };
         }
 
@@ -264,7 +264,7 @@ namespace Basic.WebApi.Controllers
                 {
                     Status = requested,
                     UpdatedOn = DateTime.UtcNow,
-                    UpdatedBy = user
+                    UpdatedBy = user,
                 });
             }
         }

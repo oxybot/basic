@@ -125,7 +125,7 @@ namespace Basic.WebApi.Controllers
 
             return new ClientLinks()
             {
-                Agreements = entity.Agreements.Count
+                Agreements = entity.Agreements.Count,
             };
         }
     }

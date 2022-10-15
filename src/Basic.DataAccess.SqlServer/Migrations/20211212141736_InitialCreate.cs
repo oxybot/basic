@@ -14,7 +14,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                 {
                     Identifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -29,7 +29,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DefaultPrice = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DefaultUnitPrice = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DefaultQuantity = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DefaultQuantity = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -42,7 +42,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                 {
                     Identifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -56,7 +56,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     Identifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClientIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -74,7 +74,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                 columns: table => new
                 {
                     Identifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClientContractIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    ClientContractIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -95,7 +95,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     ProductIdentifier = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false)
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
                 },
                 constraints: table =>
                 {

@@ -76,7 +76,7 @@ namespace Basic.WebApi.Controllers
                     var line = new UserCalendar.Line()
                     {
                         Category = "Time-off",
-                        ColorClass = "bg-timeoff"
+                        ColorClass = "bg-timeoff",
                     };
 
                     calendar.Lines.Add(line);
@@ -96,7 +96,7 @@ namespace Basic.WebApi.Controllers
                     var line = new UserCalendar.Line()
                     {
                         Category = activeGroup.Key.DisplayName,
-                        ColorClass = activeGroup.Key.ColorClass
+                        ColorClass = activeGroup.Key.ColorClass,
                     };
 
                     calendar.Lines.Add(line);
@@ -160,7 +160,7 @@ namespace Basic.WebApi.Controllers
             {
                 Status = requested,
                 UpdatedOn = DateTime.UtcNow,
-                UpdatedBy = user
+                UpdatedBy = user,
             });
 
             this.Context.Set<Event>().Add(model);
@@ -196,7 +196,7 @@ namespace Basic.WebApi.Controllers
             return new CalendarRequestCheck
             {
                 TotalHours = context.TotalHours,
-                TotalDays = context.TotalDays
+                TotalDays = context.TotalDays,
             };
         }
 
