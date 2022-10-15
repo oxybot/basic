@@ -7,6 +7,7 @@ using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.WebApi.Controllers
 {
@@ -116,6 +117,7 @@ namespace Basic.WebApi.Controllers
         [HttpGet]
         [Produces("application/json")]
         [Route("User")]
+        [SuppressMessage("Naming", "CA1721:Property names should not match get methods", Justification = "Expected Behaviour")]
         public MyUserForView GetUser()
         {
             var user = this.GetConnectedUser();
