@@ -1,2 +1,5 @@
 ﻿is_global = true
 dotnet_diagnostic.CA1725.severity = none
+
+# To be improved later
+dotnet_diagnostic.CA1848.severity = none
