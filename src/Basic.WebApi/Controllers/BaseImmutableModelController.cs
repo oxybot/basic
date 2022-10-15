@@ -29,8 +29,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public BaseImmutableModelController(Context context, IMapper mapper, ILogger logger)
+        protected BaseImmutableModelController(Context context, IMapper mapper, ILogger logger)
             :base(context, mapper, logger)
         {
         }

@@ -24,7 +24,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
-        public BaseAttachmentsController(Context context, IMapper mapper, ILogger<BaseAttachmentsController<TModel, TAttachment>> logger)
+        protected BaseAttachmentsController(Context context, IMapper mapper, ILogger<BaseAttachmentsController<TModel, TAttachment>> logger)
             : base(context, mapper, logger)
         {
         }

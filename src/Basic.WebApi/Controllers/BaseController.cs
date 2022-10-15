@@ -22,7 +22,7 @@ namespace Basic.WebApi.Controllers
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
-        public BaseController(Context context, IMapper mapper, ILogger logger)
+        protected BaseController(Context context, IMapper mapper, ILogger logger)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
             Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
