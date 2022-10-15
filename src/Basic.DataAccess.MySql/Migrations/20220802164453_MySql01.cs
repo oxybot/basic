@@ -444,45 +444,48 @@ namespace Basic.DataAccess.MySql.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            var roles = new object[,]
+            {
+                { new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"), "user" },
+                { new Guid("7a42dca4-c92c-408b-af26-6ac2db418312"), "client" },
+                { new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"), "time" },
+                { new Guid("8087c59d-7db0-4c40-aa35-742f6e11816f"), "client-ro" },
+                { new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"), "time-ro" },
+            };
             migrationBuilder.InsertData(
                 table: "Role",
                 columns: new[] { "Identifier", "Code" },
-                values: new object[,]
-                {
-                    { new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"), "user" },
-                    { new Guid("7a42dca4-c92c-408b-af26-6ac2db418312"), "client" },
-                    { new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"), "time" },
-                    { new Guid("8087c59d-7db0-4c40-aa35-742f6e11816f"), "client-ro" },
-                    { new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"), "time-ro" }
-                });
+                values: roles);
 
+            var statuses = new object[,]
+            {
+                { new Guid("4151c014-ddde-43e4-aa7e-b98a339bbe74"), "The associated event has been approved", "Approved", true },
+                { new Guid("52bc6354-d8ef-44e2-87ca-c64deeeb22e8"), "The associated event has been created and is waiting for approval", "Requested", true },
+                { new Guid("e7f8dcc7-57d5-4e74-ac38-1fbd5153996c"), "The associated event has been rejected", "Rejected", false },
+                { new Guid("fdac7cc3-3fe0-4e59-ab16-aeaec008f940"), "The associated event has been canceled", "Canceled", false },
+            };
             migrationBuilder.InsertData(
                 table: "Status",
                 columns: new[] { "Identifier", "Description", "DisplayName", "IsActive" },
-                values: new object[,]
-                {
-                    { new Guid("4151c014-ddde-43e4-aa7e-b98a339bbe74"), "The associated event has been approved", "Approved", true },
-                    { new Guid("52bc6354-d8ef-44e2-87ca-c64deeeb22e8"), "The associated event has been created and is waiting for approval", "Requested", true },
-                    { new Guid("e7f8dcc7-57d5-4e74-ac38-1fbd5153996c"), "The associated event has been rejected", "Rejected", false },
-                    { new Guid("fdac7cc3-3fe0-4e59-ab16-aeaec008f940"), "The associated event has been canceled", "Canceled", false }
-                });
+                values: statuses);
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Identifier", "DisplayName", "Email", "Password", "Salt", "Title", "Username" },
                 values: new object[] { new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5"), "John Doe", null, "QBG6AuURBMZ4wxp2pERIWzjzhl5QTYnDoKgLQ5uxojc=", "demo", "User Group Evangelist", "demo" });
 
+            var relations = new object[,]
+            {
+                { new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
+                { new Guid("7a42dca4-c92c-408b-af26-6ac2db418312"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
+                { new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
+                { new Guid("8087c59d-7db0-4c40-aa35-742f6e11816f"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
+                { new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
+            };
             migrationBuilder.InsertData(
                 table: "RoleUser",
                 columns: new[] { "RolesIdentifier", "UsersIdentifier" },
-                values: new object[,]
-                {
-                    { new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
-                    { new Guid("7a42dca4-c92c-408b-af26-6ac2db418312"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
-                    { new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
-                    { new Guid("8087c59d-7db0-4c40-aa35-742f6e11816f"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") },
-                    { new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"), new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5") }
-                });
+                values: relations);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Agreement_ClientIdentifier",
