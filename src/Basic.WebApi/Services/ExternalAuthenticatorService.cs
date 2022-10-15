@@ -67,6 +67,7 @@ namespace Basic.WebApi.Services
                 LdapSearchQueue queue = Connection.Search(Options.BaseDN, LdapConnection.ScopeSub, filter, null, false, (LdapSearchQueue)null, constraints);
 
                 LdapMessage message;
+                List<ExternalUser> users = new List<ExternalUser>();
                 while ((message = queue.GetResponse()) != null)
                 {
                     if (message is LdapSearchResult searchResult)
@@ -82,11 +83,12 @@ namespace Basic.WebApi.Services
                             ExternalIdentifier = entry.GetAttributeAsString("userPrincipalName"),
                         };
 
-                        results.ListOfLdapUsers.Add(user);
+                        users.Add(user);
                     }
                 }
 
-                results.ListOfLdapUsers.Sort((u, v) => u.DisplayName.CompareTo(v.DisplayName));
+                users.Sort((u, v) => u.DisplayName.CompareTo(v.DisplayName));
+                results.ListOfLdapUsers.AddRange(users);
             }
             catch (LdapException ex)
             {

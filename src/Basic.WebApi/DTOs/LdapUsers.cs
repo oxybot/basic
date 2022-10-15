@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Basic.WebApi.DTOs
@@ -17,10 +16,10 @@ namespace Basic.WebApi.DTOs
         }
 
         /// <summary>
-        /// Gets or sets the list of ldap users.
+        /// Gets the list of ldap users.
         /// </summary>
         [Required]
-        public List<ExternalUser> ListOfLdapUsers { get; set; }
+        public ICollection<ExternalUser> ListOfLdapUsers { get; }
 
         /// <summary>
         /// Gets or sets the number of occurrence of the specific research.
