@@ -6,7 +6,7 @@ namespace System.ComponentModel.DataAnnotations
     /// Specifies the minimum value for the associated numeric field.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
-    public class MinimumAttribute : ValidationAttribute
+    public sealed class MinimumAttribute : ValidationAttribute
     {
         /// <summary>
         /// The default error message.

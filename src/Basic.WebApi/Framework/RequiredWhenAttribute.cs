@@ -6,7 +6,7 @@ namespace System.ComponentModel.DataAnnotations
     /// Indicates that the associated property is required when another property has a specific value.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class RequiredWhenAttribute : ValidationAttribute
+    public sealed class RequiredWhenAttribute : ValidationAttribute
     {
         /// <summary>
         /// The default error message.

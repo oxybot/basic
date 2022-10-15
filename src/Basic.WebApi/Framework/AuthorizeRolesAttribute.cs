@@ -6,7 +6,7 @@ namespace Basic.WebApi.Framework
     /// <summary>
     /// Supercharges the <see cref="AuthorizeAttribute"/> to simplify roles usage.
     /// </summary>
-    public class AuthorizeRolesAttribute : AuthorizeAttribute
+    public sealed class AuthorizeRolesAttribute : AuthorizeAttribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthorizeRolesAttribute"/> class.
