@@ -26,6 +26,5 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         [Required]
         public int OccurrencesNumber { get; set; }
-
     }
 }
