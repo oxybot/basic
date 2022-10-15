@@ -14,7 +14,8 @@ namespace Basic.DataAccess
         /// Initializes a new instance of the <see cref="Context"/> class.
         /// </summary>
         /// <param name="options">The configuration used to initialize the context.</param>
-        public Context(DbContextOptions<Context> options) : base(options)
+        public Context(DbContextOptions<Context> options)
+            : base(options)
         {
         }
 
