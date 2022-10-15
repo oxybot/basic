@@ -8,6 +8,6 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the number of attachments associated to a specific entity.
         /// </summary>
-        public int Attachments { get; set; } 
-   }
+        public int Attachments { get; set; }
+    }
 }

@@ -8,6 +8,6 @@
         /// <summary>
         /// Gets or sets the number of agreements associated to a specific client.
         /// </summary>
-        public int Agreements { get; set; } 
-   }
+        public int Agreements { get; set; }
+    }
 }
