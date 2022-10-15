@@ -1,12 +1,9 @@
 using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
-using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
-using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.WebApi.Controllers

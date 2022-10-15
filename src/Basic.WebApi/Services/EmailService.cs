@@ -1,7 +1,6 @@
 using Basic.DataAccess;
 using Basic.Model;
 using MailKit.Net.Smtp;
-using Microsoft.Extensions.Options;
 using MimeKit;
 using SmartFormat;
 

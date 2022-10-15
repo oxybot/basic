@@ -3,14 +3,10 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Basic.WebApi.Services;
-
-using System.Text.RegularExpressions;
-using System.Reflection;
-using System.ComponentModel;
 
 namespace Basic.WebApi.Controllers
 {
