@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.WebApi.Framework
 {
@@ -27,6 +28,7 @@ namespace Basic.WebApi.Framework
         /// <param name="context">The current http context.</param>
         /// <param name="logger">The associated logger.</param>
         /// <returns>A task associated to the current action.</returns>
+        [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Intended behavior - final catch of any exceptions")]
         public async Task InvokeAsync(HttpContext context, ILogger<ExceptionMiddleware> logger)
         {
             try
