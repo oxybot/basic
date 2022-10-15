@@ -71,7 +71,7 @@ namespace Basic.WebApi.Services
             };
 
             // Prepare the headers
-            var message = new MimeMessage();
+            using var message = new MimeMessage();
             message.From.Add(new MailboxAddress(this.Options.SenderName, this.Options.SenderEmail));
             message.To.Add(new MailboxAddress(@event.User.DisplayName, @event.User.Email));
 
@@ -110,13 +110,14 @@ namespace Basic.WebApi.Services
                 return;
             }
 
-            var data = new {
+            var data = new
+            {
                 FrontBaseUrl = this.Options.FrontBaseUrl,
                 Event = @event,
             };
 
             // Prepare the headers
-            var message = new MimeMessage();
+            using var message = new MimeMessage();
             message.From.Add(new MailboxAddress(this.Options.SenderName, this.Options.SenderEmail));
             foreach (User manager in approvers)
             {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 
 namespace Basic.WebApi
@@ -24,6 +25,7 @@ namespace Basic.WebApi
         /// The method has been already called.
         /// </exception>
         [AssemblyInitialize]
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Will be disposed on AssemblyCleanup")]
         public static void AssemblyInitialize(TestContext context)
         {
             if (Application != null)

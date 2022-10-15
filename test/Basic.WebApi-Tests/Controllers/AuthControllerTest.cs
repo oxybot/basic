@@ -14,7 +14,8 @@ namespace Basic.WebApi.Controllers
         public async Task SignIn()
         {
             using var client = TestServer.CreateClient();
-            using var response = await client.PostAsync("/Auth", JsonContent.Create(new { Username = "demo", Password = "demo" }));
+            using var content = JsonContent.Create(new { Username = "demo", Password = "demo" });
+            using var response = await client.PostAsync("/Auth", content);
             Assert.IsTrue(response.IsSuccessStatusCode);
 
             var body = await response.Content.ReadAsJsonAsync<AuthResult>();
