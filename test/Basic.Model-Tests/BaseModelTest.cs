@@ -12,6 +12,9 @@ namespace Basic.Model
     [TestClass]
     public class BaseModelTest
     {
+        /// <summary>
+        /// Gets or sets the current test context.
+        /// </summary>
         public TestContext TestContext { get; set; }
 
         /// <summary>
@@ -37,6 +40,9 @@ namespace Basic.Model
             }
         }
 
+        /// <summary>
+        /// Assets that all properties linked to model classes are virtual.
+        /// </summary>
         [TestMethod]
         public void AllLinkedModelPropertiesAreVirtual()
         {

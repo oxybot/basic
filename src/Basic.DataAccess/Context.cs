@@ -5,16 +5,30 @@ using System.Linq;
 
 namespace Basic.DataAccess
 {
+    /// <summary>
+    /// Represents the entity framework context specific to the project.
+    /// </summary>
     public class Context : DbContext
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Context"/> class.
+        /// </summary>
+        /// <param name="options">The configuration used to initialize the context.</param>
         public Context(DbContextOptions<Context> options) : base(options)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Context"/> class.
+        /// </summary>
         protected Context()
         {
         }
 
+        /// <summary>
+        /// Configures the conventions specific to the project.
+        /// </summary>
+        /// <param name="configurationBuilder">The current configuration builder.</param>
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             if (configurationBuilder is null)
@@ -45,6 +59,10 @@ namespace Basic.DataAccess
                 .HaveConversion<NullableDateOnlyConverter>();
         }
 
+        /// <summary>
+        /// Called when the entity model should be created.
+        /// </summary>
+        /// <param name="modelBuilder">The current model builder.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             if (modelBuilder is null)

@@ -7,9 +7,16 @@ using System.Threading.Tasks;
 
 namespace Basic.WebApi.Controllers
 {
+    /// <summary>
+    /// Tests the <see cref="AuthController"/> class.
+    /// </summary>
     [TestClass]
     public class AuthControllerTest
     {
+        /// <summary>
+        /// Tests the <see cref="AuthController.SignIn"/> method.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [TestMethod]
         public async Task SignIn()
         {
