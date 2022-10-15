@@ -24,6 +24,32 @@ namespace Basic.WebApi.Framework
         public ModelStateDictionary ModelState { get; }
 
         /// <summary>
+        /// Converts a model state into an invalid result.
+        /// </summary>
+        /// <param name="modelState">The reference model state.</param>
+        /// <returns>The converted model state.</returns>
+        public static InvalidResult Convert(ModelStateDictionary modelState)
+        {
+            if (modelState == null)
+            {
+                return null;
+            }
+
+            var result = new InvalidResult();
+            foreach (var pair in modelState)
+            {
+                if (pair.Value.Errors != null && pair.Value.Errors.Count > 0)
+                {
+                    var errors = pair.Value.Errors.Select(e => e.ErrorMessage).ToArray();
+                    var key = string.Join('.', pair.Key.Split('.').Select(s => s.ToJsonFieldName()));
+                    result.Add(key, errors);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Updates the response with the errors of the model state.
         /// </summary>
         /// <param name="context">The reference action context.</param>
@@ -49,32 +75,6 @@ namespace Basic.WebApi.Framework
 
             var bodyResult = Convert(this.ModelState);
             await context.HttpContext.Response.WriteAsJsonAsync(bodyResult).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Converts a model state into an invalid result.
-        /// </summary>
-        /// <param name="modelState">The reference model state.</param>
-        /// <returns>The converted model state.</returns>
-        public static InvalidResult Convert(ModelStateDictionary modelState)
-        {
-            if (modelState == null)
-            {
-                return null;
-            }
-
-            var result = new InvalidResult();
-            foreach (var pair in modelState)
-            {
-                if (pair.Value.Errors != null && pair.Value.Errors.Count > 0)
-                {
-                    var errors = pair.Value.Errors.Select(e => e.ErrorMessage).ToArray();
-                    var key = string.Join('.', pair.Key.Split('.').Select(s => s.ToJsonFieldName()));
-                    result.Add(key, errors);
-                }
-            }
-
-            return result;
         }
     }
 }
