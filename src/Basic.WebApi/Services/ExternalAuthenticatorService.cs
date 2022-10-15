@@ -10,7 +10,7 @@ namespace Basic.WebApi.Services
     /// <remarks>
     /// The current implementation uses LDAP / Active Directory as a reference.
     /// </remarks>
-    public class ExternalAuthenticatorService : IDisposable
+    public sealed class ExternalAuthenticatorService : IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalAuthenticatorService"/> class.
