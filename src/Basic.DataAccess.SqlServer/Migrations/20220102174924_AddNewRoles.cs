@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -7,6 +8,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
 {
     public partial class AddNewRoles : Migration
     {
+        [SuppressMessage("Performance", "CA1814:Prefer jagged arrays over multidimensional", Justification = "Auto generated content")]
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.UpdateData(
