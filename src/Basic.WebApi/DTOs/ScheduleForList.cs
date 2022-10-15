@@ -1,5 +1,6 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.WebApi.DTOs
 {
@@ -36,6 +37,7 @@ namespace Basic.WebApi.DTOs
         /// </value>
         [Required]
         [SwaggerSchema(Format = "schedule")]
+        [SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "DTO")]
         public decimal[] WorkingSchedule { get; set; }
     }
 }
