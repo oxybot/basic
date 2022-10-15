@@ -23,4 +23,9 @@
     <AdditionalFiles Include="../../stylecop.json" />
   </ItemGroup>
 
+  <!-- Global CLSCompliant declaration -->
+  <ItemGroup>
+    <Compile Include="../../Assembly.cs" />
+  </ItemGroup>
+
 </Project>
