@@ -41,16 +41,28 @@ namespace Basic.WebApi
                 });
         }
 
+        /// <summary>
+        /// Creates the default client.
+        /// </summary>
+        /// <returns>The default client for the test application.</returns>
         public static HttpClient CreateClient()
         {
             return Application.CreateClient();
         }
 
+        /// <summary>
+        /// Creates a client with a specific configuration.
+        /// </summary>
+        /// <param name="options">The configuration for the application.</param>
+        /// <returns>The client for the test application.</returns>
         public static HttpClient CreateClient(WebApplicationFactoryClientOptions options)
         {
             return Application.CreateClient(options);
         }
 
+        /// <summary>
+        /// Called when assembly tests are finished.
+        /// </summary>
         [AssemblyCleanup]
         public static void AssemblyCleanup()
         {
