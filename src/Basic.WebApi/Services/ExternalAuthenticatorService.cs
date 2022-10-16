@@ -109,11 +109,11 @@ namespace Basic.WebApi.Services
         }
 
         /// <summary>
-        /// Validates the credential of a user.
+        /// Validates the credentials of a user.
         /// </summary>
         /// <param name="externalIdentifier">The identifier of the user on the external authenticator.</param>
         /// <param name="password">The password of the user.</param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if the credentials of the user are valid; otherwise <c>false</c>.</returns>
         public bool ValidateUser(string externalIdentifier, string password)
         {
             if (string.IsNullOrEmpty(externalIdentifier))

@@ -32,12 +32,12 @@ namespace Basic.WebApi.Framework
         }
 
         /// <summary>
-        /// Checks is the current model element can be converted.
+        /// Determines is the current model element has be converted.
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
         /// <param name="modelMetadata">The associated model metadata.</param>
         /// <param name="propertyAttributes">The attributes of the property.</param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if the <paramref name="propertyName"/> has to be transformed; otherwise <c>false</c>.</returns>
         private static bool IsTransformRequired(string propertyName, DisplayMetadata modelMetadata, IReadOnlyList<object> propertyAttributes)
         {
             if (modelMetadata is null)
