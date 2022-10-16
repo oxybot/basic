@@ -15,6 +15,10 @@ namespace Basic.WebApi.Controllers
     /// <remarks>
     /// This class doesn't contain an <c>Edit</c> method. See <see cref="BaseModelController{TModel, TForList, TForView, TForEdit}"/>.
     /// </remarks>
+    /// <typeparam name="TModel">The type of the entity model.</typeparam>
+    /// <typeparam name="TForList">The type of DTO for list display.</typeparam>
+    /// <typeparam name="TForView">The type of DTO for view display.</typeparam>
+    /// <typeparam name="TForEdit">The type of DTO for edit forms.</typeparam>
     [ApiController]
     [Route("[controller]")]
     public abstract class BaseImmutableModelController<TModel, TForList, TForView, TForEdit> : BaseController

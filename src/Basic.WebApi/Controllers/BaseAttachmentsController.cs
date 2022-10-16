@@ -12,6 +12,8 @@ namespace Basic.WebApi.Controllers
     /// <summary>
     /// Provides API to retrieve and manage attachment data.
     /// </summary>
+    /// <typeparam name="TModel">The type of the entity model.</typeparam>
+    /// <typeparam name="TAttachment">The type of associated with the attachements.</typeparam>
     [ApiController]
     [Authorize]
     public abstract class BaseAttachmentsController<TModel, TAttachment> : BaseController

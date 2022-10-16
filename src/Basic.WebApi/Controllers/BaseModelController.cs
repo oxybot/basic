@@ -10,6 +10,10 @@ namespace Basic.WebApi.Controllers
     /// <summary>
     /// Provides API to retrieve and manage data associated to a specific entity.
     /// </summary>
+    /// <typeparam name="TModel">The type of the entity model.</typeparam>
+    /// <typeparam name="TForList">The type of DTO for list display.</typeparam>
+    /// <typeparam name="TForView">The type of DTO for view display.</typeparam>
+    /// <typeparam name="TForEdit">The type of DTO for edit forms.</typeparam>
     [ApiController]
     [Route("[controller]")]
     public abstract class BaseModelController<TModel, TForList, TForView, TForEdit>
