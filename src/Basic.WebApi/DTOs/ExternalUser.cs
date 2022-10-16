@@ -14,7 +14,7 @@ namespace Basic.WebApi.DTOs
         }
 
         /// <summary>
-        /// Gets or sets importable status of the external user.
+        /// Gets or sets a value indicating whether the user is importable.
         /// </summary>
         public bool Importable { get; set; }
     }

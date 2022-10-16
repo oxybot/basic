@@ -13,7 +13,7 @@ namespace Basic.WebApi
     internal class TestServer
     {
         /// <summary>
-        /// The web test server factory.
+        /// Gets the web test server factory.
         /// </summary>
         public static WebApplicationFactory<Program> Application { get; private set; }
 

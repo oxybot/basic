@@ -19,26 +19,14 @@ namespace Basic.WebApi.DTOs
         protected const string ErrorPasswordTooWeak = "The password is too weak";
 
         /// <summary>
-        /// Gets or sets the old password of the user.
-        /// </summary>
-        /// <value>
-        /// A <c>null</c> or empty value indicates that the user should be disabled.</value>
-        // [Required]
-        public string OldPassword { get; }
-
-        /// <summary>
         /// Gets or sets the new password for the user.
         /// </summary>
-        /// <value>
-        /// A <c>null</c> or empty value indicates that the user should be disabled.</value>
         [Required]
         public string NewPassword { get; set; }
 
         /// <summary>
         /// Gets or sets the confirmation password of the user.
         /// </summary>
-        /// <value>
-        /// A <c>null</c> or empty value indicates that the user should be disabled.</value>
         [Required]
         public string ConfirmPassword { get; set; }
 

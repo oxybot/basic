@@ -27,7 +27,7 @@ namespace System.ComponentModel.DataAnnotations
         }
 
         /// <summary>
-        /// Enforces the validation of this assertion based on a context.
+        /// Gets a value indicating whether to enforce the validation of this assertion based on a context.
         /// </summary>
         /// <value>
         /// Returns always <c>true</c>.

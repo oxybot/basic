@@ -36,7 +36,7 @@ namespace Basic.WebApi.Models
         public bool Required { get; set; }
 
         /// <summary>
-        /// Gets of sets the placeholder text associated to the field, if any.
+        /// Gets or sets the placeholder text associated to the field, if any.
         /// </summary>
         public string Placeholder { get; set; }
 
