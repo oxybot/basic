@@ -13,7 +13,7 @@ namespace Basic.WebApi.Framework
         /// </summary>
         /// <typeparam name="T">The type of attribute to extract.</typeparam>
         /// <param name="context">The reference context.</param>
-        /// <returns>The attributes</returns>
+        /// <returns>The attributes.</returns>
         /// <seealso href="https://github.com/mattfrear/Swashbuckle.AspNetCore.Filters/blob/master/src/Swashbuckle.AspNetCore.Filters/Extensions/OperationFilterContextExtensions.cs"/>
         public static IEnumerable<T> GetControllerAndActionAttributes<T>(this OperationFilterContext context)
             where T : Attribute

@@ -34,7 +34,7 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Gets all events to be displayed in the calendar of a specific month.
         /// </summary>
-        /// <param name="month">The month of reference (format: YYYY-MM)</param>
+        /// <param name="month">The month of reference (format: YYYY-MM).</param>
         /// <returns>The events to be displayed in the calendar.</returns>
         [HttpGet]
         [Produces("application/json")]

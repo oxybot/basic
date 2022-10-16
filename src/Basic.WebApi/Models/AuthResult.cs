@@ -11,7 +11,7 @@
         public string AccessToken { get; set; }
 
         /// <summary>
-        /// Gets or sets the token type
+        /// Gets or sets the token type.
         /// </summary>
         /// <value>
         /// Default value to <c>Bearer</c>.

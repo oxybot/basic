@@ -65,7 +65,7 @@ namespace Basic.DataAccess
         /// <summary>
         /// Creates a snapshot of the given instance.
         /// </summary>
-        /// <param name="instance">The schedule instance</param>
+        /// <param name="instance">The schedule instance.</param>
         /// <returns>The schedule snapshot.</returns>
         /// <remarks>
         /// Snapshotting is the process of creating a copy of the value into a snapshot so
