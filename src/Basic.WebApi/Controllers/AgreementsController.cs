@@ -237,7 +237,6 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <param name="agreement">The agreement data.</param>
         /// <param name="model">The agreement model instance.</param>
-        /// <exception cref="InvalidModelStateException"></exception>
         protected override void CheckDependencies(AgreementForEdit agreement, Agreement model)
         {
             if (agreement is null)

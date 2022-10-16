@@ -22,7 +22,6 @@ namespace Basic.WebApi.Controllers
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="definitions">The DTO definitions service.</param>
         /// <param name="logger">The associated logger.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public DefinitionsController(Context context, IMapper mapper, DefinitionsService definitions, ILogger<DefinitionsController> logger)
             : base(context, mapper, logger)
         {
