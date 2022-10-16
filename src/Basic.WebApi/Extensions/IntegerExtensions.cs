@@ -1,4 +1,7 @@
-﻿namespace System
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+namespace System
 {
     /// <summary>
     /// Extension methods for <see cref="int"/> instances.

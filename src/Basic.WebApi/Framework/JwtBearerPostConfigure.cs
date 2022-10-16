@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 
 namespace Basic.WebApi.Framework

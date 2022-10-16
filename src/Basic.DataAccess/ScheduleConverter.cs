@@ -1,4 +1,7 @@
-﻿using Basic.Model;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Basic.Model;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Diagnostics.CodeAnalysis;

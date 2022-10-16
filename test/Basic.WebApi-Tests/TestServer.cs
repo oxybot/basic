@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics.CodeAnalysis;

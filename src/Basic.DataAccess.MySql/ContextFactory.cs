@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using System.Diagnostics.CodeAnalysis;
 

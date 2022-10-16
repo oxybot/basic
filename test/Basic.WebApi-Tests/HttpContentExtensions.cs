@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace System.Net.Http

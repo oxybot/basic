@@ -1,4 +1,7 @@
-﻿namespace Basic.WebApi.Framework
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Basic.WebApi.Framework
 {
     /// <summary>
     /// Raises a <c>404</c> http error code.

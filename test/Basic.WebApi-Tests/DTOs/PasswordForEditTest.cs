@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;

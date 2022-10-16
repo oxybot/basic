@@ -1,4 +1,7 @@
-﻿namespace Basic.WebApi.Services
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Basic.WebApi.Services
 {
     /// <summary>
     /// Defines the configuration options to connect to an Active Directory instance.

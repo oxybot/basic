@@ -1,3 +1,6 @@
+// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
 using Basic.WebApi.DTOs;
 using Microsoft.Extensions.Options;
 using Novell.Directory.Ldap;

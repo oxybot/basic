@@ -1,4 +1,7 @@
-﻿namespace Basic.WebApi.DTOs
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Basic.WebApi.DTOs
 {
     /// <summary>
     /// Contains the count of elements linked to a specific client.

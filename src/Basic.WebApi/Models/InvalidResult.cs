@@ -1,4 +1,7 @@
-﻿namespace Basic.WebApi.Models
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Basic.WebApi.Models
 {
     /// <summary>
     /// Represents a bad request result as provided to the user.

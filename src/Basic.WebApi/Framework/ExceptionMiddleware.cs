@@ -1,4 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.WebApi.Framework
 {

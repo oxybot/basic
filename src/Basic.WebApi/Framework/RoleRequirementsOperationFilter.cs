@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 

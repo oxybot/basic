@@ -1,4 +1,7 @@
-﻿using Basic.WebApi.Controllers;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Basic.WebApi.Controllers;
 using Basic.WebApi.DTOs;
 
 namespace Basic.WebApi.Models

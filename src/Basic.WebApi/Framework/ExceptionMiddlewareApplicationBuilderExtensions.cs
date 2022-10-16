@@ -1,4 +1,7 @@
-﻿using Basic.WebApi.Framework;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Basic.WebApi.Framework;
 
 namespace Microsoft.AspNetCore.Builder
 {

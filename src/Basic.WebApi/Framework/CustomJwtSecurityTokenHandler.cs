@@ -1,4 +1,7 @@
-﻿using Basic.DataAccess;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Basic.DataAccess;
 using Basic.Model;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

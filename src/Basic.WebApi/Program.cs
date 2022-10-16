@@ -1,3 +1,6 @@
+// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
 using Basic.DataAccess;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Services;

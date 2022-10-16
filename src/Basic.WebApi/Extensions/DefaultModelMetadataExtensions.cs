@@ -1,4 +1,7 @@
-﻿namespace Microsoft.AspNetCore.Mvc.ModelBinding.Metadata
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Microsoft.AspNetCore.Mvc.ModelBinding.Metadata
 {
     /// <summary>
     /// Extension methods for the <see cref="DefaultModelMetadata"/> class.

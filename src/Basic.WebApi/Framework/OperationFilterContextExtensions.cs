@@ -1,4 +1,7 @@
-﻿using Swashbuckle.AspNetCore.SwaggerGen;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
 namespace Basic.WebApi.Framework

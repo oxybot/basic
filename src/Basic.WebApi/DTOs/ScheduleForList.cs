@@ -1,4 +1,7 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 

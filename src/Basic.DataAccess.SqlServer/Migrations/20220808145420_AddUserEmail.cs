@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 

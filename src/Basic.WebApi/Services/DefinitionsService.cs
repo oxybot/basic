@@ -1,4 +1,7 @@
-﻿using Basic.WebApi.DTOs;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;

@@ -1,3 +1,6 @@
+// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
 using Basic.WebApi.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

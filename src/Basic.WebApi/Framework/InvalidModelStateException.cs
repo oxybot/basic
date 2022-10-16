@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Basic.WebApi.Framework
 {

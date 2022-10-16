@@ -1,4 +1,7 @@
-﻿namespace System.Collections.Generic
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+namespace System.Collections.Generic
 {
     /// <summary>
     /// Extensions methods for the <see cref="ICollection{T}"/> class.

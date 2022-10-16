@@ -1,3 +1,6 @@
+// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
 namespace Novell.Directory.Ldap
 {
     /// <summary>

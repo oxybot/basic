@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 
 namespace Basic.DataAccess

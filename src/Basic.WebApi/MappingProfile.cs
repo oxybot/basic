@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using AutoMapper;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 

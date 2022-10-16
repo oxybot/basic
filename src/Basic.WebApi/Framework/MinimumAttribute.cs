@@ -1,4 +1,7 @@
-﻿using System.Globalization;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using System.Globalization;
 
 namespace System.ComponentModel.DataAnnotations
 {

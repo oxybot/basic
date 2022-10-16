@@ -1,4 +1,7 @@
-﻿using Humanizer;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Humanizer;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
