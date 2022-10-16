@@ -33,6 +33,9 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all events.
         /// </summary>
+        /// <param name="filter">The search filter value, if any.</param>
+        /// <param name="sortKey">The property to sort on, if any.</param>
+        /// <param name="sortValue">The order of the sort (asc or desc), if any.</param>
         /// <returns>The list of events.</returns>
         [HttpGet]
         [AuthorizeRoles(Role.TimeRO, Role.Time)]

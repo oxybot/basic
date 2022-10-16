@@ -23,7 +23,6 @@ namespace Basic.WebApi.Controllers
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public SchedulesController(Context context, IMapper mapper, ILogger<SchedulesController> logger)
             : base(context, mapper, logger)
         {
@@ -32,6 +31,9 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all schedules.
         /// </summary>
+        /// <param name="filter">The search filter value, if any.</param>
+        /// <param name="sortKey">The property to sort on, if any.</param>
+        /// <param name="sortValue">The order of the sort (asc or desc), if any.</param>
         /// <returns>The list of schedules.</returns>
         [HttpGet]
         [AuthorizeRoles(Role.TimeRO, Role.Time)]

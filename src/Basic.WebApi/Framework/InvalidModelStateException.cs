@@ -10,6 +10,7 @@ namespace Basic.WebApi.Framework
         /// <summary>
         /// Initializes a new instance of the <see cref="InvalidModelStateException"/> class.
         /// </summary>
+        /// <param name="modelState">The current modal state.</param>
         public InvalidModelStateException(ModelStateDictionary modelState)
             : base("Bad Request", StatusCodes.Status400BadRequest)
         {

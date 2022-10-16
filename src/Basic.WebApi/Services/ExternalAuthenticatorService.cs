@@ -57,6 +57,7 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Keyword search for an user in the Active Directory.
         /// </summary>
+        /// <param name="searchTerm">The filter value, if any.</param>
         [SuppressMessage("Globalization", "CA1309:Use ordinal string comparison", Justification = "Comparison in CultureInfo expected")]
         public LdapUsers Search(string searchTerm)
         {

@@ -91,10 +91,16 @@ namespace Basic.WebApi.Services
         }
 
         /// <summary>
-        /// Provides email to send to managment team
+        /// Provides email to send to managment team.
         /// </summary>
+        /// <param name="event">The event created.</param>
         public void EventCreated(Event @event)
         {
+            if (@event is null)
+            {
+                throw new ArgumentNullException(nameof(@event));
+            }
+
             // get the time approvers informations sending
             List<User> approvers = this.Context.Set<User>()
                 .Where(u => u.Roles.Any(r => r.Code.Equals(Role.Time, StringComparison.Ordinal)))

@@ -23,8 +23,10 @@ namespace Basic.WebApi.DTOs
         }
 
         /// <summary>
-        /// Tests the <see cref="PasswordForEdit.Validate(ValidationContext)"/> method.
+        /// Tests the <see cref="PasswordForEdit.Validate(ValidationContext)"/> method
+        /// with values that should be accepted.
         /// </summary>
+        /// <param name="actual">The tested value.</param>
         [TestMethod]
         [DataRow(null)]
         [DataRow("")]
@@ -49,8 +51,10 @@ namespace Basic.WebApi.DTOs
         }
 
         /// <summary>
-        /// Tests the <see cref="PasswordForEdit.Validate(ValidationContext)"/> method.
+        /// Tests the <see cref="PasswordForEdit.Validate(ValidationContext)"/> method
+        /// with values that should be rejected.
         /// </summary>
+        /// <param name="actual">The tested value.</param>
         [TestMethod]
         [DataRow(" ")]
         [DataRow("aaaaaaaaaaaaaaa")]
