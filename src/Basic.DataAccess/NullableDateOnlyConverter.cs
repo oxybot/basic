@@ -13,7 +13,7 @@ namespace Basic.DataAccess
     public class NullableDateOnlyConverter : ValueConverter<DateOnly?, DateTime?>
     {
         /// <summary>
-        /// Creates a new instance of this converter.
+        /// Initializes a new instance of the <see cref="NullableDateOnlyConverter"/> class.
         /// </summary>
         public NullableDateOnlyConverter()
             : base(

@@ -18,7 +18,7 @@ namespace Basic.WebApi.Framework
             : base("Unauthorized", 401) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NotFoundException"/> class.
+        /// Initializes a new instance of the <see cref="UnauthorizedRequestException"/> class.
         /// </summary>
         /// <param name="inner">The underlying error description.</param>
         public UnauthorizedRequestException(Exception inner)

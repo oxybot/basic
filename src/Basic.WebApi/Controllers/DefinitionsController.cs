@@ -19,7 +19,7 @@ namespace Basic.WebApi.Controllers
     public class DefinitionsController : BaseController
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClientsController"/> class.
+        /// Initializes a new instance of the <see cref="DefinitionsController"/> class.
         /// </summary>
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
