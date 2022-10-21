@@ -1,6 +1,7 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,7 +10,7 @@ namespace Basic.Model
     /// <summary>
     /// Represents a user of the application.
     /// </summary>
-    public class User : BaseModel, IWithAttachments<UserAttachment>
+    public class User : BaseModel, IWithAttachments<UserAttachment>, IComparable<User>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
@@ -102,5 +103,18 @@ namespace Basic.Model
         /// Gets the list of the tokens.
         /// </summary>
         public virtual ICollection<Token> Tokens { get; }
+
+        /// <inheritdoc />
+        public int CompareTo(User other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+            else
+            {
+                return string.Compare(this.DisplayName, other.DisplayName, StringComparison.OrdinalIgnoreCase);
+            }
+        }
     }
 }

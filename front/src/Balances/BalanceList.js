@@ -14,7 +14,6 @@ export function BalanceList() {
     add: "Add balance",
   };
   const { loading, values: elements } = useSelector(balancesState);
-
   useEffect(() => {
     dispatch(getAll());
     return () => dispatch(disconnect());

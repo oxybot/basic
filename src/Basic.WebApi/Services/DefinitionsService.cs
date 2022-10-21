@@ -134,6 +134,10 @@ namespace Basic.WebApi.Services
             {
                 return "date";
             }
+            else if (type == typeof(int) || type == typeof(int?))
+            {
+                return "int";
+            }
             else if (type == typeof(bool) || type == typeof(bool?))
             {
                 return "boolean";

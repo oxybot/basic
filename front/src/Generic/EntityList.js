@@ -46,7 +46,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
     dispatch(refreshUsers(sortValue, sortKey, null));
     dispatch(refreshEvents(sortValue, sortKey, null));
 
-    dispatch(refreshBalances(sortValue, sortKey, null));
+    dispatch(refreshBalances(sortKey, sortValue, null));
     dispatch(refreshSchedules(sortValue, sortKey, null));
   }, [sortKey, sortValue, dispatch]);
   return (
@@ -62,13 +62,13 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
                     className={"sorting"}
                     onClick={() => {
                       setSortValue(sortValue === "asc" ? "desc" : "asc");
-                      setSortKey(field.displayName);
+                      setSortKey(field.name);
                     }}
                   >
                     {field.displayName}
-                    {sortKey === field.displayName && sortValue === "asc" ? (
+                    {sortKey === field.name && sortValue === "asc" ? (
                       <IconArrowNarrowUp className="icon-sm" />
-                    ) : sortKey === field.displayName && sortValue === "desc" ? (
+                    ) : sortKey === field.name && sortValue === "desc" ? (
                       <IconArrowNarrowDown className="icon-sm" />
                     ) : null}
                   </th>

@@ -8,20 +8,19 @@ const initialState = {
 };
 
 export const getAll = createAsyncThunk("balances/getAll", async (sortOptions) => {
-  if (sortOptions == null) {
-    sortOptions = ["none", "none"];
-  }
-  const response = await apiFetch(
-    "Balances?sortKey=" + sortOptions[1] + "&sortValue=" + sortOptions[0] + "&filter=" + sortOptions[2],
-    { method: "GET" }
-  );
+  const sortKey = sortOptions?.sortKey || "";
+  const sortValue = sortOptions?.sortValue || "";
+  const filter = sortOptions?.filter || "";
+  const response = await apiFetch(`Balances?sortKey=${sortKey}&sortValue=${sortValue}&filter=${filter}`, {
+    method: "GET",
+  });
   return response;
 });
 
 export const refresh =
-  (sortValue, sortKey, search = null) =>
+  (sortKey, sortValue, filter = null) =>
   (dispatch, getState) => {
-    const sortOptions = [sortValue, sortKey, search];
+    const sortOptions = { sortKey, sortValue, filter };
     const { connected, loading } = balancesState(getState());
     if (connected && !loading) {
       dispatch(getAll(sortOptions));
