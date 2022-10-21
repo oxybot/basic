@@ -149,6 +149,7 @@ export default function EntityFieldView({ type, value, list = false }) {
     case "currency":
       return toCurrency(value);
 
+    case "int":
     case "string":
       return value;
 

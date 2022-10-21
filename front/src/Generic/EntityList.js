@@ -1,113 +1,104 @@
-import { IconLoader, IconArrowNarrowUp, IconArrowNarrowDown } from "@tabler/icons";
+import { IconLoader, IconChevronUp, IconChevronDown } from "@tabler/icons";
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import clsx from "clsx";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import EntityFieldView from "./EntityFieldView";
-import { useState, useEffect } from "react";
-import { refresh as refreshUsers } from "../Users/slice";
-import { refresh as refreshEvents } from "../Events/slice";
-import { refresh as refreshBalances } from "../Balances/slice";
-import { refresh as refreshSchedules } from "../Schedules/slice";
-import { useDispatch } from "react-redux";
-function filtered(fields, filter) {
-  if (!fields) {
-    return fields;
-  }
-  return fields.filter((i) => i.type !== "key");
-}
 
-export default function EntityList({ loading, definition, entities, baseTo = null, selectedId, filter }) {
-  const [numberOfRowToDisplay, setNumberOfRowToDisplay] = useState(Math.trunc(window.innerHeight / 40));
-  const [pageNumber, setPageNumber] = useState(numberOfRowToDisplay);
+const columnHelper = createColumnHelper();
 
-  window.onscroll = () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      setPageNumber(pageNumber + 20);
+export default function EntityList({ loading, definition, entities, baseTo = null, selectedId }) {
+  const columns = useMemo(() => {
+    if (!definition || !definition.fields) {
+      return [];
     }
-  };
 
-  const handleResize = () => {
-    setNumberOfRowToDisplay(window.innerHeight / 40);
-  };
-
-  useEffect(() => {
-    if (pageNumber < window.innerHeight / 40) {
-      setPageNumber(window.innerHeight / 40);
-    }
-    window.addEventListener("resize", handleResize);
-  }, [pageNumber]);
+    return definition.fields
+      .filter((i) => i.type !== "key")
+      .map((field) =>
+        columnHelper.accessor(field.name, {
+          header: field.displayName,
+          cell: (info) => <EntityFieldView type={field.type} value={info.getValue()} list />,
+          enableSorting: true,
+        })
+      );
+  }, [definition]);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const fields = filtered(definition?.fields, filter);
-  const [sortKey, setSortKey] = useState(null);
-  const [sortValue, setSortValue] = useState(null);
+  const [sorting, setSorting] = useState([]);
 
-  useEffect(() => {
-    dispatch(refreshUsers(sortValue, sortKey, null));
-    dispatch(refreshEvents(sortValue, sortKey, null));
+  const table = useReactTable({
+    data: entities,
+    columns,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  });
 
-    dispatch(refreshBalances(sortKey, sortValue, null));
-    dispatch(refreshSchedules(sortValue, sortKey, null));
-  }, [sortKey, sortValue, dispatch]);
   return (
-    <>
-      <div className="table-responsive">
-        <table className="table card-table table-vcenter text-nowrap datatable table-hover">
-          <thead>
-            <tr>
-              {fields &&
-                fields.map((field, index) => (
-                  <th
-                    key={index}
-                    className={"sorting"}
-                    onClick={() => {
-                      setSortValue(sortValue === "asc" ? "desc" : "asc");
-                      setSortKey(field.name);
-                    }}
-                  >
-                    {field.displayName}
-                    {sortKey === field.name && sortValue === "asc" ? (
-                      <IconArrowNarrowUp className="icon-sm" />
-                    ) : sortKey === field.name && sortValue === "desc" ? (
-                      <IconArrowNarrowDown className="icon-sm" />
-                    ) : null}
-                  </th>
-                ))}
+    <div className="table-responsive">
+      <table className="table card-table table-vcenter text-nowrap datatable table-hover">
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className={clsx({ sorting: header.column.getCanSort() })}
+                  onClick={header.column.getToggleSortingHandler()}
+                >
+                  {!header.isPlaceholder && (
+                    <>
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                      {header.column.getIsSorted() === false}
+                      {header.column.getIsSorted() === "asc" && <IconChevronUp className="icon icon-sm icon-thick" />}
+                      {header.column.getIsSorted() === "desc" && (
+                        <IconChevronDown className="icon icon-sm icon-thick" />
+                      )}
+                    </>
+                  )}
+                </th>
+              ))}
             </tr>
-          </thead>
-          <tbody>
-            <tr className={loading ? "" : "d-none"}>
-              <td colSpan={fields?.length}>
-                <IconLoader /> Loading...
+          ))}
+        </thead>
+        <tbody>
+          <tr className={loading ? "" : "d-none"}>
+            <td colSpan={table.getHeaderGroups().length}>
+              <IconLoader /> Loading...
+            </td>
+          </tr>
+          {table.getRowModel().rows.map((row) => (
+            <tr
+              key={row.id}
+              className={clsx({
+                "table-active": row.original.identifier === selectedId,
+              })}
+              onClick={() => baseTo !== null && navigate([baseTo, row.original.identifier].filter((i) => i).join("/"))}
+            >
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+              ))}
+            </tr>
+          ))}
+          {!loading && entities.length === 0 && (
+            <tr>
+              <td colSpan={table.getHeaderGroups().length}>
+                <em>No results</em>
               </td>
             </tr>
-            {entities.slice(0, pageNumber).map((entity) => (
-              <tr
-                key={entity.identifier}
-                className={clsx({
-                  "table-active": entity.identifier === selectedId,
-                })}
-                onClick={() => baseTo !== null && navigate([baseTo, entity.identifier].filter((i) => i).join("/"))}
-              >
-                {entity &&
-                  fields &&
-                  fields.map((field, index) => (
-                    <td key={index}>
-                      <EntityFieldView type={field.type} value={entity[field.name]} list />
-                    </td>
-                  ))}
-              </tr>
-            ))}
-            {!loading && entities.length === 0 && (
-              <tr>
-                <td colSpan={fields?.length}>
-                  <em>No results</em>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }

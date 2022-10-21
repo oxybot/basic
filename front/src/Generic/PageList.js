@@ -4,25 +4,10 @@ import { Link, useOutlet } from "react-router-dom";
 import { useInRole } from "../Authentication";
 import EntityList from "./EntityList";
 import MobilePageTitle from "./MobilePageTitle";
-import clsx from "clsx";
-import { useEffect, useState } from "react";
-import { refresh as refreshEvents } from "../Events/slice";
-import { useDispatch } from "react-redux";
 
 export default function PageList({ definition, loading, elements, selectedId, texts, newRole = null }) {
   const outlet = useOutlet();
   const isInRole = useInRole();
-  const dispatch = useDispatch();
-  const [search, setSearch] = useState("");
-
-  function handleChange(event) {
-    const value = event.target.value;
-    setSearch(value);
-  }
-
-  useEffect(() => {
-    dispatch(refreshEvents(null, null, search));
-  }, [search, dispatch]);
 
   return (
     <div className="container-xl">
@@ -50,20 +35,6 @@ export default function PageList({ definition, loading, elements, selectedId, te
                 <div className="d-flex">
                   {isInRole(newRole) && (
                     <>
-                      {isInRole("beta") && (
-                        <div className="d-none d-md-block">
-                          <input
-                            type="text"
-                            className={clsx("form-control")}
-                            required={true}
-                            id="search"
-                            name="search"
-                            placeholder="Search bar"
-                            value={search}
-                            onChange={handleChange}
-                          />
-                        </div>
-                      )}
                       <Link to="new" className="ms-3 btn btn-primary d-none d-md-block">
                         <IconPlus />
                         {texts.add}
@@ -88,7 +59,6 @@ export default function PageList({ definition, loading, elements, selectedId, te
                 entities={elements}
                 baseTo={""}
                 selectedId={selectedId}
-                filter={search}
               />
             </div>
           </div>
