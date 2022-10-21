@@ -9,8 +9,6 @@ import { useEffect, useState } from "react";
 import { refresh as refreshEvents } from "../Events/slice";
 import { useDispatch } from "react-redux";
 
-// ICI filter a supprimer
-
 export default function PageList({ definition, loading, elements, selectedId, texts, newRole = null }) {
   const outlet = useOutlet();
   const isInRole = useInRole();
