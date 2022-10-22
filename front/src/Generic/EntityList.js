@@ -25,7 +25,6 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
         columnHelper.accessor(field.name, {
           header: field.displayName,
           cell: (info) => <EntityFieldView type={field.type} value={info.getValue()} list />,
-          enableSorting: true,
         })
       );
   }, [definition]);
