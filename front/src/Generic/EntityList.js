@@ -13,7 +13,7 @@ import EntityFieldView from "./EntityFieldView";
 
 const columnHelper = createColumnHelper();
 
-export default function EntityList({ loading, definition, entities, baseTo = null, selectedId }) {
+export default function EntityList({ loading, definition, elements, baseTo = null, selectedId, simple = false }) {
   const columns = useMemo(() => {
     if (!definition || !definition.fields) {
       return [];
@@ -33,11 +33,12 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
   const [sorting, setSorting] = useState([]);
 
   const table = useReactTable({
-    data: entities,
+    data: elements,
     columns,
     state: {
       sorting,
     },
+    enableSorting: !simple,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -89,7 +90,7 @@ export default function EntityList({ loading, definition, entities, baseTo = nul
               ))}
             </tr>
           ))}
-          {!loading && entities.length === 0 && (
+          {!loading && elements.length === 0 && (
             <tr>
               <td colSpan={table.getHeaderGroups().length}>
                 <em>No results</em>

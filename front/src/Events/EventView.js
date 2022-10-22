@@ -49,7 +49,7 @@ function StatusList({ eventId }) {
   const [loading, elements] = useApiFetch(["Events", eventId, "statuses"], { method: "GET" }, []);
   return (
     <div className="card">
-      <EntityList loading={loading} definition={definition} entities={elements} />
+      <EntityList loading={loading} definition={definition} elements={elements} />
     </div>
   );
 }

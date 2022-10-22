@@ -56,7 +56,7 @@ export default function PageList({ definition, loading, elements, selectedId, te
               <EntityList
                 loading={loading}
                 definition={definition}
-                entities={elements}
+                elements={elements}
                 baseTo={""}
                 selectedId={selectedId}
               />

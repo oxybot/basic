@@ -95,10 +95,9 @@ export default function UserPageList({ definition, loading, elements, selectedId
               <EntityList
                 loading={loading}
                 definition={definition}
-                entities={elements}
+                elements={elements}
                 baseTo={""}
                 selectedId={selectedId}
-                filter={""}
               />
             </div>
           </div>
