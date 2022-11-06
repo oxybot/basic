@@ -142,6 +142,20 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
         />
       );
 
+    case "int":
+      return (
+        <input
+          type="number"
+          className={clsx("form-control", { "is-invalid": hasErrors })}
+          required={field.required}
+          id={field.name}
+          name={field.name}
+          placeholder={field.placeholder}
+          value={value}
+          onChange={onChange}
+        />
+      );
+
     case "password":
       return (
         <input
