@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageList from "../Generic/PageList";
-import { balancesState, disconnect, getAll } from "./slice";
+import { balancesState, disconnect, retrieveAll, setSorting } from "./slice";
 
 export function BalanceList() {
   const dispatch = useDispatch();
@@ -13,11 +13,14 @@ export function BalanceList() {
     title: "Balances",
     add: "Add balance",
   };
-  const { loading, values: elements } = useSelector(balancesState);
+
+  const { loading, elements, sorting } = useSelector(balancesState);
+
   useEffect(() => {
-    dispatch(getAll());
+    console.log("use effect");
+    dispatch(retrieveAll());
     return () => dispatch(disconnect());
-  }, [dispatch]);
+  }, [dispatch, sorting]);
 
   return (
     <PageList
@@ -27,6 +30,8 @@ export function BalanceList() {
       selectedId={balanceId}
       texts={texts}
       newRole="time"
+      sorting={sorting}
+      setSorting={(s) => dispatch(setSorting(s))}
     />
   );
 }

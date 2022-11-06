@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 
 export function BalanceNew() {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ export function BalanceNew() {
   };
 
   function handleCreate() {
-    dispatch(refresh());
+    dispatch(retrieveAll);
   }
 
   return <PageNew definition={definition} baseApiUrl="Balances" texts={texts} onCreate={handleCreate} />;

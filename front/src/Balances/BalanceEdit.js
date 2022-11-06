@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 
 function transform(e) {
   let updated = { ...e, userIdentifier: e.user.identifier, categoryIdentifier: e.category.identifier };
@@ -20,7 +20,7 @@ export function BalanceEdit({ full = false }) {
   };
 
   function handleUpdate() {
-    dispatch(refresh());
+    dispatch(retrieveAll);
   }
 
   return (
