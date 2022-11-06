@@ -33,8 +33,7 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the signature date of the agreement.
         /// </summary>
-        [SwaggerSchema(Format = "date")]
-        public DateTime? SignatureDate { get; set; }
+        public DateOnly? SignatureDate { get; set; }
 
         /// <summary>
         /// Gets or sets the private notes associated to the agreement.
