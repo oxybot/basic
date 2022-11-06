@@ -6,6 +6,8 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,14 +36,26 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all agreements.
         /// </summary>
+        /// <param name="definitions">The service providing the entity definitions.</param>
+        /// <param name="sortAndFilter">The sort and filter options, is any.</param>
         /// <param name="clientId">The identifier of the client to filter the result list, if any.</param>
         /// <returns>The list of agreements.</returns>
         [HttpGet]
         [AuthorizeRoles(Role.ClientRO, Role.Client)]
         [Produces("application/json")]
-        public IEnumerable<AgreementForList> GetAll(Guid? clientId)
+        public IEnumerable<AgreementForList> GetAll(
+            [FromServices] DefinitionsService definitions,
+            [FromQuery] SortAndFilterModel sortAndFilter,
+            [FromQuery] Guid? clientId)
         {
-            var entities = this.AddIncludesForList(this.Context.Set<Agreement>());
+            if (definitions is null)
+            {
+                throw new ArgumentNullException(nameof(definitions));
+            }
+
+            var entities = this.AddIncludesForList(this.Context.Set<Agreement>())
+                .ApplySortAndFilter(sortAndFilter, definitions.GetOne(nameof(AgreementForList)));
+
             if (clientId.HasValue)
             {
                 entities = entities.Where(c => c.Client.Identifier == clientId.Value);

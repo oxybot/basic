@@ -36,6 +36,7 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all balances.
         /// </summary>
+        /// <param name="definitions">The service providing the entity definitions.</param>
         /// <param name="sortAndFilter">The sort and filter options, is any.</param>
         /// <returns>The list of balances.</returns>
         [HttpGet]
@@ -43,6 +44,11 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<BalanceForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
         {
+            if (definitions is null)
+            {
+                throw new ArgumentNullException(nameof(definitions));
+            }
+
             var entities = this.AddIncludesForList(this.Context.Set<Balance>())
                 .ApplySortAndFilter(sortAndFilter, definitions.GetOne(nameof(BalanceForList)))
                 .ToList()

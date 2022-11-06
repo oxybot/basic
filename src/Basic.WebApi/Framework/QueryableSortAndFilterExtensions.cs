@@ -58,6 +58,7 @@ namespace Basic.WebApi.Framework
                 bool ascending = sortAndFilter.SortValue != "desc";
                 ParameterExpression parameter = Expression.Parameter(typeof(T), "e");
                 MemberExpression property = Expression.Property(parameter, sortAndFilter.SortKey);
+
                 switch (field.Type)
                 {
                     case "reference":
@@ -89,9 +90,18 @@ namespace Basic.WebApi.Framework
                         break;
 
                     case "date":
-                        var dateSelector = Expression.Lambda<Func<T, DateOnly>>(property, parameter);
-                        result = result.ApplySort(dateSelector, ascending);
-                        break;
+                        if (field.Required)
+                        {
+                            var dateSelector = Expression.Lambda<Func<T, DateOnly>>(property, parameter);
+                            result = result.ApplySort(dateSelector, ascending);
+                            break;
+                        }
+                        else
+                        {
+                            var dateSelector = Expression.Lambda<Func<T, DateOnly?>>(property, parameter);
+                            result = result.ApplySort(dateSelector, ascending);
+                            break;
+                        }
 
                     case "string":
                         var stringSelector = Expression.Lambda<Func<T, string>>(property, parameter);
