@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageList from "../Generic/PageList";
-import { globalDaysOffState, disconnect, getAll } from "./slice";
+import { globalDaysOffState, disconnect, setSorting, retrieveAll } from "./slice";
 
 export function GlobalDayOffList() {
   const dispatch = useDispatch();
@@ -13,12 +13,13 @@ export function GlobalDayOffList() {
     title: "Global Days-Off",
     add: "Add day-off",
   };
-  const { loading, values: elements } = useSelector(globalDaysOffState);
+
+  const { loading, elements, sorting } = useSelector(globalDaysOffState);
 
   useEffect(() => {
-    dispatch(getAll());
+    dispatch(retrieveAll());
     return () => dispatch(disconnect());
-  }, [dispatch]);
+  }, [dispatch, sorting]);
 
   return (
     <PageList
@@ -28,6 +29,8 @@ export function GlobalDayOffList() {
       selectedId={dayOffId}
       texts={texts}
       newRole="time"
+      sorting={sorting}
+      setSorting={(s) => dispatch(setSorting(s))}
     />
   );
 }
