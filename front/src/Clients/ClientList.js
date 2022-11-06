@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
-import { clientsState, disconnect, getAll } from "./slice";
 import PageList from "../Generic/PageList";
+import { clientsState, disconnect, retrieveAll, setSorting } from "./slice";
 
 export function ClientList() {
   const dispatch = useDispatch();
@@ -13,12 +13,13 @@ export function ClientList() {
     title: "Clients",
     add: "Add client",
   };
-  const { loading, values: elements } = useSelector(clientsState);
+
+  const { loading, elements, sorting } = useSelector(clientsState);
 
   useEffect(() => {
-    dispatch(getAll());
+    dispatch(retrieveAll());
     return () => dispatch(disconnect());
-  }, [dispatch]);
+  }, [dispatch, sorting]);
 
   return (
     <PageList
@@ -28,6 +29,8 @@ export function ClientList() {
       selectedId={clientId}
       texts={texts}
       newRole="client"
+      sorting={sorting}
+      setSorting={(s) => dispatch(setSorting(s))}
     />
   );
 }
