@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageList from "../Generic/PageList";
-import { disconnect, getAll, schedulesState } from "./slice";
+import { disconnect, retrieveAll, schedulesState, setSorting } from "./slice";
 
 export function ScheduleList() {
   const dispatch = useDispatch();
@@ -14,12 +14,12 @@ export function ScheduleList() {
     add: "Add schedule",
   };
 
-  const { loading, values: elements } = useSelector(schedulesState);
+  const { loading, elements, sorting } = useSelector(schedulesState);
 
   useEffect(() => {
-    dispatch(getAll());
+    dispatch(retrieveAll());
     return () => dispatch(disconnect());
-  }, [dispatch]);
+  }, [dispatch, sorting]);
 
   return (
     <PageList
@@ -29,6 +29,8 @@ export function ScheduleList() {
       selectedId={scheduleId}
       texts={texts}
       newRole="time"
+      sorting={sorting}
+      setSorting={(s) => dispatch(setSorting(s))}
     />
   );
 }

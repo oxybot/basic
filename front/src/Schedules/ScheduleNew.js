@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 
 export function ScheduleNew() {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ export function ScheduleNew() {
   };
 
   function handleCreate() {
-    dispatch(refresh());
+    dispatch(retrieveAll());
   }
 
   return <PageNew definition={definition} baseApiUrl="Schedules" texts={texts} onCreate={handleCreate} />;
