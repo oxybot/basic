@@ -5,24 +5,17 @@ import { useInRole } from "../Authentication";
 import EntityList from "../Generic/EntityList";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
-import { refresh as refreshEvents } from "../Events/slice";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 export default function UserPageList({ definition, loading, elements, selectedId, texts, newRole = null }) {
   const outlet = useOutlet();
   const isInRole = useInRole();
-  const dispatch = useDispatch();
   const [search, setSearch] = useState("");
 
   function handleChange(event) {
     const value = event.target.value;
     setSearch(value);
   }
-
-  useEffect(() => {
-    dispatch(refreshEvents(null, null, search));
-  }, [search, dispatch]);
 
   return (
     <div className="container-xl">

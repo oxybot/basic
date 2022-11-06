@@ -1,61 +1,63 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiFetch } from "../api";
 
 const initialState = {
   connected: false,
   loading: false,
-  values: [],
+  elements: [],
+  sorting: [],
 };
 
-export const getAll = createAsyncThunk("users/getAll", async (sortOptions) => {
-  if (sortOptions == null) {
-    sortOptions = ["none", "none", ""];
+export default function usersReducer(state = initialState, action) {
+  switch (action.type) {
+    case "users/disconnect": {
+      return { ...state, connected: false };
+    }
+    case "users/setSorting": {
+      return { ...state, sorting: action.payload };
+    }
+    case "users/retrieveAll/pending": {
+      return { ...state, connected: true, loading: true };
+    }
+    case "users/retrieveAll/rejected": {
+      return { ...state, connected: false, loading: false };
+    }
+    case "users/retrieveAll/fulfilled": {
+      return { ...state, loading: false, elements: action.payload };
+    }
+    default:
+      return state;
   }
-  const response = await apiFetch(
-    "Users?sortKey=" + sortOptions[1] + "&sortValue=" + sortOptions[0] + "&filter=" + sortOptions[2],
-    { method: "GET" }
-  );
-  return response;
-});
+}
 
-export const refresh =
-  (sortValue, sortKey, search = null) =>
-  (dispatch, getState) => {
-    const sortOptions = [sortValue, sortKey, search];
-    const { connected, loading } = usersState(getState());
-    if (connected && !loading) {
-      dispatch(getAll(sortOptions));
+export const disconnect = () => ({ type: "users/disconnect" });
+export const setSorting = (s) =>
+  function (dispatch, getState) {
+    let newValue = s;
+    // check if s is an updater
+    if (typeof s === "function") {
+      const oldValue = usersState(getState()).sorting;
+      newValue = s(oldValue);
+    }
+    dispatch({ type: "users/setSorting", payload: newValue });
+  };
+
+export const retrieveAll = () =>
+  async function (dispatch, getState) {
+    let params = "";
+
+    const sorting = usersState(getState()).sorting;
+    if (sorting.length > 0) {
+      params = `?sortKey=${sorting[0].id}&sortValue=${sorting[0].desc ? "desc" : "asc"}`;
+    }
+
+    dispatch({ type: "users/retrieveAll/pending" });
+
+    try {
+      const response = await apiFetch(`Users${params}`, { method: "GET" });
+      dispatch({ type: "users/retrieveAll/fulfilled", payload: response });
+    } catch {
+      dispatch({ type: "users/retrieveAll/rejected" });
     }
   };
 
-export const usersSlice = createSlice({
-  name: "users",
-  initialState,
-  reducers: {
-    disconnect: (state) => {
-      state.connected = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getAll.pending, (state) => {
-        state.connected = true;
-        state.loading = true;
-      })
-      .addCase(getAll.fulfilled, (state, action) => {
-        state.loading = false;
-        state.values = action.payload;
-      })
-      .addCase(getAll.rejected, (state) => {
-        state.connected = false;
-        state.loading = false;
-        state.values = [];
-      });
-  },
-});
-
-export const { disconnect } = usersSlice.actions;
-
 export const usersState = (state) => state.users;
-
-export default usersSlice.reducer;

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 
 const transformDef = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
@@ -17,7 +17,7 @@ export function UserNew() {
   };
 
   function handleCreate() {
-    dispatch(refresh());
+    dispatch(retrieveAll());
   }
 
   return <PageNew definition={definition} baseApiUrl="Users" texts={texts} onCreate={handleCreate} />;

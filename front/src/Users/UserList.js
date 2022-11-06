@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
-import { usersState, disconnect, getAll } from "./slice";
+import { usersState, disconnect, retrieveAll, setSorting } from "./slice";
 import UserPageList from "../Users/UserPageList";
 
 export function UserList() {
@@ -14,12 +14,13 @@ export function UserList() {
     add: "Add user",
     research: "Import user",
   };
-  const { loading, values: elements } = useSelector(usersState);
+
+  const { loading, elements, sorting } = useSelector(usersState);
 
   useEffect(() => {
-    dispatch(getAll());
+    dispatch(retrieveAll());
     return () => dispatch(disconnect());
-  }, [dispatch]);
+  }, [dispatch, sorting]);
 
   return (
     <UserPageList
@@ -29,6 +30,8 @@ export function UserList() {
       selectedId={userId}
       texts={texts}
       newRole="user"
+      sorting={sorting}
+      setSorting={(s) => dispatch(setSorting(s))}
     />
   );
 }

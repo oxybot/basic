@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { apiFetch } from "../api";
 import MobilePageTitle from "../Generic/MobilePageTitle";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 
 export function UserImport() {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export function UserImport() {
   const [loading, setLoading] = useState(false);
 
   function handleSearch() {
-    dispatch(refresh());
+    dispatch(retrieveAll());
   }
 
   function handleChange(event) {
@@ -54,7 +54,7 @@ export function UserImport() {
       method: "POST",
       body: JSON.stringify(entity),
     }).then(() => {
-      dispatch(refresh());
+      dispatch(retrieveAll());
     });
   }
 

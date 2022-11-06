@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 
 const transformDef = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
@@ -20,7 +20,7 @@ export function UserEdit({ full = false }) {
   };
 
   function handleUpdate() {
-    dispatch(refresh());
+    dispatch(retrieveAll());
   }
 
   return (
