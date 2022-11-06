@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
 import ItemsForm from "./ItemsForm";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 
 const transform = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "items");
@@ -19,7 +19,7 @@ export function AgreementNew() {
   };
 
   function handleCreate() {
-    dispatch(refresh());
+    dispatch(retrieveAll());
   }
 
   return (

@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
-import { agreementsState, disconnect, getAll } from "../Agreements/slice";
 import PageList from "../Generic/PageList";
+import { agreementsState, disconnect, retrieveAll, setSorting } from "./slice";
 
 export function AgreementList() {
   const dispatch = useDispatch();
@@ -14,12 +14,12 @@ export function AgreementList() {
     add: "Add agreement",
   };
 
-  const { loading, values: elements } = useSelector(agreementsState);
+  const { loading, elements, sorting } = useSelector(agreementsState);
 
   useEffect(() => {
-    dispatch(getAll());
-    return () => dispatch(disconnect());
-  }, [dispatch]);
+    dispatch(retrieveAll());
+    return () => disconnect();
+  }, [dispatch, sorting]);
 
   return (
     <PageList
@@ -29,6 +29,8 @@ export function AgreementList() {
       selectedId={agreementId}
       texts={texts}
       newRole="client"
+      sorting={sorting}
+      setSorting={(s) => dispatch(setSorting(s))}
     />
   );
 }

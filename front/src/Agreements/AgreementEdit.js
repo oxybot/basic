@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
 import ItemsForm from "./ItemsForm";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 
 const transformDef = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "items");
@@ -37,7 +37,7 @@ export function AgreementEdit({ full = false }) {
   };
 
   function handleUpdate() {
-    dispatch(refresh());
+    dispatch(retrieveAll());
   }
 
   return (
