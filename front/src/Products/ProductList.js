@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageList from "../Generic/PageList";
-import { disconnect, getAll, productsState } from "./slice";
+import { disconnect, productsState, retrieveAll, setSorting } from "./slice";
 
 export function ProductList() {
   const dispatch = useDispatch();
@@ -14,12 +14,12 @@ export function ProductList() {
     add: "Add product",
   };
 
-  const { loading, values: elements } = useSelector(productsState);
+  const { loading, elements, sorting } = useSelector(productsState);
 
   useEffect(() => {
-    dispatch(getAll());
+    dispatch(retrieveAll());
     return () => dispatch(disconnect());
-  }, [dispatch]);
+  }, [dispatch, sorting]);
 
   return (
     <PageList
@@ -29,6 +29,8 @@ export function ProductList() {
       selectedId={productId}
       texts={texts}
       newRole="client"
+      sorting={sorting}
+      setSorting={(s) => dispatch(setSorting(s))}
     />
   );
 }

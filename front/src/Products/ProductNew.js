@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
 
@@ -12,7 +12,7 @@ export function ProductNew() {
   };
 
   function handleCreate() {
-    dispatch(refresh());
+    dispatch(retrieveAll());
   }
 
   return <PageNew definition={definition} baseApiUrl="Products" texts={texts} onCreate={handleCreate} />;

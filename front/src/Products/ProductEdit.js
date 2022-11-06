@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 import { useApiFetch, useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
 
@@ -15,7 +15,7 @@ export function ProductEdit({ full = false }) {
   };
 
   function handleUpdate() {
-    dispatch(refresh());
+    dispatch(retrieveAll());
   }
 
   return (

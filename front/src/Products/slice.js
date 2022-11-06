@@ -1,52 +1,63 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiFetch } from "../api";
 
 const initialState = {
   connected: false,
   loading: false,
-  values: [],
+  elements: [],
+  sorting: [],
 };
 
-export const getAll = createAsyncThunk("products/getAll", async () => {
-  const response = await apiFetch("Products", { method: "GET" });
-  return response;
-});
-
-export const refresh = () => (dispatch, getState) => {
-  const { connected, loading } = productsState(getState());
-  if (connected && !loading) {
-    dispatch(getAll());
+export default function productsReducer(state = initialState, action) {
+  switch (action.type) {
+    case "products/disconnect": {
+      return { ...state, connected: false };
+    }
+    case "products/setSorting": {
+      return { ...state, sorting: action.payload };
+    }
+    case "products/retrieveAll/pending": {
+      return { ...state, connected: true, loading: true };
+    }
+    case "products/retrieveAll/rejected": {
+      return { ...state, connected: false, loading: false };
+    }
+    case "products/retrieveAll/fulfilled": {
+      return { ...state, loading: false, elements: action.payload };
+    }
+    default:
+      return state;
   }
-};
+}
 
-export const slice = createSlice({
-  name: "products",
-  initialState,
-  reducers: {
-    disconnect: (state) => {
-      state.connected = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getAll.pending, (state) => {
-        state.connected = true;
-        state.loading = true;
-      })
-      .addCase(getAll.fulfilled, (state, action) => {
-        state.loading = false;
-        state.values = action.payload;
-      })
-      .addCase(getAll.rejected, (state) => {
-        state.connected = false;
-        state.loading = false;
-        state.values = [];
-      });
-  },
-});
+export const disconnect = () => ({ type: "products/disconnect" });
+export const setSorting = (s) =>
+  function (dispatch, getState) {
+    let newValue = s;
+    // check if s is an updater
+    if (typeof s === "function") {
+      const oldValue = productsState(getState()).sorting;
+      newValue = s(oldValue);
+    }
+    dispatch({ type: "products/setSorting", payload: newValue });
+  };
 
-export const { disconnect } = slice.actions;
+export const retrieveAll = () =>
+  async function (dispatch, getState) {
+    let params = "";
+
+    const sorting = productsState(getState()).sorting;
+    if (sorting.length > 0) {
+      params = `?sortKey=${sorting[0].id}&sortValue=${sorting[0].desc ? "desc" : "asc"}`;
+    }
+
+    dispatch({ type: "products/retrieveAll/pending" });
+
+    try {
+      const response = await apiFetch(`Products${params}`, { method: "GET" });
+      dispatch({ type: "products/retrieveAll/fulfilled", payload: response });
+    } catch {
+      dispatch({ type: "products/retrieveAll/rejected" });
+    }
+  };
 
 export const productsState = (state) => state.products;
-
-export default slice.reducer;
