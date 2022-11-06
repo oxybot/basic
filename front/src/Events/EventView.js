@@ -7,7 +7,7 @@ import EntityDetail from "../Generic/EntityDetail";
 import PageView from "../Generic/PageView";
 import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 import EntityList from "../Generic/EntityList";
 import AttachmentList from "../Attachments/AttachmentList";
 import { useInRole } from "../Authentication";
@@ -69,7 +69,7 @@ export function EventView({ backTo = null, full = false }) {
       body: JSON.stringify({ from: entity.currentStatus.identifier, to: newStatus.identifier }),
     }).then(() => {
       entity.currentStatus = newStatus;
-      dispatch(refresh());
+      dispatch(retrieveAll());
     });
   }
 

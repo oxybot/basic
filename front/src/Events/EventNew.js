@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
 import AttachmentForm from "../Attachments/AttachmentForm";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 import { useInRole } from "../Authentication";
 
 const transform = (d) => {
@@ -21,7 +21,7 @@ export function EventNew() {
   const isInRole = useInRole();
 
   function handleCreate() {
-    dispatch(refresh());
+    dispatch(retrieveAll());
   }
 
   if (isInRole("beta")) {

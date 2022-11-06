@@ -1,61 +1,63 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiFetch } from "../api";
 
 const initialState = {
   connected: false,
   loading: false,
-  values: [],
+  elements: [],
+  sorting: [],
 };
 
-export const getAll = createAsyncThunk("events/getAll", async (sortOptions) => {
-  if (sortOptions == null) {
-    sortOptions = ["none", "none"];
+export default function eventsReducer(state = initialState, action) {
+  switch (action.type) {
+    case "events/disconnect": {
+      return { ...state, connected: false };
+    }
+    case "events/setSorting": {
+      return { ...state, sorting: action.payload };
+    }
+    case "events/retrieveAll/pending": {
+      return { ...state, connected: true, loading: true };
+    }
+    case "events/retrieveAll/rejected": {
+      return { ...state, connected: false, loading: false };
+    }
+    case "events/retrieveAll/fulfilled": {
+      return { ...state, loading: false, elements: action.payload };
+    }
+    default:
+      return state;
   }
-  const response = await apiFetch(
-    "Events?sortKey=" + sortOptions[1] + "&sortValue=" + sortOptions[0] + "&filter=" + sortOptions[2],
-    { method: "GET" }
-  );
-  return response;
-});
+}
 
-export const refresh =
-  (sortValue, sortKey, search = null) =>
-  (dispatch, getState) => {
-    const sortOptions = [sortValue, sortKey, search];
-    const { connected, loading } = eventsState(getState());
-    if (connected && !loading) {
-      dispatch(getAll(sortOptions));
+export const disconnect = () => ({ type: "events/disconnect" });
+export const setSorting = (s) =>
+  function (dispatch, getState) {
+    let newValue = s;
+    // check if s is an updater
+    if (typeof s === "function") {
+      const oldValue = eventsState(getState()).sorting;
+      newValue = s(oldValue);
+    }
+    dispatch({ type: "events/setSorting", payload: newValue });
+  };
+
+export const retrieveAll = () =>
+  async function (dispatch, getState) {
+    let params = "";
+
+    const sorting = eventsState(getState()).sorting;
+    if (sorting.length > 0) {
+      params = `?sortKey=${sorting[0].id}&sortValue=${sorting[0].desc ? "desc" : "asc"}`;
+    }
+
+    dispatch({ type: "events/retrieveAll/pending" });
+
+    try {
+      const response = await apiFetch(`Events${params}`, { method: "GET" });
+      dispatch({ type: "events/retrieveAll/fulfilled", payload: response });
+    } catch {
+      dispatch({ type: "events/retrieveAll/rejected" });
     }
   };
 
-export const slice = createSlice({
-  name: "events",
-  initialState,
-  reducers: {
-    disconnect: (state) => {
-      state.connected = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getAll.pending, (state) => {
-        state.connected = true;
-        state.loading = true;
-      })
-      .addCase(getAll.fulfilled, (state, action) => {
-        state.loading = false;
-        state.values = action.payload;
-      })
-      .addCase(getAll.rejected, (state) => {
-        state.connected = false;
-        state.loading = false;
-        state.values = [];
-      });
-  },
-});
-
-export const { disconnect } = slice.actions;
-
 export const eventsState = (state) => state.events;
-
-export default slice.reducer;
