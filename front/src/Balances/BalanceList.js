@@ -17,7 +17,6 @@ export function BalanceList() {
   const { loading, elements, sorting } = useSelector(balancesState);
 
   useEffect(() => {
-    console.log("use effect");
     dispatch(retrieveAll());
     return () => dispatch(disconnect());
   }, [dispatch, sorting]);
