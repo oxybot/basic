@@ -7,13 +7,22 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import EntityFieldView from "./EntityFieldView";
 
 const columnHelper = createColumnHelper();
 
-export default function EntityList({ loading, definition, elements, baseTo = null, selectedId, simple = false }) {
+export default function EntityList({
+  loading,
+  definition,
+  elements,
+  baseTo = null,
+  selectedId,
+  simple = false,
+  sorting,
+  setSorting,
+}) {
   const columns = useMemo(() => {
     if (!definition || !definition.fields) {
       return [];
@@ -30,7 +39,6 @@ export default function EntityList({ loading, definition, elements, baseTo = nul
   }, [definition]);
 
   const navigate = useNavigate();
-  const [sorting, setSorting] = useState([]);
 
   const table = useReactTable({
     data: elements,
