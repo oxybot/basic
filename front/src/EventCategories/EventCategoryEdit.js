@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 
 export function EventCategoryEdit({ full = false }) {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export function EventCategoryEdit({ full = false }) {
   };
 
   function handleUpdate() {
-    dispatch(refresh());
+    dispatch(retrieveAll());
   }
 
   return (

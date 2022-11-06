@@ -1,52 +1,63 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiFetch } from "../api";
 
 const initialState = {
   connected: false,
   loading: false,
-  values: [],
+  elements: [],
+  sorting: [],
 };
 
-export const getAll = createAsyncThunk("event-categories/getAll", async () => {
-  const response = await apiFetch("EventCategories", { method: "GET" });
-  return response;
-});
-
-export const refresh = () => (dispatch, getState) => {
-  const { connected, loading } = eventCategoriesState(getState());
-  if (connected && !loading) {
-    dispatch(getAll());
+export default function eventCategoriesReducer(state = initialState, action) {
+  switch (action.type) {
+    case "eventCategories/disconnect": {
+      return { ...state, connected: false };
+    }
+    case "eventCategories/setSorting": {
+      return { ...state, sorting: action.payload };
+    }
+    case "eventCategories/retrieveAll/pending": {
+      return { ...state, connected: true, loading: true };
+    }
+    case "eventCategories/retrieveAll/rejected": {
+      return { ...state, connected: false, loading: false };
+    }
+    case "eventCategories/retrieveAll/fulfilled": {
+      return { ...state, loading: false, elements: action.payload };
+    }
+    default:
+      return state;
   }
-};
+}
 
-export const eventCategoriesSlice = createSlice({
-  name: "eventCategories",
-  initialState,
-  reducers: {
-    disconnect: (state) => {
-      state.connected = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getAll.pending, (state) => {
-        state.connected = true;
-        state.loading = true;
-      })
-      .addCase(getAll.fulfilled, (state, action) => {
-        state.loading = false;
-        state.values = action.payload;
-      })
-      .addCase(getAll.rejected, (state) => {
-        state.connected = false;
-        state.loading = false;
-        state.values = [];
-      });
-  },
-});
+export const disconnect = () => ({ type: "eventCategories/disconnect" });
+export const setSorting = (s) =>
+  function (dispatch, getState) {
+    let newValue = s;
+    // check if s is an updater
+    if (typeof s === "function") {
+      const oldValue = eventCategoriesState(getState()).sorting;
+      newValue = s(oldValue);
+    }
+    dispatch({ type: "eventCategories/setSorting", payload: newValue });
+  };
 
-export const { disconnect } = eventCategoriesSlice.actions;
+export const retrieveAll = () =>
+  async function (dispatch, getState) {
+    let params = "";
+
+    const sorting = eventCategoriesState(getState()).sorting;
+    if (sorting.length > 0) {
+      params = `?sortKey=${sorting[0].id}&sortValue=${sorting[0].desc ? "desc" : "asc"}`;
+    }
+
+    dispatch({ type: "eventCategories/retrieveAll/pending" });
+
+    try {
+      const response = await apiFetch(`EventCategories${params}`, { method: "GET" });
+      dispatch({ type: "eventCategories/retrieveAll/fulfilled", payload: response });
+    } catch {
+      dispatch({ type: "eventCategories/retrieveAll/rejected" });
+    }
+  };
 
 export const eventCategoriesState = (state) => state.eventCategories;
-
-export default eventCategoriesSlice.reducer;

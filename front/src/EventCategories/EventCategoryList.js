@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageList from "../Generic/PageList";
-import { eventCategoriesState, disconnect, getAll } from "./slice";
+import { eventCategoriesState, disconnect, setSorting, retrieveAll } from "./slice";
 
 export function EventCategoryList() {
   const dispatch = useDispatch();
@@ -13,12 +13,12 @@ export function EventCategoryList() {
     title: "Event Categories",
     add: "Add category",
   };
-  const { loading, values: elements } = useSelector(eventCategoriesState);
+  const { loading, elements, sorting } = useSelector(eventCategoriesState);
 
   useEffect(() => {
-    dispatch(getAll());
+    dispatch(retrieveAll());
     return () => dispatch(disconnect());
-  }, [dispatch]);
+  }, [dispatch, sorting]);
 
   return (
     <PageList
@@ -28,6 +28,8 @@ export function EventCategoryList() {
       selectedId={categoryId}
       texts={texts}
       newRole="time"
+      sorting={sorting}
+      setSorting={(s) => dispatch(setSorting(s))}
     />
   );
 }

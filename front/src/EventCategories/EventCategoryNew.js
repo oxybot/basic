@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
-import { refresh } from "./slice";
+import { retrieveAll } from "./slice";
 
 export function EventCategoryNew() {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ export function EventCategoryNew() {
   };
 
   function handleCreate() {
-    dispatch(refresh());
+    dispatch(retrieveAll());
   }
 
   return <PageNew definition={definition} baseApiUrl="EventCategories" texts={texts} onCreate={handleCreate} />;
