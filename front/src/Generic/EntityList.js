@@ -1,10 +1,5 @@
 import { IconLoader, IconChevronUp, IconChevronDown } from "@tabler/icons";
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import clsx from "clsx";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
@@ -46,6 +41,7 @@ export default function EntityList({
       sorting,
     },
     enableSorting: !simple,
+    sortDescFirst: false,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
   });
