@@ -5,7 +5,16 @@ import { useInRole } from "../Authentication";
 import EntityList from "./EntityList";
 import MobilePageTitle from "./MobilePageTitle";
 
-export default function PageList({ definition, loading, elements, selectedId, texts, newRole = null, sorting, setSorting }) {
+export default function PageList({
+  definition,
+  loading,
+  elements,
+  selectedId,
+  texts,
+  newRole = null,
+  sorting,
+  setSorting,
+}) {
   const outlet = useOutlet();
   const isInRole = useInRole();
 

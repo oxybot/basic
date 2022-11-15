@@ -6,6 +6,8 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,15 +36,19 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all products.
         /// </summary>
+        /// <param name="definitions">The service providing the entity definitions.</param>
+        /// <param name="sortAndFilter">The sort and filter options, is any.</param>
         /// <returns>The list of products.</returns>
         [HttpGet]
         [AuthorizeRoles(Role.ClientRO, Role.Client)]
         [Produces("application/json")]
-        public IEnumerable<ProductForList> GetAll()
+        public IEnumerable<ProductForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
         {
-            return this.AddIncludesForList(this.Context.Set<Product>())
+            var entities = this.GetAllCore(definitions, sortAndFilter)
                 .ToList()
                 .Select(e => this.Mapper.Map<ProductForList>(e));
+
+            return entities;
         }
 
         /// <summary>

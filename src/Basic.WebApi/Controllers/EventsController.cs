@@ -6,6 +6,7 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
 using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,94 +37,18 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all events.
         /// </summary>
-        /// <param name="filter">The search filter value, if any.</param>
-        /// <param name="sortKey">The property to sort on, if any.</param>
-        /// <param name="sortValue">The order of the sort (asc or desc), if any.</param>
+        /// <param name="definitions">The service providing the entity definitions.</param>
+        /// <param name="sortAndFilter">The sort and filter options, is any.</param>
         /// <returns>The list of events.</returns>
         [HttpGet]
         [AuthorizeRoles(Role.TimeRO, Role.Time)]
         [Produces("application/json")]
-        public IEnumerable<EventForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
+        public IEnumerable<EventForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
         {
-            var entities = this.AddIncludesForList(this.Context.Set<Event>())
+            var entities = this.GetAllCore(definitions, sortAndFilter)
                 .ToList()
                 .Select(e => this.Mapper.Map<EventForList>(e))
                 .Reverse();
-
-            switch (sortKey)
-            {
-                case "User":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.User.DisplayName);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
-                    }
-
-                    break;
-
-                case "Category":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.Category.DisplayName);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.Category.DisplayName).Reverse();
-                    }
-
-                    break;
-
-                case "Start Date":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.StartDate);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.StartDate).Reverse();
-                    }
-
-                    break;
-
-                case "End Date":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.EndDate);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.EndDate).Reverse();
-                    }
-
-                    break;
-
-                case "Duration Total":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.DurationTotal);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.DurationTotal).Reverse();
-                    }
-
-                    break;
-
-                case "Current Status":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.CurrentStatus.DisplayName);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.CurrentStatus.DisplayName).Reverse();
-                    }
-
-                    break;
-            }
 
             return entities;
         }

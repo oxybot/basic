@@ -47,5 +47,15 @@ namespace Basic.WebApi.Models
         /// Gets or sets the group's name associated with the field, if any.
         /// </summary>
         public string Group { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this field can be used as a sort option.
+        /// </summary>
+        /// <remarks>
+        /// This parameter applies only to the Definition associated with lists.
+        /// </remarks>
+        /// <value>
+        /// Default value: <c>true</c>.</value>
+        public bool Sortable { get; set; }
     }
 }

@@ -6,6 +6,8 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,45 +36,17 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all schedules.
         /// </summary>
-        /// <param name="filter">The search filter value, if any.</param>
-        /// <param name="sortKey">The property to sort on, if any.</param>
-        /// <param name="sortValue">The order of the sort (asc or desc), if any.</param>
+        /// <param name="definitions">The service providing the entity definitions.</param>
+        /// <param name="sortAndFilter">The sort and filter options, is any.</param>
         /// <returns>The list of schedules.</returns>
         [HttpGet]
         [AuthorizeRoles(Role.TimeRO, Role.Time)]
         [Produces("application/json")]
-        public IEnumerable<ScheduleForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
+        public IEnumerable<ScheduleForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
         {
-            var entities = this.AddIncludesForList(this.Context.Set<Schedule>())
+            var entities = this.GetAllCore(definitions, sortAndFilter)
                 .ToList()
                 .Select(e => this.Mapper.Map<ScheduleForList>(e));
-
-            switch (sortKey)
-            {
-                case "User":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.User.DisplayName);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.User.DisplayName).Reverse();
-                    }
-
-                    break;
-
-                case "Active From":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.ActiveFrom);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.ActiveFrom).Reverse();
-                    }
-
-                    break;
-            }
 
             return entities;
         }

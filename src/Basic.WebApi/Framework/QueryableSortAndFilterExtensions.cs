@@ -73,9 +73,18 @@ namespace Basic.WebApi.Framework
                         break;
 
                     case "ref/eventtimemapping":
+                        var mappingSelector = Expression.Lambda<Func<T, EventTimeMapping>>(property, parameter);
+                        result = result.ApplySort(mappingSelector, ascending);
+                        break;
+
                     case "ref/status":
-                        var enumSelector = Expression.Lambda<Func<T, Enum>>(property, parameter);
-                        result = result.ApplySort(enumSelector, ascending);
+                        var statusSelector = Expression.Lambda<Func<T, Status>>(property, parameter);
+                        result = result.ApplySort(statusSelector, ascending);
+                        break;
+
+                    case "boolean":
+                        var boolSelector = Expression.Lambda<Func<T, bool>>(property, parameter);
+                        result = result.ApplySort(boolSelector, ascending);
                         break;
 
                     case "int":

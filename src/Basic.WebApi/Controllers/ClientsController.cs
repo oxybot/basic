@@ -6,6 +6,8 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,15 +36,19 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all clients.
         /// </summary>
+        /// <param name="definitions">The service providing the entity definitions.</param>
+        /// <param name="sortAndFilter">The sort and filter options, is any.</param>
         /// <returns>The list of clients.</returns>
         [HttpGet]
         [AuthorizeRoles(Role.ClientRO, Role.Client)]
         [Produces("application/json")]
-        public IEnumerable<ClientForList> GetAll()
+        public IEnumerable<ClientForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
         {
-            return this.AddIncludesForList(this.Context.Set<Client>())
+            var entities = this.GetAllCore(definitions, sortAndFilter)
                 .ToList()
                 .Select(e => this.Mapper.Map<ClientForList>(e));
+
+            return entities;
         }
 
         /// <summary>

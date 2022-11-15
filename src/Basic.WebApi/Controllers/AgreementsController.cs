@@ -48,13 +48,7 @@ namespace Basic.WebApi.Controllers
             [FromQuery] SortAndFilterModel sortAndFilter,
             [FromQuery] Guid? clientId)
         {
-            if (definitions is null)
-            {
-                throw new ArgumentNullException(nameof(definitions));
-            }
-
-            var entities = this.AddIncludesForList(this.Context.Set<Agreement>())
-                .ApplySortAndFilter(sortAndFilter, definitions.GetOne(nameof(AgreementForList)));
+            var entities = this.GetAllCore(definitions, sortAndFilter);
 
             if (clientId.HasValue)
             {

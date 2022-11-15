@@ -6,6 +6,8 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,15 +35,19 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all days-off.
         /// </summary>
+        /// <param name="definitions">The service providing the entity definitions.</param>
+        /// <param name="sortAndFilter">The sort and filter options, is any.</param>
         /// <returns>The list of days-off.</returns>
         [HttpGet]
         [AuthorizeRoles(Role.TimeRO, Role.Time)]
         [Produces("application/json")]
-        public IEnumerable<GlobalDayOffForList> GetAll()
+        public IEnumerable<GlobalDayOffForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
         {
-            return this.AddIncludesForList(this.Context.Set<GlobalDayOff>())
+            var entities = this.GetAllCore(definitions, sortAndFilter)
                 .ToList()
                 .Select(e => this.Mapper.Map<GlobalDayOffForList>(e));
+
+            return entities;
         }
 
         /// <summary>

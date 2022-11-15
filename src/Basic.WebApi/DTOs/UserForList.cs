@@ -1,6 +1,7 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
+using Basic.WebApi.Framework;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
@@ -48,6 +49,7 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the avatar of the user.
         /// </summary>
         [Display(Order = 1)]
+        [Sortable(false)]
         [SwaggerSchema(Format = "image")]
         public Base64File Avatar { get; set; }
 

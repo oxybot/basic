@@ -6,6 +6,7 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
 using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,90 +36,17 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all users.
         /// </summary>
-        /// <param name="filter">The search filter value, if any.</param>
-        /// <param name="sortKey">The property to sort on, if any.</param>
-        /// <param name="sortValue">The order of the sort (asc or desc), if any.</param>
+        /// <param name="definitions">The service providing the entity definitions.</param>
+        /// <param name="sortAndFilter">The sort and filter options, is any.</param>
         /// <returns>The list of users.</returns>
         [HttpGet]
         [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
         [Produces("application/json")]
-        public IEnumerable<UserForList> GetAll(string filter = "", string sortKey = "", string sortValue = "")
+        public IEnumerable<UserForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
         {
-            var entities = this.AddIncludesForList(this.Context.Set<User>())
+            var entities = this.GetAllCore(definitions, sortAndFilter)
                 .ToList()
                 .Select(e => this.Mapper.Map<UserForList>(e));
-
-            /*
-            string name = "UserName";
-            // Compare name with definitions
-            UserForList element = null;
-
-            PropertyInfo property = element.GetType().GetProperty(name);
-            string userName = (string) property.GetValue(element);
-            */
-
-            switch (sortKey)
-            {
-                case "User Name":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.UserName);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.UserName).Reverse();
-                    }
-
-                    break;
-
-                case "Title":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.Title);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.Title).Reverse();
-                    }
-
-                    break;
-
-                case "Display Name":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.DisplayName);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.DisplayName).Reverse();
-                    }
-
-                    break;
-
-                case "Email":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.Email);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.Email).Reverse();
-                    }
-
-                    break;
-
-                case "Avatar":
-                    if (sortValue.Equals("asc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.DisplayName);
-                    }
-                    else if (sortValue.Equals("desc", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entities = entities.OrderBy(o => o.DisplayName).Reverse();
-                    }
-
-                    break;
-            }
 
             return entities;
         }

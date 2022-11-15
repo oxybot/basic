@@ -28,6 +28,7 @@ export default function EntityList({
         columnHelper.accessor(field.name, {
           header: field.displayName,
           cell: (info) => <EntityFieldView type={field.type} value={info.getValue()} list />,
+          enableSorting: field.sortable,
         })
       );
   }, [definition]);

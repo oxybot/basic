@@ -100,6 +100,7 @@ namespace Basic.WebApi.Services
         private static DefinitionField BuildProperty(DefaultModelMetadata property)
         {
             var displayAttribute = property.GetCustomAttribute<DisplayAttribute>();
+            var sortableAttribute = property.GetCustomAttribute<SortableAttribute>();
             return new DefinitionField
             {
                 Name = property.Name.ToJsonFieldName(),
@@ -109,6 +110,7 @@ namespace Basic.WebApi.Services
                 Placeholder = property.Placeholder,
                 Group = displayAttribute?.GetGroupName(),
                 Type = BuildFieldType(property),
+                Sortable = sortableAttribute == null || sortableAttribute.Sortable,
             };
         }
 

@@ -6,6 +6,8 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
+using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -103,6 +105,25 @@ namespace Basic.WebApi.Controllers
 
             this.Context.Set<TModel>().Remove(entity);
             this.Context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Retrieves all entities based on provided filter information.
+        /// </summary>
+        /// <param name="definitions">The service providing the entity definitions.</param>
+        /// <param name="sortAndFilter">The sort and filter options, is any.</param>
+        /// <returns>The list of entities filtered and sorted.</returns>
+        protected virtual IEnumerable<TModel> GetAllCore([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
+        {
+            if (definitions is null)
+            {
+                throw new ArgumentNullException(nameof(definitions));
+            }
+
+            var entities = this.AddIncludesForList(this.Context.Set<TModel>())
+                .ApplySortAndFilter(sortAndFilter, definitions.GetOne(typeof(TForList).Name));
+
+            return entities;
         }
 
         /// <summary>

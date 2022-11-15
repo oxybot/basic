@@ -4,18 +4,19 @@ import { Link, useOutlet } from "react-router-dom";
 import { useInRole } from "../Authentication";
 import EntityList from "../Generic/EntityList";
 import MobilePageTitle from "../Generic/MobilePageTitle";
-import clsx from "clsx";
-import { useState } from "react";
 
-export default function UserPageList({ definition, loading, elements, selectedId, texts, newRole = null }) {
+export default function UserPageList({
+  definition,
+  loading,
+  elements,
+  selectedId,
+  texts,
+  newRole = null,
+  sorting,
+  setSorting,
+}) {
   const outlet = useOutlet();
   const isInRole = useInRole();
-  const [search, setSearch] = useState("");
-
-  function handleChange(event) {
-    const value = event.target.value;
-    setSearch(value);
-  }
 
   return (
     <div className="container-xl">
@@ -46,20 +47,6 @@ export default function UserPageList({ definition, loading, elements, selectedId
                 <div className="d-flex">
                   {isInRole(newRole) && (
                     <>
-                      {isInRole("beta") && (
-                        <div className="d-none d-md-block">
-                          <input
-                            type="text"
-                            className={clsx("form-control")}
-                            required={true}
-                            id="search"
-                            name="search"
-                            placeholder="Search bar"
-                            value={search}
-                            onChange={handleChange}
-                          />
-                        </div>
-                      )}
                       <Link to="new" className="ms-3 btn btn-primary d-none d-md-block">
                         <IconPlus />
                         {texts.add}
@@ -91,6 +78,8 @@ export default function UserPageList({ definition, loading, elements, selectedId
                 elements={elements}
                 baseTo={""}
                 selectedId={selectedId}
+                sorting={sorting}
+                setSorting={setSorting}
               />
             </div>
           </div>

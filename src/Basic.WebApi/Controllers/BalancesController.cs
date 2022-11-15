@@ -44,13 +44,7 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public IEnumerable<BalanceForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
         {
-            if (definitions is null)
-            {
-                throw new ArgumentNullException(nameof(definitions));
-            }
-
-            var entities = this.AddIncludesForList(this.Context.Set<Balance>())
-                .ApplySortAndFilter(sortAndFilter, definitions.GetOne(nameof(BalanceForList)))
+            var entities = this.GetAllCore(definitions, sortAndFilter)
                 .ToList()
                 .Select(e => this.Mapper.Map<BalanceForList>(e));
 
