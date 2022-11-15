@@ -47,8 +47,12 @@ namespace Basic.WebApi.Controllers
         {
             var entities = this.GetAllCore(definitions, sortAndFilter)
                 .ToList()
-                .Select(e => this.Mapper.Map<EventForList>(e))
-                .Reverse();
+                .Select(e => this.Mapper.Map<EventForList>(e));
+
+            if (sortAndFilter == null || string.IsNullOrEmpty(sortAndFilter.SortKey))
+            {
+                entities = entities.Reverse();
+            }
 
             return entities;
         }
