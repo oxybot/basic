@@ -40,8 +40,8 @@ export default function LayoutMenu() {
   }
 
   return (
-    <aside className="navbar navbar-vertical navbar-light navbar-expand-lg navbar-hidden">
-      <div className="container-fluid justify-content-start">
+    <aside className="navbar navbar-vertical navbar-transparent navbar-expand-lg navbar-hidden">
+      <div className="container-fluid">
         <div id="offcanvas-menu" className="offcanvas offcanvas-start" tabIndex="-1">
           <div className="offcanvas-header">
             <h5 className="offcanvas-title flex-fill">

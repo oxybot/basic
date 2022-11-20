@@ -30,10 +30,6 @@ input.form-control.required {
   color: var(--tblr-muted);
 }
 
-body {
-  background-color: #f8fafc;
-}
-
 /* Hide navbar on small screens */
 .navbar-hidden {
   min-height: auto;
@@ -52,6 +48,8 @@ body {
 .container-xl .mobile-page-title {
   margin-left: -1rem;
   margin-right: -1rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
 }
 
 .navbar-brand {
@@ -65,14 +63,6 @@ body {
 .offcanvas-header {
   padding: 0.5rem 1.5rem;
   padding-bottom: calc(0.5rem + 1px);
-}
-
-.navbar-vertical {
-  background: white;
-}
-
-.navbar-expand-lg .navbar-nav .nav-link {
-  padding-left: 0;
 }
 
 .navbar-vertical button.nav-link {
@@ -133,18 +123,6 @@ th.required:after {
 /* Update of the theme-dark default */
 .theme-dark {
   --tblr-muted: #91969f;
-}
-
-/* Fix for #1000 */
-.theme-dark .form-control.is-invalid,
-.theme-dark .was-validated .form-control:invalid {
-  border-color: var(--tblr-danger);
-}
-
-/* Fix for #1000 */
-.theme-dark .form-control.is-valid,
-.theme-dark .was-validated .form-control:valid {
-  border-color: var(--tblr-success);
 }
 
 .theme-dark .offcanvas-header {
