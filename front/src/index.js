@@ -6,7 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./store";
 import "@tabler/core/dist/css/tabler.min.css";
-import "./index.css";
+import "./index.scss";
 import "@tabler/core/dist/js/tabler.min.js";
 
 const container = document.getElementById("root");
