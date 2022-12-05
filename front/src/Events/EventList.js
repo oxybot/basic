@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageList from "../Generic/PageList";
 import { disconnect, eventsState, setSorting, retrieveAll } from "./slice";
+import "./card.scss";
 
 export function EventList() {
   const dispatch = useDispatch();

@@ -1,3 +1,5 @@
+@import "~/src/scss/_mixins.scss";
+
 /* Extra background for required fields */
 input.form-control.required {
   background-color: #206bc411;
@@ -48,8 +50,8 @@ input.form-control.required {
 .container-xl .mobile-page-title {
   margin-left: -1rem;
   margin-right: -1rem;
-  padding-left: .5rem;
-  padding-right: .5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .navbar-brand {
@@ -337,6 +339,34 @@ th.required:after {
   max-height: 65vh;
 }
 
-.table-calendar th:first-child, .table-calendar td[rowspan]:first-child { 
-  border-right: 1px solid #00000030; 
+.table-calendar th:first-child,
+.table-calendar td[rowspan]:first-child {
+  border-right: 1px solid #00000030;
+}
+
+@include card {
+  .card-table,
+  .card-table tbody {
+    display: block;
+  }
+
+  .card-table thead {
+    display: none;
+  }
+
+  .card-table tr {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0.5em;
+    border-top: 1px solid rgba(98, 105, 118, 0.16);
+  }
+
+  .card-table td,
+  .card-table tr td:first-child,
+  .card-table tr th:first-child,
+  .card-table tr td:last-child,
+  .card-table tr th:last-child {
+    border: none;
+    padding: 0.5em;
+  }
 }

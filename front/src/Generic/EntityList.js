@@ -80,7 +80,7 @@ export default function EntityList({
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              className={clsx({
+              className={clsx(definition.name.replace("ForList", "").toLowerCase(), {
                 "table-active": row.original.identifier === selectedId,
               })}
               onClick={() => baseTo !== null && navigate([baseTo, row.original.identifier].filter((i) => i).join("/"))}

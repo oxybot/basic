@@ -1,0 +1,34 @@
+@import "~/src/scss/_mixins.scss";
+
+@include card {
+  .event {
+    .category {
+      order: 1;
+      line-height: 1.4285714286;
+      font-size: 0.875rem;
+      font-weight: 600;
+      flex-basis: 66%;
+    }
+
+    .durationTotal {
+      order: 2;
+      flex-basis: 33%;
+      flex-grow: 1;
+      text-align: right;
+    }
+
+    .startDate {
+      order: 3;
+    }
+
+    .endDate {
+      order: 4;
+    }
+
+    .currentStatus {
+      order: 5;
+      flex-grow: 1;
+      text-align: right;
+    }
+  }
+}
