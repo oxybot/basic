@@ -8,6 +8,7 @@ import EntityFieldView from "./EntityFieldView";
 const columnHelper = createColumnHelper();
 
 export default function EntityList({
+  className,
   loading,
   definition,
   elements,
@@ -48,7 +49,7 @@ export default function EntityList({
   });
 
   return (
-    <div className="table-responsive">
+    <div className={clsx("table-responsive", className)}>
       <table className="table card-table table-vcenter text-nowrap datatable table-hover">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -72,11 +73,13 @@ export default function EntityList({
           ))}
         </thead>
         <tbody>
-          <tr className={loading ? "" : "d-none"}>
-            <td colSpan={table.getHeaderGroups().length}>
-              <IconLoader /> Loading...
-            </td>
-          </tr>
+          {loading && (
+            <tr>
+              <td colSpan={table.getHeaderGroups().length}>
+                <IconLoader /> Loading...
+              </td>
+            </tr>
+          )}
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}

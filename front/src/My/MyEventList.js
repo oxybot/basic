@@ -16,5 +16,14 @@ export function MyEventList() {
 
   const [loading, elements] = useApiFetch("My/Events", { method: "GET" }, []);
 
-  return <PageList definition={definition} loading={loading} elements={elements} selectedId={eventId} texts={texts} />;
+  return (
+    <PageList
+      listClassName="d-xs-card d-sm-card"
+      definition={definition}
+      loading={loading}
+      elements={elements}
+      selectedId={eventId}
+      texts={texts}
+    />
+  );
 }

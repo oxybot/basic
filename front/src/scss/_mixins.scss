@@ -5,7 +5,15 @@
 @import "~/node_modules/bootstrap/scss/root";
 
 @mixin card {
-  @include media-breakpoint-down(md) {
+  .d-card {
     @content;
+  }
+
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-only($breakpoint) {
+      .d-#{$breakpoint}-card {
+        @content;
+      }
+    }
   }
 }

@@ -317,16 +317,8 @@ th.required:after {
   }
 }
 
-.btn-icon {
-  margin: 0px 6px;
-}
-
 .container-xl {
   max-width: 1620px;
-}
-
-.sorting:hover {
-  cursor: pointer;
 }
 
 .table-calendar thead {
@@ -358,6 +350,9 @@ th.required:after {
     display: flex;
     flex-wrap: wrap;
     margin: 0.5em;
+  }
+
+  .card-table tbody tr:not(:first-child) {
     border-top: 1px solid rgba(98, 105, 118, 0.16);
   }
 

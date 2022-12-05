@@ -35,7 +35,7 @@ export default function PageView({
           {backTo && (
             <div className="col-auto ms-auto d-print-none">
               <div className="d-flex">
-                <Link to={backTo} className="btn btn-outline-primary btn-icon d-none d-lg-block">
+                <Link to={backTo} className="btn btn-outline-primary btn-icon d-none d-lg-flex">
                   <IconChevronRight />
                 </Link>
                 <Link to={backTo} className="btn btn-outline-primary d-lg-none">

@@ -6,6 +6,7 @@ import EntityList from "./EntityList";
 import MobilePageTitle from "./MobilePageTitle";
 
 export default function PageList({
+  listClassName,
   definition,
   loading,
   elements,
@@ -63,6 +64,7 @@ export default function PageList({
           <div className="page-body">
             <div className="card">
               <EntityList
+                className={listClassName}
                 loading={loading}
                 definition={definition}
                 elements={elements}

@@ -91,7 +91,14 @@ function CardForEvents() {
           </Link>
         </div>
       </div>
-      <EntityList loading={loading} definition={definition} elements={events} baseTo="my/events" simple />
+      <EntityList
+        className="d-xs-card d-lg-card d-xl-card"
+        loading={loading}
+        definition={definition}
+        elements={events}
+        baseTo="my/events"
+        simple
+      />
     </div>
   );
 }

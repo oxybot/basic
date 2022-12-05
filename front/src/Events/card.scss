@@ -1,5 +1,18 @@
 @import "~/src/scss/_mixins.scss";
 
+.modelstatus .status {
+  display: table-cell;
+  align-items: center;
+  height: auto;
+  gap: 0;
+  font-size: 0.875rem;
+  text-transform: none;
+  letter-spacing: normal;
+  border-radius: 0;
+  line-height: 1;
+  margin: 0;
+}
+
 @include card {
   .event {
     .category {
@@ -29,6 +42,26 @@
       order: 5;
       flex-grow: 1;
       text-align: right;
+    }
+  }
+
+  .modelstatus {
+    .updatedOn {
+      order: 1;
+      flex-basis: 100%;
+    }
+
+    .status {
+      order: 2;
+    }
+
+    .updatedBy {
+      order: 3;
+      flex-grow: 1;
+    }
+
+    .updatedBy::before {
+      content: 'by ';
     }
   }
 }

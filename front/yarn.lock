@@ -1646,10 +1646,10 @@
   resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-1.112.0.tgz#6119c6046085a06d4246b1ffab7f1c1435d736b5"
   integrity sha512-M1FmEXqeOUG1iZOLue1aLKEl+E3HHU1JaXb/LmZuOjOWuhHHpfQnSv+mgSmupehophq5piwSPhqnytt1Uh6oLw==
 
-"@tabler/icons@^1.72.0":
-  version "1.72.0"
-  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-1.72.0.tgz#58272695fec6fd9dbf6a59fa472e42614d228d4d"
-  integrity sha512-ZWi0Xn2utBor8ryZYFxx+BGV9mmdyiJYN1Nq/Koj3bp88VBh7mF4VNGN8oVIVml9s1rsD/D9I/z/WA7QrdRxsg==
+"@tabler/icons@^1.115.0":
+  version "1.115.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-1.115.0.tgz#6c4a9e6087fcdc33e5aae2e5785090147bed7ebe"
+  integrity sha512-Eo1xMuG/+QpUk6QrtiAsmTSjc+A9IIBDauwPT4hVD/XKmnvh0UCCOuK8Zo/jZDIShcJdEcBA4p0wKgt7dbd1GA==
 
 "@tanstack/react-table@^8.5.15":
   version "8.5.15"

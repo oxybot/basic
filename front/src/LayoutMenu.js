@@ -18,6 +18,7 @@ import { NavLink } from "react-router-dom";
 import { authenticationState, useInRole, disconnect } from "./Authentication";
 import LayoutMenuDemo from "./LayoutMenuDemo";
 import LayoutTheme from "./LayoutTheme";
+import "./LayoutMenu.scss";
 
 const rootApiUrl = process.env.REACT_APP_API_ROOT_URL || document.getElementById("apirooturl").innerHTML.trim();
 
@@ -56,7 +57,7 @@ export default function LayoutMenu() {
             ></button>
           </div>
           <div className="offcanvas-body flex-column">
-            <div className="d-flex flex-row justify-content-between d-none d-lg-flex">
+            <div className="offcanvas-body-title flex-row justify-content-between d-none d-lg-flex">
               <h5 className="basic-title">
                 <div className="basic-logo">B</div>
               </h5>

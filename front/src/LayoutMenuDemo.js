@@ -50,7 +50,7 @@ export default function LayoutMenuDemo() {
 
   return (
     <>
-      <li className="nav-item ms-3">
+      <li className="nav-item">
         <select className="form-select" value={select} onChange={handleChange}>
           <option value="all">all</option>
           <option value="user">as user</option>
@@ -58,18 +58,20 @@ export default function LayoutMenuDemo() {
           <option value="finance">as Finance</option>
         </select>
       </li>
-      <div className="form-check ms-3 form-switch mt-3">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="beta"
-          checked={beta}
-          onChange={handleBeta}
-        />
-        <label className="form-check-label" htmlFor="beta">
-          Beta features
-        </label>
+      <div className="nav-item">
+        <div className="form-check form-switch mt-2">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="beta"
+            checked={beta}
+            onChange={handleBeta}
+          />
+          <label className="form-check-label" htmlFor="beta">
+            Beta features
+          </label>
+        </div>
       </div>
     </>
   );
