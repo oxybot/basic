@@ -1,4 +1,4 @@
-import { IconLoader, IconChevronUp, IconChevronDown } from "@tabler/icons";
+import { IconLoader } from "@tabler/icons";
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import clsx from "clsx";
 import { useMemo } from "react";
@@ -57,7 +57,7 @@ export default function EntityList({
                 <th key={header.id}>
                   {!header.isPlaceholder && header.column.getCanSort() && (
                     <button
-                      class={clsx("table-sort", header.column.getIsSorted())}
+                      className={clsx("table-sort", header.column.getIsSorted())}
                       onClick={header.column.getToggleSortingHandler()}
                     >
                       {flexRender(header.column.columnDef.header, header.getContext())}
