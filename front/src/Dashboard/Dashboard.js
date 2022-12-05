@@ -90,8 +90,8 @@ function CardForEvents() {
             <IconChevronRight /> See all
           </Link>
         </div>
-        <EntityList loading={loading} definition={definition} elements={events} baseTo="my/events" simple />
       </div>
+      <EntityList loading={loading} definition={definition} elements={events} baseTo="my/events" simple />
     </div>
   );
 }
