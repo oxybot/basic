@@ -86,7 +86,7 @@ namespace Basic.WebApi.Services
         {
             var definition = new Definition
             {
-                Name = metadata.Name,
+                Name = metadata.Name ?? metadata.ModelType.Name,
             };
 
             foreach (DefaultModelMetadata property in metadata.Properties)
