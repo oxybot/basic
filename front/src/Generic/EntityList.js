@@ -54,20 +54,17 @@ export default function EntityList({
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className={clsx({ sorting: header.column.getCanSort() })}
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  {!header.isPlaceholder && (
-                    <>
+                <th key={header.id}>
+                  {!header.isPlaceholder && header.column.getCanSort() && (
+                    <button
+                      class={clsx("table-sort", header.column.getIsSorted())}
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
                       {flexRender(header.column.columnDef.header, header.getContext())}
-                      {header.column.getIsSorted() === false}
-                      {header.column.getIsSorted() === "asc" && <IconChevronUp className="icon icon-sm icon-thick" />}
-                      {header.column.getIsSorted() === "desc" && (
-                        <IconChevronDown className="icon icon-sm icon-thick" />
-                      )}
-                    </>
+                    </button>
+                  )}
+                  {!header.isPlaceholder && !header.column.getCanSort() && (
+                    <>{flexRender(header.column.columnDef.header, header.getContext())}</>
                   )}
                 </th>
               ))}
@@ -89,7 +86,9 @@ export default function EntityList({
               onClick={() => baseTo !== null && navigate([baseTo, row.original.identifier].filter((i) => i).join("/"))}
             >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                <td key={cell.id} className={cell.column.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
               ))}
             </tr>
           ))}
