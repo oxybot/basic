@@ -80,21 +80,24 @@ export default function EntityList({
               </td>
             </tr>
           )}
-          {table.getRowModel().rows.map((row) => (
-            <tr
-              key={row.id}
-              className={clsx(definition.name.replace("ForList", "").toLowerCase(), {
-                "table-active": row.original.identifier === selectedId,
-              })}
-              onClick={() => baseTo !== null && navigate([baseTo, row.original.identifier].filter((i) => i).join("/"))}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className={cell.column.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
+          {definition &&
+            table.getRowModel().rows.map((row) => (
+              <tr
+                key={row.id}
+                className={clsx(definition.name.replace("ForList", "").toLowerCase(), {
+                  "table-active": row.original.identifier === selectedId,
+                })}
+                onClick={() =>
+                  baseTo !== null && navigate([baseTo, row.original.identifier].filter((i) => i).join("/"))
+                }
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id} className={cell.column.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
           {!loading && elements.length === 0 && (
             <tr>
               <td colSpan={table.getHeaderGroups().length}>
