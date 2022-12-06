@@ -6,6 +6,7 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
 using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,19 +37,36 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Retrieves all events associated to the connected user.
         /// </summary>
+        /// <param name="definitions">The service providing the entity definitions.</param>
+        /// <param name="sortAndFilter">The sort and filter options, is any.</param>
         /// <param name="limit">The maximum numbers of events to return.</param>
         /// <returns>The list of events associated to the connected user.</returns>
         [HttpGet]
         [Produces("application/json")]
         [Route("Events")]
-        public IEnumerable<EventForList> GetEvents(int? limit)
+        public IEnumerable<EventForList> GetEvents([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter, [FromQuery] int? limit)
         {
+            if (definitions is null)
+            {
+                throw new ArgumentNullException(nameof(definitions));
+            }
+            else if (sortAndFilter == null)
+            {
+                sortAndFilter = new SortAndFilterModel();
+            }
+
+            if (sortAndFilter.SortValue == null)
+            {
+                sortAndFilter.SortKey = "startDate";
+                sortAndFilter.SortValue = "desc";
+            }
+
             var user = this.GetConnectedUser();
             IQueryable<Event> query = this.Context.Set<Event>()
                 .Include(e => e.Category)
                 .Include(e => e.Statuses).ThenInclude(s => s.Status)
                 .Where(e => e.User == user)
-                .OrderByDescending(e => e.StartDate);
+                .ApplySortAndFilter(sortAndFilter, definitions.GetOne(nameof(EventForList)));
 
             if (limit.HasValue)
             {
