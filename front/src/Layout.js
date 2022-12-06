@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import LayoutMenu from "./LayoutMenu";
 
 export default function Layout({ children }) {
@@ -16,7 +17,9 @@ export default function Layout({ children }) {
           </h3>
         </div>
       )}
-      <div className="page-wrapper">{children}</div>
+      <div className="page-wrapper">
+        <Outlet />
+      </div>
     </>
   );
 }
