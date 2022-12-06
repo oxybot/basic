@@ -15,12 +15,12 @@ With this configuration, the front app will be served on the port 80.
 
 Complete list of the accepted environment variables:
 
-| Name | Status | Usage |
-|------|--------|-------|
-| `API_ROOT_URL` | Mandatory | Defined the root url of the associated api service (basic-api) |
-| `NGINX_SERVER_NAME` | Mandatory | Server name |
-| `NGINX_SSL_CERTIFICATE` | Optional | Enable HTTPS on 443 |
-| `NGINX_SSL_CERTIFICATE_KEY` | Optional | Enable HTTPS on 443 |
+| Name                        | Status    | Usage                                                          |
+| --------------------------- | --------- | -------------------------------------------------------------- |
+| `API_ROOT_URL`              | Mandatory | Defined the root url of the associated api service (basic-api) |
+| `NGINX_SERVER_NAME`         | Mandatory | Server name                                                    |
+| `NGINX_SSL_CERTIFICATE`     | Optional  | Enable HTTPS on 443                                            |
+| `NGINX_SSL_CERTIFICATE_KEY` | Optional  | Enable HTTPS on 443                                            |
 
 ## Build and Run
 

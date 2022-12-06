@@ -12,7 +12,9 @@ function CalendarUserLine({ days, entry }) {
     // No data for this user
     return (
       <tr>
-        <td rowSpan={1} className="w-100">{entry.user.displayName}</td>
+        <td rowSpan={1} className="w-100">
+          {entry.user.displayName}
+        </td>
         {days.map((i) => (
           <td key={i} className={clsx({ "bg-off": entry.daysOff.includes(i) })}></td>
         ))}
