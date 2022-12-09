@@ -10,15 +10,7 @@ input.form-control.required {
   font-weight: 300;
 }
 
-.field-label {
-  color: var(--tblr-muted);
-  font-size: 0.625rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  line-height: 1.6;
-}
-
+.field-label,
 .form-label {
   color: var(--tblr-muted);
   font-size: 0.625rem;
@@ -123,14 +115,6 @@ th.required:after {
 }
 
 /* Update of the theme-dark default */
-.theme-dark {
-  --tblr-muted: #91969f;
-}
-
-.theme-dark .offcanvas-header {
-  background: #1b2434;
-}
-
 .theme-dark ::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
@@ -245,6 +229,7 @@ th.required:after {
   line-height: 1.5rem;
 }
 
+/* Dashboard */
 .schedule .col:first-child .form-control {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -336,6 +321,7 @@ th.required:after {
   border-right: 1px solid #00000030;
 }
 
+/* Table displayed as cards using .d-{sz}-card */
 @include card {
   .card-table,
   .card-table tbody {
