@@ -47,16 +47,18 @@ export default function PageNew({
   };
 
   return (
-    <EntityForm
-      definition={definition}
-      entity={entity}
-      texts={texts}
-      errors={errors}
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      container
-    >
-      {extendedForm(entity, setEntity, errors)}
-    </EntityForm>
+    <div className="sticky-top">
+      <EntityForm
+        definition={definition}
+        entity={entity}
+        texts={texts}
+        errors={errors}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        container
+      >
+        {extendedForm(entity, setEntity, errors)}
+      </EntityForm>
+    </div>
   );
 }

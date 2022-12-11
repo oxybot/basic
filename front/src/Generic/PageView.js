@@ -20,7 +20,7 @@ export default function PageView({
   }
 
   return (
-    <div className={clsx({ "container-xl": full })}>
+    <div className={clsx({ "container-xl": full }, { "sticky-top": !full })}>
       <MobilePageTitle back={backTo}>
         <div className="navbar-brand flex-fill">{title}</div>
         {isInRole(editRole) && (

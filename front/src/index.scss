@@ -24,6 +24,16 @@ input.form-control.required {
   color: var(--tblr-muted);
 }
 
+/* Bootstrap - fix sticky top */
+.sticky-top {
+  padding-top: 0.01em;
+}
+
+/* Tabler - fix theme-dark sort selection */
+.table-sort.asc, .table-sort.desc, .table-sort:hover {
+  color: inherit;
+}
+
 /* Hide navbar on small screens */
 .navbar-hidden {
   min-height: auto;
