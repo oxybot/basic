@@ -14,6 +14,22 @@ import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
 import { ScheduleEdit, ScheduleList, ScheduleNew, ScheduleView } from "./Schedules";
 import Settings from "./Settings";
 import { UserEdit, UserImport, UserList, UserNew, UserView } from "./Users";
+import { apiFetch } from "./api";
+
+function loadList(context, request) {
+  const url = new URL(request.url);
+  const searchParams = url.searchParams;
+  const params = new URLSearchParams();
+
+  if (searchParams && searchParams.get("o")) {
+    const values = searchParams.get("o").split("-");
+    params.set("sortKey", values[0]);
+    params.set("sortValue", values[1] === "desc" ? "desc" : "asc");
+  }
+
+  console.log(`${context}?${params.toString()}`);
+  return apiFetch(`${context}?${params.toString()}`, { method: "GET" });
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -52,7 +68,7 @@ const router = createBrowserRouter(
       {/* Clients */}
       <Route path="/client/:clientId" element={<ClientView full />} />
       <Route path="/client/:clientId/edit" element={<ClientEdit full />} />
-      <Route path="/clients" element={<ClientList />}>
+      <Route path="/clients" element={<ClientList />} loader={({ request }) => loadList("clients", request)}>
         <Route path=":clientId" element={<ClientView backTo="/clients" />} />
         <Route path=":clientId/edit" element={<ClientEdit />} />
         <Route path="new" element={<ClientNew />} />
