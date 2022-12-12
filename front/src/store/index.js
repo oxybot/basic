@@ -1,7 +1,6 @@
 import { applyMiddleware, configureStore } from "@reduxjs/toolkit";
 import alertsReducer from "../Alerts/slice";
 import authenticationReducer from "../Authentication/slice";
-import usersReducer from "../Users/slice";
 
 const asyncFunctionMiddleware = (storeAPI) => (next) => (action) => {
   // If the "action" is actually a function instead...
@@ -20,7 +19,6 @@ export const store = configureStore(
     reducer: {
       authentication: authenticationReducer,
       alerts: alertsReducer,
-      users: usersReducer,
     },
   },
   middlewareEnhancer

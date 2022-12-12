@@ -1,14 +1,12 @@
 import { IconAtom2 } from "@tabler/icons";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useRevalidator } from "react-router-dom";
 import { apiFetch } from "../api";
 import MobilePageTitle from "../Generic/MobilePageTitle";
-import { retrieveAll } from "./slice";
 
 export function UserImport() {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const texts = {
     title: "Users",
     subTitle: "Users from the Active Directory",
@@ -22,7 +20,7 @@ export function UserImport() {
   const [loading, setLoading] = useState(false);
 
   function handleSearch() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   function handleChange(event) {
@@ -54,7 +52,7 @@ export function UserImport() {
       method: "POST",
       body: JSON.stringify(entity),
     }).then(() => {
-      dispatch(retrieveAll());
+      revalidator.revalidate();
     });
   }
 

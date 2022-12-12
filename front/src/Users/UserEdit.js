@@ -1,8 +1,6 @@
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useRevalidator } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
-import { retrieveAll } from "./slice";
 
 const transformDef = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
@@ -10,7 +8,7 @@ const transformDef = (d) => {
 };
 
 export function UserEdit({ full = false }) {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const { userId } = useParams();
   const definition = useDefinition("UserForEdit", transformDef);
   const [, entity] = useApiFetch(["Users", userId], { method: "GET" }, {});
@@ -20,7 +18,7 @@ export function UserEdit({ full = false }) {
   };
 
   function handleUpdate() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   return (

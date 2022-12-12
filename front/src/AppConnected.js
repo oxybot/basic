@@ -102,7 +102,7 @@ const router = createBrowserRouter(
       {/* Users */}
       <Route path="/user/:userId" element={<UserView full />} />
       <Route path="/user/:userId/edit" element={<UserEdit full />} />
-      <Route path="/users" element={<UserList />}>
+      <Route path="/users" element={<UserList />} loader={({ request }) => loadList("users", request)}>
         <Route path=":userId" element={<UserView backTo="/users" />} />
         <Route path=":userId/edit" element={<UserEdit />} />
         <Route path="new" element={<UserNew />} />

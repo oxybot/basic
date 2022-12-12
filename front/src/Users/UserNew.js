@@ -1,7 +1,6 @@
-import { useDispatch } from "react-redux";
+import { useRevalidator } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
-import { retrieveAll } from "./slice";
 
 const transformDef = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
@@ -9,7 +8,7 @@ const transformDef = (d) => {
 };
 
 export function UserNew() {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const definition = useDefinition("UserForEdit", transformDef);
   const texts = {
     title: "Users",
@@ -17,7 +16,7 @@ export function UserNew() {
   };
 
   function handleCreate() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   return <PageNew definition={definition} baseApiUrl="Users" texts={texts} onCreate={handleCreate} />;
