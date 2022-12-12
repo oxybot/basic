@@ -27,7 +27,6 @@ function loadList(context, request) {
     params.set("sortValue", values[1] === "desc" ? "desc" : "asc");
   }
 
-  console.log(`${context}?${params.toString()}`);
   return apiFetch(`${context}?${params.toString()}`, { method: "GET" });
 }
 

@@ -1,10 +1,9 @@
-import { useDispatch } from "react-redux";
+import { useRevalidator } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
-import { retrieveAll } from "./slice";
 
 export function ClientNew() {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const definition = useDefinition("ClientForEdit");
   const texts = {
     title: "Clients",
@@ -12,7 +11,7 @@ export function ClientNew() {
   };
 
   function handleCreate() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   return <PageNew definition={definition} baseApiUrl="Clients" texts={texts} onCreate={handleCreate} />;

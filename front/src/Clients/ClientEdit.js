@@ -1,11 +1,9 @@
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useRevalidator } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
-import { retrieveAll } from "./slice";
 
 export function ClientEdit({ full = false }) {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const { clientId } = useParams();
   const definition = useDefinition("ClientForEdit");
   const [, entity] = useApiFetch(["Clients", clientId], { method: "GET" }, {});
@@ -15,7 +13,7 @@ export function ClientEdit({ full = false }) {
   };
 
   function handleUpdate() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   return (
