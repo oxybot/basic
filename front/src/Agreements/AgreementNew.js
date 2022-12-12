@@ -1,8 +1,7 @@
-import { useDispatch } from "react-redux";
+import { useRevalidator } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
 import ItemsForm from "./ItemsForm";
-import { retrieveAll } from "./slice";
 
 const transform = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "items");
@@ -10,7 +9,7 @@ const transform = (d) => {
 };
 
 export function AgreementNew() {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const definition = useDefinition("AgreementForEdit", transform);
   const texts = {
     title: "Agreements",
@@ -19,7 +18,7 @@ export function AgreementNew() {
   };
 
   function handleCreate() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   return (

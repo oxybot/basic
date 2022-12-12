@@ -1,12 +1,9 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { useDefinition } from "../api";
+import { useSorting } from "../helpers/sorting";
 import PageList from "../Generic/PageList";
-import { agreementsState, disconnect, retrieveAll, setSorting } from "./slice";
 
 export function AgreementList() {
-  const dispatch = useDispatch();
   const { agreementId } = useParams();
   const definition = useDefinition("AgreementForList");
   const texts = {
@@ -14,23 +11,18 @@ export function AgreementList() {
     add: "Add agreement",
   };
 
-  const { loading, elements, sorting } = useSelector(agreementsState);
-
-  useEffect(() => {
-    dispatch(retrieveAll());
-    return () => disconnect();
-  }, [dispatch, sorting]);
+  const elements = useLoaderData();
+  const [sorting, updateSorting] = useSorting();
 
   return (
     <PageList
       definition={definition}
-      loading={loading}
       elements={elements}
       selectedId={agreementId}
       texts={texts}
       newRole="client"
       sorting={sorting}
-      setSorting={(s) => dispatch(setSorting(s))}
+      setSorting={updateSorting}
     />
   );
 }

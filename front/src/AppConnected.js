@@ -85,7 +85,7 @@ const router = createBrowserRouter(
       {/* Agreements */}
       <Route path="/agreement/:agreementId" element={<AgreementView full />} />
       <Route path="/agreement/:agreementId/edit" element={<AgreementEdit full />} />
-      <Route path="/agreements" element={<AgreementList />}>
+      <Route path="/agreements" element={<AgreementList />} loader={({ request }) => loadList("agreements", request)}>
         <Route path=":agreementId" element={<AgreementView backTo="/agreements" />} />
         <Route path=":agreementId/edit" element={<AgreementEdit />} />
         <Route path="new" element={<AgreementNew />} />

@@ -1,10 +1,8 @@
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useRevalidator } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
 import ItemsForm from "./ItemsForm";
-import { retrieveAll } from "./slice";
 
 const transformDef = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "items");
@@ -12,7 +10,7 @@ const transformDef = (d) => {
 };
 
 export function AgreementEdit({ full = false }) {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const { agreementId } = useParams();
   const definition = useDefinition("AgreementForEdit", transformDef);
 
@@ -37,7 +35,7 @@ export function AgreementEdit({ full = false }) {
   };
 
   function handleUpdate() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   return (
