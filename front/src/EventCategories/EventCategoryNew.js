@@ -1,10 +1,9 @@
-import { useDispatch } from "react-redux";
+import { useRevalidator } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
-import { retrieveAll } from "./slice";
 
 export function EventCategoryNew() {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const definition = useDefinition("EventCategoryForEdit");
   const texts = {
     title: "Event Categories",
@@ -12,7 +11,7 @@ export function EventCategoryNew() {
   };
 
   function handleCreate() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   return <PageNew definition={definition} baseApiUrl="EventCategories" texts={texts} onCreate={handleCreate} />;

@@ -45,7 +45,11 @@ const router = createBrowserRouter(
       {/* Settings */}
       <Route path="/settings">
         <Route index element={<Settings />} />
-        <Route path="event-categories" element={<EventCategoryList />}>
+        <Route
+          path="event-categories"
+          element={<EventCategoryList />}
+          loader={({ request }) => loadList("eventcategories", request)}
+        >
           <Route path=":categoryId" element={<EventCategoryEdit />} />
           <Route path="new" element={<EventCategoryNew />} />
         </Route>

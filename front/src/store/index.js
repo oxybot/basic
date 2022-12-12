@@ -1,7 +1,6 @@
 import { applyMiddleware, configureStore } from "@reduxjs/toolkit";
 import alertsReducer from "../Alerts/slice";
 import authenticationReducer from "../Authentication/slice";
-import eventCategoriesReducer from "../EventCategories/slice";
 import eventsReducer from "../Events/slice";
 import globalDaysOffReducer from "../GlobalDaysOff/slice";
 import productsReducer from "../Products/slice";
@@ -25,7 +24,6 @@ export const store = configureStore(
     reducer: {
       authentication: authenticationReducer,
       alerts: alertsReducer,
-      eventCategories: eventCategoriesReducer,
       events: eventsReducer,
       globalDaysOff: globalDaysOffReducer,
       products: productsReducer,
