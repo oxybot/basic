@@ -102,7 +102,7 @@ const router = createBrowserRouter(
       </Route>
 
       {/* Balances */}
-      <Route path="balances" element={<BalanceList />}>
+      <Route path="balances" element={<BalanceList />} loader={({ request }) => loadList("balances", request)}>
         <Route path=":balanceId" element={<BalanceEdit />} />
         <Route path="new" element={<BalanceNew />} />
       </Route>
