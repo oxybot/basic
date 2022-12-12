@@ -53,7 +53,11 @@ const router = createBrowserRouter(
           <Route path=":categoryId" element={<EventCategoryEdit />} />
           <Route path="new" element={<EventCategoryNew />} />
         </Route>
-        <Route path="days-off" element={<GlobalDayOffList />}>
+        <Route
+          path="days-off"
+          element={<GlobalDayOffList />}
+          loader={({ request }) => loadList("globaldaysoff", request)}
+        >
           <Route path=":dayOffId" element={<GlobalDayOffEdit />} />
           <Route path="new" element={<GlobalDayOffNew />} />
         </Route>

@@ -1,10 +1,9 @@
-import { useDispatch } from "react-redux";
+import { useRevalidator } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
-import { retrieveAll } from "./slice";
 
 export function GlobalDayOffNew() {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const definition = useDefinition("GlobalDayOffForEdit");
   const texts = {
     title: "Global Days-Off",
@@ -12,7 +11,7 @@ export function GlobalDayOffNew() {
   };
 
   function handleCreate() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   return <PageNew definition={definition} baseApiUrl="GlobalDaysOff" texts={texts} onCreate={handleCreate} />;
