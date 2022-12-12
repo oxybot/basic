@@ -84,7 +84,7 @@ const router = createBrowserRouter(
       {/* Products */}
       <Route path="/product/:productId" element={<ProductView full />} />
       <Route path="/product/:productId/edit" element={<ProductEdit full />} />
-      <Route path="/products" element={<ProductList />}>
+      <Route path="/products" element={<ProductList />} loader={({ request }) => loadList("products", request)}>
         <Route path=":productId" element={<ProductView backTo="/products" />} />
         <Route path=":productId/edit" element={<ProductEdit />} />
         <Route path="new" element={<ProductNew />} />
