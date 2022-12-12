@@ -1,13 +1,11 @@
 import { IconCheck, IconX } from "@tabler/icons";
 import dayjs from "dayjs";
-import { useDispatch } from "react-redux";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useRevalidator } from "react-router-dom";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import PageView from "../Generic/PageView";
 import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
-import { retrieveAll } from "./slice";
 import EntityList from "../Generic/EntityList";
 import AttachmentList from "../Attachments/AttachmentList";
 import { useInRole } from "../Authentication";
@@ -55,7 +53,7 @@ function StatusList({ eventId }) {
 }
 
 export function EventView({ backTo = null, full = false }) {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const { eventId } = useParams();
   const get = { method: "GET" };
   const [, entity] = useApiFetch(["Events", eventId], get, {});
@@ -69,7 +67,7 @@ export function EventView({ backTo = null, full = false }) {
       body: JSON.stringify({ from: entity.currentStatus.identifier, to: newStatus.identifier }),
     }).then(() => {
       entity.currentStatus = newStatus;
-      dispatch(retrieveAll());
+      revalidator.revalidate();
     });
   }
 

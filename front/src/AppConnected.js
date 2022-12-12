@@ -120,7 +120,7 @@ const router = createBrowserRouter(
 
       {/* Events */}
       <Route path="/event/:eventId" element={<EventView full />} />
-      <Route path="/events" element={<EventList />}>
+      <Route path="/events" element={<EventList />} loader={({ request }) => loadList("events", request)}>
         <Route path=":eventId" element={<EventView backTo="/events" />} />
         <Route path="new" element={<EventNew />} />
       </Route>

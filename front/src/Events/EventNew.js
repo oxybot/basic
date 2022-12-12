@@ -1,9 +1,8 @@
-import { useDispatch } from "react-redux";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
 import AttachmentForm from "../Attachments/AttachmentForm";
-import { retrieveAll } from "./slice";
 import { useInRole } from "../Authentication";
+import { useRevalidator } from "react-router-dom";
 
 const transform = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
@@ -11,7 +10,7 @@ const transform = (d) => {
 };
 
 export function EventNew() {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const definition = useDefinition("EventForEdit", transform);
   const texts = {
     title: "Events",
@@ -21,7 +20,7 @@ export function EventNew() {
   const isInRole = useInRole();
 
   function handleCreate() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   if (isInRole("beta")) {
