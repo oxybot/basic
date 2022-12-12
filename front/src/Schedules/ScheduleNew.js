@@ -1,10 +1,9 @@
-import { useDispatch } from "react-redux";
+import { useRevalidator } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageNew from "../Generic/PageNew";
-import { retrieveAll } from "./slice";
 
 export function ScheduleNew() {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const definition = useDefinition("ScheduleForEdit");
   const texts = {
     title: "Schedules",
@@ -12,7 +11,7 @@ export function ScheduleNew() {
   };
 
   function handleCreate() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   return <PageNew definition={definition} baseApiUrl="Schedules" texts={texts} onCreate={handleCreate} />;

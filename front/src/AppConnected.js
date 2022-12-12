@@ -116,7 +116,7 @@ const router = createBrowserRouter(
       </Route>
 
       {/* Schedules */}
-      <Route path="/schedules" element={<ScheduleList />}>
+      <Route path="/schedules" element={<ScheduleList />} loader={({ request }) => loadList("schedules", request)}>
         <Route path=":scheduleId" element={<ScheduleView backTo="/schedules" />} />
         <Route path=":scheduleId/edit" element={<ScheduleEdit />} />
         <Route path="new" element={<ScheduleNew />} />

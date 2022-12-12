@@ -1,8 +1,6 @@
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useRevalidator } from "react-router-dom";
 import { useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
-import { retrieveAll } from "./slice";
 
 function transform(e) {
   let updated = { ...e, userIdentifier: e.user.identifier };
@@ -11,7 +9,7 @@ function transform(e) {
 }
 
 export function ScheduleEdit({ full = false }) {
-  const dispatch = useDispatch();
+  const revalidator = useRevalidator();
   const { scheduleId } = useParams();
   const definition = useDefinition("ScheduleForEdit");
   const texts = {
@@ -20,7 +18,7 @@ export function ScheduleEdit({ full = false }) {
   };
 
   function handleUpdate() {
-    dispatch(retrieveAll());
+    revalidator.revalidate();
   }
 
   return (
