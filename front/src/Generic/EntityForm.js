@@ -50,34 +50,32 @@ export default function EntityForm({
         </div>
       </div>
       <div className="page-body">
-        <div className="row row-cards">
-          {errors[""] && <div className="alert show fade alert-danger">{errors[""]}</div>}
-          {definition &&
-            objectMap(
-              groupBy(definition.fields, (x) => x.group),
-              (fields, group, index) => (
-                <div key={index} className="card col-lg-12">
-                  {group !== "null" && (
-                    <div className="card-header">
-                      <h3 className="card-title">{group}</h3>
-                    </div>
-                  )}
-                  <div className="card-body">
-                    {fields.map((field, index) => (
-                      <EntityFieldEdit
-                        key={index}
-                        field={field}
-                        errors={errors && errors[field.name]}
-                        entity={entity}
-                        onChange={handleChange}
-                      />
-                    ))}
+        {errors[""] && <div className="alert show fade alert-danger">{errors[""]}</div>}
+        {definition &&
+          objectMap(
+            groupBy(definition.fields, (x) => x.group),
+            (fields, group, index) => (
+              <div key={index} className="card mb-3 col-lg-12">
+                {group !== "null" && (
+                  <div className="card-header">
+                    <h3 className="card-title">{group}</h3>
                   </div>
+                )}
+                <div className="card-body">
+                  {fields.map((field, index) => (
+                    <EntityFieldEdit
+                      key={index}
+                      field={field}
+                      errors={errors && errors[field.name]}
+                      entity={entity}
+                      onChange={handleChange}
+                    />
+                  ))}
                 </div>
-              )
-            )}
-          {children}
-        </div>
+              </div>
+            )
+          )}
+        {children}
       </div>
     </form>
   );
