@@ -18,6 +18,7 @@ export default function ItemsForm({ entity, setEntity, errors = {} }) {
     updated.items.pop({});
     setEntity(updated);
   }
+
   return (
     <div className="card pb-3 col-lg-12">
       <div className="card-header">

@@ -9,22 +9,22 @@ const transformDef = (d) => {
   return d;
 };
 
+const transform = (e) => {
+  const updated = { ...e, clientIdentifier: e.client.identifier };
+  updated.items = e.items.map((i) => {
+    const updatedItem = { ...i, productIdentifier: i.product?.identifier };
+    delete updatedItem.product;
+    return updatedItem;
+  });
+
+  delete updated.client;
+  return updated;
+};
+
 export function AgreementEdit({ full = false }) {
   const revalidator = useRevalidator();
   const { agreementId } = useParams();
   const definition = useDefinition("AgreementForEdit", transformDef);
-
-  const transform = useCallback((e) => {
-    const updated = { ...e, clientIdentifier: e.client.identifier };
-    updated.items = e.items.map((i) => {
-      const updatedItem = { ...i, productIdentifier: i.product?.identifier };
-      delete updatedItem.product;
-      return updatedItem;
-    });
-
-    delete updated.client;
-    return updated;
-  }, []);
 
   const [, entity] = useApiFetch(["Agreements", agreementId], { method: "GET" }, {}, transform);
 
@@ -48,6 +48,7 @@ export function AgreementEdit({ full = false }) {
       entityId={agreementId}
       extendedForm={(e, s, err) => <ItemsForm entity={e} setEntity={s} errors={err} />}
       onUpdate={handleUpdate}
-    ></PageEdit>
+      transform={transform}
+    />
   );
 }

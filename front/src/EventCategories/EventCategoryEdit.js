@@ -7,6 +7,7 @@ export function EventCategoryEdit({ full = false }) {
   const { categoryId } = useParams();
   const definition = useDefinition("EventCategoryForEdit");
   const [, entity] = useApiFetch(["EventCategories", categoryId], { method: "GET" }, {});
+
   const texts = {
     title: entity.displayName,
     subTitle: "Edit a Category",
