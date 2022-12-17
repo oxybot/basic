@@ -30,7 +30,9 @@ input.form-control.required {
 }
 
 /* Tabler - fix theme-dark sort selection */
-.table-sort.asc, .table-sort.desc, .table-sort:hover {
+.table-sort.asc,
+.table-sort.desc,
+.table-sort:hover {
   color: inherit;
 }
 
