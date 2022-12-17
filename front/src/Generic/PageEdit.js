@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { addWarning } from "../Alerts/slice";
 import { apiFetch } from "../api";
 import EntityForm from "./EntityForm";
@@ -21,15 +21,9 @@ export default function PageEdit({
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [entity, setEntity] = useState({});
+  const [entity, setEntity] = useState(transform(useLoaderData()));
   const [errors, setErrors] = useState({});
   texts["form-action"] = "Update";
-
-  useEffect(() => {
-    apiFetch([baseApiUrl, entityId], { method: "GET" }).then((response) => {
-      setEntity(transform(response));
-    });
-  }, [baseApiUrl, entityId, transform]);
 
   const handleChange = (event) => {
     const name = event.target.name;

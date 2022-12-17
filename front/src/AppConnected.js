@@ -54,7 +54,11 @@ const router = createBrowserRouter(
           element={<EventCategoryList />}
           loader={({ request }) => loadList("eventcategories", request)}
         >
-          <Route path=":categoryId" element={<EventCategoryEdit />} />
+          <Route
+            path=":categoryId"
+            element={<EventCategoryEdit />}
+            loader={({ params }) => loadOne("eventcategories", params.categoryId)}
+          />
           <Route path="new" element={<EventCategoryNew />} />
         </Route>
         <Route
@@ -62,14 +66,18 @@ const router = createBrowserRouter(
           element={<GlobalDayOffList />}
           loader={({ request }) => loadList("globaldaysoff", request)}
         >
-          <Route path=":dayOffId" element={<GlobalDayOffEdit />} />
+          <Route
+            path=":dayOffId"
+            element={<GlobalDayOffEdit />}
+            loader={({ params }) => loadOne("globaldaysoff", params.dayOffId)}
+          />
           <Route path="new" element={<GlobalDayOffNew />} />
         </Route>
       </Route>
 
       {/* Profile */}
       <Route path="/my/profile" element={<ProfileView full />} />
-      <Route path="/my/profile/edit" element={<ProfileEdit full />} />
+      <Route path="/my/profile/edit" element={<ProfileEdit full />} loader={() => loadOne("my/user")} />
       <Route path="/my/profile/password" element={<MyPasswordEdit full />} />
       <Route path="/my/events" element={<MyEventList />}>
         <Route path=":eventId" element={<MyEventView backTo="/my/events" />} />
@@ -82,14 +90,22 @@ const router = createBrowserRouter(
         element={<ClientView full />}
         loader={({ params }) => loadOne("clients", params.clientId)}
       />
-      <Route path="/client/:clientId/edit" element={<ClientEdit full />} />
+      <Route
+        path="/client/:clientId/edit"
+        element={<ClientEdit full />}
+        loader={({ params }) => loadOne("clients", params.clientId)}
+      />
       <Route path="/clients" element={<ClientList />} loader={({ request }) => loadList("clients", request)}>
         <Route
           path=":clientId"
           element={<ClientView backTo="/clients" />}
           loader={({ params }) => loadOne("clients", params.clientId)}
         />
-        <Route path=":clientId/edit" element={<ClientEdit />} />
+        <Route
+          path=":clientId/edit"
+          element={<ClientEdit />}
+          loader={({ params }) => loadOne("clients", params.clientId)}
+        />
         <Route path="new" element={<ClientNew />} />
       </Route>
 
@@ -99,14 +115,22 @@ const router = createBrowserRouter(
         element={<ProductView full />}
         loader={({ params }) => loadOne("products", params.productId)}
       />
-      <Route path="/product/:productId/edit" element={<ProductEdit full />} />
+      <Route
+        path="/product/:productId/edit"
+        element={<ProductEdit full />}
+        loader={({ params }) => loadOne("products", params.productId)}
+      />
       <Route path="/products" element={<ProductList />} loader={({ request }) => loadList("products", request)}>
         <Route
           path=":productId"
           element={<ProductView backTo="/products" />}
           loader={({ params }) => loadOne("products", params.productId)}
         />
-        <Route path=":productId/edit" element={<ProductEdit />} />
+        <Route
+          path=":productId/edit"
+          element={<ProductEdit />}
+          loader={({ params }) => loadOne("products", params.productId)}
+        />
         <Route path="new" element={<ProductNew />} />
       </Route>
 
@@ -116,14 +140,22 @@ const router = createBrowserRouter(
         element={<AgreementView full />}
         loader={({ params }) => loadOne("agreements", params.agreementId)}
       />
-      <Route path="/agreement/:agreementId/edit" element={<AgreementEdit full />} />
+      <Route
+        path="/agreement/:agreementId/edit"
+        element={<AgreementEdit full />}
+        loader={({ params }) => loadOne("agreements", params.agreementId)}
+      />
       <Route path="/agreements" element={<AgreementList />} loader={({ request }) => loadList("agreements", request)}>
         <Route
           path=":agreementId"
           element={<AgreementView backTo="/agreements" />}
           loader={({ params }) => loadOne("agreements", params.agreementId)}
         />
-        <Route path=":agreementId/edit" element={<AgreementEdit />} />
+        <Route
+          path=":agreementId/edit"
+          element={<AgreementEdit />}
+          loader={({ params }) => loadOne("agreements", params.agreementId)}
+        />
         <Route path="new" element={<AgreementNew />} />
       </Route>
 
@@ -133,21 +165,29 @@ const router = createBrowserRouter(
         element={<UserView full />}
         loader={({ params }) => loadOne("users", params.userId)}
       />
-      <Route path="/user/:userId/edit" element={<UserEdit full />} />
+      <Route
+        path="/user/:userId/edit"
+        element={<UserEdit full />}
+        loader={({ params }) => loadOne("users", params.userId)}
+      />
       <Route path="/users" element={<UserList />} loader={({ request }) => loadList("users", request)}>
         <Route
           path=":userId"
           element={<UserView backTo="/users" />}
           loader={({ params }) => loadOne("users", params.userId)}
         />
-        <Route path=":userId/edit" element={<UserEdit />} />
+        <Route path=":userId/edit" element={<UserEdit />} loader={({ params }) => loadOne("users", params.userId)} />
         <Route path="new" element={<UserNew />} />
         <Route path="import" element={<UserImport />} />
       </Route>
 
       {/* Balances */}
       <Route path="balances" element={<BalanceList />} loader={({ request }) => loadList("balances", request)}>
-        <Route path=":balanceId" element={<BalanceEdit />} />
+        <Route
+          path=":balanceId"
+          element={<BalanceEdit />}
+          loader={({ params }) => loadOne("balances", params.balanceId)}
+        />
         <Route path="new" element={<BalanceNew />} />
       </Route>
 
@@ -158,7 +198,11 @@ const router = createBrowserRouter(
           element={<ScheduleView backTo="/schedules" />}
           loader={({ params }) => loadOne("schedules", params.scheduleId)}
         />
-        <Route path=":scheduleId/edit" element={<ScheduleEdit />} />
+        <Route
+          path=":scheduleId/edit"
+          element={<ScheduleEdit />}
+          loader={({ params }) => loadOne("schedules", params.scheduleId)}
+        />
         <Route path="new" element={<ScheduleNew />} />
       </Route>
 
