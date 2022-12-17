@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { apiUrl, useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import Sections from "../Generic/Sections";
@@ -6,13 +6,15 @@ import Section from "../Generic/Section";
 import EntityList from "../Generic/EntityList";
 import PageView from "../Generic/PageView";
 
-function ClientViewDetail({ entity }) {
+function ClientViewDetail() {
   const definition = useDefinition("ClientForView");
+  const entity = useLoaderData();
   return <EntityDetail definition={definition} entity={entity} />;
 }
 
-function ClientViewAgreements({ clientId }) {
+function ClientViewAgreements() {
   const definition = useDefinition("AgreementForList");
+  const { clientId } = useParams();
   const url = apiUrl("Agreements");
   url.searchParams.set("clientId", clientId);
   const [loading, elements] = useApiFetch(url, { method: "GET" }, []);
@@ -26,16 +28,16 @@ function ClientViewAgreements({ clientId }) {
 export function ClientView({ backTo = null, full = false }) {
   const { clientId } = useParams();
   const get = { method: "GET" };
-  const [, entity] = useApiFetch(["Clients", clientId], get, {});
+  const entity = useLoaderData();
   const [, links] = useApiFetch(["Clients", clientId, "links"], get, {});
 
   return (
     <PageView backTo={backTo} full={full} entity={entity} editRole="client">
       <Sections>
-        <Section code="detail" element={<ClientViewDetail entity={entity} />}>
+        <Section code="detail" element={<ClientViewDetail />}>
           Detail
         </Section>
-        <Section code="agreements" element={<ClientViewAgreements clientId={clientId} />}>
+        <Section code="agreements" element={<ClientViewAgreements />}>
           Agreements
           <span className="badge ms-2 bg-green">{links.agreements || ""}</span>
         </Section>

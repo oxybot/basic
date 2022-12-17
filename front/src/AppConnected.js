@@ -30,6 +30,10 @@ function loadList(context, request) {
   return apiFetch(`${context}?${params.toString()}`, { method: "GET" });
 }
 
+function loadOne(context, entityId) {
+  return apiFetch([context, entityId], { method: "GET" });
+}
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
@@ -73,10 +77,18 @@ const router = createBrowserRouter(
       </Route>
 
       {/* Clients */}
-      <Route path="/client/:clientId" element={<ClientView full />} />
+      <Route
+        path="/client/:clientId"
+        element={<ClientView full />}
+        loader={({ params }) => loadOne("clients", params.clientId)}
+      />
       <Route path="/client/:clientId/edit" element={<ClientEdit full />} />
       <Route path="/clients" element={<ClientList />} loader={({ request }) => loadList("clients", request)}>
-        <Route path=":clientId" element={<ClientView backTo="/clients" />} />
+        <Route
+          path=":clientId"
+          element={<ClientView backTo="/clients" />}
+          loader={({ params }) => loadOne("clients", params.clientId)}
+        />
         <Route path=":clientId/edit" element={<ClientEdit />} />
         <Route path="new" element={<ClientNew />} />
       </Route>
