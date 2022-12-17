@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import EntityList from "../Generic/EntityList";
@@ -7,8 +7,10 @@ import PageView from "../Generic/PageView";
 import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
 
-function EventViewDetail({ entity }) {
+function EventViewDetail() {
   const definition = useDefinition("EventForView");
+  const entity = useLoaderData();
+
   if (definition) {
     definition.fields = definition.fields.filter((f) => f.name !== "user");
   }
@@ -28,8 +30,7 @@ function StatusList({ eventId }) {
 
 export function MyEventView({ backTo = null, full = false }) {
   const { eventId } = useParams();
-  const get = { method: "GET" };
-  const [, entity] = useApiFetch(["My/Events", eventId], get, {});
+  const entity = useLoaderData();
 
   return (
     <PageView
@@ -40,7 +41,7 @@ export function MyEventView({ backTo = null, full = false }) {
       editRole="noedit"
     >
       <Sections>
-        <Section code="detail" element={<EventViewDetail entity={entity} />}>
+        <Section code="detail" element={<EventViewDetail />}>
           Detail
         </Section>
         <Section code="statuses" element={<StatusList eventId={eventId} />}>
