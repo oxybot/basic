@@ -32,7 +32,7 @@ export default function PageNew({
 
       setEntity(updated);
     }
-  }, [definition]);
+  }, [definition, entity]);
 
   const handleChange = (event) => {
     const name = event.target.name;
