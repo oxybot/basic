@@ -156,6 +156,14 @@ namespace Basic.WebApi.Controllers
         public MyUserForView UpdateUser(MyUserForEdit user)
         {
             var model = this.GetConnectedUser();
+            if (!string.IsNullOrEmpty(model.ExternalIdentifier))
+            {
+                // The user has been imported and his profile can't be updated
+                string message = "Your profile is defined and managed outside of the system and can't be updated.";
+                this.ModelState.AddModelError(string.Empty, message);
+                throw new InvalidModelStateException(this.ModelState);
+            }
+
             this.Mapper.Map(user, model);
             if (!this.ModelState.IsValid)
             {

@@ -9,9 +9,10 @@ import Sections from "../Generic/Sections";
 export function ProfileView() {
   const { user } = useSelector(authenticationState);
   const definition = useDefinition("MyUserForView");
+  const canEdit = user.externalIdentifier === null || user.externalIdentifier === "";
 
   return (
-    <PageView full={true} entity={user}>
+    <PageView full={true} entity={user} editRole={canEdit ? null : "notexisting"}>
       <Sections>
         <Section code="detail" element={<EntityDetail definition={definition} entity={user} />}>
           Detail
