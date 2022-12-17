@@ -1,14 +1,13 @@
 import { useParams, useRevalidator } from "react-router-dom";
-import { useApiFetch, useDefinition } from "../api";
+import { useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
 
 export function GlobalDayOffEdit({ full = false }) {
   const revalidator = useRevalidator();
   const { dayOffId } = useParams();
   const definition = useDefinition("GlobalDayOffForEdit");
-  const [, entity] = useApiFetch(["GlobalDaysOff", dayOffId], { method: "GET" }, {});
   const texts = {
-    title: entity.displayName,
+    title: (e) => e.displayName,
     subTitle: "Edit a Day-Off",
   };
 
@@ -19,7 +18,6 @@ export function GlobalDayOffEdit({ full = false }) {
   return (
     <PageEdit
       definition={definition}
-      entity={entity}
       texts={texts}
       full={full}
       baseApiUrl="GlobalDaysOff"

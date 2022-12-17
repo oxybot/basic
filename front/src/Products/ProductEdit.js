@@ -1,14 +1,13 @@
 import { useParams, useRevalidator } from "react-router-dom";
-import { useApiFetch, useDefinition } from "../api";
+import { useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
 
 export function ProductEdit({ full = false }) {
   const revalidator = useRevalidator();
   const { productId } = useParams();
   const definition = useDefinition("ProductForEdit");
-  const [, entity] = useApiFetch(["Products", productId], { method: "GET" }, {});
   const texts = {
-    title: entity.displayName,
+    title: (e) => e.displayName,
     subTitle: "Edit a Product",
   };
 
@@ -19,7 +18,6 @@ export function ProductEdit({ full = false }) {
   return (
     <PageEdit
       definition={definition}
-      entity={entity}
       texts={texts}
       full={full}
       baseApiUrl="Products"

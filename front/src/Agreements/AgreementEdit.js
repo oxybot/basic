@@ -1,5 +1,5 @@
 import { useParams, useRevalidator } from "react-router-dom";
-import { useApiFetch, useDefinition } from "../api";
+import { useDefinition } from "../api";
 import PageEdit from "../Generic/PageEdit";
 import ItemsForm from "./ItemsForm";
 
@@ -25,8 +25,6 @@ export function AgreementEdit({ full = false }) {
   const { agreementId } = useParams();
   const definition = useDefinition("AgreementForEdit", transformDef);
 
-  const [, entity] = useApiFetch(["Agreements", agreementId], { method: "GET" }, {}, transform);
-
   const texts = {
     title: (e) => e.title,
     subTitle: "Edit an Agreement",
@@ -40,7 +38,6 @@ export function AgreementEdit({ full = false }) {
   return (
     <PageEdit
       definition={definition}
-      entity={entity}
       texts={texts}
       full={full}
       baseApiUrl="Agreements"
