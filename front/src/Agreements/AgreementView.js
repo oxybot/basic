@@ -1,6 +1,6 @@
 import pluralize from "pluralize";
-import { useParams } from "react-router-dom";
-import { useApiFetch, useDefinition } from "../api";
+import { useLoaderData } from "react-router-dom";
+import { useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import EntityFieldView from "../Generic/EntityFieldView";
 import PageView from "../Generic/PageView";
@@ -13,9 +13,9 @@ const transform = (d) => {
   return d;
 };
 
-function AgreementViewDetail({ entity }) {
+function AgreementViewDetail() {
   const definition = useDefinition("AgreementForView", transform);
-
+  const entity = useLoaderData();
   const items = entity.items || [];
 
   return (
@@ -62,14 +62,12 @@ function AgreementViewDetail({ entity }) {
 }
 
 export function AgreementView({ backTo = null, full = false }) {
-  const { agreementId } = useParams();
-  const get = { method: "GET" };
-  const [, entity] = useApiFetch(["Agreements", agreementId], get, {});
+  const entity = useLoaderData();
 
   return (
     <PageView backTo={backTo} full={full} entity={entity} title={entity.title} editRole="client">
       <Sections>
-        <Section code="detail" element={<AgreementViewDetail entity={entity} />}>
+        <Section code="detail" element={<AgreementViewDetail />}>
           Detail
         </Section>
       </Sections>

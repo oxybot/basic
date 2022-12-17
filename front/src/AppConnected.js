@@ -94,28 +94,52 @@ const router = createBrowserRouter(
       </Route>
 
       {/* Products */}
-      <Route path="/product/:productId" element={<ProductView full />} />
+      <Route
+        path="/product/:productId"
+        element={<ProductView full />}
+        loader={({ params }) => loadOne("products", params.productId)}
+      />
       <Route path="/product/:productId/edit" element={<ProductEdit full />} />
       <Route path="/products" element={<ProductList />} loader={({ request }) => loadList("products", request)}>
-        <Route path=":productId" element={<ProductView backTo="/products" />} />
+        <Route
+          path=":productId"
+          element={<ProductView backTo="/products" />}
+          loader={({ params }) => loadOne("products", params.productId)}
+        />
         <Route path=":productId/edit" element={<ProductEdit />} />
         <Route path="new" element={<ProductNew />} />
       </Route>
 
       {/* Agreements */}
-      <Route path="/agreement/:agreementId" element={<AgreementView full />} />
+      <Route
+        path="/agreement/:agreementId"
+        element={<AgreementView full />}
+        loader={({ params }) => loadOne("agreements", params.agreementId)}
+      />
       <Route path="/agreement/:agreementId/edit" element={<AgreementEdit full />} />
       <Route path="/agreements" element={<AgreementList />} loader={({ request }) => loadList("agreements", request)}>
-        <Route path=":agreementId" element={<AgreementView backTo="/agreements" />} />
+        <Route
+          path=":agreementId"
+          element={<AgreementView backTo="/agreements" />}
+          loader={({ params }) => loadOne("agreements", params.agreementId)}
+        />
         <Route path=":agreementId/edit" element={<AgreementEdit />} />
         <Route path="new" element={<AgreementNew />} />
       </Route>
 
       {/* Users */}
-      <Route path="/user/:userId" element={<UserView full />} />
+      <Route
+        path="/user/:userId"
+        element={<UserView full />}
+        loader={({ params }) => loadOne("users", params.userId)}
+      />
       <Route path="/user/:userId/edit" element={<UserEdit full />} />
       <Route path="/users" element={<UserList />} loader={({ request }) => loadList("users", request)}>
-        <Route path=":userId" element={<UserView backTo="/users" />} />
+        <Route
+          path=":userId"
+          element={<UserView backTo="/users" />}
+          loader={({ params }) => loadOne("users", params.userId)}
+        />
         <Route path=":userId/edit" element={<UserEdit />} />
         <Route path="new" element={<UserNew />} />
         <Route path="import" element={<UserImport />} />
@@ -129,15 +153,27 @@ const router = createBrowserRouter(
 
       {/* Schedules */}
       <Route path="/schedules" element={<ScheduleList />} loader={({ request }) => loadList("schedules", request)}>
-        <Route path=":scheduleId" element={<ScheduleView backTo="/schedules" />} />
+        <Route
+          path=":scheduleId"
+          element={<ScheduleView backTo="/schedules" />}
+          loader={({ params }) => loadOne("schedules", params.scheduleId)}
+        />
         <Route path=":scheduleId/edit" element={<ScheduleEdit />} />
         <Route path="new" element={<ScheduleNew />} />
       </Route>
 
       {/* Events */}
-      <Route path="/event/:eventId" element={<EventView full />} />
+      <Route
+        path="/event/:eventId"
+        element={<EventView full />}
+        loader={({ params }) => loadOne("events", params.eventId)}
+      />
       <Route path="/events" element={<EventList />} loader={({ request }) => loadList("events", request)}>
-        <Route path=":eventId" element={<EventView backTo="/events" />} />
+        <Route
+          path=":eventId"
+          element={<EventView backTo="/events" />}
+          loader={({ params }) => loadOne("events", params.eventId)}
+        />
         <Route path="new" element={<EventNew />} />
       </Route>
     </Route>

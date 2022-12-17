@@ -1,6 +1,6 @@
 import { IconCheck, IconX } from "@tabler/icons";
 import dayjs from "dayjs";
-import { NavLink, useParams, useRevalidator } from "react-router-dom";
+import { NavLink, useLoaderData, useParams, useRevalidator } from "react-router-dom";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import PageView from "../Generic/PageView";
@@ -15,8 +15,9 @@ const transform = (d) => {
   return d;
 };
 
-function EventAttachmentList({ eventId }) {
+function EventAttachmentList() {
   const definition = useDefinition("AttachmentForList");
+  const { eventId } = useParams();
   const [loading, elements] = useApiFetch(["Events", eventId, "Attachments"], { method: "GET" }, []);
   return (
     <div className="card">
@@ -32,8 +33,9 @@ function EventAttachmentList({ eventId }) {
   );
 }
 
-function EventViewDetail({ entity }) {
+function EventViewDetail() {
   const definition = useDefinition("EventForView", transform);
+  const entity = useLoaderData();
 
   return (
     <>
@@ -42,9 +44,11 @@ function EventViewDetail({ entity }) {
   );
 }
 
-function StatusList({ eventId }) {
+function StatusList() {
   const definition = useDefinition("ModelStatusForList");
+  const { eventId } = useParams();
   const [loading, elements] = useApiFetch(["Events", eventId, "statuses"], { method: "GET" }, []);
+
   return (
     <div className="card">
       <EntityList loading={loading} definition={definition} elements={elements} />
@@ -56,7 +60,7 @@ export function EventView({ backTo = null, full = false }) {
   const revalidator = useRevalidator();
   const { eventId } = useParams();
   const get = { method: "GET" };
-  const [, entity] = useApiFetch(["Events", eventId], get, {});
+  const entity = useLoaderData();
   const [, next] = useApiFetch(["Events", eventId, "Statuses/Next"], get, []);
   const [, links] = useApiFetch(["Events", eventId, "links"], get, {});
   const isInRole = useInRole();
@@ -118,14 +122,14 @@ export function EventView({ backTo = null, full = false }) {
       extraMenu={<ExtraMenu />}
     >
       <Sections>
-        <Section code="detail" element={<EventViewDetail entity={entity} />}>
+        <Section code="detail" element={<EventViewDetail />}>
           Detail
         </Section>
-        <Section code="statuses" element={<StatusList eventId={eventId} />}>
+        <Section code="statuses" element={<StatusList />}>
           Statuses
         </Section>
         {isInRole("beta") && (
-          <Section code="attachments" element={<EventAttachmentList eventId={eventId} />}>
+          <Section code="attachments" element={<EventAttachmentList />}>
             Attachments
             <span className="badge ms-2 bg-green">{links.attachments || ""}</span>
           </Section>
