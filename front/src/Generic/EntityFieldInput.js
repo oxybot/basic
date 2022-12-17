@@ -1,6 +1,7 @@
 import { IconCurrencyEuro } from "@tabler/icons";
 import clsx from "clsx";
 import dayjs from "dayjs";
+import Select from "react-select";
 import EntityFieldInputColor from "./EntityFieldInputColor";
 import EntityFieldInputImage from "./EntityFieldInputImage";
 import EntityFieldInputReference from "./EntityFieldInputReference";
@@ -84,17 +85,23 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
       );
 
     case "ref/eventtimemapping":
+      const options = [
+        { value: "Active", label: "Active" },
+        { value: "TimeOff", label: "Time-off" },
+      ];
       return (
-        <select
-          className={clsx("form-select", { "is-invalid": hasErrors })}
-          id={field.name}
+        <Select
           name={field.name}
-          value={value}
-          onChange={onChange}
-        >
-          <option value="Active">Active</option>
-          <option value="TimeOff">Time-off</option>
-        </select>
+          required={field.required}
+          isClearable={true}
+          isSearchable={true}
+          classNamePrefix="react-select"
+          className={clsx({ "is-invalid": hasErrors })}
+          placeholder={field.placeholder}
+          options={options}
+          defaultValue={options.filter((s) => s.value === value)}
+          onChange={(s) => onChange({ target: { name: field.name, value: s && s.value } })}
+        />
       );
 
     case "image":

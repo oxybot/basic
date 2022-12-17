@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addWarning } from "../Alerts/slice";
@@ -21,6 +21,19 @@ export default function PageNew({
   const [errors, setErrors] = useState({});
   texts["form-action"] = "Create";
 
+  useEffect(() => {
+    if (definition) {
+      let updated = { ...entity };
+      definition.fields.forEach((field) => {
+        if (field.type === "boolean") {
+          updated[field.name] = false;
+        }
+      });
+
+      setEntity(updated);
+    }
+  }, [definition]);
+
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -29,6 +42,7 @@ export default function PageNew({
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(entity);
     apiFetch(baseApiUrl, {
       method: "POST",
       body: JSON.stringify(entity),
