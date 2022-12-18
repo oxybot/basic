@@ -51,6 +51,9 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasIndex("ClientIdentifier");
 
+                    b.HasIndex("InternalCode")
+                        .IsUnique();
+
                     b.HasIndex("OwnerIdentifier");
 
                     b.ToTable("Agreement");
@@ -186,6 +189,9 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
+                    b.HasIndex("DisplayName")
+                        .IsUnique();
+
                     b.ToTable("Client");
                 });
 
@@ -295,6 +301,9 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
+                    b.HasIndex("DisplayName")
+                        .IsUnique();
+
                     b.ToTable("EventCategory");
                 });
 
@@ -387,6 +396,9 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.HasKey("Identifier");
 
+                    b.HasIndex("DisplayName")
+                        .IsUnique();
+
                     b.ToTable("Product");
                 });
 
@@ -402,6 +414,9 @@ namespace Basic.DataAccess.MySql.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.HasKey("Identifier");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.ToTable("Role");
 
@@ -483,6 +498,9 @@ namespace Basic.DataAccess.MySql.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("Identifier");
+
+                    b.HasIndex("DisplayName")
+                        .IsUnique();
 
                     b.ToTable("Status");
 
@@ -576,6 +594,9 @@ namespace Basic.DataAccess.MySql.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Identifier");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("User");
 

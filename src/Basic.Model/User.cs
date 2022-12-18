@@ -35,6 +35,7 @@ namespace Basic.Model
         /// Gets or sets the username of the user.
         /// </summary>
         [Required]
+        [Unique]
         [MaxLength(255)]
         public string Username { get; set; }
 

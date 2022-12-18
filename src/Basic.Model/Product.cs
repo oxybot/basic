@@ -14,6 +14,7 @@ namespace Basic.Model
         /// Gets or sets the display name of the product.
         /// </summary>
         [Required]
+        [Unique]
         [MaxLength(255)]
         public string DisplayName { get; set; }
 

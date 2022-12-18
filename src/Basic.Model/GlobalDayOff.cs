@@ -20,6 +20,7 @@ namespace Basic.Model
         /// Gets or sets the reference date.
         /// </summary>
         [Required]
+        [Unique]
         public DateOnly Date { get; set; }
 
         /// <summary>

@@ -35,6 +35,7 @@ namespace Basic.Model
         /// Gets or sets the name of the status - as displayed.
         /// </summary>
         [Required]
+        [Unique]
         [MaxLength(50)]
         public string DisplayName { get; set; }
 

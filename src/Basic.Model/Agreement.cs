@@ -34,6 +34,7 @@ namespace Basic.Model
         /// Gets or sets the internal code of the agreement.
         /// </summary>
         [Required]
+        [Unique]
         [MaxLength(50)]
         public string InternalCode { get; set; }
 

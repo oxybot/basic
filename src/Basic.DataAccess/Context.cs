@@ -5,6 +5,7 @@ using Basic.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Basic.DataAccess
 {
@@ -80,10 +81,16 @@ namespace Basic.DataAccess
             // Register all model types
             foreach (Type type in modelTypes)
             {
-                modelBuilder.Entity(type);
+                var typeBuilder = modelBuilder.Entity(type);
+
+                // Manage [Unique] attributes
+                foreach (var property in type.GetProperties().Where(p => p.GetCustomAttribute<UniqueAttribute>() != null))
+                {
+                    typeBuilder.HasIndex(property.Name).IsUnique();
+                }
             }
 
-            // Special configuration
+            // Special configuration for Schedule.WorkingSchedule
             modelBuilder
                 .Entity<Schedule>()
                 .Property(s => s.WorkingSchedule)
