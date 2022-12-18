@@ -25,6 +25,7 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the associated description, if any.
         /// </summary>
+        [MaxLength(255)]
         public string Description { get; set; }
     }
 }

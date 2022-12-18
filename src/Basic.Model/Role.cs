@@ -53,6 +53,7 @@ namespace Basic.Model
         /// Gets or sets the code of the role.
         /// </summary>
         [Required]
+        [MaxLength(50)]
         public string Code { get; set; }
 
         /// <summary>

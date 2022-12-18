@@ -25,6 +25,7 @@ namespace Basic.Model
         /// Gets or sets the description of the item.
         /// </summary>
         [Required]
+        [MaxLength(255)]
         public string Description { get; set; }
 
         /// <summary>

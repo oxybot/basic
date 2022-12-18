@@ -35,11 +35,13 @@ namespace Basic.Model
         /// Gets or sets the name of the status - as displayed.
         /// </summary>
         [Required]
+        [MaxLength(50)]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the status, if any.
         /// </summary>
+        [MaxLength(255)]
         public string Description { get; set; }
 
         /// <summary>

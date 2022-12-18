@@ -14,11 +14,13 @@ namespace Basic.Model
         /// Gets or sets the display name of the product.
         /// </summary>
         [Required]
+        [MaxLength(255)]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets the default description of the product.
         /// </summary>
+        [MaxLength(255)]
         public string DefaultDescription { get; set; }
 
         /// <summary>

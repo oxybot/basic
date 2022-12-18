@@ -3,6 +3,7 @@ using System;
 using Basic.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Basic.DataAccess.MySql.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20221218072926_FixToken")]
+    partial class FixToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,8 +32,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("InternalCode")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid?>("OwnerIdentifier")
                         .HasColumnType("char(36)");
@@ -44,8 +45,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Identifier");
 
@@ -64,8 +64,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("ParentIdentifier")
                         .HasColumnType("char(36)");
@@ -88,8 +87,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid?>("ProductIdentifier")
                         .HasColumnType("char(36)");
@@ -176,13 +174,11 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Identifier");
 
@@ -197,8 +193,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("ParentIdentifier")
                         .HasColumnType("char(36)");
@@ -257,8 +252,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("ParentIdentifier")
                         .HasColumnType("char(36)");
@@ -278,13 +272,11 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("ColorClass")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Mapping")
                         .IsRequired()
@@ -337,8 +329,7 @@ namespace Basic.DataAccess.MySql.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Identifier");
 
@@ -371,8 +362,7 @@ namespace Basic.DataAccess.MySql.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("DefaultDescription")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<decimal>("DefaultQuantity")
                         .HasColumnType("decimal(18,6)");
@@ -382,8 +372,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Identifier");
 
@@ -398,8 +387,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Identifier");
 
@@ -471,13 +459,11 @@ namespace Basic.DataAccess.MySql.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
@@ -544,36 +530,29 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ExternalIdentifier")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Password")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Salt")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Title")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Identifier");
 
@@ -600,8 +579,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("ParentIdentifier")
                         .HasColumnType("char(36)");
@@ -696,8 +674,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                             b1.Property<string>("MimeType")
                                 .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("varchar(50)");
+                                .HasColumnType("longtext");
 
                             b1.HasKey("AgreementAttachmentIdentifier");
 
@@ -780,24 +757,19 @@ namespace Basic.DataAccess.MySql.Migrations
                                 .HasColumnType("char(36)");
 
                             b1.Property<string>("City")
-                                .HasMaxLength(255)
-                                .HasColumnType("varchar(255)");
+                                .HasColumnType("longtext");
 
                             b1.Property<string>("Country")
-                                .HasMaxLength(255)
-                                .HasColumnType("varchar(255)");
+                                .HasColumnType("longtext");
 
                             b1.Property<string>("Line1")
-                                .HasMaxLength(255)
-                                .HasColumnType("varchar(255)");
+                                .HasColumnType("longtext");
 
                             b1.Property<string>("Line2")
-                                .HasMaxLength(255)
-                                .HasColumnType("varchar(255)");
+                                .HasColumnType("longtext");
 
                             b1.Property<string>("PostalCode")
-                                .HasMaxLength(50)
-                                .HasColumnType("varchar(50)");
+                                .HasColumnType("longtext");
 
                             b1.HasKey("ClientIdentifier");
 
@@ -830,8 +802,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                             b1.Property<string>("MimeType")
                                 .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("varchar(50)");
+                                .HasColumnType("longtext");
 
                             b1.HasKey("ClientAttachmentIdentifier");
 
@@ -885,8 +856,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                             b1.Property<string>("MimeType")
                                 .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("varchar(50)");
+                                .HasColumnType("longtext");
 
                             b1.HasKey("EventAttachmentIdentifier");
 
@@ -967,8 +937,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                             b1.Property<string>("MimeType")
                                 .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("varchar(50)");
+                                .HasColumnType("longtext");
 
                             b1.HasKey("UserIdentifier");
 
@@ -1000,8 +969,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
                             b1.Property<string>("MimeType")
                                 .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("varchar(50)");
+                                .HasColumnType("longtext");
 
                             b1.HasKey("UserAttachmentIdentifier");
 

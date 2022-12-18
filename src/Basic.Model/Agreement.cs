@@ -34,12 +34,14 @@ namespace Basic.Model
         /// Gets or sets the internal code of the agreement.
         /// </summary>
         [Required]
+        [MaxLength(50)]
         public string InternalCode { get; set; }
 
         /// <summary>
         /// Gets or sets the title of the agreement.
         /// </summary>
         [Required]
+        [MaxLength(255)]
         public string Title { get; set; }
 
         /// <summary>

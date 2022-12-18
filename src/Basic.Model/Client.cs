@@ -24,12 +24,14 @@ namespace Basic.Model
         /// Gets or sets the name of the client as displayed in the interface.
         /// </summary>
         [Required]
+        [MaxLength(255)]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the client as displayed in official papers.
         /// </summary>
         [Required]
+        [MaxLength(255)]
         public string FullName { get; set; }
 
         /// <summary>

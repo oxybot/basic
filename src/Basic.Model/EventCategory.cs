@@ -14,6 +14,7 @@ namespace Basic.Model
         /// Gets or sets the display name of the category.
         /// </summary>
         [Required]
+        [MaxLength(255)]
         public string DisplayName { get; set; }
 
         /// <summary>
@@ -25,6 +26,7 @@ namespace Basic.Model
         /// Gets or sets the css class associated to this category.
         /// </summary>
         [Required]
+        [MaxLength(50)]
         public string ColorClass { get; set; }
 
         /// <summary>

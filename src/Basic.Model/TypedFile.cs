@@ -24,6 +24,7 @@ namespace Basic.Model
         /// Gets or sets the mime-type of the file.
         /// </summary>
         [Required]
+        [MaxLength(50)]
         public string MimeType { get; set; }
     }
 }

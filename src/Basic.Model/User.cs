@@ -28,12 +28,14 @@ namespace Basic.Model
         /// Gets or sets the display name of the user.
         /// </summary>
         [Required]
+        [MaxLength(255)]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets the username of the user.
         /// </summary>
         [Required]
+        [MaxLength(255)]
         public string Username { get; set; }
 
         /// <summary>
@@ -44,11 +46,13 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the e-mail of the user.
         /// </summary>
+        [MaxLength(255)]
         public string Email { get; set; }
 
         /// <summary>
         /// Gets or sets the password of the user, if any.
         /// </summary>
+        [MaxLength(255)]
         public string Password { get; set; }
 
         /// <summary>
@@ -57,11 +61,13 @@ namespace Basic.Model
         /// <remarks>
         /// This value is 'internal' and should not be displayed or changed by the user.
         /// </remarks>
+        [MaxLength(255)]
         public string Salt { get; set; }
 
         /// <summary>
         /// Gets or sets the title of the user.
         /// </summary>
+        [MaxLength(255)]
         public string Title { get; set; }
 
         /// <summary>
@@ -72,6 +78,7 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the identifier of the user in the external authenticator.
         /// </summary>
+        [MaxLength(255)]
         public string ExternalIdentifier { get; set; }
 
         /// <summary>
