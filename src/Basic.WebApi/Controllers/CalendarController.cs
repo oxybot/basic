@@ -76,7 +76,7 @@ namespace Basic.WebApi.Controllers
                 // Add line for time-off, if any
                 if (timeoff.Any())
                 {
-                    var line = new UserCalendar.Line()
+                    var line = new UserCalendarLine()
                     {
                         Category = "Time-off",
                         ColorClass = "bg-timeoff",
@@ -96,7 +96,7 @@ namespace Basic.WebApi.Controllers
                 // Add lines for active categories
                 foreach (var activeGroup in active.GroupBy(e => e.Category))
                 {
-                    var line = new UserCalendar.Line()
+                    var line = new UserCalendarLine()
                     {
                         Category = activeGroup.Key.DisplayName,
                         ColorClass = activeGroup.Key.ColorClass,
@@ -188,7 +188,6 @@ namespace Basic.WebApi.Controllers
         {
             // All the technical tests are managed prior to this point (i.e. required fields...)
             // Are added here the business and reference checks
-
             var context = this.CreateContext(request);
             this.Validate(context, request);
             if (!this.ModelState.IsValid)
@@ -216,9 +215,10 @@ namespace Basic.WebApi.Controllers
                     .Where(s => s.User == context.User)
                     .Where(s => s.ActiveFrom <= request.EndDate && (s.ActiveTo == null || request.StartDate < s.ActiveTo.Value));
 
-                this.ModelState.AddModelError(string.Empty, schedules.Any()
+                string errorMessage = schedules.Any()
                     ? "Multiple working schedules are impacted. Please do one request for each."
-                    : "No working schedule defined for this period");
+                    : "No working schedule defined for this period";
+                this.ModelState.AddModelError(string.Empty, errorMessage);
             }
 
             if (!this.ModelState.IsValid)

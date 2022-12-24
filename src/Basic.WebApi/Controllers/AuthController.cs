@@ -161,7 +161,8 @@ namespace Basic.WebApi.Controllers
             var audience = this.Configuration["BaseUrl"];
             var jwtValidity = DateTime.Now.AddSeconds(Convert.ToInt32(this.Configuration["JwtToken:ExpireIn"], CultureInfo.InvariantCulture));
 
-            var claims = new List<Claim> {
+            var claims = new List<Claim>
+            {
                 new Claim(type: "sid:guid", user.Identifier.ToString("D")),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("D")),
             };
@@ -184,6 +185,5 @@ namespace Basic.WebApi.Controllers
 
             return token;
         }
-
     }
 }

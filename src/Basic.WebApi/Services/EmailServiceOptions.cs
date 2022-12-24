@@ -1,6 +1,8 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Basic.WebApi.Services
 {
     /// <summary>
@@ -44,6 +46,7 @@ namespace Basic.WebApi.Services
         /// <summary>
         /// Gets or sets the base url for the front project.
         /// </summary>
+        [SuppressMessage("Design", "CA1056:URI-like properties should not be strings", Justification = "Part of user options")]
         public string FrontBaseUrl { get; set; }
     }
 }

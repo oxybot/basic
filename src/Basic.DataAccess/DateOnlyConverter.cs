@@ -19,6 +19,7 @@ namespace Basic.DataAccess
             : base(
                 d => d.ToDateTime(TimeOnly.MinValue),
                 d => DateOnly.FromDateTime(d))
-        { }
+        {
+        }
     }
 }

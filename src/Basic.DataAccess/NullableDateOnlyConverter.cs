@@ -23,6 +23,7 @@ namespace Basic.DataAccess
             d => d == null
                 ? null
                 : new DateOnly?(DateOnly.FromDateTime(d.Value)))
-        { }
+        {
+        }
     }
 }

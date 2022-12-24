@@ -80,7 +80,8 @@ namespace Basic.WebApi.Controllers
 
             if (entity.CurrentStatus.Identifier == Status.Requested)
             {
-                return new[] {
+                return new[]
+                {
                     this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Approved),
                     this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Rejected),
                 }.Select(s => this.Mapper.Map<StatusReference>(s));
@@ -88,7 +89,8 @@ namespace Basic.WebApi.Controllers
 
             if (entity.CurrentStatus.Identifier == Status.Approved)
             {
-                return new[] {
+                return new[]
+                {
                     this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Canceled),
                 }.Select(s => this.Mapper.Map<StatusReference>(s));
             }

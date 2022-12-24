@@ -6,6 +6,7 @@ using Basic.Model;
 using MailKit.Net.Smtp;
 using MimeKit;
 using SmartFormat;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.WebApi.Services
 {
@@ -152,6 +153,10 @@ namespace Basic.WebApi.Services
         /// Sends a message prepared in this class.
         /// </summary>
         /// <param name="message">The message to be send.</param>
+        [SuppressMessage(
+            "Design",
+            "CA1031:Do not catch general exception types",
+            Justification = "Global treatment - require proper final management of exceptions")]
         private void Send(MimeMessage message)
         {
             using var client = new SmtpClient();

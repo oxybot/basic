@@ -3,9 +3,7 @@
 
 using Basic.Model;
 using Basic.WebApi.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 
 namespace Basic.WebApi.Framework
 {
@@ -20,6 +18,7 @@ namespace Basic.WebApi.Framework
         /// <typeparam name="T">The model type associated with the query.</typeparam>
         /// <param name="query">The reference query.</param>
         /// <param name="sortAndFilter">The sort and filter options, if any.</param>
+        /// <param name="definition">The definition associated with the filtered elements.</param>
         /// <returns>The updated query.</returns>
         public static IQueryable<T> ApplySortAndFilter<T>(this IQueryable<T> query, SortAndFilterModel sortAndFilter, Definition definition)
             where T : BaseModel
@@ -127,6 +126,15 @@ namespace Basic.WebApi.Framework
             return result;
         }
 
+        /// <summary>
+        /// Applies sort options to a specific LINQ query.
+        /// </summary>
+        /// <typeparam name="T">The type of the query elements.</typeparam>
+        /// <typeparam name="TKey">The type of the sorting property.</typeparam>
+        /// <param name="query">The updated query.</param>
+        /// <param name="keySelector">The property selection expression.</param>
+        /// <param name="ascending">A value indicating whether the order is ascending; or descending.</param>
+        /// <returns>The updated LINQ query.</returns>
         public static IQueryable<T> ApplySort<T, TKey>(this IQueryable<T> query, Expression<Func<T, TKey>> keySelector, bool ascending)
         {
             if (ascending)

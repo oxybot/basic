@@ -136,5 +136,15 @@ namespace Basic.WebApi.Controllers
                 Agreements = entity.Agreements.Count,
             };
         }
+
+        /// <inheritdoc />
+        protected override void CheckDependencies(ClientForEdit entity, Client model)
+        {
+            int duplicate = this.Context.Set<Client>().Where(c => c.DisplayName == model.DisplayName).Count(c => c.Identifier != model.Identifier);
+            if (duplicate > 0)
+            {
+                this.ModelState.AddModelError(nameof(model.DisplayName), "A client with the same Display Name is already registered.");
+            }
+        }
     }
 }

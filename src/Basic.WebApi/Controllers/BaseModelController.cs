@@ -7,6 +7,8 @@ using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Basic.WebApi.Controllers
 {
@@ -67,6 +69,17 @@ namespace Basic.WebApi.Controllers
             this.Context.SaveChanges();
 
             return this.Mapper.Map<TForList>(model);
+        }
+
+        protected void CheckUniqueFor(TModel model, string propertyName, Expression<Func<TModel, bool>> comparison)
+        {
+            int duplicate = this.Context.Set<TModel>()
+                .Where(comparison)
+                .Count(c => c.Identifier != model.Identifier);
+            if (duplicate > 0)
+            {
+                this.ModelState.AddModelError(propertyName, "A client with the same Display Name is already registered.");
+            }
         }
     }
 }

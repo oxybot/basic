@@ -1,4 +1,7 @@
-﻿namespace Basic.WebApi.Framework
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Basic.WebApi.Framework
 {
     /// <summary>
     /// Indicates that the associated property can or can't be used as a sort option.

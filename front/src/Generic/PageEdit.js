@@ -42,7 +42,9 @@ export default function PageEdit({
         onUpdate();
       })
       .catch((err) => {
-        if (typeof err === "string") {
+        if (err && err.message) {
+          dispatch(addWarning("Invalid information", "Please review the values provided."));
+        } else if (typeof err === "string") {
           dispatch(addWarning("Invalid information", "Please review the values provided"));
         } else {
           setErrors(err);

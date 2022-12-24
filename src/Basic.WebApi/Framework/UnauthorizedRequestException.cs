@@ -15,13 +15,17 @@ namespace Basic.WebApi.Framework
         /// Initializes a new instance of the <see cref="UnauthorizedRequestException"/> class.
         /// </summary>
         public UnauthorizedRequestException()
-            : base("Unauthorized", 401) { }
+            : base("Unauthorized", 401)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnauthorizedRequestException"/> class.
         /// </summary>
         /// <param name="inner">The underlying error description.</param>
         public UnauthorizedRequestException(Exception inner)
-            : base("Unauthorized", 401, inner) { }
+            : base("Unauthorized", 401, inner)
+        {
+        }
     }
 }

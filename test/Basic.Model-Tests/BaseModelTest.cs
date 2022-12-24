@@ -85,7 +85,7 @@ namespace Basic.Model
                     }
                     else
                     {
-                        TestContext.WriteLine("ignore {0}.{1}", type.Name, property.Name);
+                        this.TestContext.WriteLine("ignore {0}.{1}", type.Name, property.Name);
                     }
                 }
             }

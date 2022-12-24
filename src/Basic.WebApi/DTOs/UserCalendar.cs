@@ -13,7 +13,7 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         public UserCalendar()
         {
-            this.Lines = new List<Line>();
+            this.Lines = new List<UserCalendarLine>();
             this.DaysOff = new List<int>();
         }
 
@@ -30,35 +30,6 @@ namespace Basic.WebApi.DTOs
         /// <summary>
         /// Gets or sets the lines for this user.
         /// </summary>
-        public ICollection<Line> Lines { get; set; }
-
-        /// <summary>
-        /// Represents a calendar line of a specific user and category.
-        /// </summary>
-        public class Line
-        {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="Line"/> class.
-            /// </summary>
-            public Line()
-            {
-                this.Days = new List<int>();
-            }
-
-            /// <summary>
-            /// Gets or sets the category name for this line.
-            /// </summary>
-            public string Category { get; set; }
-
-            /// <summary>
-            /// Gets or sets the css class for this line.
-            /// </summary>
-            public string ColorClass { get; set; }
-
-            /// <summary>
-            /// Gets or sets the days part of this calendar line.
-            /// </summary>
-            public ICollection<int> Days { get; set; }
-        }
+        public ICollection<UserCalendarLine> Lines { get; set; }
     }
 }

@@ -14,7 +14,8 @@ namespace Basic.WebApi.Framework
         /// <param name="message">The associated error message.</param>
         public NotFoundException(string message)
             : base(message, 404)
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NotFoundException"/> class.
@@ -23,6 +24,7 @@ namespace Basic.WebApi.Framework
         /// <param name="inner">The underlying error description.</param>
         public NotFoundException(string message, Exception inner)
             : base(message, 404, inner)
-        { }
+        {
+        }
     }
 }
