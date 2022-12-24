@@ -77,6 +77,12 @@ namespace Basic.WebApi.Controllers
         [Produces("application/json")]
         public override UserForList Post(UserForEdit user)
         {
+            // Fix for empty avatar data
+            if (user != null && user.Avatar != null && user.Avatar.Data == null)
+            {
+                user.Avatar = null;
+            }
+
             return base.Post(user);
         }
 
@@ -94,6 +100,12 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}")]
         public override UserForList Put(Guid identifier, UserForEdit user)
         {
+            // Fix for empty avatar data
+            if (user != null && user.Avatar != null && user.Avatar.Data == null)
+            {
+                user.Avatar = null;
+            }
+
             return base.Put(identifier, user);
         }
 
