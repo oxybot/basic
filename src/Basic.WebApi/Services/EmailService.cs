@@ -106,11 +106,15 @@ namespace Basic.WebApi.Services
             }
 
             // get the time approvers informations sending
+#pragma warning disable CA1307 // Specify StringComparison for clarity - removed to be convertible to SQL
+#pragma warning disable CA1309 // Use ordinal string comparison - removed to be convertible to SQL
             List<User> approvers = this.Context.Set<User>()
                 .Where(u => u.Roles.Any(r => r.Code.Equals(Role.Time)))
                 .Where(u => u.IsActive)
                 .Where(u => !string.IsNullOrEmpty(u.Email))
                 .ToList();
+#pragma warning restore CA1309 // Use ordinal string comparison
+#pragma warning restore CA1307 // Specify StringComparison for clarity
 
             if (approvers.Count == 0)
             {
