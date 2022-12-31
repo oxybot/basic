@@ -23,18 +23,11 @@ builder.Services.AddDbContext<Context>(options =>
     switch (driver)
     {
         case "SQLSERVER":
-            options.UseSqlServer("name=ConnectionStrings:SqlServer", options =>
-            {
-                options.MigrationsAssembly(typeof(Basic.DataAccess.SqlServer.Migrations.InitialCreate).Assembly.FullName);
-            });
+            options.UseConfiguredSqlServer(builder.Configuration);
             break;
 
         case "MYSQL":
-            string connectionString = builder.Configuration.GetConnectionString("MySql");
-            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), options =>
-            {
-                options.MigrationsAssembly(typeof(Basic.DataAccess.MySql.Migrations.MySql01).Assembly.FullName);
-            });
+            options.UseConfiguredMySql(builder.Configuration);
             break;
 
         default:

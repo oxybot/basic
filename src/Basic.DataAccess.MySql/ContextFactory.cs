@@ -7,21 +7,21 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.DataAccess.MySql
 {
+    /// <summary>
+    /// Internal class managing context creation for migration.
+    /// </summary>
     [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Instancied automatically when creating new migration")]
     internal class ContextFactory : IDesignTimeDbContextFactory<Context>
     {
+        /// <summary>
+        /// Creates a new context for migration management.
+        /// </summary>
+        /// <param name="args">The parameter is not used.</param>
+        /// <returns>The created and initialized context.</returns>
         public Context CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<Context>();
-
-            string connectionString = "Server=localhost;Database=basic;User=basic;Password=basic";
-            optionsBuilder.UseMySql(
-                connectionString,
-                ServerVersion.AutoDetect(connectionString),
-                options =>
-                {
-                    options.MigrationsAssembly("Basic.DataAccess.MySql");
-                });
+            var optionsBuilder = new DbContextOptionsBuilder<Context>()
+                .UseConfiguredMySql();
 
             return new Context(optionsBuilder.Options);
         }
