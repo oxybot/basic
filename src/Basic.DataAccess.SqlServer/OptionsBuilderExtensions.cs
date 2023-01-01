@@ -1,9 +1,7 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
-using Basic.DataAccess;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 
 namespace Microsoft.EntityFrameworkCore
 {
