@@ -453,6 +453,11 @@ namespace Basic.DataAccess.SqlServer.Migrations
                         {
                             Identifier = new Guid("a0b62b59-6440-4031-ac22-0a74be98a409"),
                             Code = "beta"
+                        },
+                        new
+                        {
+                            Identifier = new Guid("e7f909f2-2af9-42d8-bfd0-5ca96022cba2"),
+                            Code = "options"
                         });
                 });
 
@@ -705,6 +710,11 @@ namespace Basic.DataAccess.SqlServer.Migrations
                         new
                         {
                             RolesIdentifier = new Guid("a0b62b59-6440-4031-ac22-0a74be98a409"),
+                            UsersIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
+                        },
+                        new
+                        {
+                            RolesIdentifier = new Guid("e7f909f2-2af9-42d8-bfd0-5ca96022cba2"),
                             UsersIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
                         });
                 });

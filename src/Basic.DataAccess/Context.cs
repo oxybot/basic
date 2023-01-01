@@ -1,4 +1,4 @@
-// Copyright (c) oxybot. All rights reserved.
+﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
 using Basic.Model;
@@ -94,7 +94,7 @@ namespace Basic.DataAccess
             modelBuilder
                 .Entity<Schedule>()
                 .Property(s => s.WorkingSchedule)
-                    .HasConversion<ScheduleConverter, ScheduleComparer>();
+                .HasConversion<ScheduleConverter, ScheduleComparer>();
 
             // Special configuration for Settings
             modelBuilder
@@ -134,6 +134,11 @@ namespace Basic.DataAccess
                 {
                     Identifier = new Guid("a0b62b59-6440-4031-ac22-0a74be98a409"),
                     Code = Role.Beta,
+                },
+                new Role()
+                {
+                    Identifier = new Guid("e7f909f2-2af9-42d8-bfd0-5ca96022cba2"),
+                    Code = Role.Options,
                 },
             };
             modelBuilder.Entity<Role>().HasData(roles);

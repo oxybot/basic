@@ -37,6 +37,11 @@ namespace Basic.Model
         public const string User = "user";
 
         /// <summary>
+        /// The right to change the global options.
+        /// </summary>
+        public const string Options = "options";
+
+        /// <summary>
         /// The right to view and manage the beta features for a development purpose.
         /// </summary>
         public const string Beta = "beta";
