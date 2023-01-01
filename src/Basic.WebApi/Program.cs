@@ -9,32 +9,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddDbContext<Context>(options =>
-{
-    string driver = builder.Configuration["DatabaseDriver"]?.ToUpperInvariant();
-    switch (driver)
-    {
-        case "SQLSERVER":
-            options.UseConfiguredSqlServer(builder.Configuration);
-            break;
-
-        case "MYSQL":
-            options.UseConfiguredMySql(builder.Configuration);
-            break;
-
-        default:
-            string message = string.Format(CultureInfo.InvariantCulture, "No database configuration defined for [{0}]", builder.Configuration["DatabaseDriver"]);
-            throw new NotImplementedException(message);
-    }
-});
+// Add entity framework services to the container
+builder.Services.AddDbContext<Context>(options => DbContextInitializer.InitializeOptions(options, builder.Configuration));
 
 // Add custom options for the project
 builder.Services.Configure<ActiveDirectoryOptions>(builder.Configuration.GetSection(ActiveDirectoryOptions.Section));
