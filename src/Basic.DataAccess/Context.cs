@@ -1,4 +1,4 @@
-﻿// Copyright (c) oxybot. All rights reserved.
+// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
 using Basic.Model;
@@ -95,6 +95,12 @@ namespace Basic.DataAccess
                 .Entity<Schedule>()
                 .Property(s => s.WorkingSchedule)
                     .HasConversion<ScheduleConverter, ScheduleComparer>();
+
+            // Special configuration for Settings
+            modelBuilder
+                .Entity<Setting>()
+                .HasIndex(nameof(Setting.Section), nameof(Setting.Key))
+                .IsUnique();
 
             // Set-up initial data
             var roles = new[]

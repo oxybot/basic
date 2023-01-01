@@ -482,6 +482,31 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.ToTable("Schedule");
                 });
 
+            modelBuilder.Entity("Basic.Model.Setting", b =>
+                {
+                    b.Property<Guid>("Identifier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Section")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Identifier");
+
+                    b.HasIndex("Section", "Key")
+                        .IsUnique();
+
+                    b.ToTable("Setting");
+                });
+
             modelBuilder.Entity("Basic.Model.Status", b =>
                 {
                     b.Property<Guid>("Identifier")
