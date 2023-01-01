@@ -21,6 +21,9 @@ builder.Services.AddDbContext<Context>(options => DbContextInitializer.Initializ
 // Add custom options for the project
 builder.Services.Configure<ActiveDirectoryOptions>(builder.Configuration.GetSection(ActiveDirectoryOptions.Section));
 
+// Add a configuration source based on database
+builder.Configuration.AddDatabase(builder.Logging);
+
 // Enforce lowercase controller names
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
