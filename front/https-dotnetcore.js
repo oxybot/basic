@@ -21,19 +21,21 @@ if (!certificateName) {
 const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
 const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
-if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
-  spawn("dotnet", ["dev-certs", "https", "--export-path", certFilePath, "--format", "Pem", "--no-password"], {
-    stdio: "inherit",
-  }).on("exit", (code) => process.exit(code));
-}
-
-if (!fs.existsSync(".env.development.local")) {
-  fs.writeFileSync(
-    ".env.development.local",
-    `SSL_CRT_FILE=${certFilePath}
-SSL_KEY_FILE=${keyFilePath}`
-  );
-} else {
-  fs.appendFileSync(".env.development.local", `\nSSL_CRT_FILE=${certFilePath}`);
-  fs.appendFileSync(".env.development.local", `\nSSL_KEY_FILE=${keyFilePath}`);
-}
+// Export as PEM/KEY
+console.log("Export the dev certificate as pem/key files");
+spawn("dotnet", ["dev-certs", "https", "--export-path", certFilePath, "--format", "Pem", "--no-password"], {
+  stdio: "inherit",
+}).on("close", (code) => {
+  if (code !== 0) {
+    process.exit(code);
+  } else {
+    // Update local configuration
+    if (!fs.existsSync(".env.development.local")) {
+      console.log("Create .env.development.local with path to certificate files");
+      fs.writeFileSync(".env.development.local", `SSL_CRT_FILE=${certFilePath}\nSSL_KEY_FILE=${keyFilePath}\n`);
+    } else {
+      console.log("Update .env.development.local with path to certificate files");
+      fs.appendFileSync(".env.development.local", `\nSSL_CRT_FILE=${certFilePath}\nSSL_KEY_FILE=${keyFilePath}\n`);
+    }
+  }
+});

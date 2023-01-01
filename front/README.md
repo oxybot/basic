@@ -32,3 +32,5 @@ The project requires (yarn)[] to run.
 
 To update the environment variables, create a `.env.development.local` file and add your specific configuration.
 The `.env.development` file contains the possible environment variables for the project.
+
+To create / update the development certificate, runs the following command: `node ./https-dotnetcore.js --name=basic`
