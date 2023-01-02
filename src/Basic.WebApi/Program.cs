@@ -138,11 +138,14 @@ if (app.Environment.IsDevelopment())
 {
 }
 
-app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "Basic API V1");
     options.RoutePrefix = string.Empty;
+});
+
+app.UseReDoc(options => {
+    options.RoutePrefix = "redoc";
 });
 
 app.UseHttpsRedirection();
