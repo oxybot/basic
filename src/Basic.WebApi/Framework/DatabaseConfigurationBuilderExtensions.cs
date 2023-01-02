@@ -28,19 +28,16 @@ namespace Microsoft.Extensions.Configuration
                 throw new ArgumentNullException(nameof(loggingBuilder));
             }
 
-            // Register services for the source and provider
-            loggingBuilder.Services.AddSingleton<DatabaseConfigurationSource>();
-            loggingBuilder.Services.AddSingleton<DatabaseConfigurationProvider>();
-
-            // Retrieve a logger factory for the database configuration source and provider
+            // Retrieve the current services
             IServiceProvider services = loggingBuilder.Services.BuildServiceProvider();
-            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 
             // Temporary configuration to retrieve the connection string
             IConfigurationRoot temp = builder.Build();
 
             // Register the database configuration source
-            builder.Add(services.GetRequiredService<DatabaseConfigurationSource>());
+            builder.Add(new DatabaseConfigurationSource(
+                services.GetRequiredService<ILogger<DatabaseConfigurationSource>>(),
+                temp));
         }
     }
 }

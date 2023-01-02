@@ -119,11 +119,13 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", info);
 });
 
-// Business services
-builder.Services.Configure<EmailServiceOptions>(builder.Configuration.GetSection(EmailServiceOptions.Section));
-builder.Services.AddScoped(sp => sp.GetRequiredService<IOptions<EmailServiceOptions>>().Value);
-builder.Services.AddScoped<EmailService>();
+// Business services and options
+builder.Services
+    .AddOptions<EmailServiceOptions>()
+    .BindConfiguration(EmailServiceOptions.Section);
+builder.Services.AddScoped(sp => sp.GetRequiredService<IOptionsSnapshot<EmailServiceOptions>>().Value);
 
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ConsumptionService>();
 builder.Services.AddScoped<Context>();
 builder.Services.AddSingleton<ExternalAuthenticatorService>();

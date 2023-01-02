@@ -11,23 +11,23 @@ namespace Basic.WebApi.Framework
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseConfigurationSource"/> class.
         /// </summary>
-        /// <param name="services">The service provider used for configuration initialization.</param>
         /// <param name="logger">The logger associated with the <see cref="DatabaseConfigurationSource"/> class.</param>
-        public DatabaseConfigurationSource(IServiceProvider services, ILogger<DatabaseConfigurationSource> logger)
+        /// <param name="configuration">The configuration associated to the application and to the database connection.</param>
+        public DatabaseConfigurationSource(ILogger<DatabaseConfigurationSource> logger, IConfiguration configuration)
         {
-            this.Services = services ?? throw new ArgumentNullException(nameof(services));
             this.Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
-
-        /// <summary>
-        /// Gets the service provider used for configuration initialization.
-        /// </summary>
-        public IServiceProvider Services { get; }
 
         /// <summary>
         /// Gets the logger associated with the class.
         /// </summary>
         public ILogger<DatabaseConfigurationSource> Logger { get; }
+
+        /// <summary>
+        /// Gets the configuration associated to the application and to the database connection.
+        /// </summary>
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// Creates a new instance of the configuration builder.
@@ -37,7 +37,7 @@ namespace Basic.WebApi.Framework
         public IConfigurationProvider Build(IConfigurationBuilder builder)
         {
             this.Logger.LogDebug("Create a new DatabaseConfigurationProvider");
-            return this.Services.GetRequiredService<DatabaseConfigurationProvider>();
+            return new DatabaseConfigurationProvider(this);
         }
     }
 }
