@@ -3,9 +3,13 @@
 
 using Basic.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Basic.DataAccess
 {
@@ -28,6 +32,24 @@ namespace Basic.DataAccess
         /// </summary>
         protected Context()
         {
+        }
+
+        /// <inheritdoc />
+        public override int SaveChanges()
+        {
+            var entries = this.GetChangedEntries();
+            int result = base.SaveChanges();
+            NotifyEntityChange(entries);
+            return result;
+        }
+
+        /// <inheritdoc />
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            var entries = this.GetChangedEntries();
+            int result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+            NotifyEntityChange(entries);
+            return result;
         }
 
         /// <summary>
@@ -193,6 +215,34 @@ namespace Basic.DataAccess
                     Description = "The associated event has been canceled",
                     IsActive = false,
                 });
+        }
+
+        /// <summary>
+        /// Notifies on any entity change based on <see cref="EntityChangeObserver"/>.
+        /// </summary>
+        /// <param name="entries">The changed entities.</param>
+        private static void NotifyEntityChange(IEnumerable<EntityEntry> entries)
+        {
+            if (entries == null)
+            {
+                return;
+            }
+
+            foreach (var entry in entries)
+            {
+                EntityChangeObserver.Instance.OnChanged(new EntityChangeEventArgs(entry));
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a stable list of the changed entities.
+        /// </summary>
+        /// <returns>The list of changes entities.</returns>
+        private IEnumerable<EntityEntry> GetChangedEntries()
+        {
+            return this.ChangeTracker.Entries()
+                .Where(i => i.State == EntityState.Modified || i.State == EntityState.Added)
+                .ToList();
         }
     }
 }
