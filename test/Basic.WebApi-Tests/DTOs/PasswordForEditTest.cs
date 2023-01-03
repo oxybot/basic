@@ -42,7 +42,7 @@ namespace Basic.WebApi.DTOs
         [DataRow("aaa___111___")]
         public void ValidateAccepted(string actual)
         {
-            var password = new PasswordForEdit() { NewPassword = actual };
+            var password = new PasswordForEdit() { NewPassword = actual, ConfirmPassword = actual };
             var context = new ValidationContext(password);
             var results = password.Validate(context).ToArray();
 
@@ -60,11 +60,15 @@ namespace Basic.WebApi.DTOs
         /// <param name="actual">The tested value.</param>
         [TestMethod]
         [DataRow(" ")]
+        [DataRow("1234")]
+        [DataRow("123456")]
         [DataRow("aaaaaaaaaaaaaaa")]
+        [DataRow("_&;__&;__'_'___")]
+        [DataRow("01234567891011")]
         [DataRow("aaaBBB111__")]
         public void ValidateRejected(string actual)
         {
-            var password = new PasswordForEdit() { NewPassword = actual };
+            var password = new PasswordForEdit() { NewPassword = actual, ConfirmPassword = actual };
             var context = new ValidationContext(password);
             var results = password.Validate(context).ToArray();
 

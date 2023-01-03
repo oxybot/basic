@@ -28,6 +28,6 @@ namespace Basic.Model
         /// Gets or sets the user's token.
         /// </summary>
         [Required]
-        public User User { get; set; }
+        public virtual User User { get; set; }
     }
 }

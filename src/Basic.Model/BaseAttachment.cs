@@ -37,6 +37,6 @@ namespace Basic.Model
         /// Gets or sets the parent instance.
         /// </summary>
         [Required]
-        public TParentModel Parent { get; set; }
+        public virtual TParentModel Parent { get; set; }
     }
 }

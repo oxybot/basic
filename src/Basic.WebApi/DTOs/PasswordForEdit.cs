@@ -22,6 +22,11 @@ namespace Basic.WebApi.DTOs
         protected const string ErrorPasswordTooWeak = "The password is too weak";
 
         /// <summary>
+        /// Error message associated with a password and its confirmation being different.
+        /// </summary>
+        protected const string ErrorPasswordNotConfirmed = "The password and its confirmation should match";
+
+        /// <summary>
         /// Gets or sets the new password for the user.
         /// </summary>
         [Required]
@@ -50,6 +55,11 @@ namespace Basic.WebApi.DTOs
                 yield break;
             }
 
+            if (!string.Equals(this.NewPassword, this.ConfirmPassword, StringComparison.Ordinal))
+            {
+                yield return new ValidationResult(ErrorPasswordNotConfirmed, new[] { nameof(this.NewPassword) });
+            }
+
             if (this.NewPassword.Length >= 16)
             {
                 yield break;
@@ -65,30 +75,16 @@ namespace Basic.WebApi.DTOs
             int uppers = Regex.Matches(this.NewPassword, "[A-Z]").Count;
             int specials = this.NewPassword.Length - numbers - lowers - uppers;
 
-            if (specials == this.NewPassword.Length)
-            {
-                yield break;
-            }
-
             int score = 0;
             score += numbers > 0 ? 1 : 0;
             score += lowers > 0 ? 1 : 0;
             score += uppers > 0 ? 1 : 0;
             score += specials > 0 ? 1 : 0;
 
-            if (score < 3 && this.TestOfNewPassword())
+            if (score < 3)
             {
                 yield return new ValidationResult(ErrorPasswordTooWeak, new[] { nameof(this.NewPassword) });
             }
-        }
-
-        /// <summary>
-        /// Test if the new password is equal to the confirm password.
-        /// </summary>
-        /// <returns> "true" if the new password match the confirm password.</returns>
-        public bool TestOfNewPassword()
-        {
-                return this.NewPassword == this.ConfirmPassword;
         }
     }
 }

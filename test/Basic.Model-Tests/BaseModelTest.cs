@@ -3,6 +3,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -31,7 +32,7 @@ namespace Basic.Model
 
             foreach (var type in types)
             {
-                if (type.GetCustomAttribute<OwnedAttribute>() != null)
+                if (type.GetCustomAttribute<OwnedAttribute>() != null || type.GetCustomAttribute<AttributeUsageAttribute>() != null)
                 {
                     continue;
                 }
