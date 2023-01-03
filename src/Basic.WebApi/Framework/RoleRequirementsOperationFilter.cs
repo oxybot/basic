@@ -44,6 +44,7 @@ namespace Basic.WebApi.Framework
 
             if (context.GetControllerAndActionAttributes<AllowAnonymousAttribute>().Any())
             {
+                operation.Security.Add(new OpenApiSecurityRequirement());
                 return;
             }
 

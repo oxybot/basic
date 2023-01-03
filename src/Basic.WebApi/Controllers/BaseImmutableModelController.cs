@@ -50,8 +50,8 @@ namespace Basic.WebApi.Controllers
         /// <returns>The detailed data about the entity identified by <paramref name="identifier"/>.</returns>
         /// <response code="404">No entity is associated to the provided <paramref name="identifier"/>.</response>
         [HttpGet]
-        [Produces("application/json")]
         [Route("{identifier}")]
+        [Produces("application/json")]
         public virtual TForView GetOne(Guid identifier)
         {
             var entity = this.AddIncludesForView(this.Context.Set<TModel>()).SingleOrDefault(c => c.Identifier == identifier);
@@ -71,6 +71,7 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [Produces("application/json")]
+        [ProducesResponseType(typeof(InvalidResult), StatusCodes.Status400BadRequest)]
         public virtual TForList Post(TForEdit entity)
         {
             TModel model = this.Mapper.Map<TModel>(entity);
@@ -93,8 +94,8 @@ namespace Basic.WebApi.Controllers
         /// <param name="identifier">The identifier of the entity to delete.</param>
         /// <response code="404">No entity is associated to the provided <paramref name="identifier"/>.</response>
         [HttpDelete]
-        [Produces("application/json")]
         [Route("{identifier}")]
+        [Produces("application/json")]
         public virtual void Delete(Guid identifier)
         {
             var entity = this.Context.Set<TModel>().SingleOrDefault(e => e.Identifier == identifier);

@@ -5,6 +5,7 @@ using Basic.DataAccess;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -89,6 +90,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Enforce the validation of the jwt token based on the approved token
 builder.Services.AddSingleton<IPostConfigureOptions<JwtBearerOptions>, CustomJwtBearerPostConfigure>();
 
+// Define the content of the openapi definition files
+builder.Services.AddTransient<IApiDescriptionProvider, DefaultSuccessResponseProvider>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -114,9 +117,13 @@ builder.Services.AddSwaggerGen(options =>
     });
 
     options.OperationFilter<RoleRequirementsOperationFilter>();
+    options.OperationFilter<OperationIdFilter>();
 
-    var info = new OpenApiInfo() { Title = "Basic API", Version = "1.0" };
-    options.SwaggerDoc("v1", info);
+    options.AddServer(new OpenApiServer() { Url = builder.Configuration["BaseUrl"] });
+    var license = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://github.com/oxybot/basic/blob/main/LICENSE") };
+    var info = new OpenApiInfo() { Title = "Basic API", Version = "1.0", License = license };
+
+    options.SwaggerDoc("basic", info);
 });
 
 // Business services and options
@@ -138,13 +145,23 @@ if (app.Environment.IsDevelopment())
 {
 }
 
+// Generate the basic-openapi.json/yaml files
+app.UseSwagger(options =>
+{
+    options.RouteTemplate = "/{documentName}-openapi.{json|yaml}";
+});
+
+// Enable swagger-ui
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Basic API V1");
+    options.SwaggerEndpoint("/basic-openapi.json", "Basic API V1");
     options.RoutePrefix = string.Empty;
 });
 
-app.UseReDoc(options => {
+// Enable redoc ui
+app.UseReDoc(options =>
+{
+    options.SpecUrl = "/basic-openapi.json";
     options.RoutePrefix = "redoc";
 });
 

@@ -6,6 +6,7 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 
@@ -47,8 +48,9 @@ namespace Basic.WebApi.Controllers
         /// <response code="400">The provided data are invalid.</response>
         /// <response code="404">No entity is associated to the provided <paramref name="identifier"/>.</response>
         [HttpPut]
-        [Produces("application/json")]
         [Route("{identifier}")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(InvalidResult), StatusCodes.Status400BadRequest)]
         public virtual TForList Put(Guid identifier, TForEdit entity)
         {
             var model = this.AddIncludesForView(this.Context.Set<TModel>()).SingleOrDefault(e => e.Identifier == identifier);

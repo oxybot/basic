@@ -6,6 +6,7 @@ using Basic.DataAccess;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Models;
 using Basic.WebApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -41,6 +42,7 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <returns>The list of available entities.</returns>
         [HttpGet]
+        [AllowAnonymous]
         public IEnumerable<string> GetAll()
         {
             return this.Definitions.GetAll();
@@ -51,8 +53,9 @@ namespace Basic.WebApi.Controllers
         /// </summary>
         /// <param name="name">The name of the entity.</param>
         /// <returns>The associated definition.</returns>
-        /// <exception cref="NotFoundException">The <paramref name="name"/> is invalid.</exception>
+        /// <response code="404">No definition is associated to the provided <paramref name="name"/>.</response>
         [HttpGet]
+        [AllowAnonymous]
         [Route("{name}")]
         public Definition GetOne([Required] string name)
         {
