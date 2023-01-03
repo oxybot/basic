@@ -6,6 +6,9 @@
       <HashCode>AAAAEAAAAAAAAIEAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Client.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Address" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Agreements" />
     </ShowAsCollectionAssociation>
@@ -41,19 +44,22 @@
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Items" />
+      <Property Name="Statuses" />
     </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Basic.Model.User">
     <Position X="4.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAEAEAACAAAEEAEQQAAAAAAkAAAAACAAAAAAABAgA=</HashCode>
+      <HashCode>AABAEAEAACAAAEUAEQQAAAAAAkAAAAACAAAAAAABAgA=</HashCode>
       <FileName>User.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
+      <Property Name="Roles" />
       <Property Name="Events" />
       <Property Name="Balances" />
-      <Property Name="Roles" />
+      <Property Name="Schedules" />
+      <Property Name="Tokens" />
     </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" />
   </Class>
@@ -74,6 +80,9 @@
       <HashCode>AAAIEAAAAAABAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>EventCategory.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Mapping" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Basic.Model.Event">
     <Position X="4.25" Y="0.5" Width="1.5" />
@@ -85,17 +94,78 @@
       <Property Name="User" />
       <Property Name="Category" />
     </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Statuses" />
+    </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Basic.Model.Role">
     <Position X="1.5" Y="4.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAABACAAAAIAAAAAAAAgAAAAAAQAAEAAAAAAAAAAAQQ=</HashCode>
+      <HashCode>AAABACAAAAIAAAAAAAAgAAAAAAQAAEAAAAAAAABAAQQ=</HashCode>
       <FileName>Role.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="Users" />
     </ShowAsCollectionAssociation>
   </Class>
+  <Class Name="Basic.Model.AgreementStatus">
+    <Position X="4.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AgreementStatus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Basic.Model.EventStatus">
+    <Position X="1.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventStatus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Basic.Model.Schedule">
+    <Position X="7" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAABAAAAAAABAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Schedule.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Basic.Model.StreetAddress">
+    <Position X="1.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIIAAAAAAAAAIAAAAgAAAAQAAAAAA=</HashCode>
+      <FileName>StreetAddress.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Basic.Model.Token">
+    <Position X="1.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Token.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Basic.Model.Setting">
+    <Position X="1.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAgAIAAAAA=</HashCode>
+      <FileName>Setting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Basic.Model.EventTimeMapping">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>EventTimeMapping.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
