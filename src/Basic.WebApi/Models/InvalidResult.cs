@@ -11,7 +11,7 @@ namespace Basic.WebApi.Models
     /// {
     ///   "": [ "Global error" ],
     ///   "field1": [ "The Field 1 is required" ],
-    ///   "field2": [ "The Field 2 shoulc be a positive value" ],
+    ///   "field2": [ "The Field 2 should be a positive value" ],
     /// }
     /// </code>
     /// </example>

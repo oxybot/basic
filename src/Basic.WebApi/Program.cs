@@ -125,12 +125,18 @@ builder.Services.AddSwaggerGen(options =>
         Name = "MIT",
         Url = new Uri("https://github.com/oxybot/basic/blob/main/LICENSE"),
     };
+    var contact = new OpenApiContact()
+    {
+        Name = "oxybot",
+        Url = new Uri("https://github.com/oxybot/basic"),
+    };
     var info = new OpenApiInfo()
     {
         Title = "Basic API",
         Version = "1.0",
         License = license,
         Description = Assembly.GetExecutingAssembly().ReadResource("Basic.WebApi.README.md"),
+        Contact = contact,
     };
 
     options.SwaggerDoc("basic", info);
