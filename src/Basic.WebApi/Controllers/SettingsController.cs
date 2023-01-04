@@ -4,6 +4,7 @@
 using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
+using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -60,7 +61,7 @@ namespace Basic.WebApi.Controllers
         [HttpPut]
         [Route("email")]
         [AuthorizeRoles(Role.Options)]
-        public void PutEmail(EmailServiceOptions options)
+        public void PutEmail(EmailServiceOptionsForEdit options)
         {
             if (options is null)
             {
