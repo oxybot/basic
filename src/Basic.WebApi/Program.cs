@@ -120,8 +120,18 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<OperationIdFilter>();
 
     options.AddServer(new OpenApiServer() { Url = builder.Configuration["BaseUrl"] });
-    var license = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://github.com/oxybot/basic/blob/main/LICENSE") };
-    var info = new OpenApiInfo() { Title = "Basic API", Version = "1.0", License = license };
+    var license = new OpenApiLicense()
+    {
+        Name = "MIT",
+        Url = new Uri("https://github.com/oxybot/basic/blob/main/LICENSE"),
+    };
+    var info = new OpenApiInfo()
+    {
+        Title = "Basic API",
+        Version = "1.0",
+        License = license,
+        Description = Assembly.GetExecutingAssembly().ReadResource("Basic.WebApi.README.md"),
+    };
 
     options.SwaggerDoc("basic", info);
 });
