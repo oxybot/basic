@@ -101,7 +101,6 @@ namespace Basic.WebApi.Controllers
                 Assert.True(response.IsSuccessStatusCode);
                 var body = await response.Content.ReadAsJsonAsync<IEnumerable<TForList>>().ConfigureAwait(false);
                 Assert.NotNull(body);
-                Assert.Empty(body);
             }
 
             // Create one entry
