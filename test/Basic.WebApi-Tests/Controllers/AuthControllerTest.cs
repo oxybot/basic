@@ -2,38 +2,52 @@
 // Licensed under the MIT license.
 
 using Basic.WebApi.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Basic.WebApi.Controllers
 {
     /// <summary>
     /// Tests the <see cref="AuthController"/> class.
     /// </summary>
-    [TestClass]
+    [Collection("api")]
     public class AuthControllerTest
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthControllerTest"/> class.
+        /// </summary>
+        /// <param name="testServer">The current test server manager.</param>
+        public AuthControllerTest(TestServer testServer)
+        {
+            this.TestServer = testServer ?? throw new ArgumentNullException(nameof(testServer));
+        }
+
+        /// <summary>
+        /// Gets the current test server manager.
+        /// </summary>
+        public TestServer TestServer { get; }
+
         /// <summary>
         /// Tests the <see cref="AuthController.SignIn"/> method.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
-        [TestMethod]
+        [Fact]
         public async Task SignIn()
         {
-            using var client = TestServer.CreateClient();
+            using var client = this.TestServer.CreateClient();
             using var content = JsonContent.Create(new { Username = "demo", Password = "demo" });
             using var response = await client.PostAsync(new Uri("/Auth", UriKind.Relative), content).ConfigureAwait(false);
-            Assert.IsTrue(response.IsSuccessStatusCode);
+            Assert.True(response.IsSuccessStatusCode);
 
             var body = await response.Content.ReadAsJsonAsync<AuthResult>().ConfigureAwait(false);
-            Assert.IsNotNull(body);
-            Assert.AreEqual("Bearer", body.TokenType);
-            Assert.IsNotNull(body.AccessToken);
-            Assert.IsTrue(DateTimeOffset.Now.AddMinutes(59).ToUnixTimeMilliseconds() < body.Expire);
-            Assert.IsTrue(DateTimeOffset.Now.AddMinutes(61).ToUnixTimeMilliseconds() > body.Expire);
+            Assert.NotNull(body);
+            Assert.Equal("Bearer", body.TokenType);
+            Assert.NotNull(body.AccessToken);
+            Assert.True(DateTimeOffset.Now.AddMinutes(59).ToUnixTimeMilliseconds() < body.Expire);
+            Assert.True(DateTimeOffset.Now.AddMinutes(61).ToUnixTimeMilliseconds() > body.Expire);
         }
     }
 }

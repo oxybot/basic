@@ -1,9 +1,16 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
+using Basic.DataAccess;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 
@@ -12,45 +19,33 @@ namespace Basic.WebApi
     /// <summary>
     /// Manages the web test server.
     /// </summary>
-    [TestClass]
-    internal class TestServer
+    public sealed class TestServer : IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestServer"/> class.
+        /// </summary>
+        [SuppressMessage(
+            "Reliability",
+            "CA2000:Dispose objects before losing scope",
+            Justification = "WithWebHostBuilder is sending back the initialized instance")]
+        public TestServer()
+        {
+            this.Application = new WebApplicationFactory<Program>()
+                .WithWebHostBuilder(InitializeBuilder);
+        }
+
         /// <summary>
         /// Gets the web test server factory.
         /// </summary>
-        public static WebApplicationFactory<Program> Application { get; private set; }
-
-        /// <summary>
-        /// Initializes the web test server.
-        /// </summary>
-        /// <param name="context">The parameter is not used.</param>
-        /// <exception cref="ApplicationException">
-        /// The method has been already called.
-        /// </exception>
-        [AssemblyInitialize]
-        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Will be disposed on AssemblyCleanup")]
-        [SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Used for testing purpose only")]
-        public static void AssemblyInitialize(TestContext context)
-        {
-            if (Application != null)
-            {
-                throw new ApplicationException("Test web server already initialized");
-            }
-
-            Application = new WebApplicationFactory<Program>()
-                .WithWebHostBuilder(builder =>
-                {
-                    // ... Configure test services
-                });
-        }
+        private WebApplicationFactory<Program> Application { get; }
 
         /// <summary>
         /// Creates the default client.
         /// </summary>
         /// <returns>The default client for the test application.</returns>
-        public static HttpClient CreateClient()
+        public HttpClient CreateClient()
         {
-            return Application.CreateClient();
+            return this.Application.CreateClient();
         }
 
         /// <summary>
@@ -58,21 +53,47 @@ namespace Basic.WebApi
         /// </summary>
         /// <param name="options">The configuration for the application.</param>
         /// <returns>The client for the test application.</returns>
-        public static HttpClient CreateClient(WebApplicationFactoryClientOptions options)
+        public HttpClient CreateClient(WebApplicationFactoryClientOptions options)
         {
-            return Application.CreateClient(options);
+            return this.Application.CreateClient(options);
         }
 
         /// <summary>
-        /// Called when assembly tests are finished.
+        /// Called to stop the test server.
         /// </summary>
-        [AssemblyCleanup]
-        public static void AssemblyCleanup()
+        public void Dispose()
         {
-            if (Application != null)
+            // Ensure database to be deleted at the end of test execution.
+            using (var scope = this.Application.Services.CreateScope())
+            using (var context = scope.ServiceProvider.GetRequiredService<Context>())
             {
-                Application.Dispose();
+                context.Database.EnsureDeleted();
             }
+
+            this.Application.Dispose();
+        }
+
+        private static void InitializeBuilder(IWebHostBuilder builder)
+        {
+            builder.ConfigureServices(services =>
+            {
+                // Replace the database initialization service
+                services.RemoveAll<DbContextOptions<Context>>();
+                services.AddSingleton<DbContextOptions<Context>>(sp =>
+                {
+                    var builder = new DbContextOptionsBuilder<Context>(
+                        new DbContextOptions<Context>(new Dictionary<Type, IDbContextOptionsExtension>()));
+
+                    builder.UseApplicationServiceProvider(sp);
+
+                    IConfiguration configuration = sp.GetRequiredService<IConfiguration>();
+                    configuration.GetSection("ConnectionStrings")["SqlServer"]
+                        = "Server=(localdb)\\mssqllocaldb;Database=basic-test;Trusted_Connection=True;MultipleActiveResultSets=true";
+                    builder.UseConfiguredSqlServer(configuration);
+
+                    return builder.Options;
+                });
+            });
         }
     }
 }
