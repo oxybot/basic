@@ -3,6 +3,7 @@
 
 using Basic.WebApi.DTOs;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -27,20 +28,22 @@ namespace Basic.WebApi.Controllers
         /// <inheritdoc />
         public override Uri BaseUrl => new Uri("/GlobalDaysOff", UriKind.Relative);
 
-        /// <inheritdoc />
-        public override object CreateContent
-            => new { Date = "2023-01-15", Description = "test date" };
+        /// <summary>
+        /// Executes a Create/Read/Update/Delete test.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [Fact]
+        public Task CreateReadUpdateDeleteTest()
+        {
+            var model = new TestCRUDModel<GlobalDayOffForList>()
+            {
+                CreateContent = new { Date = "2023-01-15", Description = "test date" },
+                CreateExpected = new() { Date = new DateOnly(2023, 1, 15), Description = "test date" },
+                UpdateContent = new { Date = "2023-02-15", Description = "test updated date" },
+                UpdateExpected = new() { Date = new DateOnly(2023, 2, 15), Description = "test updated date" },
+            };
 
-        /// <inheritdoc />
-        public override GlobalDayOffForList CreateExpected
-            => new() { Date = new DateOnly(2023, 1, 15), Description = "test date" };
-
-        /// <inheritdoc />
-        public override object UpdateContent
-            => new { Date = "2023-02-15", Description = "test updated date" };
-
-        /// <inheritdoc />
-        public override GlobalDayOffForList UpdateExpected
-            => new() { Date = new DateOnly(2023, 2, 15), Description = "test updated date" };
+            return this.CreateReadUpdateDeleteTestAsync(model);
+        }
     }
 }

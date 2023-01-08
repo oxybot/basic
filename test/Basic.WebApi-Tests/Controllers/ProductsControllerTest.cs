@@ -3,6 +3,7 @@
 
 using Basic.WebApi.DTOs;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -27,20 +28,44 @@ namespace Basic.WebApi.Controllers
         /// <inheritdoc />
         public override Uri BaseUrl => new Uri("/Products", UriKind.Relative);
 
-        /// <inheritdoc />
-        public override object CreateContent
-            => new { DisplayName = "test Product", DefaultQuantity = 1, DefaultUnitPrice = 100 };
+        /// <summary>
+        /// Executes a Create/Read/Update/Delete test.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [Fact]
+        public Task CreateReadUpdateDeleteTest()
+        {
+            var model = new TestCRUDModel<ProductForView>()
+            {
+                CreateContent = new
+                {
+                    DisplayName = "test Product",
+                    DefaultQuantity = 1,
+                    DefaultUnitPrice = 100,
+                },
+                CreateExpected = new()
+                {
+                    DisplayName = "test Product",
+                    DefaultQuantity = 1,
+                    DefaultUnitPrice = 100,
+                },
+                UpdateContent = new
+                {
+                    DisplayName = "test updated Product",
+                    DefaultDescription = "updated",
+                    DefaultQuantity = 2,
+                    DefaultUnitPrice = 50,
+                },
+                UpdateExpected = new()
+                {
+                    DisplayName = "test updated Product",
+                    DefaultDescription = "updated",
+                    DefaultQuantity = 2,
+                    DefaultUnitPrice = 50,
+                },
+            };
 
-        /// <inheritdoc />
-        public override ProductForView CreateExpected
-            => new() { DisplayName = "test Product", DefaultQuantity = 1, DefaultUnitPrice = 100 };
-
-        /// <inheritdoc />
-        public override object UpdateContent
-            => new { DisplayName = "test updated Product", DefaultDescription = "updated", DefaultQuantity = 2, DefaultUnitPrice = 50 };
-
-        /// <inheritdoc />
-        public override ProductForView UpdateExpected
-            => new() { DisplayName = "test updated Product", DefaultDescription = "updated", DefaultQuantity = 2, DefaultUnitPrice = 50 };
+            return this.CreateReadUpdateDeleteTestAsync(model);
+        }
     }
 }

@@ -3,6 +3,7 @@
 
 using Basic.WebApi.DTOs;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -27,40 +28,42 @@ namespace Basic.WebApi.Controllers
         /// <inheritdoc />
         public override Uri BaseUrl => new Uri("/Schedules", UriKind.Relative);
 
-        /// <inheritdoc />
-        public override object CreateContent
-            => new
+        /// <summary>
+        /// Executes a Create/Read/Update/Delete test.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [Fact]
+        public Task CreateReadUpdateDeleteTest()
+        {
+            var model = new TestCRUDModel<ScheduleForView>()
             {
-                UserIdentifier = this.TestServer.TestReferences.User.Identifier,
-                ActiveFrom = "2023-01-01",
-                WorkingSchedule = new[] { 8, 8, 8, 8, 8, 0, 0 },
+                CreateContent = new
+                {
+                    UserIdentifier = this.TestServer.TestReferences.User.Identifier,
+                    ActiveFrom = "2023-01-01",
+                    WorkingSchedule = new[] { 8, 8, 8, 8, 8, 0, 0 },
+                },
+                CreateExpected = new()
+                {
+                    User = this.TestServer.TestReferences.User,
+                    ActiveFrom = new DateOnly(2023, 1, 1),
+                    WorkingSchedule = new decimal[] { 8, 8, 8, 8, 8, 0, 0 },
+                },
+                UpdateContent = new
+                {
+                    UserIdentifier = this.TestServer.TestReferences.User.Identifier,
+                    ActiveFrom = "2023-01-01",
+                    WorkingSchedule = new[] { 0, 8, 8, 8, 8, 8, 0 },
+                },
+                UpdateExpected = new()
+                {
+                    User = this.TestServer.TestReferences.User,
+                    ActiveFrom = new DateOnly(2023, 1, 1),
+                    WorkingSchedule = new decimal[] { 0, 8, 8, 8, 8, 8, 0 },
+                },
             };
 
-        /// <inheritdoc />
-        public override ScheduleForView CreateExpected
-            => new()
-            {
-                User = this.TestServer.TestReferences.User,
-                ActiveFrom = new DateOnly(2023, 1, 1),
-                WorkingSchedule = new decimal[] { 8, 8, 8, 8, 8, 0, 0 },
-            };
-
-        /// <inheritdoc />
-        public override object UpdateContent
-            => new
-            {
-                UserIdentifier = this.TestServer.TestReferences.User.Identifier,
-                ActiveFrom = "2023-01-01",
-                WorkingSchedule = new[] { 0, 8, 8, 8, 8, 8, 0 },
-            };
-
-        /// <inheritdoc />
-        public override ScheduleForView UpdateExpected
-            => new()
-            {
-                User = this.TestServer.TestReferences.User,
-                ActiveFrom = new DateOnly(2023, 1, 1),
-                WorkingSchedule = new decimal[] { 0, 8, 8, 8, 8, 8, 0 },
-            };
+            return this.CreateReadUpdateDeleteTestAsync(model);
+        }
     }
 }

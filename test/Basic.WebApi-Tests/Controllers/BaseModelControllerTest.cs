@@ -20,6 +20,7 @@ namespace Basic.WebApi.Controllers
     /// </summary>
     /// <typeparam name="TForList">The DTO associated with list.</typeparam>
     /// <typeparam name="TForView">The DTO associated with view.</typeparam>
+    [Collection("api")]
     public abstract class BaseModelControllerTest<TForList, TForView>
         where TForList : BaseEntityDTO
         where TForView : BaseEntityDTO
@@ -51,38 +52,21 @@ namespace Basic.WebApi.Controllers
         public abstract Uri BaseUrl { get; }
 
         /// <summary>
-        /// Gets the content used to create a new instance.
-        /// </summary>
-        public abstract object CreateContent { get; }
-
-        /// <summary>
-        /// Gets the content expected after the creation of a new instance
-        /// with <see cref="CreateContent"/>.
-        /// </summary>
-        public abstract TForView CreateExpected { get; }
-
-        /// <summary>
-        /// Gets the content used to update an existing instance.
-        /// </summary>
-        public abstract object UpdateContent { get; }
-
-        /// <summary>
-        /// Gets the content expected after the update of an existing instance
-        /// with <see cref="UpdateContent"/>.
-        /// </summary>
-        public abstract TForView UpdateExpected { get; }
-
-        /// <summary>
         /// Runs a Create/Update/Delete scenario.
         /// </summary>
+        /// <param name="testModel">The detail about the executed test.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
-        [Fact]
         [SuppressMessage(
             "Usage",
             "CA2234:Pass system uri objects instead of strings",
             Justification = "Usage of relative uri")]
-        public async Task CreateReadUpdateDeleteTest()
+        protected async Task CreateReadUpdateDeleteTestAsync(TestCRUDModel<TForView> testModel)
         {
+            if (testModel is null)
+            {
+                throw new ArgumentNullException(nameof(testModel));
+            }
+
             // Global initialization and authentication
             using var client = await this.TestServer.CreateAuthenticatedClientAsync().ConfigureAwait(false);
 
@@ -96,7 +80,7 @@ namespace Basic.WebApi.Controllers
 
             // Create one entry
             Guid? identifier = null;
-            using (var response = await client.PostAsJsonAsync(this.BaseUrl, this.CreateContent).ConfigureAwait(false))
+            using (var response = await client.PostAsJsonAsync(this.BaseUrl, testModel.CreateContent).ConfigureAwait(false))
             {
                 if (response.StatusCode == HttpStatusCode.BadRequest)
                 {
@@ -122,38 +106,41 @@ namespace Basic.WebApi.Controllers
                 Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}/{identifier}, status code: {(int)response.StatusCode} {response.StatusCode}");
                 var body = await this.TestServer.ReadAsJsonAsync<TForView>(response).ConfigureAwait(false);
                 Assert.NotNull(body);
-                var expected = this.UpdateIdentifier(this.CreateExpected, (Guid)identifier);
+                var expected = this.UpdateIdentifier(testModel.CreateExpected, (Guid)identifier);
                 Assert.Equivalent(expected, body, strict: true);
             }
 
             // Update entry
-            using (var response = await client.PutAsJsonAsync($"{this.BaseUrl}/{identifier}", this.UpdateContent).ConfigureAwait(false))
+            if (testModel.UpdateContent != null)
             {
-                if (response.StatusCode == HttpStatusCode.BadRequest)
+                using (var response = await client.PutAsJsonAsync($"{this.BaseUrl}/{identifier}", testModel.UpdateContent).ConfigureAwait(false))
                 {
-                    var errors = await this.TestServer.ReadAsJsonAsync<InvalidResult>(response).ConfigureAwait(false);
-                    foreach (var error in errors)
+                    if (response.StatusCode == HttpStatusCode.BadRequest)
                     {
-                        this.Logger.WriteLine($"{error.Key}: {string.Join(", ", error.Value)}");
+                        var errors = await this.TestServer.ReadAsJsonAsync<InvalidResult>(response).ConfigureAwait(false);
+                        foreach (var error in errors)
+                        {
+                            this.Logger.WriteLine($"{error.Key}: {string.Join(", ", error.Value)}");
+                        }
+
+                        Assert.Fail("Error in provided values for the update");
                     }
 
-                    Assert.Fail("Error in provided values for the update");
+                    Assert.True(response.IsSuccessStatusCode, $"Can't call PUT {this.BaseUrl}/{identifier}, status code: {(int)response.StatusCode} {response.StatusCode}");
+                    var body = await this.TestServer.ReadAsJsonAsync<TForList>(response).ConfigureAwait(false);
+                    Assert.NotNull(body);
+                    Assert.Equal(identifier, this.RetrieveIdentifier(body));
                 }
 
-                Assert.True(response.IsSuccessStatusCode, $"Can't call PUT {this.BaseUrl}/{identifier}, status code: {(int)response.StatusCode} {response.StatusCode}");
-                var body = await this.TestServer.ReadAsJsonAsync<TForList>(response).ConfigureAwait(false);
-                Assert.NotNull(body);
-                Assert.Equal(identifier, this.RetrieveIdentifier(body));
-            }
-
-            // Read one entry
-            using (var response = await client.GetAsync($"{this.BaseUrl}/{identifier}").ConfigureAwait(false))
-            {
-                Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}/{identifier}, status code: {(int)response.StatusCode} {response.StatusCode}");
-                var body = await this.TestServer.ReadAsJsonAsync<TForView>(response).ConfigureAwait(false);
-                Assert.NotNull(body);
-                var expected = this.UpdateIdentifier(this.UpdateExpected, (Guid)identifier);
-                Assert.Equivalent(expected, body, strict: true);
+                // Read one entry
+                using (var response = await client.GetAsync($"{this.BaseUrl}/{identifier}").ConfigureAwait(false))
+                {
+                    Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}/{identifier}, status code: {(int)response.StatusCode} {response.StatusCode}");
+                    var body = await this.TestServer.ReadAsJsonAsync<TForView>(response).ConfigureAwait(false);
+                    Assert.NotNull(body);
+                    var expected = this.UpdateIdentifier(testModel.UpdateExpected, (Guid)identifier);
+                    Assert.Equivalent(expected, body, strict: true);
+                }
             }
 
             // Delete entry

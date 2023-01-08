@@ -4,6 +4,7 @@
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -28,59 +29,42 @@ namespace Basic.WebApi.Controllers
         /// <inheritdoc />
         public override Uri BaseUrl => new Uri("/Events", UriKind.Relative);
 
-        /// <inheritdoc />
-        public override object CreateContent
-            => new
+        /// <summary>
+        /// Executes a Create/Read/Delete test.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        /// <remarks>
+        /// Events doesn't support Update.
+        /// </remarks>
+        [Fact]
+        public Task CreateReadDeleteTest()
+        {
+            var model = new TestCRUDModel<EventForView>()
             {
-                CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
-                UserIdentifier = this.TestServer.TestReferences.User.Identifier,
-                StartDate = "2023-02-01",
-                EndDate = "2023-02-03",
-                DurationTotal = 16,
-                DurationFirstDay = 0,
-                DurationLastDay = 0,
+                CreateContent = new
+                {
+                    CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
+                    UserIdentifier = this.TestServer.TestReferences.User.Identifier,
+                    StartDate = "2023-02-01",
+                    EndDate = "2023-02-03",
+                    DurationTotal = 16,
+                    DurationFirstDay = 0,
+                    DurationLastDay = 0,
+                },
+                CreateExpected = new()
+                {
+                    Category = this.TestServer.TestReferences.Category,
+                    User = this.TestServer.TestReferences.User,
+                    StartDate = new DateOnly(2023, 2, 1),
+                    EndDate = new DateOnly(2023, 2, 3),
+                    DurationTotal = 16,
+                    DurationFirstDay = 0,
+                    DurationLastDay = 0,
+                    CurrentStatus = this.TestServer.TestReferences.StatusRequested,
+                },
             };
 
-        /// <inheritdoc />
-        public override EventForView CreateExpected
-            => new()
-            {
-                Category = this.TestServer.TestReferences.Category,
-                User = this.TestServer.TestReferences.User,
-                StartDate = new DateOnly(2023, 2, 1),
-                EndDate = new DateOnly(2023, 2, 3),
-                DurationTotal = 16,
-                DurationFirstDay = 0,
-                DurationLastDay = 0,
-                CurrentStatus = this.TestServer.TestReferences.StatusRequested,
-            };
-
-        /// <inheritdoc />
-        public override object UpdateContent
-            => new
-            {
-                CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
-                UserIdentifier = this.TestServer.TestReferences.User.Identifier,
-                Comment = "test comment",
-                StartDate = "2023-02-01",
-                EndDate = "2023-02-03",
-                DurationTotal = 16,
-                DurationFirstDay = 4,
-                DurationLastDay = 4,
-            };
-
-        /// <inheritdoc />
-        public override EventForView UpdateExpected
-            => new()
-            {
-                Category = this.TestServer.TestReferences.Category,
-                User = this.TestServer.TestReferences.User,
-                Comment = "test comment",
-                StartDate = new DateOnly(2023, 2, 1),
-                EndDate = new DateOnly(2023, 2, 3),
-                DurationTotal = 16,
-                DurationFirstDay = 4,
-                DurationLastDay = 4,
-            };
+            return this.CreateReadUpdateDeleteTestAsync(model);
+        }
     }
 }

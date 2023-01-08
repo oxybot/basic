@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -16,7 +17,6 @@ namespace Basic.WebApi.Controllers
     /// <summary>
     /// Tests the <see cref="AgreementsController"/> class.
     /// </summary>
-    [Collection("api")]
     public class AgreementsControllerTest : BaseModelControllerTest<AgreementForList, AgreementForView>
     {
         /// <summary>
@@ -32,20 +32,46 @@ namespace Basic.WebApi.Controllers
         /// <inheritdoc />
         public override Uri BaseUrl => new Uri("/agreements", UriKind.Relative);
 
-        /// <inheritdoc />
-        public override object CreateContent
-            => new { ClientIdentifier = this.TestServer.TestReferences.Client.Identifier, InternalCode = "test", Title = "test agreement" };
+        /// <summary>
+        /// Executes a Create/Read/Update/Delete test.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [Fact]
+        public Task CreateReadUpdateDeleteTest()
+        {
+            var model = new TestCRUDModel<AgreementForView>()
+            {
+                CreateContent = new
+                {
+                    ClientIdentifier = this.TestServer.TestReferences.Client.Identifier,
+                    InternalCode = "test",
+                    Title = "test agreement",
+                },
+                CreateExpected = new()
+                {
+                    Client = this.TestServer.TestReferences.Client,
+                    InternalCode = "test",
+                    Title = "test agreement",
+                    Items = new List<AgreementItemForList>(),
+                },
+                UpdateContent = new
+                {
+                    ClientIdentifier = this.TestServer.TestReferences.Client.Identifier,
+                    InternalCode = "Test",
+                    Title = "test updated agreement",
+                    PrivateNotes = "test",
+                },
+                UpdateExpected = new()
+                {
+                    Client = this.TestServer.TestReferences.Client,
+                    InternalCode = "Test",
+                    Title = "test updated agreement",
+                    PrivateNotes = "test",
+                    Items = new List<AgreementItemForList>(),
+                },
+            };
 
-        /// <inheritdoc />
-        public override AgreementForView CreateExpected
-            => new() { Client = this.TestServer.TestReferences.Client, InternalCode = "test", Title = "test agreement", Items = new List<AgreementItemForList>() };
-
-        /// <inheritdoc />
-        public override object UpdateContent
-            => new { ClientIdentifier = this.TestServer.TestReferences.Client.Identifier, InternalCode = "Test", Title = "test updated agreement", PrivateNotes = "test" };
-
-        /// <inheritdoc />
-        public override AgreementForView UpdateExpected
-            => new() { Client = this.TestServer.TestReferences.Client, InternalCode = "Test", Title = "test updated agreement", PrivateNotes = "test", Items = new List<AgreementItemForList>() };
+            return this.CreateReadUpdateDeleteTestAsync(model);
+        }
     }
 }

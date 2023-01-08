@@ -3,6 +3,7 @@
 
 using Basic.WebApi.DTOs;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -27,20 +28,22 @@ namespace Basic.WebApi.Controllers
         /// <inheritdoc />
         public override Uri BaseUrl => new Uri("/users", UriKind.Relative);
 
-        /// <inheritdoc />
-        public override object CreateContent
-            => new { UserName = "test", DisplayName = "test User" };
+        /// <summary>
+        /// Executes a Create/Read/Update/Delete test.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [Fact]
+        public Task CreateReadUpdateDeleteTest()
+        {
+            var model = new TestCRUDModel<UserForView>()
+            {
+                CreateContent = new { UserName = "test", DisplayName = "test User" },
+                CreateExpected = new() { UserName = "test", DisplayName = "test User" },
+                UpdateContent = new { UserName = "test", DisplayName = "test updated User", Email = "test@example.com" },
+                UpdateExpected = new() { UserName = "test", DisplayName = "test updated User", Email = "test@example.com" },
+            };
 
-        /// <inheritdoc />
-        public override UserForView CreateExpected
-            => new() { UserName = "test", DisplayName = "test User" };
-
-        /// <inheritdoc />
-        public override object UpdateContent
-            => new { UserName = "test", DisplayName = "test updated User", Email = "test@example.com" };
-
-        /// <inheritdoc />
-        public override UserForView UpdateExpected
-            => new() { UserName = "test", DisplayName = "test updated User", Email = "test@example.com" };
+            return this.CreateReadUpdateDeleteTestAsync(model);
+        }
     }
 }

@@ -3,6 +3,7 @@
 
 using Basic.WebApi.DTOs;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -27,20 +28,40 @@ namespace Basic.WebApi.Controllers
         /// <inheritdoc />
         public override Uri BaseUrl => new Uri("/clients", UriKind.Relative);
 
-        /// <inheritdoc />
-        public override object CreateContent
-            => new { DisplayName = "test", FullName = "test client" };
+        /// <summary>
+        /// Executes a Create/Read/Update/Delete test.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [Fact]
+        public Task CreateReadUpdateDeleteTest()
+        {
+            var model = new TestCRUDModel<ClientForView>()
+            {
+                CreateContent = new
+                {
+                    DisplayName = "test",
+                    FullName = "test client",
+                },
+                CreateExpected = new()
+                {
+                    DisplayName = "test",
+                    FullName = "test client",
+                },
+                UpdateContent = new
+                {
+                    DisplayName = "Test",
+                    FullName = "Updated test client",
+                    AddressCountry = "Utopia",
+                },
+                UpdateExpected = new()
+                {
+                    DisplayName = "Test",
+                    FullName = "Updated test client",
+                    AddressCountry = "Utopia",
+                },
+            };
 
-        /// <inheritdoc />
-        public override ClientForView CreateExpected
-            => new ClientForView() { DisplayName = "test", FullName = "test client" };
-
-        /// <inheritdoc />
-        public override object UpdateContent
-            => new { DisplayName = "Test", FullName = "Updated test client", AddressCountry = "Utopia" };
-
-        /// <inheritdoc />
-        public override ClientForView UpdateExpected
-            => new ClientForView() { DisplayName = "Test", FullName = "Updated test client", AddressCountry = "Utopia" };
+            return this.CreateReadUpdateDeleteTestAsync(model);
+        }
     }
 }

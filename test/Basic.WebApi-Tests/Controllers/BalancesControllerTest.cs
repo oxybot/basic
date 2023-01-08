@@ -3,6 +3,7 @@
 
 using Basic.WebApi.DTOs;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -27,47 +28,49 @@ namespace Basic.WebApi.Controllers
         /// <inheritdoc />
         public override Uri BaseUrl => new Uri("/Balances", UriKind.Relative);
 
-        /// <inheritdoc />
-        public override object CreateContent
-            => new
+        /// <summary>
+        /// Executes a Create/Read/Update/Delete test.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [Fact]
+        public Task CreateReadUpdateDeleteTest()
+        {
+            var model = new TestCRUDModel<BalanceForList>()
             {
-                CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
-                UserIdentifier = this.TestServer.TestReferences.User.Identifier,
-                Year = DateTime.Today.Year,
-                Allowed = 100,
-                Transfered = 0,
+                CreateContent = new
+                {
+                    CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
+                    UserIdentifier = this.TestServer.TestReferences.User.Identifier,
+                    Year = DateTime.Today.Year,
+                    Allowed = 100,
+                    Transfered = 0,
+                },
+                CreateExpected = new()
+                {
+                    Category = this.TestServer.TestReferences.Category,
+                    User = this.TestServer.TestReferences.User,
+                    Year = DateTime.Today.Year,
+                    Allowed = 100,
+                },
+                UpdateContent = new
+                {
+                    CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
+                    UserIdentifier = this.TestServer.TestReferences.User.Identifier,
+                    Year = DateTime.Today.Year,
+                    Allowed = 130,
+                    Transfered = 30,
+                },
+                UpdateExpected = new()
+                {
+                    Category = this.TestServer.TestReferences.Category,
+                    User = this.TestServer.TestReferences.User,
+                    Year = DateTime.Today.Year,
+                    Allowed = 130,
+                    Transfered = 30,
+                },
             };
 
-        /// <inheritdoc />
-        public override BalanceForList CreateExpected
-            => new()
-            {
-                Category = this.TestServer.TestReferences.Category,
-                User = this.TestServer.TestReferences.User,
-                Year = DateTime.Today.Year,
-                Allowed = 100,
-            };
-
-        /// <inheritdoc />
-        public override object UpdateContent
-            => new
-            {
-                CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
-                UserIdentifier = this.TestServer.TestReferences.User.Identifier,
-                Year = DateTime.Today.Year,
-                Allowed = 130,
-                Transfered = 30,
-            };
-
-        /// <inheritdoc />
-        public override BalanceForList UpdateExpected
-            => new()
-            {
-                Category = this.TestServer.TestReferences.Category,
-                User = this.TestServer.TestReferences.User,
-                Year = DateTime.Today.Year,
-                Allowed = 130,
-                Transfered = 30,
-            };
+            return this.CreateReadUpdateDeleteTestAsync(model);
+        }
     }
 }

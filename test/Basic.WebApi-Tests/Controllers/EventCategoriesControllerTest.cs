@@ -4,6 +4,7 @@
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -28,20 +29,44 @@ namespace Basic.WebApi.Controllers
         /// <inheritdoc />
         public override Uri BaseUrl => new Uri("/EventCategories", UriKind.Relative);
 
-        /// <inheritdoc />
-        public override object CreateContent
-            => new { DisplayName = "test EventCategory", Mapping = "timeoff", RequireBalance = false };
+        /// <summary>
+        /// Executes a Create/Read/Update/Delete test.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [Fact]
+        public Task CreateReadUpdateDeleteTest()
+        {
+            var model = new TestCRUDModel<EventCategoryForList>()
+            {
+                CreateContent = new
+                {
+                    DisplayName = "test EventCategory",
+                    Mapping = "timeoff",
+                    RequireBalance = false,
+                },
+                CreateExpected = new()
+                {
+                    DisplayName = "test EventCategory",
+                    Mapping = EventTimeMapping.TimeOff,
+                    RequireBalance = false,
+                },
+                UpdateContent = new
+                {
+                    DisplayName = "test updated EventCategory",
+                    ColorClass = "ddffff",
+                    Mapping = "active",
+                    RequireBalance = true,
+                },
+                UpdateExpected = new()
+                {
+                    DisplayName = "test updated EventCategory",
+                    ColorClass = "ddffff",
+                    Mapping = EventTimeMapping.Active,
+                    RequireBalance = true,
+                },
+            };
 
-        /// <inheritdoc />
-        public override EventCategoryForList CreateExpected
-            => new() { DisplayName = "test EventCategory", Mapping = EventTimeMapping.TimeOff, RequireBalance = false };
-
-        /// <inheritdoc />
-        public override object UpdateContent
-            => new { DisplayName = "test updated EventCategory", ColorClass = "ddffff", Mapping = "active", RequireBalance = true };
-
-        /// <inheritdoc />
-        public override EventCategoryForList UpdateExpected
-            => new() { DisplayName = "test updated EventCategory", ColorClass = "ddffff", Mapping = EventTimeMapping.Active, RequireBalance = true };
+            return this.CreateReadUpdateDeleteTestAsync(model);
+        }
     }
 }
