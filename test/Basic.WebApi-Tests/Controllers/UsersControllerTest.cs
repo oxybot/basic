@@ -33,7 +33,7 @@ namespace Basic.WebApi.Controllers
 
         /// <inheritdoc />
         public override UserForView CreateExpected
-            => new UserForView() { UserName = "test", DisplayName = "test User" };
+            => new() { UserName = "test", DisplayName = "test User" };
 
         /// <inheritdoc />
         public override object UpdateContent
@@ -41,6 +41,6 @@ namespace Basic.WebApi.Controllers
 
         /// <inheritdoc />
         public override UserForView UpdateExpected
-            => new UserForView() { UserName = "test", DisplayName = "test updated User", Email = "test@example.com" };
+            => new() { UserName = "test", DisplayName = "test updated User", Email = "test@example.com" };
     }
 }

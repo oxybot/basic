@@ -6,6 +6,7 @@ using Basic.Model;
 using Basic.WebApi.DTOs;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 
 namespace Basic.WebApi
 {
@@ -37,6 +38,11 @@ namespace Basic.WebApi
         public EntityReference Category { get; private set; }
 
         /// <summary>
+        /// Gets the reference associated with the status "requested".
+        /// </summary>
+        public StatusReference StatusRequested { get; private set; }
+
+        /// <summary>
         /// Builds the references.
         /// </summary>
         /// <param name="services">The service provider to retrieve the entity framework context.</param>
@@ -55,6 +61,8 @@ namespace Basic.WebApi
             var category = new EventCategory() { DisplayName = "ref category", ColorClass = "#ff0000", Mapping = EventTimeMapping.TimeOff };
             context.Set<EventCategory>().Add(category);
 
+            var requested = context.Set<Status>().Single(e => e.Identifier == Status.Requested);
+
             context.SaveChanges();
 
             return new TestReferences
@@ -62,6 +70,7 @@ namespace Basic.WebApi
                 Client = new() { Identifier = client.Identifier, DisplayName = client.DisplayName },
                 User = new() { Identifier = user.Identifier, DisplayName = user.DisplayName },
                 Category = new() { Identifier = category.Identifier, DisplayName = category.DisplayName },
+                StatusRequested = new() { Identifier = requested.Identifier, DisplayName = requested.DisplayName, Description = requested.Description },
             };
         }
     }

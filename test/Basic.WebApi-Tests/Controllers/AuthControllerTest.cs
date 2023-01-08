@@ -42,7 +42,7 @@ namespace Basic.WebApi.Controllers
             using var response = await client.PostAsync(new Uri("/Auth", UriKind.Relative), content).ConfigureAwait(false);
             Assert.True(response.IsSuccessStatusCode);
 
-            var body = await response.Content.ReadAsJsonAsync<AuthResult>().ConfigureAwait(false);
+            var body = await this.TestServer.ReadAsJsonAsync<AuthResult>(response).ConfigureAwait(false);
             Assert.NotNull(body);
             Assert.Equal("Bearer", body.TokenType);
             Assert.NotNull(body.AccessToken);

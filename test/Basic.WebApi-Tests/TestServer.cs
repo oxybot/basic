@@ -4,18 +4,21 @@
 using Basic.DataAccess;
 using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -69,6 +72,10 @@ namespace Basic.WebApi
             return this.Application.CreateClient(options);
         }
 
+        /// <summary>
+        /// Creates a client initialized with an account with all roles.
+        /// </summary>
+        /// <returns>The default client for the test application.</returns>
         public async Task<HttpClient> CreateAuthenticatedClientAsync()
         {
             // Global initialization and authentication
@@ -77,12 +84,30 @@ namespace Basic.WebApi
             using (var response = await client.PostAsJsonAsync(new Uri("/auth", UriKind.Relative), content).ConfigureAwait(false))
             {
                 Assert.True(response.IsSuccessStatusCode);
-                var body = await response.Content.ReadAsJsonAsync<AuthResult>().ConfigureAwait(false);
+                var body = await this.ReadAsJsonAsync<AuthResult>(response).ConfigureAwait(false);
                 string accessToken = body.AccessToken;
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             }
 
             return client;
+        }
+
+        /// <summary>
+        /// Reads the body of a response using the json converter associated with the project.
+        /// </summary>
+        /// <typeparam name="T">The expected result type.</typeparam>
+        /// <param name="response">The http response message to read.</param>
+        /// <returns>The deserialization result.</returns>
+        public async Task<T> ReadAsJsonAsync<T>(HttpResponseMessage response)
+        {
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            var options = this.Application.Services.GetRequiredService<IOptions<JsonOptions>>().Value;
+            var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return JsonSerializer.Deserialize<T>(json, options.JsonSerializerOptions);
         }
 
         /// <summary>
