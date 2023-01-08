@@ -40,6 +40,7 @@ namespace Basic.WebApi
         {
             this.Application = new WebApplicationFactory<Program>()
                 .WithWebHostBuilder(InitializeBuilder);
+
             this.TestReferences = TestReferences.Build(this.Application.Services);
         }
 

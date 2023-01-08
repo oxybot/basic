@@ -37,10 +37,10 @@ namespace Basic.WebApi.Controllers
 
         /// <inheritdoc />
         public override object UpdateContent
-            => new { DisplayName = "test updated Product", Description = "updated", DefaultQuantity = 2, DefaultUnitPrice = 50 };
+            => new { DisplayName = "test updated Product", DefaultDescription = "updated", DefaultQuantity = 2, DefaultUnitPrice = 50 };
 
         /// <inheritdoc />
         public override ProductForView UpdateExpected
-            => new() { DisplayName = "test updated Product", Description = "updated", DefaultQuantity = 2, DefaultUnitPrice = 50 };
+            => new() { DisplayName = "test updated Product", DefaultDescription = "updated", DefaultQuantity = 2, DefaultUnitPrice = 50 };
     }
 }

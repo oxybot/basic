@@ -30,11 +30,11 @@ namespace Basic.WebApi.Controllers
 
         /// <inheritdoc />
         public override object CreateContent
-            => new { DisplayName = "test EventCategory", ColorClass = "ffffff", Mapping = "timeoff", RequireBalance = false };
+            => new { DisplayName = "test EventCategory", Mapping = "timeoff", RequireBalance = false };
 
         /// <inheritdoc />
         public override EventCategoryForList CreateExpected
-            => new() { DisplayName = "test EventCategory", ColorClass = "ffffff", Mapping = EventTimeMapping.TimeOff, RequireBalance = false };
+            => new() { DisplayName = "test EventCategory", Mapping = EventTimeMapping.TimeOff, RequireBalance = false };
 
         /// <inheritdoc />
         public override object UpdateContent
