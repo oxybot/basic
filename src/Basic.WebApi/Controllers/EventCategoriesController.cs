@@ -130,7 +130,7 @@ namespace Basic.WebApi.Controllers
 
             if (model.Mapping == EventTimeMapping.TimeOff)
             {
-                model.ColorClass = string.Empty;
+                model.ColorClass = null;
             }
         }
     }

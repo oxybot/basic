@@ -283,7 +283,6 @@ namespace Basic.DataAccess.MySql.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ColorClass")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 

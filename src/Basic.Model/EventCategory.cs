@@ -26,7 +26,6 @@ namespace Basic.Model
         /// <summary>
         /// Gets or sets the css class associated to this category.
         /// </summary>
-        [Required]
         [MaxLength(50)]
         public string ColorClass { get; set; }
 
