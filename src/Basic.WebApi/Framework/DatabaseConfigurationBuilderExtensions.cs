@@ -1,6 +1,7 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
+using Basic.DataAccess;
 using Basic.WebApi.Framework;
 
 namespace Microsoft.Extensions.Configuration
@@ -30,6 +31,13 @@ namespace Microsoft.Extensions.Configuration
 
             // Retrieve the current services
             IServiceProvider services = loggingBuilder.Services.BuildServiceProvider();
+
+            // Apply migrations if needed
+            using (var scope =services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<Context>();
+                db.Database.Migrate();
+            }
 
             // Temporary configuration to retrieve the connection string
             IConfigurationRoot temp = builder.Build();
