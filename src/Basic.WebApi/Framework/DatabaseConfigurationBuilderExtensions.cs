@@ -3,6 +3,7 @@
 
 using Basic.DataAccess;
 using Basic.WebApi.Framework;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.Configuration
 {
