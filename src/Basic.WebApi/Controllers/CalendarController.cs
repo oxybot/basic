@@ -253,7 +253,8 @@ namespace Basic.WebApi.Controllers
                 // Conflicts on active days
                 var conflicts = this.Context.Set<Event>()
                     .Where(e => e.Category == context.Category)
-                    .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate);
+                    .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate)
+                    .Where(e => e.User == context.User);
 
                 if (conflicts.Any())
                 {
