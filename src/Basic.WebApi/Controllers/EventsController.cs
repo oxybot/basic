@@ -26,13 +26,20 @@ namespace Basic.WebApi.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="EventsController"/> class.
         /// </summary>
+        /// <param name="notification">The notification service.</param>
         /// <param name="context">The datasource context.</param>
         /// <param name="mapper">The configured automapper.</param>
         /// <param name="logger">The associated logger.</param>
-        public EventsController(Context context, IMapper mapper, ILogger<EventsController> logger)
+        public EventsController(EmailService notification, Context context, IMapper mapper, ILogger<EventsController> logger)
             : base(context, mapper, logger)
         {
+            this.Notification = notification ?? throw new ArgumentNullException(nameof(notification));
         }
+
+        /// <summary>
+        /// Gets the notification service.
+        /// </summary>
+        public EmailService Notification { get; }
 
         /// <summary>
         /// Retrieves all events.
@@ -75,58 +82,36 @@ namespace Basic.WebApi.Controllers
         }
 
         /// <summary>
-        /// Creates a new event with a notification.
+        /// Creates a new event.
         /// </summary>
-        /// <param name="service">The service for email notification.</param>
         /// <param name="event">The event data.</param>
         /// <returns>The event data after creation.</returns>
         /// <response code="400">The provided data are invalid.</response>
         [HttpPost]
         [AuthorizeRoles(Role.Time)]
         [Produces("application/json")]
-        [Route("notify")]
-        public EventForList CreateEvent([FromServices] EmailService service, EventForEdit @event)
+        public override EventForList Post(EventForEdit @event)
         {
-            if (service is null)
-            {
-                throw new ArgumentNullException(nameof(service));
-            }
-            else if (@event is null)
+            if (@event is null)
             {
                 throw new ArgumentNullException(nameof(@event));
             }
 
-            var usersFromDb = this.Context.Set<User>();
-            User user = usersFromDb.ToList().Find(u => u.Identifier == @event.UserIdentifier);
+            Event model = this.Mapper.Map<Event>(@event);
 
-            if (user == null)
+            this.CheckDependencies(@event, model);
+            if (!this.ModelState.IsValid)
             {
-                this.ModelState.AddModelError("User", "The User is invalid");
+                throw new InvalidModelStateException(this.ModelState);
             }
 
-            var categories = this.Context.Set<EventCategory>();
-            EventCategory category = categories.ToList().Find(c => c.Identifier == @event.CategoryIdentifier);
-
-            if (category == null)
-            {
-                this.ModelState.AddModelError("Category", "The event category is invalid");
-            }
-
-            Event model = new Event()
-            {
-                User = user,
-                Category = category,
-                Comment = @event.Comment,
-                StartDate = @event.StartDate.Value,
-                EndDate = @event.EndDate.Value,
-                DurationFirstDay = @event.DurationFirstDay ?? 8m,
-                DurationLastDay = @event.DurationLastDay ?? 8m,
-            };
+            this.Context.Set<Event>().Add(model);
+            this.Context.SaveChanges();
 
             // Send a notification when an event is created
-            service.EventCreated(model);
+            this.Notification.EventCreated(model);
 
-            return this.Post(@event);
+            return this.Mapper.Map<EventForList>(model);
         }
 
         /// <summary>
@@ -185,16 +170,18 @@ namespace Basic.WebApi.Controllers
                 throw new ArgumentNullException(nameof(model));
             }
 
-            model.User = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == @event.UserIdentifier);
+            model.User = this.Context.Set<User>()
+                .SingleOrDefault(u => u.Identifier == @event.UserIdentifier);
             if (model.User == null)
             {
-                this.ModelState.AddModelError("UserIdentifier", "Invalid User");
+                this.ModelState.AddModelError(nameof(@event.UserIdentifier), "The User is invalid");
             }
 
-            model.Category = this.Context.Set<EventCategory>().SingleOrDefault(c => c.Identifier == @event.CategoryIdentifier);
+            model.Category = this.Context.Set<EventCategory>()
+                .SingleOrDefault(c => c.Identifier == @event.CategoryIdentifier);
             if (model.Category == null)
             {
-                this.ModelState.AddModelError("CategoryIdentifier", "Invalid Category");
+                this.ModelState.AddModelError(nameof(@event.CategoryIdentifier), "The Event Category is invalid");
             }
 
             // Add the default status for a new event

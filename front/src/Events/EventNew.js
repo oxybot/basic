@@ -27,13 +27,13 @@ export function EventNew() {
     return (
       <PageNew
         definition={definition}
-        baseApiUrl="Events/notify"
+        baseApiUrl="Events"
         texts={texts}
         extendedForm={(e, s, err) => <AttachmentForm entity={e} setEntity={s} errors={err} />}
         onCreate={handleCreate}
       />
     );
   } else {
-    return <PageNew definition={definition} baseApiUrl="Events/notify" texts={texts} onCreate={handleCreate} />;
+    return <PageNew definition={definition} baseApiUrl="Events" texts={texts} onCreate={handleCreate} />;
   }
 }
