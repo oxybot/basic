@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -27,7 +30,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
                 type: "nvarchar(50)",
                 maxLength: 50,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
                 oldMaxLength: 50,

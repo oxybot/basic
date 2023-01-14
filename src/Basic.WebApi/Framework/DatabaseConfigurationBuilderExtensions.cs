@@ -34,7 +34,7 @@ namespace Microsoft.Extensions.Configuration
             IServiceProvider services = loggingBuilder.Services.BuildServiceProvider();
 
             // Apply migrations if needed
-            using (var scope =services.CreateScope())
+            using (var scope = services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<Context>();
                 db.Database.Migrate();

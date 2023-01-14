@@ -3,6 +3,7 @@
 
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.WebApi.DTOs
 {
@@ -45,6 +46,10 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the associated items.
         /// </summary>
         [SwaggerSchema(ReadOnly = false)]
+        [SuppressMessage(
+            "Usage",
+            "CA2227:Collection properties should be read only",
+            Justification = "Required for Asp.Net Core binding")]
         public ICollection<AgreementItemForEditWithIdentifier> Items { get; set; }
     }
 }

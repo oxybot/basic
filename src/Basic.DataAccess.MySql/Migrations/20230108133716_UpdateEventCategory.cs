@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// Copyright (c) oxybot. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -28,7 +31,7 @@ namespace Basic.DataAccess.MySql.Migrations
                 keyColumn: "ColorClass",
                 keyValue: null,
                 column: "ColorClass",
-                value: "");
+                value: string.Empty);
 
             migrationBuilder.AlterColumn<string>(
                 name: "ColorClass",
