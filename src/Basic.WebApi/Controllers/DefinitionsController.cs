@@ -3,7 +3,6 @@
 
 using AutoMapper;
 using Basic.DataAccess;
-using Basic.WebApi.Framework;
 using Basic.WebApi.Models;
 using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
-using Basic.Model;
 using Basic.WebApi.DTOs;
 using System;
 using System.Threading.Tasks;

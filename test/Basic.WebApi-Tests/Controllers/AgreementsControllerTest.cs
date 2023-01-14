@@ -1,13 +1,9 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
-using Basic.DataAccess;
-using Basic.Model;
 using Basic.WebApi.DTOs;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
