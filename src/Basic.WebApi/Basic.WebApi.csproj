@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="Basic.WebApi-Tests" />
+    <InternalsVisibleTo Include="Basic.WebApi-LoadTests" />
   </ItemGroup>
 
   <ItemGroup>

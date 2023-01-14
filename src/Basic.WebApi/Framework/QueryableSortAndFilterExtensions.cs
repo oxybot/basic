@@ -46,7 +46,8 @@ namespace Basic.WebApi.Framework
             if (!string.IsNullOrEmpty(sortAndFilter.SortKey))
             {
                 // Apply sorting
-                var field = definition.Fields.SingleOrDefault(d => d.Name == sortAndFilter.SortKey);
+                var field = definition.Fields
+                    .SingleOrDefault(d => string.Equals(d.Name, sortAndFilter.SortKey, StringComparison.OrdinalIgnoreCase));
                 if (field == null)
                 {
                     // The named field is not part of the definition
@@ -54,7 +55,7 @@ namespace Basic.WebApi.Framework
                     return result;
                 }
 
-                bool ascending = sortAndFilter.SortValue != "desc";
+                bool ascending = !string.Equals(sortAndFilter.SortValue, "desc", StringComparison.OrdinalIgnoreCase);
                 ParameterExpression parameter = Expression.Parameter(typeof(T), "e");
                 MemberExpression property = Expression.Property(parameter, sortAndFilter.SortKey);
 
