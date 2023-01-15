@@ -14,7 +14,7 @@ namespace Basic.DataAccess
     /// Converts <see cref="Schedule.WorkingSchedule"/> values to and from string value.
     /// </summary>
     [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Part of a converter")]
-    internal class ScheduleConverter : ValueConverter<decimal[], string>
+    internal sealed class ScheduleConverter : ValueConverter<decimal[], string>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScheduleConverter"/> class.

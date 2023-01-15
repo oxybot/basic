@@ -71,12 +71,9 @@ namespace Basic.Model
                 throw new ArgumentException("no salt defined for this user", nameof(user));
             }
 
-            using (var sha256 = SHA256.Create())
-            {
-                var bytes = Encoding.UTF8.GetBytes(user.Salt + password);
-                var result = sha256.ComputeHash(bytes);
-                return Convert.ToBase64String(result);
-            }
+            var bytes = Encoding.UTF8.GetBytes(user.Salt + password);
+            var result = SHA256.HashData(bytes);
+            return Convert.ToBase64String(result);
         }
     }
 }

@@ -58,11 +58,13 @@ namespace Basic.WebApi.Controllers
 
             foreach (var user in users)
             {
+#pragma warning disable CA1851 // Possible multiple enumerations of 'IEnumerable' collection - That is the idea
                 var events = user.Events
                     .Where(e => e.StartDate <= endOfMonth && e.EndDate >= startOfMonth)
                     .Where(e => e.CurrentStatus.IsActive);
-                var timeoff = events.Where(e => e.Category.Mapping != EventTimeMapping.Active);
+                var timeoff = events.Where(e => e.Category.Mapping != EventTimeMapping.Active).ToList();
                 var active = events.Where(e => e.Category.Mapping == EventTimeMapping.Active);
+#pragma warning restore CA1851 // Possible multiple enumerations of 'IEnumerable' collection
 
                 var calendar = new UserCalendar() { User = this.Mapper.Map<EntityReference>(user) };
 

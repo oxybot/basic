@@ -179,8 +179,10 @@ namespace Basic.WebApi.Controllers
             var usersFromDb = this.Context.Set<User>();
 
 #pragma warning disable CA1304 // Specify CultureInfo - disabled to enable SQL conversion (ToUpperInvariant is not recognized)
+#pragma warning disable CA1311 // Specify a culture or use an invariant version - disabled to enable SQL conversion (ToUpperInvariant is not recognized)
             ldapUsers.ListOfLdapUsers.ToList()
                 .ForEach(d => d.Importable = !usersFromDb.Any(sd => sd.Email.ToUpper() == d.Email.ToUpper()));
+#pragma warning restore CA1311 // Specify a culture or use an invariant version
 #pragma warning restore CA1304 // Specify CultureInfo
 
             return ldapUsers;

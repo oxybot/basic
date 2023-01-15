@@ -12,7 +12,7 @@ namespace Basic.DataAccess
     /// Compares two <see cref="Schedule.WorkingSchedule"/> based on their values.
     /// </summary>
     [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Part of a converter")]
-    internal class ScheduleComparer : ValueComparer<decimal[]>
+    internal sealed class ScheduleComparer : ValueComparer<decimal[]>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ScheduleComparer"/> class.

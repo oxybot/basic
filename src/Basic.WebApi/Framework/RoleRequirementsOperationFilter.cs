@@ -49,7 +49,7 @@ namespace Basic.WebApi.Framework
             }
 
             var authorizeAttributes = context.GetControllerAndActionAttributes<AuthorizeAttribute>();
-            var rolesAttributes = context.GetControllerAndActionAttributes<AuthorizeRolesAttribute>();
+            var rolesAttributes = context.GetControllerAndActionAttributes<AuthorizeRolesAttribute>().ToList();
 
             if (!authorizeAttributes.Any() && !rolesAttributes.Any())
             {

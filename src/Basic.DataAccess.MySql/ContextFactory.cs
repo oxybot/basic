@@ -11,7 +11,7 @@ namespace Basic.DataAccess.MySql
     /// Internal class managing context creation for migration.
     /// </summary>
     [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Instancied automatically when creating new migration")]
-    internal class ContextFactory : IDesignTimeDbContextFactory<Context>
+    internal sealed class ContextFactory : IDesignTimeDbContextFactory<Context>
     {
         /// <summary>
         /// Creates a new context for migration management.
