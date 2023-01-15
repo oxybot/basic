@@ -1,36 +1,35 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
-namespace System.Reflection
+namespace System.Reflection;
+
+/// <summary>
+/// Extension methods for the <see cref="Assembly"/> class.
+/// </summary>
+public static class AssemblyExtensions
 {
     /// <summary>
-    /// Extension methods for the <see cref="Assembly"/> class.
+    /// Read the content of a specific text file.
     /// </summary>
-    public static class AssemblyExtensions
+    /// <param name="assembly">The reference assembly.</param>
+    /// <param name="name">The name of the file.</param>
+    /// <returns>The extracted content of the file.</returns>
+    public static string ReadResource(this Assembly assembly, string name)
     {
-        /// <summary>
-        /// Read the content of a specific text file.
-        /// </summary>
-        /// <param name="assembly">The reference assembly.</param>
-        /// <param name="name">The name of the file.</param>
-        /// <returns>The extracted content of the file.</returns>
-        public static string ReadResource(this Assembly assembly, string name)
+        if (assembly is null)
         {
-            if (assembly is null)
-            {
-                throw new ArgumentNullException(nameof(assembly));
-            }
+            throw new ArgumentNullException(nameof(assembly));
+        }
 
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
+        if (string.IsNullOrEmpty(name))
+        {
+            throw new ArgumentNullException(nameof(name));
+        }
 
-            using (Stream stream = assembly.GetManifestResourceStream(name))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
+        using (Stream stream = assembly.GetManifestResourceStream(name))
+        using (StreamReader reader = new StreamReader(stream))
+        {
+            return reader.ReadToEnd();
         }
     }
 }

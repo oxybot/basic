@@ -3,18 +3,17 @@
 
 using System.Collections.Generic;
 
-namespace Basic.Model
+namespace Basic.Model;
+
+/// <summary>
+/// Indicates that the associated model instances are linked to a workflow.
+/// </summary>
+/// <typeparam name="TStatus">The concrete type of status.</typeparam>
+public interface IWithStatus<TStatus>
+    where TStatus : BaseModelStatus
 {
     /// <summary>
-    /// Indicates that the associated model instances are linked to a workflow.
+    /// Gets the history of status associated with a model instance.
     /// </summary>
-    /// <typeparam name="TStatus">The concrete type of status.</typeparam>
-    public interface IWithStatus<TStatus>
-        where TStatus : BaseModelStatus
-    {
-        /// <summary>
-        /// Gets the history of status associated with a model instance.
-        /// </summary>
-        public ICollection<TStatus> Statuses { get; }
-    }
+    public ICollection<TStatus> Statuses { get; }
 }

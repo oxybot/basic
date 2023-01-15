@@ -4,26 +4,25 @@
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 
-namespace Basic.DataAccess
+namespace Basic.DataAccess;
+
+/// <summary>
+/// Converts <see cref="Nullable{DateOnly}" /> to <see cref="Nullable{DateTime}"/> and vice versa.
+/// </summary>
+/// <seealso href="https://github.com/dotnet/efcore/issues/24507#issuecomment-891034323" />
+public class NullableDateOnlyConverter : ValueConverter<DateOnly?, DateTime?>
 {
     /// <summary>
-    /// Converts <see cref="Nullable{DateOnly}" /> to <see cref="Nullable{DateTime}"/> and vice versa.
+    /// Initializes a new instance of the <see cref="NullableDateOnlyConverter"/> class.
     /// </summary>
-    /// <seealso href="https://github.com/dotnet/efcore/issues/24507#issuecomment-891034323" />
-    public class NullableDateOnlyConverter : ValueConverter<DateOnly?, DateTime?>
+    public NullableDateOnlyConverter()
+        : base(
+        d => d == null
+            ? null
+            : new DateTime?(d.Value.ToDateTime(TimeOnly.MinValue)),
+        d => d == null
+            ? null
+            : new DateOnly?(DateOnly.FromDateTime(d.Value)))
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NullableDateOnlyConverter"/> class.
-        /// </summary>
-        public NullableDateOnlyConverter()
-            : base(
-            d => d == null
-                ? null
-                : new DateTime?(d.Value.ToDateTime(TimeOnly.MinValue)),
-            d => d == null
-                ? null
-                : new DateOnly?(DateOnly.FromDateTime(d.Value)))
-        {
-        }
     }
 }

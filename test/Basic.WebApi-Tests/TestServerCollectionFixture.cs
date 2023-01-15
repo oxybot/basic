@@ -3,13 +3,12 @@
 
 using Xunit;
 
-namespace Basic.WebApi
+namespace Basic.WebApi;
+
+/// <summary>
+/// Defines the test collection for api tests.
+/// </summary>
+[CollectionDefinition("api")]
+public class TestServerCollectionFixture : ICollectionFixture<TestServer>
 {
-    /// <summary>
-    /// Defines the test collection for api tests.
-    /// </summary>
-    [CollectionDefinition("api")]
-    public class TestServerCollectionFixture : ICollectionFixture<TestServer>
-    {
-    }
 }

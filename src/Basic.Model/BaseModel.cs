@@ -4,17 +4,16 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Basic.Model
+namespace Basic.Model;
+
+/// <summary>
+/// Represents the basic set of data for any entity.
+/// </summary>
+public abstract class BaseModel
 {
     /// <summary>
-    /// Represents the basic set of data for any entity.
+    /// Gets or sets the identifier of the entity.
     /// </summary>
-    public abstract class BaseModel
-    {
-        /// <summary>
-        /// Gets or sets the identifier of the entity.
-        /// </summary>
-        [Key]
-        public Guid Identifier { get; set; }
-    }
+    [Key]
+    public Guid Identifier { get; set; }
 }

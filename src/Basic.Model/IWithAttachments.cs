@@ -3,18 +3,17 @@
 
 using System.Collections.Generic;
 
-namespace Basic.Model
+namespace Basic.Model;
+
+/// <summary>
+/// Marks a class that supports attachments.
+/// </summary>
+/// <typeparam name="TAttachment">The contrete type of attachments.</typeparam>
+public interface IWithAttachments<TAttachment>
+    where TAttachment : BaseAttachment
 {
     /// <summary>
-    /// Marks a class that supports attachments.
+    /// Gets the associated attachments.
     /// </summary>
-    /// <typeparam name="TAttachment">The contrete type of attachments.</typeparam>
-    public interface IWithAttachments<TAttachment>
-        where TAttachment : BaseAttachment
-    {
-        /// <summary>
-        /// Gets the associated attachments.
-        /// </summary>
-        public ICollection<TAttachment> Attachments { get; }
-    }
+    public ICollection<TAttachment> Attachments { get; }
 }

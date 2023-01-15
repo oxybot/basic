@@ -1,21 +1,20 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Basic.WebApi.DTOs
+namespace Basic.WebApi.DTOs;
+
+/// <summary>
+/// Represents a link from a DTO to any other entity.
+/// </summary>
+public class EntityReference
 {
     /// <summary>
-    /// Represents a link from a DTO to any other entity.
+    /// Gets or sets the identifier of the referenced entity.
     /// </summary>
-    public class EntityReference
-    {
-        /// <summary>
-        /// Gets or sets the identifier of the referenced entity.
-        /// </summary>
-        public Guid Identifier { get; set; }
+    public Guid Identifier { get; set; }
 
-        /// <summary>
-        /// Gets or sets the display name of the referenced entity.
-        /// </summary>
-        public string DisplayName { get; set; }
-    }
+    /// <summary>
+    /// Gets or sets the display name of the referenced entity.
+    /// </summary>
+    public string DisplayName { get; set; }
 }

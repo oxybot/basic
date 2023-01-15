@@ -5,73 +5,72 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Basic.WebApi.Framework
+namespace Basic.WebApi.Framework;
+
+/// <summary>
+/// Adds a default documentation for the success of any API.
+/// </summary>
+/// <remarks>
+/// This provider is required as the default behavior is implemented only when no [ProducesXXX]
+/// is present on the API method.
+/// </remarks>
+public class DefaultSuccessResponseProvider : IApiDescriptionProvider
 {
     /// <summary>
-    /// Adds a default documentation for the success of any API.
+    /// Initializes a new instance of the <see cref="DefaultSuccessResponseProvider"/> class.
+    /// </summary>
+    /// <param name="metadata">The metadata provider.</param>
+    public DefaultSuccessResponseProvider(IModelMetadataProvider metadata)
+    {
+        this.Metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
+    }
+
+    /// <summary>
+    /// Gets the order of execution of this provider.
     /// </summary>
     /// <remarks>
-    /// This provider is required as the default behavior is implemented only when no [ProducesXXX]
-    /// is present on the API method.
+    /// Set to act before any other providers. As a result, it will be able to correct the final result.
     /// </remarks>
-    public class DefaultSuccessResponseProvider : IApiDescriptionProvider
+    public int Order => -11000;
+
+    /// <summary>
+    /// Gets the metadata provider associated with the application.
+    /// </summary>
+    public IModelMetadataProvider Metadata { get; }
+
+    /// <summary>
+    /// Called to prepare the context. Does nothing.
+    /// </summary>
+    /// <param name="context">The current api description generation context.</param>
+    public void OnProvidersExecuting(ApiDescriptionProviderContext context)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultSuccessResponseProvider"/> class.
-        /// </summary>
-        /// <param name="metadata">The metadata provider.</param>
-        public DefaultSuccessResponseProvider(IModelMetadataProvider metadata)
+    }
+
+    /// <summary>
+    /// Called to review the context.
+    /// </summary>
+    /// <param name="context">The current api description generation context.</param>
+    public void OnProvidersExecuted(ApiDescriptionProviderContext context)
+    {
+        if (context is null)
         {
-            this.Metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
+            throw new ArgumentNullException(nameof(context));
         }
 
-        /// <summary>
-        /// Gets the order of execution of this provider.
-        /// </summary>
-        /// <remarks>
-        /// Set to act before any other providers. As a result, it will be able to correct the final result.
-        /// </remarks>
-        public int Order => -11000;
-
-        /// <summary>
-        /// Gets the metadata provider associated with the application.
-        /// </summary>
-        public IModelMetadataProvider Metadata { get; }
-
-        /// <summary>
-        /// Called to prepare the context. Does nothing.
-        /// </summary>
-        /// <param name="context">The current api description generation context.</param>
-        public void OnProvidersExecuting(ApiDescriptionProviderContext context)
+        foreach (var result in context.Results)
         {
-        }
-
-        /// <summary>
-        /// Called to review the context.
-        /// </summary>
-        /// <param name="context">The current api description generation context.</param>
-        public void OnProvidersExecuted(ApiDescriptionProviderContext context)
-        {
-            if (context is null)
+            var successResponse = result.SupportedResponseTypes.SingleOrDefault(s => s.StatusCode == 200);
+            var actionDescriptor = result.ActionDescriptor as ControllerActionDescriptor;
+            var returnType = actionDescriptor.MethodInfo.ReturnType;
+            var modelMetadata = this.Metadata.GetMetadataForType(returnType);
+            if (successResponse == null)
             {
-                throw new ArgumentNullException(nameof(context));
+                result.SupportedResponseTypes.Add(new ApiResponseType() { StatusCode = 200, ModelMetadata = modelMetadata, Type = returnType });
             }
-
-            foreach (var result in context.Results)
+            else if (successResponse.Type == null)
             {
-                var successResponse = result.SupportedResponseTypes.SingleOrDefault(s => s.StatusCode == 200);
-                var actionDescriptor = result.ActionDescriptor as ControllerActionDescriptor;
-                var returnType = actionDescriptor.MethodInfo.ReturnType;
-                var modelMetadata = this.Metadata.GetMetadataForType(returnType);
-                if (successResponse == null)
-                {
-                    result.SupportedResponseTypes.Add(new ApiResponseType() { StatusCode = 200, ModelMetadata = modelMetadata, Type = returnType });
-                }
-                else if (successResponse.Type == null)
-                {
-                    successResponse.Type = returnType;
-                    successResponse.ModelMetadata = modelMetadata;
-                }
+                successResponse.Type = returnType;
+                successResponse.ModelMetadata = modelMetadata;
             }
         }
     }

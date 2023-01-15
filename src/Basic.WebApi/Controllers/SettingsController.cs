@@ -10,100 +10,99 @@ using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Basic.WebApi.Controllers
+namespace Basic.WebApi.Controllers;
+
+/// <summary>
+/// Provides the API to manage the application configuration.
+/// </summary>
+[ApiController]
+[Authorize]
+[Route("[controller]")]
+public class SettingsController : BaseController
 {
     /// <summary>
-    /// Provides the API to manage the application configuration.
+    /// Initializes a new instance of the <see cref="SettingsController"/> class.
     /// </summary>
-    [ApiController]
-    [Authorize]
-    [Route("[controller]")]
-    public class SettingsController : BaseController
+    /// <param name="context">The datasource context.</param>
+    /// <param name="mapper">The configured automapper.</param>
+    /// <param name="logger">The associated logger.</param>
+    public SettingsController(Context context, IMapper mapper, ILogger<DefinitionsController> logger)
+        : base(context, mapper, logger)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SettingsController"/> class.
-        /// </summary>
-        /// <param name="context">The datasource context.</param>
-        /// <param name="mapper">The configured automapper.</param>
-        /// <param name="logger">The associated logger.</param>
-        public SettingsController(Context context, IMapper mapper, ILogger<DefinitionsController> logger)
-            : base(context, mapper, logger)
+    }
+
+    /// <summary>
+    /// Gets the configuration provider linked to the database.
+    /// </summary>
+    public DatabaseConfigurationProvider DatabaseProvider { get; }
+
+    /// <summary>
+    /// Retrieves the current configuration related to the email service.
+    /// </summary>
+    /// <param name="current">The current configuration as defined in the service layer.</param>
+    /// <returns>The current configuration.</returns>
+    [HttpGet]
+    [Route("email")]
+    [AuthorizeRoles(Role.Options)]
+    public EmailServiceOptions GetEmail([FromServices] EmailServiceOptions current)
+    {
+        if (current is null)
         {
+            throw new ArgumentNullException(nameof(current));
         }
 
-        /// <summary>
-        /// Gets the configuration provider linked to the database.
-        /// </summary>
-        public DatabaseConfigurationProvider DatabaseProvider { get; }
+        return current;
+    }
 
-        /// <summary>
-        /// Retrieves the current configuration related to the email service.
-        /// </summary>
-        /// <param name="current">The current configuration as defined in the service layer.</param>
-        /// <returns>The current configuration.</returns>
-        [HttpGet]
-        [Route("email")]
-        [AuthorizeRoles(Role.Options)]
-        public EmailServiceOptions GetEmail([FromServices] EmailServiceOptions current)
+    /// <summary>
+    /// Updates the configuration related to the email service.
+    /// </summary>
+    /// <param name="options">The updated configuration as defined in the service layer.</param>
+    [HttpPut]
+    [Route("email")]
+    [AuthorizeRoles(Role.Options)]
+    public void PutEmail(EmailServiceOptionsForEdit options)
+    {
+        if (options is null)
         {
-            if (current is null)
-            {
-                throw new ArgumentNullException(nameof(current));
-            }
-
-            return current;
+            throw new ArgumentNullException(nameof(options));
         }
 
-        /// <summary>
-        /// Updates the configuration related to the email service.
-        /// </summary>
-        /// <param name="options">The updated configuration as defined in the service layer.</param>
-        [HttpPut]
-        [Route("email")]
-        [AuthorizeRoles(Role.Options)]
-        public void PutEmail(EmailServiceOptionsForEdit options)
-        {
-            if (options is null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
+        this.Save(EmailServiceOptions.Section, options);
+    }
 
-            this.Save(EmailServiceOptions.Section, options);
+    /// <summary>
+    /// Internal method to save any settings in the database.
+    /// </summary>
+    /// <param name="section">The section associated with the settings.</param>
+    /// <param name="options">The options instance to store.</param>
+    private void Save(string section, object options)
+    {
+        if (section is null)
+        {
+            throw new ArgumentNullException(nameof(section));
         }
 
-        /// <summary>
-        /// Internal method to save any settings in the database.
-        /// </summary>
-        /// <param name="section">The section associated with the settings.</param>
-        /// <param name="options">The options instance to store.</param>
-        private void Save(string section, object options)
+        foreach (var property in options.GetType().GetProperties())
         {
-            if (section is null)
+            string key = property.Name;
+            string value = property.GetValue(options)?.ToString();
+
+            var settings = this.Context.Set<Setting>();
+
+            var current = settings.SingleOrDefault(s => s.Section == section && s.Key == key);
+            if (current == null)
             {
-                throw new ArgumentNullException(nameof(section));
+                // New entry
+                settings.Add(new Setting() { Section = section, Key = key, Value = value });
             }
-
-            foreach (var property in options.GetType().GetProperties())
+            else
             {
-                string key = property.Name;
-                string value = property.GetValue(options)?.ToString();
-
-                var settings = this.Context.Set<Setting>();
-
-                var current = settings.SingleOrDefault(s => s.Section == section && s.Key == key);
-                if (current == null)
-                {
-                    // New entry
-                    settings.Add(new Setting() { Section = section, Key = key, Value = value });
-                }
-                else
-                {
-                    // Update
-                    current.Value = value;
-                }
+                // Update
+                current.Value = value;
             }
-
-            this.Context.SaveChanges();
         }
+
+        this.Context.SaveChanges();
     }
 }

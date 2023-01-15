@@ -4,30 +4,29 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Basic.Model
+namespace Basic.Model;
+
+/// <summary>
+/// Represents a validated token for an user.
+/// </summary>
+public class Token : BaseModel
 {
     /// <summary>
-    /// Represents a validated token for an user.
+    /// Initializes a new instance of the <see cref="Token"/> class.
     /// </summary>
-    public class Token : BaseModel
+    public Token()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Token"/> class.
-        /// </summary>
-        public Token()
-        {
-        }
-
-        /// <summary>
-        /// Gets or sets the expiration time.
-        /// </summary>
-        [Required]
-        public DateTime Expiration { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user's token.
-        /// </summary>
-        [Required]
-        public virtual User User { get; set; }
     }
+
+    /// <summary>
+    /// Gets or sets the expiration time.
+    /// </summary>
+    [Required]
+    public DateTime Expiration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the user's token.
+    /// </summary>
+    [Required]
+    public virtual User User { get; set; }
 }

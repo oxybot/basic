@@ -9,56 +9,55 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace Basic.WebApi.Controllers
+namespace Basic.WebApi.Controllers;
+
+/// <summary>
+/// Provides the API that describes the various DTO for the UI.
+/// </summary>
+[ApiController]
+[Route("[controller]")]
+public class DefinitionsController : BaseController
 {
     /// <summary>
-    /// Provides the API that describes the various DTO for the UI.
+    /// Initializes a new instance of the <see cref="DefinitionsController"/> class.
     /// </summary>
-    [ApiController]
-    [Route("[controller]")]
-    public class DefinitionsController : BaseController
+    /// <param name="context">The datasource context.</param>
+    /// <param name="mapper">The configured automapper.</param>
+    /// <param name="definitions">The DTO definitions service.</param>
+    /// <param name="logger">The associated logger.</param>
+    public DefinitionsController(Context context, IMapper mapper, DefinitionsService definitions, ILogger<DefinitionsController> logger)
+        : base(context, mapper, logger)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DefinitionsController"/> class.
-        /// </summary>
-        /// <param name="context">The datasource context.</param>
-        /// <param name="mapper">The configured automapper.</param>
-        /// <param name="definitions">The DTO definitions service.</param>
-        /// <param name="logger">The associated logger.</param>
-        public DefinitionsController(Context context, IMapper mapper, DefinitionsService definitions, ILogger<DefinitionsController> logger)
-            : base(context, mapper, logger)
-        {
-            this.Definitions = definitions ?? throw new ArgumentNullException(nameof(definitions));
-        }
+        this.Definitions = definitions ?? throw new ArgumentNullException(nameof(definitions));
+    }
 
-        /// <summary>
-        /// Gets the DTO definitions service.
-        /// </summary>
-        public DefinitionsService Definitions { get; }
+    /// <summary>
+    /// Gets the DTO definitions service.
+    /// </summary>
+    public DefinitionsService Definitions { get; }
 
-        /// <summary>
-        /// Retrieves the list of available entities.
-        /// </summary>
-        /// <returns>The list of available entities.</returns>
-        [HttpGet]
-        [AllowAnonymous]
-        public IEnumerable<string> GetAll()
-        {
-            return this.Definitions.GetAll();
-        }
+    /// <summary>
+    /// Retrieves the list of available entities.
+    /// </summary>
+    /// <returns>The list of available entities.</returns>
+    [HttpGet]
+    [AllowAnonymous]
+    public IEnumerable<string> GetAll()
+    {
+        return this.Definitions.GetAll();
+    }
 
-        /// <summary>
-        /// Retrieves one detailed entity definition.
-        /// </summary>
-        /// <param name="name">The name of the entity.</param>
-        /// <returns>The associated definition.</returns>
-        /// <response code="404">No definition is associated to the provided <paramref name="name"/>.</response>
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("{name}")]
-        public Definition GetOne([Required] string name)
-        {
-            return this.Definitions.GetOne(name);
-        }
+    /// <summary>
+    /// Retrieves one detailed entity definition.
+    /// </summary>
+    /// <param name="name">The name of the entity.</param>
+    /// <returns>The associated definition.</returns>
+    /// <response code="404">No definition is associated to the provided <paramref name="name"/>.</response>
+    [HttpGet]
+    [AllowAnonymous]
+    [Route("{name}")]
+    public Definition GetOne([Required] string name)
+    {
+        return this.Definitions.GetOne(name);
     }
 }

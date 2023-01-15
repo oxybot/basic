@@ -7,70 +7,69 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Basic.WebApi.Controllers
+namespace Basic.WebApi.Controllers;
+
+/// <summary>
+/// Tests the <see cref="BalancesController"/> class.
+/// </summary>
+[Collection("api")]
+public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, BalanceForList>
 {
     /// <summary>
-    /// Tests the <see cref="BalancesController"/> class.
+    /// Initializes a new instance of the <see cref="BalancesControllerTest"/> class.
     /// </summary>
-    [Collection("api")]
-    public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, BalanceForList>
+    /// <param name="testServer">The current test server manager.</param>
+    /// <param name="logger">The logger instance for the test execution.</param>
+    public BalancesControllerTest(TestServer testServer, ITestOutputHelper logger)
+        : base(testServer, logger)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BalancesControllerTest"/> class.
-        /// </summary>
-        /// <param name="testServer">The current test server manager.</param>
-        /// <param name="logger">The logger instance for the test execution.</param>
-        public BalancesControllerTest(TestServer testServer, ITestOutputHelper logger)
-            : base(testServer, logger)
-        {
-        }
+    }
 
-        /// <inheritdoc />
-        public override Uri BaseUrl => new Uri("/Balances", UriKind.Relative);
+    /// <inheritdoc />
+    public override Uri BaseUrl => new Uri("/Balances", UriKind.Relative);
 
-        /// <summary>
-        /// Executes a Create/Read/Update/Delete test.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
-        [Fact]
-        public Task CreateReadUpdateDeleteTest()
+    /// <summary>
+    /// Executes a Create/Read/Update/Delete test.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+    [Fact]
+    public Task CreateReadUpdateDeleteTest()
+    {
+        var model = new TestCRUDModel<BalanceForList>()
         {
-            var model = new TestCRUDModel<BalanceForList>()
+            CreateContent = new
             {
-                CreateContent = new
-                {
-                    CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
-                    UserIdentifier = this.TestServer.TestReferences.User.Identifier,
-                    Year = DateTime.Today.Year,
-                    Allowed = 100,
-                    Transfered = 0,
-                },
-                CreateExpected = new()
-                {
-                    Category = this.TestServer.TestReferences.Category,
-                    User = this.TestServer.TestReferences.User,
-                    Year = DateTime.Today.Year,
-                    Allowed = 100,
-                },
-                UpdateContent = new
-                {
-                    CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
-                    UserIdentifier = this.TestServer.TestReferences.User.Identifier,
-                    Year = DateTime.Today.Year,
-                    Allowed = 130,
-                    Transfered = 30,
-                },
-                UpdateExpected = new()
-                {
-                    Category = this.TestServer.TestReferences.Category,
-                    User = this.TestServer.TestReferences.User,
-                    Year = DateTime.Today.Year,
-                    Allowed = 130,
-                    Transfered = 30,
-                },
-            };
+                CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
+                UserIdentifier = this.TestServer.TestReferences.User.Identifier,
+                Year = DateTime.Today.Year,
+                Allowed = 100,
+                Transfered = 0,
+            },
+            CreateExpected = new()
+            {
+                Category = this.TestServer.TestReferences.Category,
+                User = this.TestServer.TestReferences.User,
+                Year = DateTime.Today.Year,
+                Allowed = 100,
+            },
+            UpdateContent = new
+            {
+                CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
+                UserIdentifier = this.TestServer.TestReferences.User.Identifier,
+                Year = DateTime.Today.Year,
+                Allowed = 130,
+                Transfered = 30,
+            },
+            UpdateExpected = new()
+            {
+                Category = this.TestServer.TestReferences.Category,
+                User = this.TestServer.TestReferences.User,
+                Year = DateTime.Today.Year,
+                Allowed = 130,
+                Transfered = 30,
+            },
+        };
 
-            return this.CreateReadUpdateDeleteTestAsync(model);
-        }
+        return this.CreateReadUpdateDeleteTestAsync(model);
     }
 }

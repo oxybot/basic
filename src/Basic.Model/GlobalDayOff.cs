@@ -5,28 +5,27 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Basic.Model
+namespace Basic.Model;
+
+/// <summary>
+/// Represents days-off that apply to every users.
+/// </summary>
+/// <remarks>
+/// Can be used to represent public holidays for instance.
+/// </remarks>
+[Index(nameof(Date), IsUnique = true)]
+public class GlobalDayOff : BaseModel
 {
     /// <summary>
-    /// Represents days-off that apply to every users.
+    /// Gets or sets the reference date.
     /// </summary>
-    /// <remarks>
-    /// Can be used to represent public holidays for instance.
-    /// </remarks>
-    [Index(nameof(Date), IsUnique = true)]
-    public class GlobalDayOff : BaseModel
-    {
-        /// <summary>
-        /// Gets or sets the reference date.
-        /// </summary>
-        [Required]
-        [Unique]
-        public DateOnly Date { get; set; }
+    [Required]
+    [Unique]
+    public DateOnly Date { get; set; }
 
-        /// <summary>
-        /// Gets or sets the associated description, if any.
-        /// </summary>
-        [MaxLength(255)]
-        public string Description { get; set; }
-    }
+    /// <summary>
+    /// Gets or sets the associated description, if any.
+    /// </summary>
+    [MaxLength(255)]
+    public string Description { get; set; }
 }

@@ -8,27 +8,26 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 
-namespace Basic.DataAccess
+namespace Basic.DataAccess;
+
+/// <summary>
+/// Converts <see cref="Schedule.WorkingSchedule"/> values to and from string value.
+/// </summary>
+[SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Part of a converter")]
+internal sealed class ScheduleConverter : ValueConverter<decimal[], string>
 {
     /// <summary>
-    /// Converts <see cref="Schedule.WorkingSchedule"/> values to and from string value.
+    /// Initializes a new instance of the <see cref="ScheduleConverter"/> class.
     /// </summary>
-    [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Part of a converter")]
-    internal sealed class ScheduleConverter : ValueConverter<decimal[], string>
+    public ScheduleConverter()
+        : base(a => string.Join(",", a), p => ConvertFromProviderFunction(p), null)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ScheduleConverter"/> class.
-        /// </summary>
-        public ScheduleConverter()
-            : base(a => string.Join(",", a), p => ConvertFromProviderFunction(p), null)
-        {
-        }
+    }
 
-        private static decimal[] ConvertFromProviderFunction(string provider)
-        {
-            return provider.Split(",", StringSplitOptions.None)
-                .Select(s => Convert.ToDecimal(s, CultureInfo.InvariantCulture))
-                .ToArray();
-        }
+    private static decimal[] ConvertFromProviderFunction(string provider)
+    {
+        return provider.Split(",", StringSplitOptions.None)
+            .Select(s => Convert.ToDecimal(s, CultureInfo.InvariantCulture))
+            .ToArray();
     }
 }
