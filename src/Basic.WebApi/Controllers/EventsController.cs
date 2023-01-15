@@ -118,6 +118,9 @@ namespace Basic.WebApi.Controllers
         /// Deletes a specific agreement.
         /// </summary>
         /// <param name="identifier">The identifier of the agreement to delete.</param>
+        /// <remarks>
+        /// Deletes as well all attached <see cref="EventStatus"/>.
+        /// </remarks>
         /// <response code="404">No event is associated to the provided <paramref name="identifier"/>.</response>
         [HttpDelete]
         [AuthorizeRoles(Role.Time)]
@@ -125,7 +128,17 @@ namespace Basic.WebApi.Controllers
         [Route("{identifier}")]
         public override void Delete(Guid identifier)
         {
-            base.Delete(identifier);
+            var entity = this.Context.Set<Event>()
+                .Include(e => e.Statuses)
+                .SingleOrDefault(e => e.Identifier == identifier);
+            if (entity == null)
+            {
+                throw new NotFoundException($"Not existing entity");
+            }
+
+            this.Context.Set<EventStatus>().RemoveRange(entity.Statuses);
+            this.Context.Set<Event>().Remove(entity);
+            this.Context.SaveChanges();
         }
 
         /// <summary>
