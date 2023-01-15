@@ -56,11 +56,26 @@ namespace Basic.WebApi.Framework
                     return result;
                 }
 
+                var prop = typeof(T).GetProperties().FirstOrDefault(p => string.Equals(p.Name, field.Name, StringComparison.OrdinalIgnoreCase));
+                if (prop == null)
+                {
+                    // The named field is not part of the entity class
+                    // Ignore the option to avoid potential injection
+                    return result;
+                }
+
                 if (!field.Sortable)
                 {
                     var modelState = new ModelStateDictionary();
                     modelState.AddModelError("SortKey", $"The field {field.DisplayName} can't be used for sorting");
                     throw new InvalidModelStateException(modelState);
+                }
+
+                if (!prop.CanWrite)
+                {
+                    // The field is computed
+                    // Ensure that the Entity Framework query is executed before sorting on this field
+                    result = result.ToList().AsQueryable();
                 }
 
                 bool ascending = !string.Equals(sortAndFilter.SortValue, "desc", StringComparison.OrdinalIgnoreCase);
