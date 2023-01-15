@@ -2,10 +2,13 @@
 // Licensed under the MIT license.
 
 using Basic.WebApi.DTOs;
+using Basic.WebApi.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -66,15 +69,32 @@ namespace Basic.WebApi.Controllers
             Justification = "Usage of relative uri")]
         public async Task SortingTest(string propertyName)
         {
+            using var scope = this.TestServer.Services.CreateScope();
+            var definitions = scope.ServiceProvider.GetRequiredService<DefinitionsService>();
+            var definition = definitions.GetOne(nameof(EventForList));
+            Assert.NotNull(definition);
+            var field = definition.Fields.FirstOrDefault(d => string.Equals(d.Name, propertyName, StringComparison.OrdinalIgnoreCase));
+            Assert.NotNull(field);
+
             // Global initialization and authentication
             using var client = await this.TestServer.CreateAuthenticatedClientAsync().ConfigureAwait(false);
 
-            // Read all - should be empty
-            using (var response = await client.GetAsync($"{this.BaseUrl}?sortKey={propertyName}").ConfigureAwait(false))
+            // Read all
+            if (field.Sortable)
             {
-                Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}, status code: {(int)response.StatusCode} {response.StatusCode}");
-                var body = await this.TestServer.ReadAsJsonAsync<IEnumerable<EventForList>>(response).ConfigureAwait(false);
-                Assert.NotNull(body);
+                using (var response = await client.GetAsync($"{this.BaseUrl}?sortKey={propertyName}").ConfigureAwait(false))
+                {
+                    Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}, status code: {(int)response.StatusCode} {response.StatusCode}");
+                    var body = await this.TestServer.ReadAsJsonAsync<IEnumerable<EventForList>>(response).ConfigureAwait(false);
+                    Assert.NotNull(body);
+                }
+            }
+            else
+            {
+                using (var response = await client.GetAsync($"{this.BaseUrl}?sortKey={propertyName}").ConfigureAwait(false))
+                {
+                    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+                }
             }
         }
     }

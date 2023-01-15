@@ -3,6 +3,7 @@
 
 using Basic.Model;
 using Basic.WebApi.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Linq.Expressions;
 
 namespace Basic.WebApi.Framework
@@ -53,6 +54,13 @@ namespace Basic.WebApi.Framework
                     // The named field is not part of the definition
                     // Ignore the option to avoid potential injection
                     return result;
+                }
+
+                if (!field.Sortable)
+                {
+                    var modelState = new ModelStateDictionary();
+                    modelState.AddModelError("SortKey", $"The field {field.DisplayName} can't be used for sorting");
+                    throw new InvalidModelStateException(modelState);
                 }
 
                 bool ascending = !string.Equals(sortAndFilter.SortValue, "desc", StringComparison.OrdinalIgnoreCase);

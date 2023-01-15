@@ -45,6 +45,11 @@ namespace Basic.WebApi
         }
 
         /// <summary>
+        /// Gets the application services.
+        /// </summary>
+        public IServiceProvider Services => this.Application.Services;
+
+        /// <summary>
         /// Gets the web test server factory.
         /// </summary>
         private WebApplicationFactory<Program> Application { get; }
