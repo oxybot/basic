@@ -43,12 +43,12 @@ namespace Basic.WebApi.DTOs
         /// </summary>
         [Required]
         [SwaggerSchema(Format = "hours")]
-        public int Allowed { get; set; }
+        public decimal Allowed { get; set; }
 
         /// <summary>
         /// Gets or sets the transfered amount to add to the balance, in hours.
         /// </summary>
         [SwaggerSchema(Format = "hours")]
-        public int Transfered { get; set; }
+        public decimal Transfered { get; set; }
     }
 }

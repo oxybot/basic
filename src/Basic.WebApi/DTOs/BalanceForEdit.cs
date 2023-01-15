@@ -38,16 +38,14 @@ namespace Basic.WebApi.DTOs
         /// Gets or sets the defined standard allowance for this year, in hours.
         /// </summary>
         [Required]
-        [Minimum(1)]
         [SwaggerSchema(Format = "hours")]
-        public int? Allowed { get; set; }
+        public decimal Allowed { get; set; }
 
         /// <summary>
         /// Gets or sets the transfered amount to add to the balance, in hours.
         /// </summary>
         [Required]
-        [Minimum(0)]
         [SwaggerSchema(Format = "hours")]
-        public int? Transfered { get; set; }
+        public decimal Transfered { get; set; }
     }
 }

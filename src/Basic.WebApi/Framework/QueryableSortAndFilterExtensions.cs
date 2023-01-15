@@ -111,9 +111,13 @@ namespace Basic.WebApi.Framework
                         break;
 
                     case "int":
-                    case "hours":
                         var intSelector = Expression.Lambda<Func<T, int>>(property, parameter);
                         result = result.ApplySort(intSelector, ascending);
+                        break;
+
+                    case "hours":
+                        var decimalSelector = Expression.Lambda<Func<T, decimal>>(property, parameter);
+                        result = result.ApplySort(decimalSelector, ascending);
                         break;
 
                     case "datetime":

@@ -147,14 +147,14 @@ namespace Basic.DataAccess.MySql.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("Allowed")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Allowed")
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<Guid>("CategoryIdentifier")
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("Transfered")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Transfered")
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<Guid>("UserIdentifier")
                         .HasColumnType("char(36)");
