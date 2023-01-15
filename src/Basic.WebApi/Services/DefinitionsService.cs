@@ -101,6 +101,7 @@ namespace Basic.WebApi.Services
         {
             var displayAttribute = property.GetCustomAttribute<DisplayAttribute>();
             var sortableAttribute = property.GetCustomAttribute<SortableAttribute>();
+            var type = BuildFieldType(property);
             return new DefinitionField
             {
                 Name = property.Name.ToJsonFieldName(),
@@ -109,8 +110,9 @@ namespace Basic.WebApi.Services
                 Required = property.IsRequired,
                 Placeholder = property.Placeholder,
                 Group = displayAttribute?.GetGroupName(),
-                Type = BuildFieldType(property),
-                Sortable = sortableAttribute == null || sortableAttribute.Sortable,
+                Type = type,
+                Sortable = (sortableAttribute == null && type != "key")
+                || (sortableAttribute != null && sortableAttribute.Sortable),
             };
         }
 
