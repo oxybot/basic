@@ -9,7 +9,7 @@ namespace Basic.Model;
 /// <summary>
 /// Represents a status as part of a workflow that could be applied to an entity.
 /// </summary>
-public class Status : BaseModel
+public class Status : BaseModel, IComparable<Status>
 {
     /// <summary>
     /// The identifier of the requested status.
@@ -50,4 +50,17 @@ public class Status : BaseModel
     /// </summary>
     [Required]
     public bool IsActive { get; set; }
+
+    /// <inheritdoc />
+    public int CompareTo(Status other)
+    {
+        if (other == null)
+        {
+            return 1;
+        }
+        else
+        {
+            return string.Compare(this.DisplayName, other.DisplayName, StringComparison.OrdinalIgnoreCase);
+        }
+    }
 }
