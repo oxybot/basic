@@ -3,6 +3,7 @@
 
 using AutoMapper.Internal;
 using Basic.DataAccess;
+using Basic.DataAccess.SqlServer.Migrations;
 using Basic.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -58,6 +59,25 @@ public class TestData
         this.Populate<User>();
         this.Populate<EventCategory>();
         this.Populate<Event>();
+        this.PopulateEventStatus();
+    }
+
+    public void PopulateEventStatus()
+    {
+        this.Populate<Event>();
+
+        var requested = this.Context.Set<Status>().Single(s => s.Identifier == Status.Requested);
+        this.Context.Set<Event>().ToList().ForEach(e =>
+        {
+            e.Statuses.Add(new EventStatus()
+            {
+                Status = requested,
+                UpdatedBy = (User)this.GetRandomValueFor(typeof(User)),
+                UpdatedOn = (DateTime)this.GetRandomValueFor(typeof(DateTime)),
+            });
+        });
+
+        this.Context.SaveChanges();
     }
 
     /// <summary>
@@ -139,6 +159,11 @@ public class TestData
         {
             int days = Random.Shared.Next(2000 * 365, 3000 * 365);
             return DateOnly.FromDayNumber(days);
+        }
+        else if (propertyType == typeof(DateTime))
+        {
+            long ticks = Random.Shared.NextInt64(2000L * 365L * 24L * 60L * 60L * 10L, 3000L * 365L * 24L * 60L * 60L * 10L);
+            return new DateTime(ticks);
         }
         else if (propertyType == typeof(EventCategory))
         {
