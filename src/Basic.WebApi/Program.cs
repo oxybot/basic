@@ -5,6 +5,7 @@ using Basic.DataAccess;
 using Basic.WebApi.Framework;
 using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -50,6 +51,10 @@ builder.Services.AddControllers()
             return new InvalidModelStateActionResult(context.ModelState);
         };
     });
+
+// Enable healthcheck
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<Context>(name: "Datasource");
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -160,6 +165,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
 }
+
+// Configure the healthcheck response as a json format
+app.MapHealthChecks("/healthchecks", new HealthCheckOptions()
+{
+    ResponseWriter = HealthCheck.ResponseWriterAsync,
+});
 
 // Generate the basic-openapi.json/yaml files
 app.UseSwagger(options =>
