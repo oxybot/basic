@@ -13,7 +13,7 @@ export default function Layout({ children }) {
             <span className="d-none d-md-block d-lg-none">MD</span>
             <span className="d-none d-lg-block d-xl-none">LG</span>
             <span className="d-none d-xl-block d-xxl-none">XL</span>
-            <span className="d-none d-xxl-block">XLL</span>
+            <span className="d-none d-xxl-block">XXL</span>
           </h3>
         </div>
       )}
