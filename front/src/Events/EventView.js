@@ -1,6 +1,6 @@
 import { IconCheck, IconX } from "@tabler/icons";
 import dayjs from "dayjs";
-import { NavLink, useLoaderData, useParams, useRevalidator } from "react-router-dom";
+import { useLoaderData, useParams, useRevalidator } from "react-router-dom";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import PageView from "../Generic/PageView";
@@ -9,6 +9,7 @@ import Section from "../Generic/Section";
 import EntityList from "../Generic/EntityList";
 import AttachmentList from "../Attachments/AttachmentList";
 import { useInRole } from "../Authentication";
+import Modal from "../Generic/Modal";
 
 const transform = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
@@ -37,11 +38,7 @@ function EventViewDetail() {
   const definition = useDefinition("EventForView", transform);
   const entity = useLoaderData();
 
-  return (
-    <>
-      <EntityDetail definition={definition} entity={entity} />
-    </>
-  );
+  return <EntityDetail definition={definition} entity={entity} />;
 }
 
 function StatusList() {
@@ -84,27 +81,57 @@ export function EventView({ backTo = null, full = false }) {
       switch (status.displayName) {
         case "Approved":
           return (
-            <NavLink key={index} to={backTo}>
-              <button key={index} className="btn btn-success mx-1" onClick={() => handleStatusChange(status)}>
-                <IconCheck /> Approve
-              </button>
-            </NavLink>
+            <button key={index} className="btn btn-success mx-1" onClick={() => handleStatusChange(status)}>
+              <IconCheck /> Approve
+            </button>
           );
         case "Rejected":
           return (
-            <NavLink key={index} to={backTo}>
-              <button key={index} className="btn btn-danger mx-1" onClick={() => handleStatusChange(status)}>
-                <IconX /> Reject
-              </button>
-            </NavLink>
+            <button key={index} className="btn btn-danger mx-1" data-bs-toggle="modal" data-bs-target="#modal-reject">
+              <IconX /> Reject
+            </button>
           );
         case "Canceled":
           return (
-            <NavLink key={index} to={backTo}>
-              <button key={index} className="btn btn-outline-primary mx-1" onClick={() => handleStatusChange(status)}>
-                <IconX /> Cancel
-              </button>
-            </NavLink>
+            <button key={index} className="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#modal-cancel">
+              <IconX /> Cancel
+            </button>
+          );
+        default:
+          return null;
+      }
+    });
+  }
+
+  function Modals() {
+    if (next.length === 0) {
+      return null;
+    }
+
+    return next.map((status, index) => {
+      switch (status.displayName) {
+        case "Approved":
+          return null;
+        case "Rejected":
+          return (
+            <Modal
+              id="modal-reject"
+              title="Are you sure?"
+              text="Do you really want to reject this request from XXX of XX days of XXX?"
+              confirm="Reject"
+              onConfirm={() => handleStatusChange(status)}
+            />
+          );
+        case "Canceled":
+          return (
+            <Modal
+              id="modal-cancel"
+              title="Are you sure?"
+              text="Do you really want to cancel this request from XXX of XX days of XXX?"
+              confirm="Yes"
+              cancel="No"
+              onConfirm={() => handleStatusChange(status)}
+            />
           );
         default:
           return null;
@@ -113,28 +140,31 @@ export function EventView({ backTo = null, full = false }) {
   }
 
   return (
-    <PageView
-      backTo={backTo}
-      full={full}
-      title={entity.user ? entity.user.displayName + " - " + dayjs(entity.startDate).format("DD MMM YYYY") : null}
-      entity={entity}
-      editRole="noedit"
-      extraMenu={<ExtraMenu />}
-    >
-      <Sections>
-        <Section code="detail" element={<EventViewDetail />}>
-          Detail
-        </Section>
-        <Section code="statuses" element={<StatusList />}>
-          Statuses
-        </Section>
-        {isInRole("beta") && (
-          <Section code="attachments" element={<EventAttachmentList />}>
-            Attachments
-            <span className="badge ms-2 bg-green">{links.attachments || ""}</span>
+    <>
+      <PageView
+        backTo={backTo}
+        full={full}
+        title={entity.user ? entity.user.displayName + " - " + dayjs(entity.startDate).format("DD MMM YYYY") : null}
+        entity={entity}
+        editRole="noedit"
+        extraMenu={<ExtraMenu />}
+      >
+        <Sections>
+          <Section code="detail" element={<EventViewDetail />}>
+            Detail
           </Section>
-        )}
-      </Sections>
-    </PageView>
+          <Section code="statuses" element={<StatusList />}>
+            Statuses
+          </Section>
+          {isInRole("beta") && (
+            <Section code="attachments" element={<EventAttachmentList />}>
+              Attachments
+              <span className="badge ms-2 bg-green">{links.attachments || ""}</span>
+            </Section>
+          )}
+        </Sections>
+      </PageView>
+      <Modals />
+    </>
   );
 }
