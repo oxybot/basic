@@ -9,19 +9,32 @@ namespace Basic.Model;
 public enum EventTimeMapping
 {
     /// <summary>
+    /// Indicates that the associated time booking is to be considered as time-off.
+    /// </summary>
+    /// <remarks>
+    /// <para>Can be used to flag holidays, sickness or other special leaves.</para>
+    /// <para>Will be accounted by business hours.</para>
+    /// <para>A user should not have two time-offs events at the same time.</para>
+    /// </remarks>
+    TimeOff = 0,
+
+    /// <summary>
     /// Indicates that the associated time booking is not to be considered as time-off but as
     /// normal activities.
     /// </summary>
     /// <remarks>
-    /// Can be used to flag special events like travel, on-calls....
+    /// <para>Can be used to flag special events like remote work...</para>
+    /// <para>Will be accounted by business hours.</para>
     /// </remarks>
-    Active = 0,
+    Active,
 
     /// <summary>
-    /// Indicates that the associated time booking is to be considered as time-off.
+    /// Inidicates that the associated time booking is linked to normal activities that
+    /// doesn't have to be accounted.
     /// </summary>
     /// <remarks>
-    /// Can be used to flag holidays, sickness or other special leaves.
+    /// <para>Can be used to flag special events like travel, on-calls...</para>
+    /// <para>Will be displayed on the calendard based on their start and end dates.</para>
     /// </remarks>
-    TimeOff,
+    Informational,
 }
