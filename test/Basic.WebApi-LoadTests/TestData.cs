@@ -153,7 +153,7 @@ public class TestData
         }
         else if (propertyType == typeof(EventTimeMapping))
         {
-            return (EventTimeMapping)(Random.Shared.Next() % 2);
+            return (EventTimeMapping)(Random.Shared.Next() % 3);
         }
         else if (propertyType == typeof(DateOnly))
         {

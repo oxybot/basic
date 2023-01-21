@@ -62,8 +62,8 @@ public class CalendarController : BaseController
             var events = user.Events
                 .Where(e => e.StartDate <= endOfMonth && e.EndDate >= startOfMonth)
                 .Where(e => e.CurrentStatus.IsActive);
-            var timeoff = events.Where(e => e.Category.Mapping != EventTimeMapping.Active).ToList();
-            var active = events.Where(e => e.Category.Mapping == EventTimeMapping.Active);
+            var timeoff = events.Where(e => e.Category.Mapping == EventTimeMapping.TimeOff).ToList();
+            var others = events.Where(e => e.Category.Mapping != EventTimeMapping.TimeOff).ToList();
 #pragma warning restore CA1851 // Possible multiple enumerations of 'IEnumerable' collection
 
             var calendar = new UserCalendar() { User = this.Mapper.Map<EntityReference>(user) };
@@ -96,7 +96,7 @@ public class CalendarController : BaseController
             }
 
             // Add lines for active categories
-            foreach (var activeGroup in active.GroupBy(e => e.Category))
+            foreach (var activeGroup in others.GroupBy(e => e.Category))
             {
                 var line = new UserCalendarLine()
                 {
@@ -229,11 +229,11 @@ public class CalendarController : BaseController
             return;
         }
 
-        if (context.Category.Mapping != EventTimeMapping.Active)
+        if (context.Category.Mapping == EventTimeMapping.TimeOff)
         {
             // Conflicts on time-off
             var conflicts = this.Context.Set<Event>()
-                .Where(e => e.Category.Mapping != EventTimeMapping.Active)
+                .Where(e => e.Category.Mapping == EventTimeMapping.TimeOff)
                 .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate)
                 .Where(e => e.User == context.User);
 
@@ -252,7 +252,7 @@ public class CalendarController : BaseController
         }
         else
         {
-            // Conflicts on active days
+            // Conflicts on an active or informational request
             var conflicts = this.Context.Set<Event>()
                 .Where(e => e.Category == context.Category)
                 .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate)
@@ -300,7 +300,11 @@ public class CalendarController : BaseController
             return context;
         }
 
-        if (context.Category.Mapping != EventTimeMapping.Active)
+        if (context.Category.Mapping == EventTimeMapping.Informational)
+        {
+            context.TotalDays = request.EndDate.Value.DayNumber - request.StartDate.Value.DayNumber;
+        }
+        else
         {
             var workingSchedule = ScheduleHelper.CalculateWorkingSchedule(this.Context, context.User, request.StartDate.Value, request.EndDate.Value);
 

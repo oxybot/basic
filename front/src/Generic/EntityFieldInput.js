@@ -86,8 +86,9 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
 
     case "ref/eventtimemapping":
       const options = [
-        { value: "Active", label: "Active" },
         { value: "TimeOff", label: "Time-off" },
+        { value: "Active", label: "Active" },
+        { value: "Informational", label: "Informational" },
       ];
       return (
         <Select

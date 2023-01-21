@@ -58,7 +58,7 @@ public class TestReferences
         var user = new User() { Username = "ref", DisplayName = "ref user" };
         context.Set<User>().Add(user);
 
-        var category = new EventCategory() { DisplayName = "ref category", ColorClass = "#ff0000", Mapping = EventTimeMapping.TimeOff };
+        var category = new EventCategory() { DisplayName = "ref category", ColorClass = "#ff0000", Mapping = EventTimeMapping.Informational };
         context.Set<EventCategory>().Add(category);
 
         var requested = context.Set<Status>().Single(e => e.Identifier == Status.Requested);

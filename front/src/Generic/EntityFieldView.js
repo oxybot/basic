@@ -50,10 +50,11 @@ export default function EntityFieldView({ type, value, list = false }) {
 
     case "ref/eventtimemapping":
       switch (value) {
-        case "Active":
-          return value;
         case "TimeOff":
           return "Time-off";
+        case "Active":
+        case "Informational":
+          return value;
         default:
           throw new Error("Unknown value: " + value);
       }

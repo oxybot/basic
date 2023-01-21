@@ -38,6 +38,7 @@ public class EventCategoryForEdit : BaseEntityDTO
     /// Gets or sets the css class associated to the category.
     /// </summary>
     [RequiredWhen(nameof(Mapping), EventTimeMapping.Active)]
+    [RequiredWhen(nameof(Mapping), EventTimeMapping.Informational)]
     [SwaggerSchema(Format = "color")]
     public string ColorClass { get; set; }
 }

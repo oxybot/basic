@@ -112,9 +112,14 @@ export function CalendarRequest({ full = false }) {
                 <div>
                   <h4 className="alert-title">Valid request for:</h4>
                   <div className="text-muted">
-                    {pluralize("hour", check.totalHours, true)}
-                    <span> on </span>
-                    {pluralize("business day", check.totalDays, true)}
+                    {check.totalHours && (
+                      <>
+                        {pluralize("hour", check.totalHours, true)}
+                        <span> on </span>
+                        {pluralize("business day", check.totalDays, true)}
+                      </>
+                    )}
+                    {!check.totalHours && pluralize("calendar day", check.totalDays, true)}
                   </div>
                 </div>
               </div>

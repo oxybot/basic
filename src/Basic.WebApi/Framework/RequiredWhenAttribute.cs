@@ -8,7 +8,7 @@ namespace System.ComponentModel.DataAnnotations;
 /// <summary>
 /// Indicates that the associated property is required when another property has a specific value.
 /// </summary>
-[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
 public sealed class RequiredWhenAttribute : ValidationAttribute
 {
     /// <summary>
