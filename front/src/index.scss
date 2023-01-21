@@ -29,6 +29,11 @@ input.form-control.required {
   padding-top: 0.01em;
 }
 
+/* Bootstrap - variant color */
+.bg-primary-50 {
+  background-color: RGBA(32, 107, 196, 0.5);
+}
+
 /* Tabler - fix theme-dark sort selection */
 .table-sort.asc,
 .table-sort.desc,

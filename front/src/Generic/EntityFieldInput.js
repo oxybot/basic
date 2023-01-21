@@ -1,11 +1,11 @@
 import { IconCurrencyEuro } from "@tabler/icons";
 import clsx from "clsx";
 import dayjs from "dayjs";
-import Select from "react-select";
 import EntityFieldInputColor from "./EntityFieldInputColor";
 import EntityFieldInputImage from "./EntityFieldInputImage";
 import EntityFieldInputReference from "./EntityFieldInputReference";
 import EntityFieldInputSchedule from "./EntityFieldInputSchedule";
+import Select from "./Select";
 
 export default function EntityFieldInput({ field, value, hasErrors, onChange }) {
   switch (field.type) {
@@ -93,9 +93,6 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
         <Select
           name={field.name}
           required={field.required}
-          isClearable={true}
-          isSearchable={true}
-          classNamePrefix="react-select"
           className={clsx({ "is-invalid": hasErrors })}
           placeholder={field.placeholder}
           options={options}
