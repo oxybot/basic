@@ -52,6 +52,8 @@ builder.Services.AddControllers()
         };
     });
 
+builder.Services.AddHttpContextAccessor();
+
 // Enable healthcheck
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<Context>(name: "Datasource");
@@ -154,6 +156,7 @@ builder.Services
 builder.Services.AddScoped(sp => sp.GetRequiredService<IOptionsSnapshot<EmailServiceOptions>>().Value);
 
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<EventRequestService>();
 builder.Services.AddScoped<ConsumptionService>();
 builder.Services.AddScoped<Context>();
 builder.Services.AddSingleton<ExternalAuthenticatorService>();

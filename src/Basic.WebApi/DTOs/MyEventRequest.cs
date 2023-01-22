@@ -9,7 +9,7 @@ namespace Basic.WebApi.DTOs;
 /// <summary>
 /// Represents a new calendar request for the connected user.
 /// </summary>
-public class CalendarRequest : BaseEntityDTO, IValidatableObject
+public class MyEventRequest : BaseEntityDTO, IValidatableObject
 {
     /// <summary>
     /// Gets or sets the associated category.
@@ -55,7 +55,7 @@ public class CalendarRequest : BaseEntityDTO, IValidatableObject
     /// </summary>
     /// <param name="validationContext">The validation context.</param>
     /// <returns>The errors during the validation of the instance.</returns>
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (this.CategoryIdentifier == Guid.Empty)
         {

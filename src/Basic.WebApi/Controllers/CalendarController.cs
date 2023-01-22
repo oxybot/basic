@@ -123,12 +123,13 @@ public class CalendarController : BaseController
     /// Creates a request.
     /// </summary>
     /// <param name="notification">The email service used for notification.</param>
+    /// <param name="requestService">The service used to validate the request.</param>
     /// <param name="request">The request data.</param>
     /// <returns>The balance data after creation.</returns>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
     [Produces("application/json")]
-    public EventForList Post([FromServices] EmailService notification, CalendarRequest request)
+    public EventForList Post([FromServices] EmailService notification, [FromServices] EventRequestService requestService, MyEventRequest request)
     {
         if (notification is null)
         {
@@ -138,10 +139,12 @@ public class CalendarController : BaseController
         {
             throw new ArgumentNullException(nameof(request));
         }
+        else if (requestService is null)
+        {
+            throw new ArgumentNullException(nameof(requestService));
+        }
 
-        var context = this.CreateContext(request);
-        this.Validate(context, request);
-
+        var context = requestService.Validate(request, this.ModelState);
         if (!this.ModelState.IsValid)
         {
             throw new InvalidModelStateException(this.ModelState);
@@ -180,201 +183,32 @@ public class CalendarController : BaseController
     /// <summary>
     /// Checks a request calendar and provides current status and impacts.
     /// </summary>
+    /// <param name="requestService">The service used to validate the request.</param>
     /// <param name="request">The current request.</param>
     /// <returns>The status and impacts of the request.</returns>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
     [Route("check")]
     [Produces("application/json")]
-    public CalendarRequestCheck Check(CalendarRequest request)
+    public EventRequestCheck Check([FromServices] EventRequestService requestService, MyEventRequest request)
     {
+        if (requestService is null)
+        {
+            throw new ArgumentNullException(nameof(requestService));
+        }
+
         // All the technical tests are managed prior to this point (i.e. required fields...)
         // Are added here the business and reference checks
-        var context = this.CreateContext(request);
-        this.Validate(context, request);
+        var context = requestService.Validate(request, this.ModelState);
         if (!this.ModelState.IsValid)
         {
             throw new InvalidModelStateException(this.ModelState);
         }
 
-        return new CalendarRequestCheck
+        return new EventRequestCheck
         {
             TotalHours = context.TotalHours,
             TotalDays = context.TotalDays,
         };
-    }
-
-    private void Validate(CalendarRequestContext context, CalendarRequest request)
-    {
-        if (context.Category == null)
-        {
-            string message = "Invalid category selected";
-            this.ModelState.AddModelError(nameof(request.CategoryIdentifier), message);
-        }
-
-        if (context.Schedule == null)
-        {
-            var schedules = this.Context.Set<Schedule>()
-                .Where(s => s.User == context.User)
-                .Where(s => s.ActiveFrom <= request.EndDate && (s.ActiveTo == null || request.StartDate < s.ActiveTo.Value));
-
-            string errorMessage = schedules.Any()
-                ? "Multiple working schedules are impacted. Please do one request for each."
-                : "No working schedule defined for this period";
-            this.ModelState.AddModelError(string.Empty, errorMessage);
-        }
-
-        if (!this.ModelState.IsValid)
-        {
-            // Errors already present on the basic elements
-            return;
-        }
-
-        if (request.DurationFirstDay != null)
-        {
-            decimal firstDay = context.Schedule.For(request.StartDate.Value);
-            if (firstDay == 0m)
-            {
-                string message = "Can't define a partial day on a non-working day";
-                this.ModelState.AddModelError(nameof(request.DurationFirstDay), message);
-            }
-            else if (firstDay < request.DurationFirstDay.Value)
-            {
-                string message = "Duration above a normal working day duration";
-                this.ModelState.AddModelError(nameof(request.DurationFirstDay), message);
-            }
-        }
-
-        if (request.DurationLastDay != null)
-        {
-            decimal lastDay = context.Schedule.For(request.EndDate.Value);
-            if (lastDay == 0m)
-            {
-                string message = "Can't define a partial day on a non-working day";
-                this.ModelState.AddModelError(nameof(request.DurationLastDay), message);
-            }
-            else if (lastDay < request.DurationLastDay.Value)
-            {
-                string message = "Duration above a normal working day duration";
-                this.ModelState.AddModelError(nameof(request.DurationLastDay), message);
-            }
-        }
-
-        if (context.Category.Mapping == EventTimeMapping.TimeOff)
-        {
-            // Conflicts on time-off
-            var conflicts = this.Context.Set<Event>()
-                .Include(e => e.Statuses)
-                .ThenInclude(e => e.Status)
-                .Where(e => e.Category.Mapping == EventTimeMapping.TimeOff)
-                .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate)
-                .Where(e => e.User == context.User)
-                .ToList()
-                .Where(e => e.CurrentStatus.IsActive);
-
-            if (conflicts.Any())
-            {
-                string message = "There is already registered time-off on the same period";
-                this.ModelState.AddModelError(nameof(request.StartDate), message);
-                this.ModelState.AddModelError(nameof(request.EndDate), message);
-            }
-
-            // Refuse time-off request for 0 hours
-            if (context.TotalHours.HasValue && context.TotalHours.Value == 0m)
-            {
-                string message = "Can't request a time-off on non-working time";
-                this.ModelState.AddModelError(string.Empty, message);
-            }
-        }
-        else
-        {
-            // Conflicts on an active or informational request
-            var conflicts = this.Context.Set<Event>()
-                .Where(e => e.Category == context.Category)
-                .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate)
-                .Where(e => e.User == context.User)
-                .ToList()
-                .Where(e => e.CurrentStatus.IsActive);
-
-            if (conflicts.Any())
-            {
-                string message = $"There is already registered '{context.Category.DisplayName}' on the same period";
-                this.ModelState.AddModelError(nameof(request.StartDate), message);
-                this.ModelState.AddModelError(nameof(request.EndDate), message);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Retrieves the data around the request.
-    /// </summary>
-    /// <param name="request">The current request.</param>
-    /// <returns>The context associated to the request.</returns>
-    private CalendarRequestContext CreateContext(CalendarRequest request)
-    {
-        if (request is null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
-
-        var userIdClaim = this.User.Claims.Single(c => c.Type == "sid:guid");
-        var userId = Guid.Parse(userIdClaim.Value);
-        var context = new CalendarRequestContext();
-
-        // Retrieve user
-        context.User = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == userId);
-
-        // Retrieve category
-        context.Category = this.Context.Set<EventCategory>().SingleOrDefault(c => c.Identifier == request.CategoryIdentifier);
-
-        // Retrieve schedule
-        context.Schedule = this.Context.Set<Schedule>()
-            .Where(s => s.User.Identifier == userId)
-            .Where(s => s.ActiveFrom <= request.StartDate && (s.ActiveTo == null || request.EndDate < s.ActiveTo.Value))
-            .SingleOrDefault();
-
-        if (context.User == null || context.Category == null || context.Schedule == null)
-        {
-            return context;
-        }
-
-        if (context.Category.Mapping == EventTimeMapping.Informational)
-        {
-            context.TotalDays = request.EndDate.Value.DayNumber - request.StartDate.Value.DayNumber + 1;
-        }
-        else
-        {
-            var workingSchedule = ScheduleHelper.CalculateWorkingSchedule(this.Context, context.User, request.StartDate.Value, request.EndDate.Value);
-
-            // Compute total impacted hours
-            context.TotalHours = 0m;
-            context.TotalDays = 0;
-            for (DateOnly day = request.StartDate.Value; day <= request.EndDate.Value; day = day.AddDays(1))
-            {
-                decimal maxHours = workingSchedule[day];
-
-                if (maxHours == 0m)
-                {
-                    // Skip the day
-                    continue;
-                }
-
-                context.TotalDays++;
-                if (day == request.StartDate && request.DurationFirstDay.HasValue)
-                {
-                    context.TotalHours += request.DurationFirstDay.Value;
-                }
-                else if (day == request.EndDate && request.DurationLastDay.HasValue)
-                {
-                    context.TotalHours += request.DurationLastDay.Value;
-                }
-                else
-                {
-                    context.TotalHours += maxHours;
-                }
-            }
-        }
-
-        return context;
     }
 }

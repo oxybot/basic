@@ -7,10 +7,10 @@ using Basic.WebApi.DTOs;
 namespace Basic.WebApi.Models;
 
 /// <summary>
-/// Provides a detailed check on the status and impacts of a <see cref="CalendarRequest"/>.
+/// Provides a detailed check on the status and impacts of a <see cref="MyEventRequest"/>.
 /// </summary>
-/// <seealso cref="CalendarController.Check(CalendarRequest)"/>
-public class CalendarRequestCheck
+/// <seealso cref="CalendarController.Check"/>
+public class EventRequestCheck
 {
     /// <summary>
     /// Gets or sets the number of hours associated to the request.

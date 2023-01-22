@@ -16,7 +16,7 @@ import EntityFieldInputReference from "../Generic/EntityFieldInputReference";
 export function CalendarRequest({ full = false }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const definition = useDefinition("CalendarRequest");
+  const definition = useDefinition("MyEventRequest");
   const [entity, setEntity] = useState({});
   const [validated, setValidated] = useState(false);
   const [partialStartDate, setPartialStartDate] = useState(false);

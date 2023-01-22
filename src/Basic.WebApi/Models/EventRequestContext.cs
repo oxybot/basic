@@ -8,7 +8,7 @@ namespace Basic.WebApi.Models;
 /// <summary>
 /// Groups all the key data linked to a calendar request.
 /// </summary>
-public class CalendarRequestContext
+public class EventRequestContext
 {
     /// <summary>
     /// Gets or sets the associated user.
