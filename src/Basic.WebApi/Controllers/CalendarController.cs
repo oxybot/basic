@@ -154,8 +154,8 @@ public class CalendarController : BaseController
             Comment = request.Comment,
             StartDate = request.StartDate.Value,
             EndDate = request.EndDate.Value,
-            DurationFirstDay = request.DurationFirstDay ?? 8m,
-            DurationLastDay = request.DurationLastDay ?? 8m,
+            DurationFirstDay = request.DurationFirstDay ?? context.Schedule.For(request.StartDate.Value),
+            DurationLastDay = request.DurationLastDay ?? context.Schedule.For(request.StartDate.Value),
             DurationTotal = context.TotalHours ?? 0m,
         };
 
@@ -340,7 +340,7 @@ public class CalendarController : BaseController
 
         if (context.Category.Mapping == EventTimeMapping.Informational)
         {
-            context.TotalDays = request.EndDate.Value.DayNumber - request.StartDate.Value.DayNumber;
+            context.TotalDays = request.EndDate.Value.DayNumber - request.StartDate.Value.DayNumber + 1;
         }
         else
         {
