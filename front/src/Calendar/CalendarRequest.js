@@ -149,7 +149,7 @@ export function CalendarRequest({ full = false }) {
                   {category && (
                     <div className="text-muted mt-1">
                       <strong>Note: </strong>
-                      {category.mapping === "Active" && "Considered as working time"}
+                      {category.mapping !== "TimeOff" && "Considered as working time"}
                       {category.mapping === "TimeOff" && "Considered as time-off"}
                     </div>
                   )}
@@ -161,28 +161,30 @@ export function CalendarRequest({ full = false }) {
                   onChange={handleChange}
                 />
 
-                {entity.startDate && category && category.mapping !== "Active" && (
-                  <div className="form-check form-switch">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      id="partialStartDate"
-                      checked={partialStartDate}
-                      onChange={switchPartialStartDate}
-                    />
-                    <label className="form-check-label text-body" htmlFor="partialStartDate">
-                      Partial day
-                    </label>
-                  </div>
-                )}
-                {partialStartDate && category && category.mapping !== "Active" && (
-                  <EntityFieldEdit
-                    field={definition.fields.find((f) => f.name === "durationFirstDay")}
-                    entity={entity}
-                    errors={errors && errors["durationFirstDay"]}
-                    onChange={handleChange}
-                  />
+                {entity.startDate && category && category.mapping !== "Informational" && (
+                  <>
+                    <div className="form-check form-switch">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="partialStartDate"
+                        checked={partialStartDate}
+                        onChange={switchPartialStartDate}
+                      />
+                      <label className="form-check-label text-body" htmlFor="partialStartDate">
+                        Partial day
+                      </label>
+                    </div>
+                    {partialStartDate && (
+                      <EntityFieldEdit
+                        field={definition.fields.find((f) => f.name === "durationFirstDay")}
+                        entity={entity}
+                        errors={errors && errors["durationFirstDay"]}
+                        onChange={handleChange}
+                      />
+                    )}
+                  </>
                 )}
 
                 <EntityFieldEdit
@@ -192,29 +194,35 @@ export function CalendarRequest({ full = false }) {
                   onChange={handleChange}
                 />
 
-                {entity.endDate && category && category.mapping !== "Active" && entity.startDate !== entity.endDate && (
-                  <div className="form-check form-switch">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      id="partialEndDate"
-                      checked={partialEndDate}
-                      onChange={switchPartialEndDate}
-                    />
-                    <label className="form-check-label text-body" htmlFor="partialEndDate">
-                      Partial day
-                    </label>
-                  </div>
-                )}
-                {partialEndDate && category && entity.startDate !== entity.endDate && category.mapping !== "Active" && (
-                  <EntityFieldEdit
-                    field={definition.fields.find((f) => f.name === "durationLastDay")}
-                    entity={entity}
-                    errors={errors && errors["durationLastDay"]}
-                    onChange={handleChange}
-                  />
-                )}
+                {entity.endDate &&
+                  category &&
+                  category.mapping !== "Informational" &&
+                  entity.startDate !== entity.endDate && (
+                    <>
+                      <div className="form-check form-switch">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          role="switch"
+                          id="partialEndDate"
+                          checked={partialEndDate}
+                          onChange={switchPartialEndDate}
+                        />
+                        <label className="form-check-label text-body" htmlFor="partialEndDate">
+                          Partial day
+                        </label>
+                      </div>
+                      {partialEndDate && (
+                        <EntityFieldEdit
+                          field={definition.fields.find((f) => f.name === "durationLastDay")}
+                          entity={entity}
+                          errors={errors && errors["durationLastDay"]}
+                          onChange={handleChange}
+                        />
+                      )}
+                    </>
+                  )}
+
                 <EntityFieldEdit
                   field={definition.fields.find((f) => f.name === "comment")}
                   entity={entity}
