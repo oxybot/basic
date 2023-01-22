@@ -208,7 +208,8 @@ public class CalendarController : BaseController
     {
         if (context.Category == null)
         {
-            this.ModelState.AddModelError(nameof(request.CategoryIdentifier), "Invalid category selected");
+            string message = "Invalid category selected";
+            this.ModelState.AddModelError(nameof(request.CategoryIdentifier), message);
         }
 
         if (context.Schedule == null)
@@ -229,13 +230,47 @@ public class CalendarController : BaseController
             return;
         }
 
+        if (request.DurationFirstDay != null)
+        {
+            decimal firstDay = context.Schedule.For(request.StartDate.Value);
+            if (firstDay == 0m)
+            {
+                string message = "Can't define a partial day on a non-working day";
+                this.ModelState.AddModelError(nameof(request.DurationFirstDay), message);
+            }
+            else if (firstDay < request.DurationFirstDay.Value)
+            {
+                string message = "Duration above a normal working day duration";
+                this.ModelState.AddModelError(nameof(request.DurationFirstDay), message);
+            }
+        }
+
+        if (request.DurationLastDay != null)
+        {
+            decimal lastDay = context.Schedule.For(request.EndDate.Value);
+            if (lastDay == 0m)
+            {
+                string message = "Can't define a partial day on a non-working day";
+                this.ModelState.AddModelError(nameof(request.DurationLastDay), message);
+            }
+            else if (lastDay < request.DurationLastDay.Value)
+            {
+                string message = "Duration above a normal working day duration";
+                this.ModelState.AddModelError(nameof(request.DurationLastDay), message);
+            }
+        }
+
         if (context.Category.Mapping == EventTimeMapping.TimeOff)
         {
             // Conflicts on time-off
             var conflicts = this.Context.Set<Event>()
+                .Include(e => e.Statuses)
+                .ThenInclude(e => e.Status)
                 .Where(e => e.Category.Mapping == EventTimeMapping.TimeOff)
                 .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate)
-                .Where(e => e.User == context.User);
+                .Where(e => e.User == context.User)
+                .ToList()
+                .Where(e => e.CurrentStatus.IsActive);
 
             if (conflicts.Any())
             {
@@ -247,7 +282,8 @@ public class CalendarController : BaseController
             // Refuse time-off request for 0 hours
             if (context.TotalHours.HasValue && context.TotalHours.Value == 0m)
             {
-                this.ModelState.AddModelError(string.Empty, "Can't request a time-off on non-working time");
+                string message = "Can't request a time-off on non-working time";
+                this.ModelState.AddModelError(string.Empty, message);
             }
         }
         else
@@ -256,7 +292,9 @@ public class CalendarController : BaseController
             var conflicts = this.Context.Set<Event>()
                 .Where(e => e.Category == context.Category)
                 .Where(e => e.StartDate <= request.EndDate && request.StartDate <= e.EndDate)
-                .Where(e => e.User == context.User);
+                .Where(e => e.User == context.User)
+                .ToList()
+                .Where(e => e.CurrentStatus.IsActive);
 
             if (conflicts.Any())
             {

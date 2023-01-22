@@ -40,12 +40,14 @@ public class CalendarRequest : BaseEntityDTO, IValidatableObject
     /// Gets or sets the number of hours associated to the first day.
     /// </summary>
     [SwaggerSchema(Format = "hours")]
+    [Range(0, 24)]
     public int? DurationFirstDay { get; set; }
 
     /// <summary>
     /// Gets or sets the number of hours associated to the last day.
     /// </summary>
     [SwaggerSchema(Format = "hours")]
+    [Range(0, 24)]
     public int? DurationLastDay { get; set; }
 
     /// <summary>

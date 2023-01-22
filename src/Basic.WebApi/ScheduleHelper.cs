@@ -60,14 +60,7 @@ public static class ScheduleHelper
                 continue;
             }
 
-            int dayOfWeek = (int)day.DayOfWeek;
-            int week = stdCalendar.GetWeekOfYear(day.ToDateTime(TimeOnly.MinValue), CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
-            if (schedule.WorkingSchedule.Length > 7 && week.IsEven())
-            {
-                dayOfWeek += 7;
-            }
-
-            results.Add(day, schedule.WorkingSchedule[dayOfWeek]);
+            results.Add(day, schedule.For(day));
         }
 
         return results;
