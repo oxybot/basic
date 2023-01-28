@@ -117,7 +117,7 @@ export function EventView({ backTo = null, full = false }) {
             <Modal
               id="modal-reject"
               title="Are you sure?"
-              text="Do you really want to reject this request from XXX of XX days of XXX?"
+              text={`Do you really want to reject this ${entity.category.displayName} request from ${entity.user.displayName} starting ${dayjs(entity.startDate).format("DD MMM YYYY")}?`}
               confirm="Reject"
               onConfirm={() => handleStatusChange(status)}
             />
@@ -127,7 +127,7 @@ export function EventView({ backTo = null, full = false }) {
             <Modal
               id="modal-cancel"
               title="Are you sure?"
-              text="Do you really want to cancel this request from XXX of XX days of XXX?"
+              text={`Do you really want to cancel this ${entity.category.displayName} request from ${entity.user.displayName} starting ${dayjs(entity.startDate).format("DD MMM YYYY")}?`}
               confirm="Yes"
               cancel="No"
               onConfirm={() => handleStatusChange(status)}
