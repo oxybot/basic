@@ -84,7 +84,7 @@ export function SignIn() {
     !loading &&
     definition && (
       <div className="page page-center">
-        <div className="container-tight py-4">
+        <div className="container container-tight py-4">
           <div className="mx-3 d-flex align-items-center">
             <h5 className="basic-title d-flex align-items-center m-0">
               <div className="basic-logo">B</div>
@@ -94,35 +94,37 @@ export function SignIn() {
               <LayoutTheme className="btn btn-link text-body" />
             </div>
           </div>
-          <form className="card card-md" onSubmit={handleSubmit} method="get" autoComplete="off" noValidate>
-            <div className="card-body">
-              <h2 className="card-title text-center mb-4">Login to your account</h2>
-              {definition.fields.map((field, index) => (
-                <EntityFieldEdit
-                  key={index}
-                  field={field}
-                  errors={errors && errors[field.name]}
-                  entity={credentials}
-                  onChange={handleChange}
-                />
-              ))}
-              {errors[""] && (
-                <div className="alert alert-important alert-warning">
-                  <div className="d-flex">
-                    <div>
-                      <IconAlertTriangle className="alert-icon" />
+          <div className="card card-md">
+            <div className="card-body p-4">
+              <h2 className="text-center mb-4">Login to your account</h2>
+              <form onSubmit={handleSubmit} method="get" autoComplete="off" noValidate>
+                {definition.fields.map((field, index) => (
+                  <EntityFieldEdit
+                    key={index}
+                    field={field}
+                    errors={errors && errors[field.name]}
+                    entity={credentials}
+                    onChange={handleChange}
+                  />
+                ))}
+                {errors[""] && (
+                  <div className="alert alert-important alert-warning">
+                    <div className="d-flex">
+                      <div>
+                        <IconAlertTriangle className="alert-icon" />
+                      </div>
+                      <div>{errors[""]}</div>
                     </div>
-                    <div>{errors[""]}</div>
                   </div>
+                )}
+                <div className="form-footer">
+                  <button type="submit" className="btn btn-primary w-100" tabIndex="4">
+                    Sign in
+                  </button>
                 </div>
-              )}
-              <div className="form-footer">
-                <button type="submit" className="btn btn-primary w-100" tabIndex="4">
-                  Sign in
-                </button>
-              </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     )
