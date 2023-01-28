@@ -11,7 +11,7 @@ export function MyEventList() {
   }
 
   const texts = {
-    title: "Events",
+    title: "My Events",
     add: "Add a new Request",
   };
 
