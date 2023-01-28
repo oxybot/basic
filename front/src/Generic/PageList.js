@@ -1,4 +1,4 @@
-import { IconPlus } from "@tabler/icons";
+import { IconFilter, IconPlus } from "@tabler/icons";
 import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";
 import { useInRole } from "../Authentication";
@@ -15,6 +15,7 @@ export default function PageList({
   newRole = null,
   sorting,
   setSorting,
+  filters = null,
 }) {
   const outlet = useOutlet();
   const isInRole = useInRole();
@@ -58,9 +59,25 @@ export default function PageList({
               </div>
             </div>
           </div>
-          <div className="page-header d-lg-none">
+          <div className="mt-3 d-lg-none d-flex flex-row justify-content-between align-items-start">
             <div className="text-muted">{elements ? pluralize("entry", elements.length, true) : "- entry"}</div>
+            {filters && (
+              <button
+                className="btn btn-icon btn-outline-secondary"
+                data-bs-toggle="collapse"
+                data-bs-target="#filters"
+                aria-expanded="false"
+                aria-controls="filters"
+              >
+                <IconFilter />
+              </button>
+            )}
           </div>
+          {filters && (
+            <div className="collapse" id="filters">
+              <div className="card card-body">{filters}</div>
+            </div>
+          )}
           <div className="page-body">
             <div className="card">
               <EntityList

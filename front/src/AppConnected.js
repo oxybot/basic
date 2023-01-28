@@ -46,6 +46,19 @@ const router = createBrowserRouter(
         <Route path="request" element={<CalendarRequest full />} />
       </Route>
 
+      {/* Profile */}
+      <Route path="/my/profile" element={<ProfileView full />} />
+      <Route path="/my/profile/edit" element={<ProfileEdit full />} loader={() => loadOne("my/user")} />
+      <Route path="/my/profile/password" element={<MyPasswordEdit full />} />
+      <Route path="/my/events" element={<MyEventList />} loader={({ request }) => loadList("my/events", request)}>
+        <Route
+          path=":eventId"
+          element={<MyEventView backTo="/my/events" />}
+          loader={({ params }) => loadOne("my/events", params.eventId)}
+        />
+        <Route path="new" element={<CalendarRequest />} />
+      </Route>
+
       {/* Settings */}
       <Route path="/settings">
         <Route index element={<Settings />} />
@@ -73,19 +86,6 @@ const router = createBrowserRouter(
           />
           <Route path="new" element={<GlobalDayOffNew />} />
         </Route>
-      </Route>
-
-      {/* Profile */}
-      <Route path="/my/profile" element={<ProfileView full />} />
-      <Route path="/my/profile/edit" element={<ProfileEdit full />} loader={() => loadOne("my/user")} />
-      <Route path="/my/profile/password" element={<MyPasswordEdit full />} />
-      <Route path="/my/events" element={<MyEventList />} loader={({ request }) => loadList("my/events", request)}>
-        <Route
-          path=":eventId"
-          element={<MyEventView backTo="/my/events" />}
-          loader={({ params }) => loadOne("my/events", params.eventId)}
-        />
-        <Route path="new" element={<CalendarRequest />} />
       </Route>
 
       {/* Clients */}
