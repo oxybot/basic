@@ -14,20 +14,17 @@ export function useSorting() {
   }, [searchParams]);
 
   const updateSorting = function (updater) {
-    const entries = Object.fromEntries(searchParams.entries());
+    const updated = new URLSearchParams(searchParams);
+
     const newSorting = updater(sorting);
     if (newSorting && newSorting.length > 0) {
       const id = newSorting[0].id;
-      if (newSorting[0].desc) {
-        entries.o = `${id}-desc`;
-      } else {
-        entries.o = id;
-      }
+      updated.set("o", newSorting[0].desc ? `${id}-desc` : id);
     } else {
-      delete entries.o;
+      updated.delete("o");
     }
 
-    setSearchParams(entries);
+    setSearchParams(updated);
   };
 
   return [sorting, updateSorting];

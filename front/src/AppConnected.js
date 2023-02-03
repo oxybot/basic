@@ -21,10 +21,19 @@ function loadList(context, request) {
   const searchParams = url.searchParams;
   const params = new URLSearchParams();
 
+  // Manage sorting
   if (searchParams && searchParams.get("o")) {
     const values = searchParams.get("o").split("-");
     params.set("sortKey", values[0]);
     params.set("sortValue", values[1] === "desc" ? "desc" : "asc");
+  }
+
+  // Manage filters
+  if (searchParams && searchParams.getAll("f")) {
+    const filters = searchParams.getAll("f");
+    filters.forEach((f) => {
+      params.append("filters", f);
+    });
   }
 
   return apiFetch(`${context}?${params.toString()}`, { method: "GET" });
