@@ -21,7 +21,7 @@ export default function EntityFieldView({ type, value, list = false }) {
 
   switch (type) {
     case "datetime":
-      return dayjs(value).format("DD MMM YYYY hh:mm:ss");
+      return dayjs(value).format("DD MMM YYYY HH:mm:ss");
 
     case "date":
       return dayjs(value).format("DD MMM YYYY");
