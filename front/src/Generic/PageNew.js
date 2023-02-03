@@ -42,7 +42,6 @@ export default function PageNew({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(entity);
     apiFetch(baseApiUrl, {
       method: "POST",
       body: JSON.stringify(entity),

@@ -14,11 +14,9 @@ export default function EntityFieldInputSchedule({ field, value, hasErrors, onCh
     if (value.length < max) {
       let updated = [...value];
       updated.push(0, 0, 0, 0, 0, 0, 0);
-      console.log("option 1 : value = " + value + " ; update = " + updated);
       onChange({ target: { name: field.name, value: updated } });
     } else {
       let updated = value.slice(0, 7);
-      console.log("option 2 : updated =" + updated);
       onChange({ target: { name: field.name, value: updated } });
     }
   }
@@ -26,7 +24,6 @@ export default function EntityFieldInputSchedule({ field, value, hasErrors, onCh
   function handleChange(e, d) {
     let updated = [...value];
     updated[d] = Number(e.target.value);
-    console.log("option 3 : updated =" + updated);
     onChange({ target: { name: field.name, value: updated } });
   }
 

@@ -6,7 +6,6 @@ export function useFiltering() {
 
   const filters = useMemo(() => {
     if (searchParams && searchParams.getAll("f")) {
-      console.log(searchParams.getAll("f"));
       return Object.fromEntries(searchParams.getAll("f").map((e) => [e, true]));
     } else {
       return null;
