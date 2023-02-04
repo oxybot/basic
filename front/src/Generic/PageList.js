@@ -22,6 +22,11 @@ export default function PageList({
   const outlet = useOutlet();
   const isInRole = useInRole();
 
+  let totalText = elements.total !== 0 ? pluralize("entry", elements.total, true) : "- entry";
+  if (elements.values.length !== elements.total) {
+    totalText = `${elements.values.length} out of ${totalText}`;
+  }
+
   return (
     <div className="container-xl">
       <div className="row">
@@ -40,9 +45,7 @@ export default function PageList({
             <div className="row align-items-center">
               <div className="col">
                 <h2 className="page-title">{texts.title}</h2>
-                <div className="text-muted mt-1">
-                  {elements ? pluralize("entry", elements.total, true) : "- entry"}
-                </div>
+                <div className="text-muted mt-1">{totalText}</div>
               </div>
               <div className="col-auto ms-auto d-print-none">
                 <div className="d-flex">
@@ -62,7 +65,7 @@ export default function PageList({
             </div>
           </div>
           <div className="mt-3 d-lg-none d-flex flex-row justify-content-between align-items-start">
-            <div className="text-muted">{elements ? pluralize("entry", elements.total, true) : "- entry"}</div>
+            <div className="text-muted">{totalText}</div>
             {filters && (
               <button
                 className={clsx("btn btn-icon", filtered ? "btn-secondary" : "btn-outline-secondary")}
