@@ -41,13 +41,16 @@ public class EventCategoriesController : BaseModelController<EventCategory, Even
     [HttpGet]
     [Authorize]
     [Produces("application/json")]
-    public IEnumerable<EventCategoryForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
+    public ListResult<EventCategoryForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
         var entities = this.GetAllCore(definitions, sortAndFilter)
             .ToList()
             .Select(e => this.Mapper.Map<EventCategoryForList>(e));
 
-        return entities;
+        return new ListResult<EventCategoryForList>(entities)
+        {
+            Total = entities.Count(),
+        };
     }
 
     /// <summary>

@@ -41,13 +41,16 @@ public class GlobalDaysOffController : BaseModelController<GlobalDayOff, GlobalD
     [HttpGet]
     [AuthorizeRoles(Role.TimeRO, Role.Time)]
     [Produces("application/json")]
-    public IEnumerable<GlobalDayOffForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
+    public ListResult<GlobalDayOffForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
         var entities = this.GetAllCore(definitions, sortAndFilter)
             .ToList()
             .Select(e => this.Mapper.Map<GlobalDayOffForList>(e));
 
-        return entities;
+        return new ListResult<GlobalDayOffForList>(entities)
+        {
+            Total = entities.Count(),
+        };
     }
 
     /// <summary>

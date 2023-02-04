@@ -43,7 +43,7 @@ public class AgreementsController : BaseModelController<Agreement, AgreementForL
     [HttpGet]
     [AuthorizeRoles(Role.ClientRO, Role.Client)]
     [Produces("application/json")]
-    public IEnumerable<AgreementForList> GetAll(
+    public ListResult<AgreementForList> GetAll(
         [FromServices] DefinitionsService definitions,
         [FromQuery] SortAndFilterModel sortAndFilter,
         [FromQuery] Guid? clientId)
@@ -55,9 +55,14 @@ public class AgreementsController : BaseModelController<Agreement, AgreementForL
             entities = entities.Where(c => c.Client.Identifier == clientId.Value);
         }
 
-        return entities
+        var values = entities
             .ToList()
             .Select(e => this.Mapper.Map<AgreementForList>(e));
+
+        return new ListResult<AgreementForList>(values)
+        {
+            Total = values.Count(),
+        };
     }
 
     /// <summary>

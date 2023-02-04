@@ -26,7 +26,7 @@ export default function UserPageList({
             <div className="navbar-brand flex-fill">{texts.title}</div>
             {isInRole(newRole) && (
               <>
-                <Link to="new" className="btn btn-primary btn-icon" aria-label={texts.add}>
+                <Link to="new" className="btn btn-primary btn-icon me-2" aria-label={texts.add}>
                   <IconPlus />
                 </Link>
                 <Link to="import" className="btn btn-primary btn-icon" aria-label={texts.research}>
@@ -40,7 +40,7 @@ export default function UserPageList({
               <div className="col">
                 <h2 className="page-title">{texts.title}</h2>
                 <div className="text-muted mt-1">
-                  {elements ? pluralize("entry", elements.length, true) : "- entry"}
+                  {elements ? pluralize("entry", elements.total, true) : "- entry"}
                 </div>
               </div>
               <div className="col-auto ms-auto d-print-none">
@@ -68,14 +68,14 @@ export default function UserPageList({
             </div>
           </div>
           <div className="page-header d-lg-none">
-            <div className="text-muted">{elements ? pluralize("entry", elements.length, true) : "- entry"}</div>
+            <div className="text-muted">{elements ? pluralize("entry", elements.total, true) : "- entry"}</div>
           </div>
           <div className="page-body">
             <div className="card">
               <EntityList
                 loading={loading}
                 definition={definition}
-                elements={elements}
+                elements={elements.values}
                 baseTo={""}
                 selectedId={selectedId}
                 sorting={sorting}

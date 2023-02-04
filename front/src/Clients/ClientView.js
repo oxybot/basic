@@ -20,7 +20,7 @@ function ClientViewAgreements() {
   const [loading, elements] = useApiFetch(url, { method: "GET" }, []);
   return (
     <div className="card">
-      <EntityList loading={loading} definition={definition} elements={elements} baseTo="/agreement" />
+      <EntityList loading={loading} definition={definition} elements={elements.values} baseTo="/agreement" />
     </div>
   );
 }

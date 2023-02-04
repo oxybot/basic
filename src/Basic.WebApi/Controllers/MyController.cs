@@ -44,7 +44,7 @@ public class MyController : BaseController
     [HttpGet]
     [Produces("application/json")]
     [Route("Events")]
-    public IEnumerable<EventForList> GetEvents([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter, [FromQuery] int? limit)
+    public ListResult<EventForList> GetEvents([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter, [FromQuery] int? limit)
     {
         if (definitions is null)
         {
@@ -68,14 +68,21 @@ public class MyController : BaseController
             .Where(e => e.User == user)
             .ApplySortAndFilter(sortAndFilter, definitions.GetOne(nameof(EventForList)));
 
+        int total = query.Count();
+
         if (limit.HasValue)
         {
             query = query.Take(limit.Value);
         }
 
-        return query
+        var entities = query
             .ToList()
             .Select(e => this.Mapper.Map<EventForList>(e));
+
+        return new ListResult<EventForList>(entities)
+        {
+            Total = total,
+        };
     }
 
     /// <summary>
@@ -112,7 +119,7 @@ public class MyController : BaseController
     [HttpGet]
     [Produces("application/json")]
     [Route("Events/{eventId}/Statuses")]
-    public IEnumerable<ModelStatusForList> GetEventStatuses(Guid eventId)
+    public ListResult<ModelStatusForList> GetEventStatuses(Guid eventId)
     {
         var user = this.GetConnectedUser();
         var entity = this.Context.Set<Event>()
@@ -125,9 +132,14 @@ public class MyController : BaseController
             throw new NotFoundException("Not existing entity");
         }
 
-        return entity.Statuses
+        var entities = entity.Statuses
             .OrderByDescending(s => s.UpdatedOn)
             .Select(s => this.Mapper.Map<ModelStatusForList>(s));
+
+        return new ListResult<ModelStatusForList>(entities)
+        {
+            Total = entities.Count(),
+        };
     }
 
     /// <summary>

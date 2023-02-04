@@ -42,13 +42,16 @@ public class ProductsController
     [HttpGet]
     [AuthorizeRoles(Role.ClientRO, Role.Client)]
     [Produces("application/json")]
-    public IEnumerable<ProductForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
+    public ListResult<ProductForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
         var entities = this.GetAllCore(definitions, sortAndFilter)
             .ToList()
             .Select(e => this.Mapper.Map<ProductForList>(e));
 
-        return entities;
+        return new ListResult<ProductForList>(entities)
+        {
+            Total = entities.Count(),
+        };
     }
 
     /// <summary>

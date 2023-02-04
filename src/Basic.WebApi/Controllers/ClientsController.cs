@@ -11,6 +11,7 @@ using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Basic.WebApi.Controllers;
 
@@ -42,13 +43,16 @@ public class ClientsController : BaseModelController<Client, ClientForList, Clie
     [HttpGet]
     [AuthorizeRoles(Role.ClientRO, Role.Client)]
     [Produces("application/json")]
-    public IEnumerable<ClientForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
+    public ListResult<ClientForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
         var entities = this.GetAllCore(definitions, sortAndFilter)
             .ToList()
             .Select(e => this.Mapper.Map<ClientForList>(e));
 
-        return entities;
+        return new ListResult<ClientForList>(entities)
+        {
+            Total = entities.Count(),
+        };
     }
 
     /// <summary>

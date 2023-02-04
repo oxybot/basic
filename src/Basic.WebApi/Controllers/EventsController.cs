@@ -50,13 +50,15 @@ public class EventsController
     [HttpGet]
     [AuthorizeRoles(Role.TimeRO, Role.Time)]
     [Produces("application/json")]
-    public IEnumerable<EventForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
+    public ListResult<EventForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
-        IDictionary<string, Func<Event, bool>> filters = new Dictionary<string, Func<Event, bool>>();
-        filters.Add("status/requested", e => e.CurrentStatus.Identifier == Status.Requested);
-        filters.Add("status/approved", e => e.CurrentStatus.Identifier == Status.Approved);
-        filters.Add("status/rejected", e => e.CurrentStatus.Identifier == Status.Rejected);
-        filters.Add("status/canceled", e => e.CurrentStatus.Identifier == Status.Canceled);
+        IDictionary<string, Func<Event, bool>> filters = new Dictionary<string, Func<Event, bool>>
+        {
+            { "status/requested", e => e.CurrentStatus.Identifier == Status.Requested },
+            { "status/approved", e => e.CurrentStatus.Identifier == Status.Approved },
+            { "status/rejected", e => e.CurrentStatus.Identifier == Status.Rejected },
+            { "status/canceled", e => e.CurrentStatus.Identifier == Status.Canceled },
+        };
 
         var entities = this.GetAllCore(definitions, sortAndFilter)
             .ToList()
@@ -68,7 +70,10 @@ public class EventsController
             entities = entities.Reverse();
         }
 
-        return entities;
+        return new ListResult<EventForList>(entities)
+        {
+            Total = this.Context.Set<Event>().Count(),
+        };
     }
 
     /// <summary>

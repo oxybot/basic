@@ -41,7 +41,7 @@ export default function PageList({
               <div className="col">
                 <h2 className="page-title">{texts.title}</h2>
                 <div className="text-muted mt-1">
-                  {elements ? pluralize("entry", elements.length, true) : "- entry"}
+                  {elements ? pluralize("entry", elements.total, true) : "- entry"}
                 </div>
               </div>
               <div className="col-auto ms-auto d-print-none">
@@ -62,7 +62,7 @@ export default function PageList({
             </div>
           </div>
           <div className="mt-3 d-lg-none d-flex flex-row justify-content-between align-items-start">
-            <div className="text-muted">{elements ? pluralize("entry", elements.length, true) : "- entry"}</div>
+            <div className="text-muted">{elements ? pluralize("entry", elements.total, true) : "- entry"}</div>
             {filters && (
               <button
                 className={clsx("btn btn-icon", filtered ? "btn-secondary" : "btn-outline-secondary")}
@@ -86,7 +86,7 @@ export default function PageList({
                 className={listClassName}
                 loading={loading}
                 definition={definition}
-                elements={elements}
+                elements={elements.values}
                 baseTo={""}
                 selectedId={selectedId}
                 sorting={sorting}

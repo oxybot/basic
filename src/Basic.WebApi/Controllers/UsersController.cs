@@ -42,13 +42,16 @@ public class UsersController : BaseModelController<User, UserForList, UserForVie
     [HttpGet]
     [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
     [Produces("application/json")]
-    public IEnumerable<UserForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
+    public ListResult<UserForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
         var entities = this.GetAllCore(definitions, sortAndFilter)
             .ToList()
             .Select(e => this.Mapper.Map<UserForList>(e));
 
-        return entities;
+        return new ListResult<UserForList>(entities)
+        {
+            Total = entities.Count(),
+        };
     }
 
     /// <summary>

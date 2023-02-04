@@ -6,6 +6,7 @@ using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
 using Basic.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ public class EventStatusesController : BaseController
     [HttpGet]
     [AuthorizeRoles(Role.TimeRO, Role.Time)]
     [Produces("application/json")]
-    public IEnumerable<ModelStatusForList> GetAll(Guid eventId)
+    public ListResult<ModelStatusForList> GetAll(Guid eventId)
     {
         var entity = this.Context.Set<Event>()
             .Include(e => e.Statuses).ThenInclude(s => s.Status)
@@ -53,9 +54,14 @@ public class EventStatusesController : BaseController
             throw new NotFoundException("Not existing entity");
         }
 
-        return entity.Statuses
+        var entities = entity.Statuses
             .OrderByDescending(s => s.UpdatedOn)
             .Select(s => this.Mapper.Map<ModelStatusForList>(s));
+
+        return new ListResult<ModelStatusForList>(entities)
+        {
+            Total = entities.Count(),
+        };
     }
 
     /// <summary>

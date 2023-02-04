@@ -42,13 +42,16 @@ public class SchedulesController : BaseModelController<Schedule, ScheduleForList
     [HttpGet]
     [AuthorizeRoles(Role.TimeRO, Role.Time)]
     [Produces("application/json")]
-    public IEnumerable<ScheduleForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
+    public ListResult<ScheduleForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
         var entities = this.GetAllCore(definitions, sortAndFilter)
             .ToList()
             .Select(e => this.Mapper.Map<ScheduleForList>(e));
 
-        return entities;
+        return new ListResult<ScheduleForList>(entities)
+        {
+            Total = entities.Count(),
+        };
     }
 
     /// <summary>

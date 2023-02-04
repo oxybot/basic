@@ -42,13 +42,16 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     [HttpGet]
     [AuthorizeRoles(Role.TimeRO, Role.Time)]
     [Produces("application/json")]
-    public IEnumerable<BalanceForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
+    public ListResult<BalanceForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
         var entities = this.GetAllCore(definitions, sortAndFilter)
             .ToList()
             .Select(e => this.Mapper.Map<BalanceForList>(e));
 
-        return entities;
+        return new ListResult<BalanceForList>(entities)
+        {
+            Total = entities.Count(),
+        };
     }
 
     /// <summary>

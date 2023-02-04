@@ -5,6 +5,7 @@ using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
+using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,10 +36,15 @@ public class RolesController : BaseController
     /// <returns>The list of roles.</returns>
     [HttpGet]
     [Produces("application/json")]
-    public IEnumerable<RoleForList> GetAll()
+    public ListResult<RoleForList> GetAll()
     {
-        return this.Context.Set<Role>()
+        var entities = this.Context.Set<Role>()
             .ToList()
             .Select(e => this.Mapper.Map<RoleForList>(e));
+
+        return new ListResult<RoleForList>(entities)
+        {
+            Total = entities.Count(),
+        };
     }
 }
