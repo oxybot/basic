@@ -1,4 +1,3 @@
-import { IconSearch } from "@tabler/icons";
 import { useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import { useDefinition } from "../api";
