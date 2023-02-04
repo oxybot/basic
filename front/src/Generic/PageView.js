@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
 import { useInRole } from "../Authentication";
 import MobilePageTitle from "../Generic/MobilePageTitle";
@@ -14,6 +14,7 @@ export default function PageView({
   extraMenu = null,
 }) {
   const isInRole = useInRole();
+  const [searchParams] = useSearchParams();
 
   if (title === null) {
     title = entity.displayName;
@@ -21,7 +22,7 @@ export default function PageView({
 
   return (
     <div className={clsx({ "container-xl": full }, { "sticky-top": !full })}>
-      <MobilePageTitle back={backTo}>
+      <MobilePageTitle back={backTo ? backTo + "?" + searchParams : null}>
         <div className="navbar-brand flex-fill">{title}</div>
         {isInRole(editRole) && (
           <Link to="edit" className="btn btn-primary btn-icon" arial-label="Edit">
@@ -35,10 +36,13 @@ export default function PageView({
           {backTo && (
             <div className="col-auto ms-auto d-print-none">
               <div className="d-flex">
-                <Link to={backTo} className="btn btn-outline-primary btn-icon d-none d-lg-flex">
+                <Link
+                  to={backTo ? backTo + "?" + searchParams : null}
+                  className="btn btn-outline-primary btn-icon d-none d-lg-flex"
+                >
                   <IconChevronRight />
                 </Link>
-                <Link to={backTo} className="btn btn-outline-primary d-lg-none">
+                <Link to={backTo ? backTo + "?" + searchParams : null} className="btn btn-outline-primary d-lg-none">
                   <IconChevronLeft />
                   Back
                 </Link>

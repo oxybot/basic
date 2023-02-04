@@ -2,7 +2,7 @@ import { IconLoader } from "@tabler/icons";
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import clsx from "clsx";
 import { useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import EntityFieldView from "./EntityFieldView";
 
 const columnHelper = createColumnHelper();
@@ -35,6 +35,7 @@ export default function EntityList({
   }, [definition]);
 
   const navigate = useNavigate();
+  const [searchParams,] = useSearchParams();
 
   const table = useReactTable({
     data: elements,
@@ -88,7 +89,8 @@ export default function EntityList({
                   "table-active": row.original.identifier === selectedId,
                 })}
                 onClick={() =>
-                  baseTo !== null && navigate([baseTo, row.original.identifier].filter((i) => i).join("/"))
+                  baseTo !== null &&
+                  navigate([baseTo, row.original.identifier].filter((i) => i).join("/") + "?" + searchParams)
                 }
               >
                 {row.getVisibleCells().map((cell) => (
