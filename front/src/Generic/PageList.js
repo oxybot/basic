@@ -74,7 +74,7 @@ export default function PageList({
             )}
           </div>
           {filters && (
-            <div className="collapse" id="filters">
+            <div className="collapse d-lg-none" id="filters">
               <div className="card card-body">{filters}</div>
             </div>
           )}
