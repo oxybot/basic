@@ -12,7 +12,7 @@ export default function Modal({ id, title = null, text, confirm = null, cancel =
   }
 
   return (
-    <div className="modal modal-blur fade" id={id} tabindex="-1" role="dialog" aria-hidden="true">
+    <div className="modal modal-blur fade" id={id} tabIndex="-1" role="dialog" aria-hidden="true">
       <div className="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div className="modal-content">
           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
