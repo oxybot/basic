@@ -48,7 +48,7 @@ function StatusList() {
 
   return (
     <div className="card">
-      <EntityList loading={loading} definition={definition} elements={elements} />
+      <EntityList loading={loading} definition={definition} elements={elements.values} />
     </div>
   );
 }

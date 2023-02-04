@@ -95,7 +95,7 @@ function CardForEvents() {
         className="d-xs-card d-lg-card d-xl-card"
         loading={loading}
         definition={definition}
-        elements={events}
+        elements={events.values}
         baseTo="my/events"
         simple
       />
