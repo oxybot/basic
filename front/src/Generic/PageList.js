@@ -1,4 +1,5 @@
-import { IconFilter, IconPlus } from "@tabler/icons";
+import { IconFilter, IconFilterOff, IconPlus } from "@tabler/icons";
+import clsx from "clsx";
 import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";
 import { useInRole } from "../Authentication";
@@ -16,6 +17,7 @@ export default function PageList({
   sorting,
   setSorting,
   filters = null,
+  filtered = false,
 }) {
   const outlet = useOutlet();
   const isInRole = useInRole();
@@ -63,7 +65,7 @@ export default function PageList({
             <div className="text-muted">{elements ? pluralize("entry", elements.length, true) : "- entry"}</div>
             {filters && (
               <button
-                className="btn btn-icon btn-outline-secondary"
+                className={clsx("btn btn-icon", filtered ? "btn-secondary" : "btn-outline-secondary")}
                 data-bs-toggle="collapse"
                 data-bs-target="#filters"
                 aria-expanded="false"

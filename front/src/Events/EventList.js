@@ -61,6 +61,12 @@ function EventFilters({ search, onSearchChange, status, onStatusChange }) {
   );
 }
 
+function isFiltered(filters) {
+  console.log(filters);
+  console.log(Object.values(filters));
+  return filters && Object.values(filters).filter((e) => e !== null).length > 0;
+}
+
 export function EventList() {
   const { eventId } = useParams();
   const definition = useDefinition("EventForList");
@@ -102,6 +108,7 @@ export function EventList() {
           onSearchChange={handleSearchChange}
         />
       }
+      filtered={isFiltered(filters)}
     />
   );
 }
