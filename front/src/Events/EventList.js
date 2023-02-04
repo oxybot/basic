@@ -10,13 +10,6 @@ import "./card.scss";
 function EventFilters({ search, onSearchChange, status, onStatusChange }) {
   return (
     <>
-      <label className="form-label">Search</label>
-      <div className="input-icon mb-3">
-        <input type="text" className="form-control" placeholder="Search…" value={search} onChange={onSearchChange} />
-        <span className="input-icon-addon">
-          <IconSearch />
-        </span>
-      </div>
       <label className="form-label">Status</label>
       <div className="form-selectgroup">
         <label className="form-selectgroup-item">
