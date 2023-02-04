@@ -17,7 +17,9 @@ export function useFiltering() {
     let updated = new URLSearchParams(searchParams);
     updated.delete("f");
     Object.entries(updatedFilters).forEach((p) => {
-      updated.set("f", p[0] + "/" + p[1]);
+      if (p[1] !== null) {
+        updated.set("f", p[0] + "/" + p[1]);
+      }
     });
 
     setSearchParams(updated);
