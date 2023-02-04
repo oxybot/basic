@@ -13,7 +13,6 @@ export function useFiltering() {
   }, [searchParams]);
 
   const setFilters = function (updatedFilters) {
-    console.log(updatedFilters);
     let updated = new URLSearchParams(searchParams);
     updated.delete("f");
     Object.entries(updatedFilters).forEach((p) => {

@@ -61,8 +61,6 @@ function EventFilters({ search, onSearchChange, status, onStatusChange }) {
 }
 
 function isFiltered(filters) {
-  console.log(filters);
-  console.log(Object.values(filters));
   return filters && Object.values(filters).filter((e) => e !== null).length > 0;
 }
 
@@ -81,7 +79,6 @@ export function EventList() {
   const [search, setSearch] = useState("");
 
   function handleStatusChange(event) {
-    console.log("handleStatusChange");
     let target = event.target;
     setFilters({ ...filters, [target.name]: target.checked ? target.value : null });
   }
