@@ -39,7 +39,7 @@ public static class QueryableSortAndFilterExtensions
             return result;
         }
 
-        if (!string.IsNullOrWhiteSpace(sortAndFilter.Filter))
+        if (sortAndFilter.Filters != null)
         {
             // TODO: Apply filter
         }

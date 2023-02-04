@@ -7,7 +7,7 @@ import { useFiltering } from "../helpers/filtering";
 import PageList from "../Generic/PageList";
 import "./card.scss";
 
-function EventFilters({ search, onSearchChange, statuses, onStatusChange }) {
+function EventFilters({ search, onSearchChange, status, onStatusChange }) {
   return (
     <>
       <label className="form-label">Search</label>
@@ -25,7 +25,7 @@ function EventFilters({ search, onSearchChange, statuses, onStatusChange }) {
             name="status"
             value="requested"
             className="form-selectgroup-input"
-            checked={statuses.requested || false}
+            checked={status === "requested"}
             onChange={onStatusChange}
           />
           <span className="form-selectgroup-label">Requested</span>
@@ -36,7 +36,7 @@ function EventFilters({ search, onSearchChange, statuses, onStatusChange }) {
             name="status"
             value="approved"
             className="form-selectgroup-input"
-            checked={statuses.approved || false}
+            checked={status === "approved"}
             onChange={onStatusChange}
           />
           <span className="form-selectgroup-label">Approved</span>
@@ -47,7 +47,7 @@ function EventFilters({ search, onSearchChange, statuses, onStatusChange }) {
             name="status"
             value="rejected"
             className="form-selectgroup-input"
-            checked={statuses.rejected || false}
+            checked={status === "rejected"}
             onChange={onStatusChange}
           />
           <span className="form-selectgroup-label">Rejected</span>
@@ -58,7 +58,7 @@ function EventFilters({ search, onSearchChange, statuses, onStatusChange }) {
             name="status"
             value="canceled"
             className="form-selectgroup-input"
-            checked={statuses.canceled || false}
+            checked={status === "canceled"}
             onChange={onStatusChange}
           />
           <span className="form-selectgroup-label">Canceled</span>
@@ -83,8 +83,9 @@ export function EventList() {
   const [search, setSearch] = useState("");
 
   function handleStatusChange(event) {
+    console.log("handleStatusChange");
     let target = event.target;
-    setFilters({ ...filters, [target.value]: target.checked });
+    setFilters({ ...filters, [target.name]: target.checked ? target.value : null });
   }
 
   const handleSearchChange = (event) => {
@@ -102,7 +103,7 @@ export function EventList() {
       setSorting={updateSorting}
       filters={
         <EventFilters
-          statuses={filters}
+          status={filters?.status || null}
           onStatusChange={handleStatusChange}
           search={search}
           onSearchChange={handleSearchChange}

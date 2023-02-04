@@ -9,9 +9,9 @@ namespace Basic.WebApi.Models;
 public class SortAndFilterModel
 {
     /// <summary>
-    /// Gets or sets the filter value.
+    /// Gets or sets the filter values.
     /// </summary>
-    public string Filter { get; set; }
+    public IEnumerable<string> Filters { get; set; }
 
     /// <summary>
     /// Gets or sets the property name to sort on.

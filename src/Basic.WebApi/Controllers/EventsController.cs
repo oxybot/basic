@@ -52,8 +52,15 @@ public class EventsController
     [Produces("application/json")]
     public IEnumerable<EventForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
+        IDictionary<string, Func<Event, bool>> filters = new Dictionary<string, Func<Event, bool>>();
+        filters.Add("status/requested", e => e.CurrentStatus.Identifier == Status.Requested);
+        filters.Add("status/approved", e => e.CurrentStatus.Identifier == Status.Approved);
+        filters.Add("status/rejected", e => e.CurrentStatus.Identifier == Status.Rejected);
+        filters.Add("status/canceled", e => e.CurrentStatus.Identifier == Status.Canceled);
+
         var entities = this.GetAllCore(definitions, sortAndFilter)
             .ToList()
+            .ApplyFilters(filters, sortAndFilter?.Filters)
             .Select(e => this.Mapper.Map<EventForList>(e));
 
         if (sortAndFilter == null || string.IsNullOrEmpty(sortAndFilter.SortKey))

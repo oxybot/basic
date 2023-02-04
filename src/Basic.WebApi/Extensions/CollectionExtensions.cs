@@ -1,6 +1,8 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
+using Basic.Model;
+
 namespace System.Collections.Generic;
 
 /// <summary>
@@ -31,5 +33,29 @@ public static class CollectionExtensions
         {
             reference.Add(item);
         }
+    }
+
+    public static IEnumerable<T> ApplyFilters<T>(this IEnumerable<T> reference, IDictionary<string, Func<T, bool>> filters, IEnumerable<string> enabled)
+    {
+        if (filters is null)
+        {
+            throw new ArgumentNullException(nameof(filters));
+        }
+
+        if (reference is null || enabled is null)
+        {
+            return reference;
+        }
+
+        var result = reference;
+        foreach (string e in enabled)
+        {
+            if (filters[e] != null)
+            {
+                result = result.Where(filters[e]);
+            }
+        }
+
+        return result;
     }
 }

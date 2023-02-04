@@ -6,20 +6,19 @@ export function useFiltering() {
 
   const filters = useMemo(() => {
     if (searchParams && searchParams.getAll("f")) {
-      return Object.fromEntries(searchParams.getAll("f").map((e) => [e, true]));
+      return Object.fromEntries(searchParams.getAll("f").map((e) => e.split("/")));
     } else {
       return null;
     }
   }, [searchParams]);
 
   const setFilters = function (updatedFilters) {
+    console.log(updatedFilters);
     let updated = new URLSearchParams(searchParams);
     updated.delete("f");
-    Object.entries(updatedFilters)
-      .filter((p) => p[1] !== false)
-      .forEach((p) => {
-        updated.append("f", p[0]);
-      });
+    Object.entries(updatedFilters).forEach((p) => {
+      updated.set("f", p[0] + "/" + p[1]);
+    });
 
     setSearchParams(updated);
   };
