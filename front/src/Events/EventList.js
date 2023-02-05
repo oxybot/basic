@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import { useSorting } from "../helpers/sorting";
@@ -6,7 +5,7 @@ import { useFiltering } from "../helpers/filtering";
 import PageList from "../Generic/PageList";
 import "./card.scss";
 
-function EventFilters({ search, onSearchChange, status, onStatusChange }) {
+function EventFilters({ status, onStatusChange }) {
   return (
     <>
       <label className="form-label">Status</label>
@@ -76,16 +75,10 @@ export function EventList() {
   const [sorting, updateSorting] = useSorting();
   const [filters, setFilters] = useFiltering();
 
-  const [search, setSearch] = useState("");
-
   function handleStatusChange(event) {
     let target = event.target;
     setFilters({ ...filters, [target.name]: target.checked ? target.value : null });
   }
-
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value);
-  };
 
   return (
     <PageList
@@ -100,8 +93,6 @@ export function EventList() {
         <EventFilters
           status={filters?.status || null}
           onStatusChange={handleStatusChange}
-          search={search}
-          onSearchChange={handleSearchChange}
         />
       }
       filtered={isFiltered(filters)}
