@@ -73,7 +73,7 @@ public abstract class BaseModelControllerTest<TForList, TForView>
         using (var response = await client.GetAsync(this.BaseUrl).ConfigureAwait(false))
         {
             Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}, status code: {(int)response.StatusCode} {response.StatusCode}");
-            var body = await this.TestServer.ReadAsJsonAsync<IEnumerable<TForList>>(response).ConfigureAwait(false);
+            var body = await this.TestServer.ReadAsJsonAsync<ListResult<TForList>>(response).ConfigureAwait(false);
             Assert.NotNull(body);
         }
 

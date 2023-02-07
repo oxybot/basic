@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Basic.WebApi.DTOs;
+using Basic.WebApi.Models;
 using Basic.WebApi.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -85,7 +86,7 @@ public class EventsControllerTest
             using (var response = await client.GetAsync($"{this.BaseUrl}?sortKey={propertyName}").ConfigureAwait(false))
             {
                 Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}, status code: {(int)response.StatusCode} {response.StatusCode}");
-                var body = await this.TestServer.ReadAsJsonAsync<IEnumerable<EventForList>>(response).ConfigureAwait(false);
+                var body = await this.TestServer.ReadAsJsonAsync<ListResult<EventForList>>(response).ConfigureAwait(false);
                 Assert.NotNull(body);
             }
         }
