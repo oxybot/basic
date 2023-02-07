@@ -43,9 +43,12 @@ export default function PageList({
           </MobilePageTitle>
           <div className="page-header d-none d-lg-block">
             <div className="row align-items-center">
-              <div className="col">
+              <div className="col-auto">
                 <h2 className="page-title">{texts.title}</h2>
                 <div className="text-muted mt-1">{totalText}</div>
+              </div>
+              <div className="col lg-filters mt-auto">
+                {filters}
               </div>
               <div className="col-auto ms-auto d-print-none">
                 <div className="d-flex">

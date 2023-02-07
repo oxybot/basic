@@ -35,6 +35,10 @@ input.form-control.required {
   background-color: RGBA(32, 107, 196, 0.5);
 }
 
+.lg-filters .form-label {
+  display: none;
+}
+
 /* Tabler - fix theme-dark sort selection */
 .table-sort.asc,
 .table-sort.desc,
