@@ -21,10 +21,10 @@ export function CalendarRequest({ full = false }) {
   const [validated, setValidated] = useState(false);
   const [partialStartDate, setPartialStartDate] = useState(false);
   const [partialEndDate, setPartialEndDate] = useState(false);
-  const [, categories] = useApiFetch("EventCategories", { method: "GET" }, []);
+  const [, categories] = useApiFetch("EventCategories", { method: "GET" }, { values: [] });
   const [, check, errors] = useApiFetch("Calendar/check", { method: "POST", body: JSON.stringify(entity) }, null);
   const categoryField = definition && definition.fields.find((f) => f.name === "categoryIdentifier");
-  const category = entity.categoryIdentifier && categories.find((c) => c.identifier === entity.categoryIdentifier);
+  const category = entity.categoryIdentifier && categories.values.find((c) => c.identifier === entity.categoryIdentifier);
   const isInRole = useInRole();
 
   function switchPartialStartDate() {

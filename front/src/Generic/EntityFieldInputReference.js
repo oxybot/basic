@@ -3,14 +3,14 @@ import { useApiFetch } from "../api";
 import Select from "./Select";
 
 const transform = (elements) =>
-  elements.map((c) => ({
+  elements.values.map((c) => ({
     value: c.identifier,
     label: c.displayName,
   }));
 
 export default function EntityFieldInputReference({ baseApiUrl, field, value, hasErrors, onChange }) {
   const get = { method: "GET" };
-  const [loading, elements] = useApiFetch(baseApiUrl, get, [], transform);
+  const [loading, elements] = useApiFetch(baseApiUrl, get, { values: [] }, transform);
 
   return (
     !loading && (
