@@ -4,10 +4,13 @@
 using AutoMapper;
 using Basic.DataAccess;
 using Basic.Model;
+using Basic.WebApi.DTOs;
 using Basic.WebApi.Framework;
+using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
 
 namespace Basic.WebApi.Controllers;
 
@@ -15,12 +18,12 @@ namespace Basic.WebApi.Controllers;
 /// Provides test logger to help simulate logs and errors.
 /// </summary>
 /// <remarks>
-/// Associated logger: <c>Basic.WebApi.Controllers.LoggerController</c>.
+/// Associated logger: <c>Basic.WebApi.Controllers.DebugController</c>.
 /// </remarks>
 [ApiController]
 [Authorize]
 [Route("[controller]")]
-public class LoggerController : BaseController
+public class DebugController : BaseController
 {
     /// <summary>
     /// The default test message.
@@ -28,12 +31,12 @@ public class LoggerController : BaseController
     private const string TestMessage = "This is a test message";
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LoggerController"/> class.
+    /// Initializes a new instance of the <see cref="DebugController"/> class.
     /// </summary>
     /// <param name="context">The datasource context.</param>
     /// <param name="mapper">The configured automapper.</param>
     /// <param name="logger">The associated logger.</param>
-    public LoggerController(Context context, IMapper mapper, ILogger<LoggerController> logger)
+    public DebugController(Context context, IMapper mapper, ILogger<DebugController> logger)
         : base(context, mapper, logger)
     {
     }
@@ -101,5 +104,43 @@ public class LoggerController : BaseController
                 this.Logger.Log(level, e2, message);
             }
         }
+    }
+
+    /// <summary>
+    /// Provides sample error results.
+    /// </summary>
+    /// <param name="errorCode">The type of error to generate (400, 401, 403 or 404).</param>
+    /// <returns>
+    /// The error results associated with <paramref name="errorCode"/>.
+    /// </returns>
+    [HttpGet]
+    [Produces("application/json")]
+    [AuthorizeRoles(Role.User)]
+    [Route("Errors")]
+    public ListResult<UserForList> GetUsersWithError(string errorCode)
+    {
+        if (errorCode == "400")
+        {
+            // Returns a sample of a return due to parameters issues
+            this.ModelState.AddModelError("sampleProperty", "Should be greater than 0");
+            throw new InvalidModelStateException(this.ModelState);
+        }
+        else if (errorCode == "401")
+        {
+            // Returns a disconnection / not connected sample
+            throw new UnauthorizedRequestException();
+        }
+        else if (errorCode == "403")
+        {
+            // Returns a not enough right sample
+            throw new ForbiddenRequestException();
+        }
+        else if (errorCode == "404")
+        {
+            // Returns a not existing sample
+            throw new NotFoundException("This entity doesn't exist");
+        }
+
+        return new ListResult<UserForList>(null) { Total = 0 };
     }
 }

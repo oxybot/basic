@@ -49,25 +49,35 @@ public class ExceptionMiddleware
         }
         catch (InvalidModelStateException ex)
         {
+            // 400
             context.Response.Clear();
             context.Response.StatusCode = ex.StatusCode;
             await context.Response.WriteAsJsonAsync(InvalidModelStateActionResult.Convert(ex.ModelState)).ConfigureAwait(false);
         }
-        catch (NotFoundException ex)
+        catch (UnauthorizedRequestException ex)
         {
+            // 401
             context.Response.Clear();
             context.Response.StatusCode = ex.StatusCode;
         }
-        catch (UnauthorizedRequestException ex)
+        catch (ForbiddenRequestException ex)
         {
+            // 403
+            context.Response.Clear();
+            context.Response.StatusCode = ex.StatusCode;
+        }
+        catch (NotFoundException ex)
+        {
+            // 404
             context.Response.Clear();
             context.Response.StatusCode = ex.StatusCode;
         }
         catch (Exception ex)
         {
+            // 500
             logger.LogCritical(ex, "Uncatched exception");
             context.Response.Clear();
-            context.Response.StatusCode = 500;
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         }
     }
 }

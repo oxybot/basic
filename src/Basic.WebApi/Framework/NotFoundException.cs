@@ -13,7 +13,7 @@ public class NotFoundException : BadHttpRequestException
     /// </summary>
     /// <param name="message">The associated error message.</param>
     public NotFoundException(string message)
-        : base(message, 404)
+        : base(message, StatusCodes.Status404NotFound)
     {
     }
 
@@ -23,7 +23,7 @@ public class NotFoundException : BadHttpRequestException
     /// <param name="message">The associated error message.</param>
     /// <param name="inner">The underlying error description.</param>
     public NotFoundException(string message, Exception inner)
-        : base(message, 404, inner)
+        : base(message, StatusCodes.Status404NotFound, inner)
     {
     }
 }

@@ -15,7 +15,7 @@ public class UnauthorizedRequestException : BadHttpRequestException
     /// Initializes a new instance of the <see cref="UnauthorizedRequestException"/> class.
     /// </summary>
     public UnauthorizedRequestException()
-        : base("Unauthorized", 401)
+        : base("Unauthorized", StatusCodes.Status401Unauthorized)
     {
     }
 
@@ -24,7 +24,7 @@ public class UnauthorizedRequestException : BadHttpRequestException
     /// </summary>
     /// <param name="inner">The underlying error description.</param>
     public UnauthorizedRequestException(Exception inner)
-        : base("Unauthorized", 401, inner)
+        : base("Unauthorized", StatusCodes.Status401Unauthorized, inner)
     {
     }
 }
