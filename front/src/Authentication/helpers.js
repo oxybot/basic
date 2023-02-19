@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authenticationState, connect, setRoles, setUser } from ".";
+import { authenticationState, connect, disconnect, setRoles, setUser } from ".";
 import { apiFetch } from "../api";
 
 export function useInRole() {
@@ -36,16 +36,17 @@ export function usePersistedAuthentication() {
 
   useEffect(() => {
     if (expireIsSet && renew) {
-      apiFetch("Auth/renew", { method: "POST" }).then((response) => {
-        if (response.ok) {
-          response.json().then((response) => {
-            Cookies.set("access-token", response.accessToken);
-            dispatch(connect(response));
-            apiFetch("My/User", { method: "GET" }).then((response) => dispatch(setUser(response)));
-            apiFetch("My/Roles", { method: "GET" }).then((response) => dispatch(setRoles(response)));
-          });
-        }
-      });
+      apiFetch("Auth/renew", { method: "POST" })
+        .then((response) => {
+          Cookies.set("access-token", response.accessToken);
+          dispatch(connect(response));
+          apiFetch("My/User", { method: "GET" }).then((response) => dispatch(setUser(response)));
+          apiFetch("My/Roles", { method: "GET" }).then((response) => dispatch(setRoles(response)));
+        })
+        .catch(() => {
+          dispatch(disconnect());
+          Cookies.remove("access-token");
+        });
     }
   }, [dispatch, expireIsSet, renew]);
 }

@@ -21,6 +21,7 @@ export function SignIn() {
     setCredentials({ ...credentials, [name]: value });
   };
 
+  // Manage the reconnection of a user - or a forced page refresh
   useEffect(() => {
     const token = Cookies.get("access-token");
     if (!token) {

@@ -1,4 +1,11 @@
-import { Route, createBrowserRouter, RouterProvider, createRoutesFromElements } from "react-router-dom";
+import {
+  Route,
+  createBrowserRouter,
+  RouterProvider,
+  createRoutesFromElements,
+  useRouteError,
+  useRevalidator,
+} from "react-router-dom";
 import { AgreementEdit, AgreementList, AgreementNew, AgreementView } from "./Agreements";
 import { usePersistedAuthentication } from "./Authentication";
 import { BalanceEdit, BalanceList, BalanceNew } from "./Balances";
@@ -15,11 +22,21 @@ import { ScheduleEdit, ScheduleList, ScheduleNew, ScheduleView } from "./Schedul
 import Settings from "./Settings";
 import { UserEdit, UserImport, UserList, UserNew, UserView } from "./Users";
 import { apiFetch } from "./api";
+import { useDispatch } from "react-redux";
+import { disconnect } from "./Authentication/slice";
+import { addFatal } from "./Alerts/slice";
+import { useEffect } from "react";
 
 function loadList(context, request) {
   const url = new URL(request.url);
   const searchParams = url.searchParams;
   const params = new URLSearchParams();
+
+  // Manage debug
+  if (searchParams && searchParams.get("error")) {
+    context = "debug/errors";
+    params.set("errorCode", searchParams.get("error"));
+  }
 
   // Manage sorting
   if (searchParams && searchParams.get("o")) {
@@ -43,9 +60,26 @@ function loadOne(context, entityId) {
   return apiFetch([context, entityId], { method: "GET" });
 }
 
+function ErrorElement() {
+  const error = useRouteError();
+  const { revalidate } = useRevalidator();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (error.message === "401") {
+      dispatch(disconnect());
+      revalidate();
+    } else {
+      dispatch(addFatal("Server error", "Can't retrieve key information for this page."));
+      revalidate();
+    }
+  });
+
+  return null;
+}
+
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
+    <Route path="/" element={<Layout />} errorElement={<ErrorElement />}>
       {/* Dashboard */}
       <Route path="/" element={<Dashboard />} />
 
