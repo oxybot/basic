@@ -1,0 +1,38 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
+{
+  "name": "Basic",
+  "dockerComposeFile": ["./docker-compose.yml"],
+  "service": "workspace",
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+
+  "forwardPorts": [3000, 7268],
+  "portsAttributes": {
+    "3000": {
+      "protocol": "https",
+      "label": "front"
+    },
+    "7268": {
+      "protocol": "https",
+      "label": "API"
+    }
+  },
+
+  "postCreateCommand": ".devcontainer/post-create.sh"
+}
