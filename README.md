@@ -1,31 +1,78 @@
-# Basic
+# Introduction
 
-Provides basic ressource management.
+Provides simple tools for small and medium companies.
 
-## Run the projects with docker-compose
+Current features:
+- Holidays and working time management
+- Contract management
 
-### Create a https certificate
+# Run the project
 
-A certificate, based on the .net core dev-cert, will be generated for the project as pfx file.
-This file will be used by the `Basic.WebApi` project to serve the API.
+## Using docker or docker-compose
 
-1. `dotnet dev-certs https -ep $env:APPDATA/ASP.NET/https/basic.pfx -p {my_password}`
-1. Copy `.env.docker-compose` to `.env.docker-compose.local`
-1. Update `.env.docker-compose.local` to set the password value
+Basic is composed of two main projects:
+- The web front: `ghcr.io/oxybot/basic/front`
+- The api backend: `ghcr.io/oxybot/basic/api`
 
-### Convert to pem for the front-end project
+## front configuration
 
-The generated certificate will be converted to pem/key format to be used by NGINX as part
-of the `front` project.
+`NGINX_SERVER_NAME` - Mandatory
 
-**Step 1** - Connect to wsl or to any other openssl compatible prompt
-1. `wsl -d Ubuntu`
-1. `cd /mnt/XXX/AppData/Roaming/ASP.NET/Https`
+The domain associated with the front project
 
-**Step 2** - Convert the pfx file to pem/key format
-1. `openssl pkcs12 -in basic.pfx -nocerts -out key.pem`
-1. `openssl rsa -in key.pem -out basic.key`
-1. `openssl pkcs12 -in basic.pfx -clcerts -nokeys -out basic.pem`
+`NGINX_SSL_CERTIFICATE` - Mandatory
+
+The absolute path to the ssl certificate.
+
+`NGINX_SSL_CERTIFICATE_KEY` - Mandatory
+
+The absolute path to the private key of the ssl certificate.
+
+`API_ROOT_URL` - Mandatory
+
+The public url associated with the api project.
+
+## api configuration
+
+The API project is developed in .net core and can be configured via various methods and in particular environment variables and configuration file (`appsettings.json`).
+
+`BASEURL` - Mandatory
+
+The public url associated with the api project.
+
+`CORS__ORIGINS` - Mandatory
+
+The urls of the websites that are authorized to call the API. The values should be separated by commas (`,`).
+
+# Develop the project
+
+The project can be run as a development environment following three methods:
+- GitHub Codespace
+- devcontainer
+- Local development
+
+## GitHub Codespace
+
+The project is configured for Codespace and provides:
+- A configured **vscode** environment
+- A pre-configuration of the https configuration for both the front and api projects
+- The initialization of the supporting services
+
+To be noted:
+- By default, the API project port (7268) will be private and can't be used as such. You should configure this port to be public. Private port doesn't support CORS configuration.
+- The API will use a Sql Server database by default, but a MySql server is as well setup and you can switch from one to another by changing the `DatabaseDriver` configuration.
+
+## devcontainer
+
+** TO BE TESTED **
+
+## Local development
+
+Run the `setup-https.sh` / `setup.ps1` script to prepare the https configuration for the project.
+
+Depending of your needs, you could need a few additional services (smtp server, database). You could install those elements locally or use the `docker-compose.yml` file to start those elements for you.
+
+Note: The API project will use (and create) by default a LocalDB instance as its datasource - which will works only on Windows.
 
 ## Steps to add a new entity
 
