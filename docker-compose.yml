@@ -7,39 +7,38 @@ services:
       context: ./front
     restart: always
     depends_on:
-      - service
+      - api
     environment:
       NGINX_SERVER_NAME: localhost
       NGINX_SSL_CERTIFICATE: /etc/nginx/certs/basic.pem
       NGINX_SSL_CERTIFICATE_KEY: /etc/nginx/certs/basic.key
       API_ROOT_URL: https://localhost:5001
     volumes:
-      - ${APPDATA}/ASP.NET/https/basic.pem:/etc/nginx/certs/basic.pem:ro
-      - ${APPDATA}/ASP.NET/https/basic.key:/etc/nginx/certs/basic.key:ro
+      - ./.keys/basic.pem:/etc/nginx/certs/basic.pem:ro
+      - ./.keys/basic.key:/etc/nginx/certs/basic.key:ro
     ports:
       - 5000:443
 
-  service:
+  api:
     image: basic-api
     build:
       context: ./src
       dockerfile: ./Basic.WebApi/Dockerfile
     restart: always
     depends_on:
-      - db
+      - mysql
+      - mssql
     env_file:
       - .env.docker-compose.local
     environment:
       BASEURL: https://localhost:5001
       CORS__ORIGINS: https://localhost:5000
-      DATABASEDRIVER: MySQL
-      CONNECTIONSTRINGS__MYSQL: Server=db;Database=basic;User=basic;Password=basic
     volumes:
-      - ${APPDATA}/ASP.NET\https/basic.pfx:/src/basic.pfx:ro
+      - ./.keys/basic.pfx:/src/basic.pfx:ro
     ports:
       - 5001:443
 
-  db:
+  mysql:
     image: mysql:latest
     restart: always
     environment:
@@ -50,11 +49,24 @@ services:
     ports:
       - 3306:3306
 
+  mssql:
+    image: superfaz/mssql-initialized
+    restart: always
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: YourStrong@Passw0rd
+      MSSQL_DATABASE: basic
+      MSSQL_USER: basic
+      MSSQL_PASSWORD: basic@Passw0rd
+    ports:
+      - 1433:1433
+
   adminer:
     image: adminer:latest
     restart: always
     depends_on:
-      - db
+      - mysql
+      - mssql
     ports:
       - 8080:8080
 
@@ -62,7 +74,7 @@ services:
     image: maildev/maildev:latest
     restart: always
     ports:
-      - 5002:1080
+      - 1080:1080
       - 1025:1025
 
   ldap:

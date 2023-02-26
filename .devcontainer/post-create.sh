@@ -22,3 +22,4 @@ dotnet user-secrets set "Kestrel:Certificates:Default:Path" "/workspaces/basic/.
 dotnet user-secrets set "Kestrel:Certificates:Default:Password" "password" --project "/workspaces/basic/src/Basic.WebApi"
 dotnet user-secrets set "DatabaseDriver" "MySql" --project "/workspaces/basic/src/Basic.WebApi"
 dotnet user-secrets set "ConnectionStrings:MySql" "Server=mysql;Database=basic;User=basic;Password=basic;Pooling=False;" --project "/workspaces/basic/src/Basic.WebApi"
+dotnet user-secrets set "ConnectionStrings:SqlServer" "Server=mssql;Database=basic;User=basic;Password=basic@Passw0rd;Trusted_Connection=True;MultipleActiveResultSets=true" --project "/workspaces/basic/src/Basic.WebApi"
