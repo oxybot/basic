@@ -62,6 +62,9 @@ public class TestData
         this.PopulateEventStatus();
     }
 
+    /// <summary>
+    /// Generates the data for the <see cref="EventStatus"/> model.
+    /// </summary>
     public void PopulateEventStatus()
     {
         this.Populate<Event>();

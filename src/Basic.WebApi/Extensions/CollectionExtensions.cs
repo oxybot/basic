@@ -35,6 +35,14 @@ public static class CollectionExtensions
         }
     }
 
+    /// <summary>
+    /// Applies filters to a specific collection.
+    /// </summary>
+    /// <typeparam name="T">The type of the collection items.</typeparam>
+    /// <param name="reference">The collection to filter.</param>
+    /// <param name="filters">The potential filters.</param>
+    /// <param name="enabled">The enabled filters.</param>
+    /// <returns>The filtered collection.</returns>
     public static IEnumerable<T> ApplyFilters<T>(this IEnumerable<T> reference, IDictionary<string, Func<T, bool>> filters, IEnumerable<string> enabled)
     {
         if (filters is null)
