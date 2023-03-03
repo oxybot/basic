@@ -27,6 +27,12 @@ public class PasswordForEdit : BaseEntityDTO, IValidatableObject
     protected const string ErrorPasswordNotConfirmed = "The password and its confirmation should match";
 
     /// <summary>
+    /// Gets or sets the current password for the user.
+    /// </summary>
+    [Required]
+    public string OldPassword { get; set; }
+
+    /// <summary>
     /// Gets or sets the new password for the user.
     /// </summary>
     [Required]

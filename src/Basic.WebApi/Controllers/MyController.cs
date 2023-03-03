@@ -242,10 +242,30 @@ public class MyController : BaseController
             throw new ArgumentNullException(nameof(password));
         }
 
-        var model = this.GetConnectedUser();
+        var user = this.GetConnectedUser();
+
+        if (user.ExternalIdentifier != null)
+        {
+            // The user has been imported and his password can't be updated
+            string message = "Your password is defined and managed outside of the system and can't be updated.";
+            this.ModelState.AddModelError(string.Empty, message);
+        }
+        else if (user.HashPassword(password.OldPassword) != user.Password)
+        {
+            // The provided password is invalid
+            string message = "The provided password is invalid.";
+            this.ModelState.AddModelError(nameof(password.OldPassword), message);
+        }
+
+        if (!this.ModelState.IsValid)
+        {
+            throw new InvalidModelStateException(this.ModelState);
+        }
+
+        user.ChangePassword(password.NewPassword);
 
         this.Context.SaveChanges();
 
-        return this.Mapper.Map<UserForList>(model);
+        return this.Mapper.Map<UserForList>(user);
     }
 }
