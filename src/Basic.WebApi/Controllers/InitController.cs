@@ -3,7 +3,6 @@ using Basic.Model;
 using Basic.WebApi.Framework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Basic.WebApi.Controllers;
 
