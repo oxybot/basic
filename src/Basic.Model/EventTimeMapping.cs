@@ -31,7 +31,7 @@ public enum EventTimeMapping
     Active,
 
     /// <summary>
-    /// Inidicates that the associated time booking is linked to normal activities that
+    /// Indicates that the associated time booking is linked to normal activities that
     /// doesn't have to be accounted.
     /// </summary>
     /// <remarks>
