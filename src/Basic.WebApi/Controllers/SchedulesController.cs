@@ -130,12 +130,25 @@ public class SchedulesController : BaseModelController<Schedule, ScheduleForList
             throw new ArgumentNullException(nameof(model));
         }
 
+        // Check and update model.User
         model.User = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == entity.UserIdentifier);
         if (model.User == null || model.WorkingSchedule.ToList().Any(n => n < 0) || model.WorkingSchedule.ToList().All(n => n == 0))
         {
             this.ModelState.AddModelError("UserIdentifier", "Invalid User");
         }
 
+        // Check for conflicts
+        var conflicts = this.Context.Set<Schedule>()
+            .Where(s => s.User.Identifier == entity.UserIdentifier && s.Identifier != model.Identifier)
+            .Where(s => (model.ActiveTo == null || s.ActiveFrom <= model.ActiveTo) && (s.ActiveTo == null || s.ActiveTo >= model.ActiveFrom))
+           // .Where(s => s.ActiveFrom <= model.ActiveFrom && (s.ActiveTo == null || model.ActiveTo == null || s.ActiveTo >= model.ActiveTo))
+            .ToList();
+        if (conflicts.Any())
+        {
+            this.ModelState.AddModelError(nameof(entity.ActiveFrom), "This schedule conflicts with another schedule");
+        }
+
+        // Check and update model.WorkingSchedule
         if (model.WorkingSchedule.Length == 7 || model.WorkingSchedule.Length == 14)
         {
             // Do nothing - the data are already correct
