@@ -58,6 +58,8 @@ services:
       MSSQL_DATABASE: basic
       MSSQL_USER: basic
       MSSQL_PASSWORD: basic@Passw0rd
+    volumes:
+      - ./support/mssql-init-sa.sql:/usr/config/init-sa.sql:ro
     ports:
       - 1433:1433
 
