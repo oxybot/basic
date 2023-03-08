@@ -46,6 +46,8 @@ services:
       MYSQL_DATABASE: basic
       MYSQL_USER: basic
       MYSQL_PASSWORD: basic
+    volumes:
+      - ./support/mysql-init.sql:/docker-entrypoint-initdb.d/mysql-init.sql:ro
     ports:
       - 3306:3306
 
