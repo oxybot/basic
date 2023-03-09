@@ -6,6 +6,7 @@ using Basic.WebApi.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -67,6 +68,15 @@ public sealed class TestServer : IDisposable
     public HttpClient CreateClient(WebApplicationFactoryClientOptions options)
     {
         return this.Application.CreateClient(options);
+    }
+
+    /// <summary>
+    /// Provides the database context associated with the application.
+    /// </summary>
+    public Context CreateDbContext()
+    {
+        var scope = this.Application.Services.CreateScope();
+        return scope.ServiceProvider.GetRequiredService<Context>();
     }
 
     /// <summary>
