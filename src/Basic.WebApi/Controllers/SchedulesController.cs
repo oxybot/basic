@@ -132,7 +132,7 @@ public class SchedulesController : BaseModelController<Schedule, ScheduleForList
 
         // Check and update model.User
         model.User = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == entity.UserIdentifier);
-        if (model.User == null || model.WorkingSchedule.ToList().Any(n => n < 0) || model.WorkingSchedule.ToList().All(n => n == 0))
+        if (model.User == null)
         {
             this.ModelState.AddModelError("UserIdentifier", "Invalid User");
         }
@@ -148,6 +148,16 @@ public class SchedulesController : BaseModelController<Schedule, ScheduleForList
         }
 
         // Check and update model.WorkingSchedule
+        if (model.WorkingSchedule.ToList().Any(n => n < 0) || model.WorkingSchedule.ToList().Any(n => n > 24))
+        {
+            this.ModelState.AddModelError("WorkingSchedule", "The schedule must contain hours of work per day (0-24)");
+        }
+
+        if (model.WorkingSchedule.ToList().All(n => n == 0))
+        {
+            this.ModelState.AddModelError("WorkingSchedule", "The schedule must contain at least one working day");
+        }
+
         if (model.WorkingSchedule.Length == 7 || model.WorkingSchedule.Length == 14)
         {
             // Do nothing - the data are already correct
