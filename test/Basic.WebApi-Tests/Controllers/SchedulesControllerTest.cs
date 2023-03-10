@@ -57,6 +57,21 @@ public sealed class SchedulesControllerTest : BaseModelControllerTest<ScheduleFo
         new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2022, 01, 01), new DateOnly(2024, 12, 31) },
     };
 
+    /// <summary>
+    /// Gets the test data for the <see cref="CreateWithoutConflictsTest"/> method.
+    /// </summary>
+    public static IEnumerable<object[]> CreateWithoutConflictsData => new List<object[]>()
+    {
+        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2022, 01, 01), new DateOnly(2022, 12, 31) },
+        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2022, 01, 01), new DateOnly(2022, 07, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2022, 01, 01), new DateOnly(2022, 12, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2022, 01, 01), new DateOnly(2022, 07, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2024, 01, 01), null },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2024, 07, 01), null },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2024, 01, 01), new DateOnly(2024, 12, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2024, 07, 01), new DateOnly(2024, 12, 31) },
+    };
+
     /// <inheritdoc />
     public override Uri BaseUrl => new Uri("/Schedules", UriKind.Relative);
 
@@ -99,7 +114,7 @@ public sealed class SchedulesControllerTest : BaseModelControllerTest<ScheduleFo
     }
 
     /// <summary>
-    /// Tests the creation of a schedule with conflicts.
+    /// Tests the creation of schedules with conflicts.
     /// </summary>
     /// <param name="referenceFrom">The reference schedule from date.</param>
     /// <param name="referenceTo">The reference schedule to date, if any.</param>
@@ -157,6 +172,68 @@ public sealed class SchedulesControllerTest : BaseModelControllerTest<ScheduleFo
             Assert.NotNull(body);
             Assert.True(body.ContainsKey("activeFrom"));
             Assert.Single(body["activeFrom"], "This schedule conflicts with another schedule");
+        }
+    }
+
+    /// <summary>
+    /// Tests the creation of schedules without conflicts.
+    /// </summary>
+    /// <param name="firstFrom">The first schedule from date.</param>
+    /// <param name="firstTo">The first schedule to date, if any.</param>
+    /// <param name="secondFrom">The second schedule from date.</param>
+    /// <param name="secondTo">The second schedule to date, if any.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+    [Theory]
+    [MemberData(nameof(CreateWithoutConflictsData))]
+    public async Task CreateWithoutConflictsTest(DateOnly firstFrom, DateOnly? firstTo, DateOnly secondFrom, DateOnly? secondTo)
+    {
+        // Global initialization and authentication
+        using var client = await this.TestServer.CreateAuthenticatedClientAsync().ConfigureAwait(false);
+
+        // Read all - should be empty
+        using (var response = await client.GetAsync(this.BaseUrl).ConfigureAwait(false))
+        {
+            Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}, status code: {(int)response.StatusCode} {response.StatusCode}");
+            var body = await this.TestServer.ReadAsJsonAsync<ListResult<ScheduleForList>>(response).ConfigureAwait(false);
+            Assert.NotNull(body);
+            Assert.Equal(0, body.Total);
+        }
+
+        // Create the first schedule
+        var first = new
+        {
+            UserIdentifier = this.TestServer.TestReferences.User.Identifier,
+            ActiveFrom = firstFrom,
+            ActiveTo = firstTo,
+            WorkingSchedule = new decimal[] { 0, 8, 8, 8, 8, 8, 0 },
+        };
+
+        using (var response = await client.PostAsJsonAsync(this.BaseUrl, first).ConfigureAwait(false))
+        {
+            Assert.True(response.IsSuccessStatusCode, $"Can't call POST {this.BaseUrl}, status code: {(int)response.StatusCode} {response.StatusCode}");
+            var body = await this.TestServer.ReadAsJsonAsync<ScheduleForList>(response).ConfigureAwait(false);
+            Assert.NotNull(body);
+            Assert.Equal(first.UserIdentifier, body.User.Identifier);
+            Assert.Equal(first.ActiveFrom, body.ActiveFrom);
+            Assert.Equal(first.WorkingSchedule, body.WorkingSchedule);
+        }
+
+        // Create the second schedule
+        var second = new
+        {
+            UserIdentifier = this.TestServer.TestReferences.User.Identifier,
+            ActiveFrom = secondFrom,
+            ActiveTo = secondTo,
+            WorkingSchedule = new decimal[] { 0, 8, 8, 8, 8, 8, 0 },
+        };
+        using (var response = await client.PostAsJsonAsync(this.BaseUrl, second).ConfigureAwait(false))
+        {
+            Assert.True(response.IsSuccessStatusCode, $"Can't call POST {this.BaseUrl}, status code: {(int)response.StatusCode} {response.StatusCode}");
+            var body = await this.TestServer.ReadAsJsonAsync<ScheduleForList>(response).ConfigureAwait(false);
+            Assert.NotNull(body);
+            Assert.Equal(second.UserIdentifier, body.User.Identifier);
+            Assert.Equal(second.ActiveFrom, body.ActiveFrom);
+            Assert.Equal(second.WorkingSchedule, body.WorkingSchedule);
         }
     }
 
