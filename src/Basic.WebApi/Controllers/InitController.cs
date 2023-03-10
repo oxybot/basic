@@ -41,6 +41,7 @@ public class InitController : ControllerBase
     /// <summary>
     /// Initializes the data.
     /// </summary>
+    /// <returns>The status of the initialization.</returns>
     [HttpGet]
     [AuthorizeRoles(Role.Options)]
     [Produces("application/json")]

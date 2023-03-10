@@ -141,7 +141,6 @@ public class SchedulesController : BaseModelController<Schedule, ScheduleForList
         var conflicts = this.Context.Set<Schedule>()
             .Where(s => s.User.Identifier == entity.UserIdentifier && s.Identifier != model.Identifier)
             .Where(s => (model.ActiveTo == null || s.ActiveFrom <= model.ActiveTo) && (s.ActiveTo == null || s.ActiveTo >= model.ActiveFrom))
-           // .Where(s => s.ActiveFrom <= model.ActiveFrom && (s.ActiveTo == null || model.ActiveTo == null || s.ActiveTo >= model.ActiveTo))
             .ToList();
         if (conflicts.Any())
         {

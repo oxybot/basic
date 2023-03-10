@@ -71,12 +71,12 @@ public sealed class TestServer : IDisposable
     }
 
     /// <summary>
-    /// Provides the database context associated with the application.
+    /// Creates a new scope to resolve scoped services.
     /// </summary>
-    public Context CreateDbContext()
+    /// <returns>The created scope.</returns>
+    public IServiceScope CreateScope()
     {
-        var scope = this.Application.Services.CreateScope();
-        return scope.ServiceProvider.GetRequiredService<Context>();
+        return this.Application.Services.CreateScope();
     }
 
     /// <summary>

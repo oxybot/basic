@@ -71,15 +71,4 @@ public abstract class BaseModelController<TModel, TForList, TForView, TForEdit>
 
         return this.Mapper.Map<TForList>(model);
     }
-
-    protected void CheckUniqueFor(TModel model, string propertyName, Expression<Func<TModel, bool>> comparison)
-    {
-        int duplicate = this.Context.Set<TModel>()
-            .Where(comparison)
-            .Count(c => c.Identifier != model.Identifier);
-        if (duplicate > 0)
-        {
-            this.ModelState.AddModelError(propertyName, "A client with the same Display Name is already registered.");
-        }
-    }
 }

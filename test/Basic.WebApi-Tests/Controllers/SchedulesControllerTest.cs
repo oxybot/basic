@@ -1,9 +1,11 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
+using Basic.DataAccess;
 using Basic.Model;
 using Basic.WebApi.DTOs;
 using Basic.WebApi.Models;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -29,6 +31,31 @@ public sealed class SchedulesControllerTest : BaseModelControllerTest<ScheduleFo
         : base(testServer, logger)
     {
     }
+
+    /// <summary>
+    /// Gets the test data for the <see cref="CreateWithConflictsTest"/> method.
+    /// </summary>
+    public static IEnumerable<object[]> CreateWithConflictsData => new List<object[]>()
+    {
+        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2023, 01, 01), null },
+        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2022, 01, 01), null },
+        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2024, 01, 01), null },
+        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31) },
+        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2022, 01, 01), new DateOnly(2023, 12, 31) },
+        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2024, 01, 01), new DateOnly(2024, 12, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 01, 01), null },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2022, 01, 01), null },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 08, 01), null },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2022, 01, 01), new DateOnly(2023, 12, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2022, 01, 01), new DateOnly(2023, 7, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 01, 01), new DateOnly(2024, 12, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 08, 01), new DateOnly(2024, 12, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 01, 01), new DateOnly(2024, 7, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 08, 01), new DateOnly(2024, 12, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 04, 01), new DateOnly(2024, 10, 31) },
+        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2022, 01, 01), new DateOnly(2024, 12, 31) },
+    };
 
     /// <inheritdoc />
     public override Uri BaseUrl => new Uri("/Schedules", UriKind.Relative);
@@ -72,32 +99,13 @@ public sealed class SchedulesControllerTest : BaseModelControllerTest<ScheduleFo
     }
 
     /// <summary>
-    /// Provides the test data for the <see cref="CreateWithConflictsTest"/> method.
-    /// </summary>
-    public static IEnumerable<object[]> CreateWithConflictsData = new List<object[]>() {
-        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2023, 01, 01), null },
-        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2022, 01, 01), null },
-        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2024, 01, 01), null },
-        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31) },
-        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2022, 01, 01), new DateOnly(2023, 12, 31) },
-        new object[] { new DateOnly(2023, 01, 01), null, new DateOnly(2024, 01, 01), new DateOnly(2024, 12, 31) },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 01, 01), null },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2022, 01, 01), null },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 08, 01), null },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31) },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2022, 01, 01), new DateOnly(2023, 12, 31) },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2022, 01, 01), new DateOnly(2023, 7, 31) },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 01, 01), new DateOnly(2024, 12, 31) },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 08, 01), new DateOnly(2024, 12, 31) },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 01, 01), new DateOnly(2024, 7, 31) },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 08, 01), new DateOnly(2024, 12, 31) },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2023, 04, 01), new DateOnly(2024, 10, 31) },
-        new object[] { new DateOnly(2023, 01, 01), new DateOnly(2023, 12, 31), new DateOnly(2022, 01, 01), new DateOnly(2024, 12, 31) },
-    };
-
-    /// <summary>
     /// Tests the creation of a schedule with conflicts.
     /// </summary>
+    /// <param name="referenceFrom">The reference schedule from date.</param>
+    /// <param name="referenceTo">The reference schedule to date, if any.</param>
+    /// <param name="conflictingFrom">The conflicting schedule from date.</param>
+    /// <param name="conflictingTo">The conflicting schedule to date, if any.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
     [Theory]
     [MemberData(nameof(CreateWithConflictsData))]
     public async Task CreateWithConflictsTest(DateOnly referenceFrom, DateOnly? referenceTo, DateOnly conflictingFrom, DateOnly? conflictingTo)
@@ -120,7 +128,7 @@ public sealed class SchedulesControllerTest : BaseModelControllerTest<ScheduleFo
             UserIdentifier = this.TestServer.TestReferences.User.Identifier,
             ActiveFrom = referenceFrom,
             ActiveTo = referenceTo,
-            WorkingSchedule = new decimal[] { 0, 8, 8, 8, 8, 8, 0 }
+            WorkingSchedule = new decimal[] { 0, 8, 8, 8, 8, 8, 0 },
         };
         Guid referenceId;
         using (var response = await client.PostAsJsonAsync(this.BaseUrl, reference).ConfigureAwait(false))
@@ -140,7 +148,7 @@ public sealed class SchedulesControllerTest : BaseModelControllerTest<ScheduleFo
             UserIdentifier = this.TestServer.TestReferences.User.Identifier,
             ActiveFrom = conflictingFrom,
             ActiveTo = conflictingTo,
-            WorkingSchedule = new decimal[] { 0, 8, 8, 8, 8, 8, 0 }
+            WorkingSchedule = new decimal[] { 0, 8, 8, 8, 8, 8, 0 },
         };
         using (var response = await client.PostAsJsonAsync(this.BaseUrl, reference).ConfigureAwait(false))
         {
@@ -155,10 +163,9 @@ public sealed class SchedulesControllerTest : BaseModelControllerTest<ScheduleFo
     /// <inheritdoc />
     public void Dispose()
     {
-        using (var context = this.TestServer.CreateDbContext())
-        {
-            context.Set<Schedule>().RemoveRange(context.Set<Schedule>());
-            context.SaveChanges();
-        }
+        using var scope = this.TestServer.CreateScope();
+        using var context = scope.ServiceProvider.GetRequiredService<Context>();
+        context.Set<Schedule>().RemoveRange(context.Set<Schedule>());
+        context.SaveChanges();
     }
 }
