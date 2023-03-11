@@ -61,7 +61,7 @@ public abstract class BaseModelController<TModel, TForList, TForView, TForEdit>
 
         this.Mapper.Map(entity, model);
 
-        this.CheckDependencies(entity, model);
+        this.ExecuteExtraChecks(entity, model);
         if (!this.ModelState.IsValid)
         {
             throw new InvalidModelStateException(this.ModelState);

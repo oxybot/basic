@@ -119,7 +119,7 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     /// </summary>
     /// <param name="balance">The event data.</param>
     /// <param name="model">The event model instance.</param>
-    protected override void CheckDependencies(BalanceForEdit balance, Balance model)
+    protected override void ExecuteExtraChecks(BalanceForEdit balance, Balance model)
     {
         if (balance is null)
         {
@@ -130,6 +130,7 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
             throw new ArgumentNullException(nameof(model));
         }
 
+        // Check dependencies
         model.User = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == balance.UserIdentifier);
         if (model.User == null)
         {
@@ -142,6 +143,7 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
             this.ModelState.AddModelError("CategoryIdentifier", "Invalid Category");
         }
 
+        // Check conflict
         bool conflict = this.Context.Set<Balance>().Any(b => b.User == model.User && b.Category == model.Category && b.Year == model.Year && b.Identifier != model.Identifier);
         if (conflict)
         {

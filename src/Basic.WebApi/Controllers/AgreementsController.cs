@@ -249,11 +249,11 @@ public class AgreementsController : BaseModelController<Agreement, AgreementForL
     }
 
     /// <summary>
-    /// Checks and maps Client info.
+    /// Checks and maps Agrrements info.
     /// </summary>
     /// <param name="agreement">The agreement data.</param>
     /// <param name="model">The agreement model instance.</param>
-    protected override void CheckDependencies(AgreementForEdit agreement, Agreement model)
+    protected override void ExecuteExtraChecks(AgreementForEdit agreement, Agreement model)
     {
         if (agreement is null)
         {

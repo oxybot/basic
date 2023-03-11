@@ -119,7 +119,7 @@ public class SchedulesController : BaseModelController<Schedule, ScheduleForList
     /// </summary>
     /// <param name="entity">The form data.</param>
     /// <param name="model">The datasource instance.</param>
-    protected override void CheckDependencies(ScheduleForEdit entity, Schedule model)
+    protected override void ExecuteExtraChecks(ScheduleForEdit entity, Schedule model)
     {
         if (entity is null)
         {

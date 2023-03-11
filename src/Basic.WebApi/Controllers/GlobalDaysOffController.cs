@@ -112,4 +112,23 @@ public class GlobalDaysOffController : BaseModelController<GlobalDayOff, GlobalD
     {
         base.Delete(identifier);
     }
+
+    /// <inheritdoc />
+    protected override void ExecuteExtraChecks(GlobalDayOffForEdit entity, GlobalDayOff model)
+    {
+        if (entity is null)
+        {
+            throw new ArgumentNullException(nameof(entity));
+        }
+        else if (model is null)
+        {
+            throw new ArgumentNullException(nameof(model));
+        }
+
+        // Check if the day-off is already defined
+        if (this.Context.Set<GlobalDayOff>().Any(d => d.Date == model.Date && d.Identifier != model.Identifier))
+        {
+            throw new ArgumentException("The day-off is already defined.");
+        }
+    }
 }

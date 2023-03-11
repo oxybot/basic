@@ -118,7 +118,7 @@ public class EventCategoriesController : BaseModelController<EventCategory, Even
     /// </summary>
     /// <param name="entity">The received entity.</param>
     /// <param name="model">The associated modei.</param>
-    protected override void CheckDependencies(EventCategoryForEdit entity, EventCategory model)
+    protected override void ExecuteExtraChecks(EventCategoryForEdit entity, EventCategory model)
     {
         if (entity is null)
         {
@@ -129,8 +129,16 @@ public class EventCategoriesController : BaseModelController<EventCategory, Even
             throw new ArgumentNullException(nameof(model));
         }
 
-        base.CheckDependencies(entity, model);
+        // Check for conflicts
+        var duplicates = this.Context.Set<Client>()
+            .Where(c => c.DisplayName == model.DisplayName)
+            .Where(c => c.Identifier != model.Identifier);
+        if (duplicates.Any())
+        {
+            this.ModelState.AddModelError(nameof(model.DisplayName), "A event category with the same Display Name is already registered.");
+        }
 
+        // Update data if needed
         if (model.Mapping == EventTimeMapping.TimeOff)
         {
             model.ColorClass = null;

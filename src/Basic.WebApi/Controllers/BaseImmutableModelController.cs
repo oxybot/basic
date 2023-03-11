@@ -76,7 +76,7 @@ public abstract class BaseImmutableModelController<TModel, TForList, TForView, T
     {
         TModel model = this.Mapper.Map<TModel>(entity);
 
-        this.CheckDependencies(entity, model);
+        this.ExecuteExtraChecks(entity, model);
         if (!this.ModelState.IsValid)
         {
             throw new InvalidModelStateException(this.ModelState);
@@ -150,7 +150,7 @@ public abstract class BaseImmutableModelController<TModel, TForList, TForView, T
     }
 
     /// <summary>
-    /// Overriden to check and map the dependencies of the entity.
+    /// Overriden to execute extra checks on the entity (dependencies, conflicts...).
     /// </summary>
     /// <param name="entity">The entity data.</param>
     /// <param name="model">THe associated model instance.</param>
@@ -158,7 +158,7 @@ public abstract class BaseImmutableModelController<TModel, TForList, TForView, T
     /// Implementor should update the <see cref="ControllerBase.ModelState"/> with all
     /// the issues on dependencies.
     /// </remarks>
-    protected virtual void CheckDependencies(TForEdit entity, TModel model)
+    protected virtual void ExecuteExtraChecks(TForEdit entity, TModel model)
     {
     }
 }

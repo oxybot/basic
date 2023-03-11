@@ -142,12 +142,23 @@ public class ClientsController : BaseModelController<Client, ClientForList, Clie
     }
 
     /// <inheritdoc />
-    protected override void CheckDependencies(ClientForEdit entity, Client model)
+    protected override void ExecuteExtraChecks(ClientForEdit entity, Client model)
     {
-        int duplicate = this.Context.Set<Client>().Where(c => c.DisplayName == model.DisplayName).Count(c => c.Identifier != model.Identifier);
-        if (duplicate > 0)
+        if (entity is null)
         {
-            this.ModelState.AddModelError(nameof(model.DisplayName), "A client with the same Display Name is already registered.");
+            throw new ArgumentNullException(nameof(entity));
+        }
+        else if (model is null)
+        {
+            throw new ArgumentNullException(nameof(model));
+        }
+
+        var duplicates = this.Context.Set<Client>()
+            .Where(c => c.DisplayName == model.DisplayName)
+            .Where(c => c.Identifier != model.Identifier);
+        if (duplicates.Any())
+        {
+            this.ModelState.AddModelError(nameof(entity.DisplayName), "A client with the same Display Name is already registered");
         }
     }
 }

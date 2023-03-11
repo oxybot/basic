@@ -111,7 +111,7 @@ public class EventsController
 
         Event model = this.Mapper.Map<Event>(@event);
 
-        this.CheckDependencies(@event, model);
+        this.ExecuteExtraChecks(@event, model);
         if (!this.ModelState.IsValid)
         {
             throw new InvalidModelStateException(this.ModelState);
@@ -184,7 +184,7 @@ public class EventsController
     /// </summary>
     /// <param name="event">The event data.</param>
     /// <param name="model">The event model instance.</param>
-    protected override void CheckDependencies(EventForEdit @event, Event model)
+    protected override void ExecuteExtraChecks(EventForEdit @event, Event model)
     {
         if (@event is null)
         {
@@ -195,6 +195,7 @@ public class EventsController
             throw new ArgumentNullException(nameof(model));
         }
 
+        // Check dependencies
         model.User = this.Context.Set<User>()
             .SingleOrDefault(u => u.Identifier == @event.UserIdentifier);
         if (model.User == null)
