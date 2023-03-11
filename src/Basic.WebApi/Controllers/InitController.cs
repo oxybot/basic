@@ -47,6 +47,15 @@ public class InitController : ControllerBase
     [Produces("application/json")]
     public IActionResult Get()
     {
+        // Update demo user to provide an email
+        var demoUser = this.Context.Set<User>().FirstOrDefault(u => u.Username == "demo");
+        if (demoUser != null)
+        {
+            demoUser.Email = "jeandoe@example.com";
+            this.Context.SaveChanges();
+        }
+
+        // Create the default event categories
         if (!this.Context.Set<EventCategory>().Any())
         {
             // Create the default event categories
