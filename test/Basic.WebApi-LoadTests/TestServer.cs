@@ -128,24 +128,9 @@ public sealed class TestServer : IDisposable
 
     private static void InitializeBuilder(IWebHostBuilder builder)
     {
-        builder.ConfigureServices(services =>
-        {
-            // Replace the database initialization service
-            services.RemoveAll<DbContextOptions<Context>>();
-            services.AddSingleton<DbContextOptions<Context>>(sp =>
-            {
-                var builder = new DbContextOptionsBuilder<Context>(
-                    new DbContextOptions<Context>(new Dictionary<Type, IDbContextOptionsExtension>()));
-
-                builder.UseApplicationServiceProvider(sp);
-
-                IConfiguration configuration = sp.GetRequiredService<IConfiguration>();
-                configuration.GetSection("ConnectionStrings")["SqlServer"]
-                    = "Server=(localdb)\\mssqllocaldb;Database=basic-loadtest;Trusted_Connection=True;MultipleActiveResultSets=true";
-                builder.UseConfiguredSqlServer(configuration);
-
-                return builder.Options;
-            });
-        });
+        builder.UseConfiguration(new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile("appsettings.Test.json", optional: true, reloadOnChange: true)
+            .Build());
     }
 }
