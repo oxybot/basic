@@ -25,7 +25,8 @@
   },
   "devDependencies": {
     "prettier": "^2.8.3",
-    "sass": "^1.57.1"
+    "sass": "^1.57.1",
+    "got": "^11.8.2"
   },
   "scripts": {
     "start": "react-scripts start",
