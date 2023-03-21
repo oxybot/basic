@@ -1,6 +1,5 @@
 import { IconCurrencyEuro } from "@tabler/icons";
 import clsx from "clsx";
-import dayjs from "dayjs";
 import EntityFieldInputColor from "./EntityFieldInputColor";
 import EntityFieldInputImage from "./EntityFieldInputImage";
 import EntityFieldInputReference from "./EntityFieldInputReference";
@@ -18,7 +17,7 @@ export default function EntityFieldInput({ field, value, hasErrors, onChange }) 
           id={field.name}
           name={field.name}
           placeholder={field.placeholder}
-          value={value ? dayjs(value).format("YYYY-MM-DD") : ""}
+          value={value ?? ""}
           onChange={onChange}
         />
       );
