@@ -12,13 +12,17 @@ console.log("base url: " + apiUrl);
 var temp = await got.get(apiUrl + "/definitions").json();
 console.log(temp);
 
-var result = await got.post(apiUrl + "/auth", {
-  method: "POST",
-  json: { username: "demo", password: "iX3vvI7ugmOKkDdYY4v2fQ" },
-}).json();
-var token = result.accessToken;
+if (process.env.DEMO_PASSWORD) {
+  var result = await got
+    .post(apiUrl + "/auth", {
+      method: "POST",
+      json: { username: "demo", password: process.env.DEMO_PASSWORD },
+    })
+    .json();
+  var token = result.accessToken;
+}
 
-// Default client
+// Default api client
 var client = got.extend({ headers: { authorization: "Bearer " + token } });
 console.log("start of execution");
 
