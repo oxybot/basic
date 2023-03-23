@@ -6,6 +6,8 @@
   "service": "workspace",
   "runServices": ["mysql", "mssql", "smtp", "adminer", "ldap"],
 
+  "workspaceFolder": "/workspaces/basic",
+
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "18"
@@ -15,13 +17,13 @@
   "customizations": {
     "vscode": {
       "extensions": [
-		"ms-dotnettools.csharp",
-		"dbaeumer.vscode-eslint",
-		"esbenp.prettier-vscode",
-		"ms-azuretools.vscode-docker",
-		"mhutchie.git-graph",
-		"GitHub.copilot"
-	]
+        "ms-dotnettools.csharp",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "mhutchie.git-graph",
+        "GitHub.copilot"
+      ]
     }
   },
 
@@ -43,5 +45,5 @@
     }
   },
 
-  "postCreateCommand": ".devcontainer/post-create.sh"
+  "postCreateCommand": [".devcontainer/post-create.sh"]
 }

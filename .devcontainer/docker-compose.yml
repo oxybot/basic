@@ -1,8 +1,8 @@
-version: '3.7'
+version: "3.7"
 
 services:
   workspace:
     image: mcr.microsoft.com/devcontainers/dotnet:0-7.0
     volumes:
-      - ..:/workspaces:cached
+      - .:/workspaces/basic:cached
     command: /bin/sh -c "while sleep 1000; do :; done"
