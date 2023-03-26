@@ -30,3 +30,5 @@ dotnet user-secrets set "EmailService:Server" "smtp" --project "/workspaces/basi
 dotnet user-secrets set "DatabaseDriver" "MySql" --project "/workspaces/basic/src/Basic.WebApi"
 dotnet user-secrets set "ConnectionStrings:MySql" "Server=mysql;Database=basic;User=basic;Password=basic;Pooling=False;" --project "/workspaces/basic/src/Basic.WebApi" 1>/dev/null
 dotnet user-secrets set "ConnectionStrings:SqlServer" "Server=mssql;Database=basic;User=basic;Password=basic@Passw0rd;Trusted_Connection=True;MultipleActiveResultSets=true" --project "/workspaces/basic/src/Basic.WebApi" 1>/dev/null
+dotnet user-secrets set "ConnectionStrings:MySql" "Server=mysql;Database=basic-test;User=basic-test;Password=basic-test;Pooling=False;" --project "/workspaces/basic/test/Basic.WebApi-Test" 1>/dev/null
+dotnet user-secrets set "ConnectionStrings:SqlServer" "Server=mssql;Database=basic-test;User=basic;Password=basic@Passw0rd;Trusted_Connection=True;MultipleActiveResultSets=true" --project "/workspaces/basic/test/Basic.WebApi-Test" 1>/dev/null

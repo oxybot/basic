@@ -136,7 +136,7 @@ public sealed class ClientsControllerTest : BaseModelControllerTest<ClientForLis
     {
         using var scope = this.TestServer.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<Context>();
-        context.Set<Client>().RemoveRange(context.Set<Client>().Where(c => c.Identifier != TestServer.TestReferences.Client.Identifier));
+        context.Set<Client>().RemoveRange(context.Set<Client>().Where(c => c.Identifier != this.TestServer.TestReferences.Client.Identifier));
         context.SaveChanges();
     }
 }
