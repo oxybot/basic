@@ -373,3 +373,20 @@ th.required:after {
     padding: 0.5em;
   }
 }
+
+.table-sticky-header {
+  display: block;
+  overflow: auto;
+  max-height: calc(100vh - 180px);
+
+  @media (min-width: 992px) {
+    max-height: calc(100vh - 120px);
+  }
+
+  .table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--tblr-bg-surface);
+  }
+}

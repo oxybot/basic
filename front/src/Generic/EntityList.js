@@ -50,7 +50,7 @@ export default function EntityList({
   });
 
   return (
-    <div className={clsx("table-responsive", className)}>
+    <div className={clsx("table-responsive", "table-sticky-header", className)}>
       <table className="table card-table table-vcenter text-nowrap datatable table-hover">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (

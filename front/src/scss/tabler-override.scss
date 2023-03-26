@@ -35,3 +35,19 @@
     }
   }
 }
+
+/* Cancel default background style in dark mode
+ */
+.theme-dark {
+  .input-group-text,
+  .markdown > table thead th,
+  .table thead th {
+    background-color: var(--tblr-bg-surface);
+  }
+}
+
+/* Cancel vertical scrollbar being always visible
+ */
+body {
+  overflow: auto;
+}
