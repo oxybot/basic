@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addWarning } from "../Alerts/slice";
@@ -11,6 +11,7 @@ const defaultExtendedForm = () => null;
 export default function PageNew({
   definition,
   baseApiUrl,
+  full = false,
   texts,
   onCreate = defaultOnCreate,
   extendedForm = defaultExtendedForm,
@@ -20,19 +21,6 @@ export default function PageNew({
   const [entity, setEntity] = useState({});
   const [errors, setErrors] = useState({});
   texts["form-action"] = "Create";
-
-  useEffect(() => {
-    if (definition) {
-      let updated = { ...entity };
-      definition.fields.forEach((field) => {
-        if (field.type === "boolean") {
-          updated[field.name] = false;
-        }
-      });
-
-      setEntity(updated);
-    }
-  }, [definition, entity]);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -62,18 +50,16 @@ export default function PageNew({
   };
 
   return (
-    <div className="sticky-top">
-      <EntityForm
-        definition={definition}
-        entity={entity}
-        texts={texts}
-        errors={errors}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        container
-      >
-        {extendedForm(entity, setEntity, errors)}
-      </EntityForm>
-    </div>
+    <EntityForm
+      definition={definition}
+      entity={entity}
+      full={full}
+      texts={texts}
+      errors={errors}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+    >
+      {extendedForm(entity, setEntity, errors)}
+    </EntityForm>
   );
 }
