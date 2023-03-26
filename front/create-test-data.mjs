@@ -9,22 +9,17 @@ if (process.env.CODESPACES === "true") {
 console.log("base url: " + apiUrl);
 
 // Authentication
-var temp = await got.get(apiUrl + "/definitions").json();
-console.log(temp);
-
-if (process.env.DEMO_PASSWORD) {
-  var result = await got
-    .post(apiUrl + "/auth", {
-      method: "POST",
-      json: { username: "demo", password: process.env.DEMO_PASSWORD },
-    })
-    .json();
-  var token = result.accessToken;
-}
+var result = await got
+  .post(apiUrl + "/auth", {
+    method: "POST",
+    json: { username: "demo", password: process.env.DEMO_PASSWORD ?? "demo" },
+    https: { rejectUnauthorized: false },
+  })
+  .json();
+var token = result.accessToken;
 
 // Default api client
-var client = got.extend({ headers: { authorization: "Bearer " + token } });
-console.log("start of execution");
+var client = got.extend({ headers: { authorization: "Bearer " + token }, https: { rejectUnauthorized: false } });
 
 // Create new users
 console.log("  - create users");
