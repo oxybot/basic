@@ -383,6 +383,13 @@ th.required:after {
     max-height: calc(100vh - 120px);
   }
 
+  // Ensure that the border of the header is displayed with the header
+  .table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  // Sticky header
   .table thead th {
     position: sticky;
     top: 0;
