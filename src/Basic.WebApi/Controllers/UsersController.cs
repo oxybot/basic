@@ -216,4 +216,47 @@ public class UsersController : BaseModelController<User, UserForList, UserForVie
             Attachments = entity.Attachments.Count,
         };
     }
+
+    /// <inheritdoc />
+    protected override void ExecuteExtraChecks(UserForEdit entity, User model)
+    {
+        if (entity is null)
+        {
+            throw new ArgumentNullException(nameof(entity));
+        }
+        else if (model is null)
+        {
+            throw new ArgumentNullException(nameof(model));
+        }
+
+        {
+            var duplicates = this.Context.Set<User>()
+                .Where(c => c.Username == model.Username)
+                .Where(c => c.Identifier != model.Identifier);
+            if (duplicates.Any())
+            {
+                this.ModelState.AddModelError(nameof(entity.UserName), "A user with the same Username is already registered");
+            }
+        }
+
+        {
+            var duplicates = this.Context.Set<User>()
+                .Where(c => c.Email == model.Email)
+                .Where(c => c.Identifier != model.Identifier);
+            if (duplicates.Any())
+            {
+                this.ModelState.AddModelError(nameof(entity.Email), "A user with the same Email is already registered");
+            }
+        }
+
+        {
+            var duplicates = this.Context.Set<User>()
+                .Where(c => c.DisplayName == model.DisplayName)
+                .Where(c => c.Identifier != model.Identifier);
+            if (duplicates.Any())
+            {
+                this.ModelState.AddModelError(nameof(entity.DisplayName), "A user with the same Display Name is already registered");
+            }
+        }
+    }
 }
