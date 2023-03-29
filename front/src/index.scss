@@ -1,5 +1,6 @@
 @import "~/src/scss/_mixins.scss";
 @import "~/src/scss/tabler-override.scss";
+@import "~/src/scss/react-select.scss";
 
 /* Extra background for required fields */
 input.form-control.required {
@@ -147,47 +148,6 @@ th.required:after {
 .theme-dark input[type="file"].form-control:hover::file-selector-button {
   background-color: var(--tblr-btn-color);
   color: var(--tblr-btn-color-text);
-}
-
-/* react-select styling */
-.react-select__control {
-  flex-wrap: nowrap !important;
-  width: 100% !important;
-}
-
-.react-select__menu {
-  min-width: 20rem;
-}
-
-.required .react-select__control,
-.theme-dark .required .react-select__control {
-  background-color: #206bc411;
-  flex-wrap: nowrap;
-}
-
-.required .react-select__control--is-focused {
-  outline: 0;
-  box-shadow: 0 0 0 0.25rem rgb(32 107 196 / 25%);
-}
-
-.theme-dark .react-select__control,
-.theme-dark .react-select__menu {
-  background-color: #1b2434;
-  color: #f8fafc;
-  border-color: #2c3c56;
-}
-.theme-dark .react-select__option:hover {
-  background-color: #1a569d;
-}
-.theme-dark .react-select__menu {
-  border: 1px solid #2c3c56;
-}
-.theme-dark .react-select__single-value {
-  color: #f8fafc;
-}
-
-.is-invalid .react-select__control {
-  border-color: var(--tblr-danger);
 }
 
 /* Special style for nav buttons */
