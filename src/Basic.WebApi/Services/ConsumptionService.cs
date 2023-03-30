@@ -80,7 +80,6 @@ public class ConsumptionService
             {
                 Category = this.Mapper.Map<EntityReference>(category.Key),
                 Allowed = balance?.Allowed,
-                Transfered = balance?.Transfered,
                 Planned = planned.Sum(e => e.DurationTotal),
                 Taken = taken.Sum(e => e.DurationTotal),
                 Requested = requested.Sum(e => e.DurationTotal),
@@ -93,7 +92,6 @@ public class ConsumptionService
             {
                 Category = this.Mapper.Map<EntityReference>(balance.Category),
                 Allowed = balance.Allowed,
-                Transfered = balance.Transfered,
             };
         }
     }

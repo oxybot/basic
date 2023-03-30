@@ -43,7 +43,6 @@ public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, Ba
                 UserIdentifier = this.TestServer.TestReferences.User.Identifier,
                 Year = DateTime.Today.Year,
                 Allowed = 100,
-                Transfered = 0,
             },
             CreateExpected = new()
             {
@@ -58,7 +57,6 @@ public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, Ba
                 UserIdentifier = this.TestServer.TestReferences.User.Identifier,
                 Year = DateTime.Today.Year,
                 Allowed = 130,
-                Transfered = 30,
             },
             UpdateExpected = new()
             {
@@ -66,7 +64,6 @@ public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, Ba
                 User = this.TestServer.TestReferences.User,
                 Year = DateTime.Today.Year,
                 Allowed = 130,
-                Transfered = 30,
             },
         };
 

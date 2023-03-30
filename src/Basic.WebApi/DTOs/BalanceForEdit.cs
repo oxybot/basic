@@ -40,11 +40,4 @@ public class BalanceForEdit : BaseEntityDTO
     [Required]
     [SwaggerSchema(Format = "hours")]
     public decimal Allowed { get; set; }
-
-    /// <summary>
-    /// Gets or sets the transfered amount to add to the balance, in hours.
-    /// </summary>
-    [Required]
-    [SwaggerSchema(Format = "hours")]
-    public decimal Transfered { get; set; }
 }
