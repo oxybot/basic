@@ -29,7 +29,7 @@ function CardForConsumption() {
         {!loading &&
           consumptions.map((consumption) => {
             const withBalance = consumption.allowed !== null;
-            const balanceTotal = (consumption.allowed || 0) + (consumption.transfered || 0);
+            const balanceTotal = consumption.allowed;
             const registeredTotal = consumption.taken + consumption.planned + consumption.requested;
             const max = Math.max(balanceTotal, registeredTotal);
             return (
@@ -38,7 +38,6 @@ function CardForConsumption() {
                 {withBalance && (
                   <div className="progress mb-1">
                     <ProgressBar color="bg-cyan" value={consumption.allowed} max={max} title="Allowed" />
-                    <ProgressBar color="bg-secondary" value={consumption.transfered} max={max} title="Transfered" />
                   </div>
                 )}
                 <div className="progress">
