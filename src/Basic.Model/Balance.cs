@@ -1,6 +1,7 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Basic.Model;
@@ -10,6 +11,14 @@ namespace Basic.Model;
 /// </summary>
 public class Balance : BaseModel
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Balance"/> class.
+    /// </summary>
+    public Balance()
+    {
+        this.Details = new List<BalanceItem>();
+    }
+
     /// <summary>
     /// Gets or sets the associated user.
     /// </summary>
@@ -35,7 +44,11 @@ public class Balance : BaseModel
     public decimal Allowed { get; set; }
 
     /// <summary>
-    /// Gets or sets the transfered amount to add to the balance, in hours.
+    /// Gets the details of the balance, if any.
     /// </summary>
-    public decimal Transfered { get; set; }
+    /// <remarks>
+    /// If the balance has detailed items, the <see cref="Allowed"/> value is expected
+    /// to be the total value of all detailed items.
+    /// </remarks>
+    public virtual ICollection<BalanceItem> Details { get; }
 }

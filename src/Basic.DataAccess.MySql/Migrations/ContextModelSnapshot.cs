@@ -153,9 +153,6 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.Property<Guid>("CategoryIdentifier")
                         .HasColumnType("char(36)");
 
-                    b.Property<decimal>("Transfered")
-                        .HasColumnType("decimal(18,6)");
-
                     b.Property<Guid>("UserIdentifier")
                         .HasColumnType("char(36)");
 
@@ -169,6 +166,32 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.HasIndex("UserIdentifier");
 
                     b.ToTable("Balance");
+                });
+
+            modelBuilder.Entity("Basic.Model.BalanceItem", b =>
+                {
+                    b.Property<Guid>("Identifier")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("BalanceIdentifier")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.HasKey("Identifier");
+
+                    b.HasIndex("BalanceIdentifier");
+
+                    b.ToTable("BalanceItem");
                 });
 
             modelBuilder.Entity("Basic.Model.Client", b =>
@@ -827,6 +850,13 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Basic.Model.BalanceItem", b =>
+                {
+                    b.HasOne("Basic.Model.Balance", null)
+                        .WithMany("Details")
+                        .HasForeignKey("BalanceIdentifier");
+                });
+
             modelBuilder.Entity("Basic.Model.Client", b =>
                 {
                     b.OwnsOne("Basic.Model.StreetAddress", "Address", b1 =>
@@ -1096,6 +1126,11 @@ namespace Basic.DataAccess.MySql.Migrations
                     b.Navigation("Items");
 
                     b.Navigation("Statuses");
+                });
+
+            modelBuilder.Entity("Basic.Model.Balance", b =>
+                {
+                    b.Navigation("Details");
                 });
 
             modelBuilder.Entity("Basic.Model.Client", b =>
