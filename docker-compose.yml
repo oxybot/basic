@@ -2,10 +2,7 @@ version: '3.7'
 
 services:
   front:
-    image: basic-front
-    build:
-      context: ./front
-    restart: always
+    image: ghcr.io/oxybot/basic/front:latest
     depends_on:
       - api
     environment:
@@ -20,19 +17,23 @@ services:
       - 5000:443
 
   api:
-    image: basic-api
-    build:
-      context: ./src
-      dockerfile: ./Basic.WebApi/Dockerfile
-    restart: always
+    image: ghcr.io/oxybot/basic/api:latest
     depends_on:
       - mysql
       - mssql
     env_file:
       - .env.docker-compose.local
     environment:
+      ASPNETCORE_ENVIRONMENT: Development
       BASEURL: https://localhost:5001
       CORS__ORIGINS: https://localhost:5000
+      ActiveDirectory__Server: ldap
+      EmailService__Server: smtp
+      DatabaseDriver: MySql
+      ConnectionStrings__MySql: Server=mysql;Database=basic;User=basic;Password=basic;Pooling=False
+      ConnectionStrings__SqlServer: Server=mssql;Database=basic;User=basic;Password=basic@Passw0rd;Trusted_Connection=True;MultipleActiveResultSets=true
+      Kestrel__Certificates__Default__Path: /src/basic.pfx
+      Kestrel__Certificates__Default__Password: password
     volumes:
       - ./.keys/basic.pfx:/src/basic.pfx:ro
     ports:
