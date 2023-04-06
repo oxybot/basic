@@ -1,6 +1,8 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Basic.WebApi.Framework;
 
 /// <summary>
@@ -9,6 +11,7 @@ namespace Basic.WebApi.Framework;
 /// <remarks>
 /// This exception doesn't contains a constructor with a message to avoid information leakage.
 /// </remarks>
+[SuppressMessage("Design", "CA1032:Implement standard exception constructors", Justification = "Message and error code are fixed to avoid information leakage")]
 public class ForbiddenRequestException : BadHttpRequestException
 {
     /// <summary>

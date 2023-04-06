@@ -11,6 +11,14 @@ public class NotFoundException : BadHttpRequestException
     /// <summary>
     /// Initializes a new instance of the <see cref="NotFoundException"/> class.
     /// </summary>
+    public NotFoundException()
+        : base("Not Found", StatusCodes.Status404NotFound)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NotFoundException"/> class.
+    /// </summary>
     /// <param name="message">The associated error message.</param>
     public NotFoundException(string message)
         : base(message, StatusCodes.Status404NotFound)

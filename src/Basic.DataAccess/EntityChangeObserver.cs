@@ -15,8 +15,7 @@ public class EntityChangeObserver
     /// <summary>
     /// The single instance of the class.
     /// </summary>
-    private static readonly Lazy<EntityChangeObserver> Lazy
-        = new Lazy<EntityChangeObserver>(() => new EntityChangeObserver());
+    private static readonly Lazy<EntityChangeObserver> Lazy = new(() => new EntityChangeObserver());
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EntityChangeObserver"/> class.

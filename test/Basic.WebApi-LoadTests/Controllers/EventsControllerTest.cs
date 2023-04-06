@@ -36,7 +36,7 @@ public class EventsControllerTest
     /// <summary>
     /// Gets the base url for the tested controller.
     /// </summary>
-    public Uri BaseUrl => new Uri("/Events", UriKind.Relative);
+    public Uri BaseUrl => new("/Events", UriKind.Relative);
 
     /// <summary>
     /// Gets the associated configured test server.
@@ -83,19 +83,15 @@ public class EventsControllerTest
         // Read all
         if (field.Sortable)
         {
-            using (var response = await client.GetAsync($"{this.BaseUrl}?sortKey={propertyName}").ConfigureAwait(false))
-            {
-                Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}, status code: {(int)response.StatusCode} {response.StatusCode}");
-                var body = await this.TestServer.ReadAsJsonAsync<ListResult<EventForList>>(response).ConfigureAwait(false);
-                Assert.NotNull(body);
-            }
+            using var response = await client.GetAsync($"{this.BaseUrl}?sortKey={propertyName}").ConfigureAwait(false);
+            Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}, status code: {(int)response.StatusCode} {response.StatusCode}");
+            var body = await this.TestServer.ReadAsJsonAsync<ListResult<EventForList>>(response).ConfigureAwait(false);
+            Assert.NotNull(body);
         }
         else
         {
-            using (var response = await client.GetAsync($"{this.BaseUrl}?sortKey={propertyName}").ConfigureAwait(false))
-            {
-                Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-            }
+            using var response = await client.GetAsync($"{this.BaseUrl}?sortKey={propertyName}").ConfigureAwait(false);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
     }
 }

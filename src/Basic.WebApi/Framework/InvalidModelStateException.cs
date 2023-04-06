@@ -2,12 +2,17 @@
 // Licensed under the MIT license.
 
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.WebApi.Framework;
 
 /// <summary>
 /// Raises a <c>400</c> http error code.
 /// </summary>
+/// <remarks>
+/// This exception doesn't contains a constructor with a message to avoid information leakage.
+/// </remarks>
+[SuppressMessage("Design", "CA1032:Implement standard exception constructors", Justification = "Message and error code are fixed to avoid information leakage")]
 public class InvalidModelStateException : BadHttpRequestException
 {
     /// <summary>
