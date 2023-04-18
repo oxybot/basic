@@ -11,6 +11,12 @@ namespace Basic.Model
     public class BalanceItem : BaseModel
     {
         /// <summary>
+        /// Gets or sets the parent entity.
+        /// </summary>
+        [Required]
+        public virtual Balance Balance { get; set; }
+
+        /// <summary>
         /// Gets or sets the display order of this item.
         /// </summary>
         [Required]

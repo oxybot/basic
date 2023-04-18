@@ -20,7 +20,7 @@ namespace Basic.WebApi.Controllers;
 [ApiController]
 [Authorize]
 [Route("[controller]")]
-public class BalancesController : BaseModelController<Balance, BalanceForList, BalanceForList, BalanceForEdit>
+public class BalancesController : BaseModelController<Balance, BalanceForList, BalanceForView, BalanceForEdit>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BalancesController"/> class.
@@ -64,7 +64,7 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     [AuthorizeRoles(Role.TimeRO, Role.Time)]
     [Produces("application/json")]
     [Route("{identifier}")]
-    public override BalanceForList GetOne(Guid identifier)
+    public override BalanceForView GetOne(Guid identifier)
     {
         return base.GetOne(identifier);
     }
@@ -115,6 +115,108 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     }
 
     /// <summary>
+    /// Creates a new balance item.
+    /// </summary>
+    /// <param name="balanceId">The identifier of the balance.</param>
+    /// <param name="item">The balance item data.</param>
+    /// <returns>The balance item data after creation.</returns>
+    /// <response code="400">The provided data are invalid.</response>
+    /// <response code="404">The <paramref name="balanceId"/> is not associated to any balance.</response>
+    [HttpPost]
+    [AuthorizeRoles(Role.Time)]
+    [Route("{balanceId}/items")]
+    [Produces("application/json")]
+    public BalanceItemForList PostItem([FromRoute] Guid balanceId, BalanceItemForEdit item)
+    {
+        if (item is null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+
+        var entity = this.Context.Set<Balance>().SingleOrDefault(e => e.Identifier == balanceId);
+        if (entity == null)
+        {
+            throw new NotFoundException("Unknown balance");
+        }
+
+        BalanceItem model = this.Mapper.Map<BalanceItem>(item);
+        model.Balance = entity;
+
+        this.Context.Set<BalanceItem>().Add(model);
+        this.Context.SaveChanges();
+
+        return this.Mapper.Map<BalanceItemForList>(model);
+    }
+
+    /// <summary>
+    /// Updates an existing balance item.
+    /// </summary>
+    /// <param name="balanceId">The identifier of the balance.</param>
+    /// <param name="itemId">The identifier of the updated item.</param>
+    /// <param name="item">The balance item data.</param>
+    /// <returns>The balance item data after update.</returns>
+    /// <response code="400">The provided data are invalid.</response>
+    /// <response code="404">The <paramref name="balanceId"/> is not associated to any balance.</response>
+    [HttpPut]
+    [AuthorizeRoles(Role.Time)]
+    [Route("{balanceId}/items/{itemId}")]
+    [Produces("application/json")]
+    public BalanceItemForList PutItem([FromRoute] Guid balanceId, Guid itemId, BalanceItemForEdit item)
+    {
+        if (item is null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+
+        var entity = this.Context.Set<Balance>().SingleOrDefault(e => e.Identifier == balanceId);
+        if (entity == null)
+        {
+            throw new NotFoundException("Unknown balance");
+        }
+
+        var model = this.Context.Set<BalanceItem>().SingleOrDefault(e => e.Identifier == itemId && e.Balance == entity);
+        if (model == null)
+        {
+            throw new NotFoundException("Unknown balance item");
+        }
+
+        this.Mapper.Map(item, model);
+        this.Context.SaveChanges();
+
+        return this.Mapper.Map<BalanceItemForList>(model);
+    }
+
+    /// <summary>
+    /// Deletes a specific balance item.
+    /// </summary>
+    /// <param name="balanceId">The identifier of the balance.</param>
+    /// <param name="itemId">The identifier of the item to delete.</param>
+    /// <response code="404">No item is associated to the provided <paramref name="itemId"/>.</response>
+    [HttpDelete]
+    [AuthorizeRoles(Role.Client)]
+    [Route("{balanceId}/items/{itemId}")]
+    [Produces("application/json")]
+    public void DeleteItem([FromRoute] Guid balanceId, Guid itemId)
+    {
+        var balance = this.Context.Set<Balance>()
+            .SingleOrDefault(e => e.Identifier == balanceId);
+        if (balance == null)
+        {
+            throw new NotFoundException("Unknown balance");
+        }
+
+        var entity = this.Context.Set<BalanceItem>()
+            .SingleOrDefault(e => e.Identifier == itemId && e.Balance == balance);
+        if (entity == null)
+        {
+            throw new NotFoundException($"Not existing entity");
+        }
+
+        this.Context.Set<BalanceItem>().Remove(entity);
+        this.Context.SaveChanges();
+    }
+
+    /// <summary>
     /// Checks and maps <see cref="Balance.User"/> and <see cref="Balance.Category"/> info.
     /// </summary>
     /// <param name="balance">The event data.</param>
@@ -158,7 +260,9 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     /// <returns>The updated query.</returns>
     protected override IQueryable<Balance> AddIncludesForList(IQueryable<Balance> query)
     {
-        return query.Include(c => c.User).Include(c => c.Category);
+        return query
+            .Include(c => c.User)
+            .Include(c => c.Category);
     }
 
     /// <summary>
@@ -168,6 +272,9 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     /// <returns>The updated query.</returns>
     protected override IQueryable<Balance> AddIncludesForView(IQueryable<Balance> query)
     {
-        return query.Include(c => c.User).Include(c => c.Category);
+        return query
+            .Include(c => c.User)
+            .Include(c => c.Category)
+            .Include(c => c.Details);
     }
 }

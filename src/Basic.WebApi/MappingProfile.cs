@@ -58,10 +58,16 @@ public class MappingProfile : Profile
                 .ForMember(i => i.Product, options => options.Ignore());
 
         this.CreateMap<Balance, BalanceForList>();
+        this.CreateMap<Balance, BalanceForView>();
         this.CreateMap<Balance, BalanceForEdit>()
             .ReverseMap()
                 .ForMember(e => e.User, options => options.Ignore())
                 .ForMember(e => e.Category, options => options.Ignore());
+
+        this.CreateMap<BalanceItem, BalanceItemForList>();
+        this.CreateMap<BalanceItem, BalanceItemForEdit>()
+            .ReverseMap()
+                .ForMember(i => i.Balance, options => options.Ignore());
 
         this.CreateMap<BaseModelStatus, ModelStatusForList>();
 
