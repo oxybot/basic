@@ -42,16 +42,16 @@ namespace Basic.DataAccess.MySql.Migrations
 
             migrationBuilder.Sql(@"
 insert into `BalanceItem` (`Identifier`, `BalanceIdentifier`, `Order`, `Description`, `Value`)
-select (SELECT UUID()), `Identifier`, 1, ""Allowed"", `Allowed` from `Balance`
+select (SELECT UUID()), `Identifier`, 1, 'Allowed', `Allowed` from `Balance`
 where `Transfered` is not null and `Transfered` != 0");
 
             migrationBuilder.Sql(@"
 insert into `BalanceItem` (`Identifier`, `BalanceIdentifier`, `Order`, `Description`, `Value`)
-select (SELECT UUID()), `Identifier`, 2, ""Transfered"", `Transfered` from `Balance`
+select (SELECT UUID()), `Identifier`, 2, 'Transferred', `Transfered` from `Balance`
 where `Transfered` is not null and `Transfered` != 0");
 
             migrationBuilder.Sql(@"
-update `Balance` set`Allowed` = `Allowed` + `Transfered`
+update `Balance` set `Allowed` = `Allowed` + `Transfered`
 where `Transfered` is not null and `Transfered` != 0");
 
             migrationBuilder.DropColumn(

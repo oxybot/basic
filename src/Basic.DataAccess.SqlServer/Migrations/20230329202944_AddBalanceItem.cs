@@ -40,12 +40,12 @@ namespace Basic.DataAccess.SqlServer.Migrations
 
             migrationBuilder.Sql(@"
 insert into [BalanceItem] ([Identifier], [BalanceIdentifier], [Order], [Description], [Value])
-select NEWID(), [Identifier], 1, ""Allowed"", [Allowed] from [Balance]
+select NEWID(), [Identifier], 1, 'Allowed', [Allowed] from [Balance]
 where [Transfered] is not null and [Transfered] != 0");
 
             migrationBuilder.Sql(@"
 insert into [BalanceItem] ([Identifier], [BalanceIdentifier], [Order], [Description], [Value])
-select NEWID(), [Identifier], 2, ""Transfered"", [Transfered] from [Balance]
+select NEWID(), [Identifier], 2, 'Transferred', [Transfered] from [Balance]
 where [Transfered] is not null and [Transfered] != 0");
 
             migrationBuilder.Sql(@"
