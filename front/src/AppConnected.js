@@ -26,6 +26,7 @@ import { useDispatch } from "react-redux";
 import { disconnect } from "./Authentication/slice";
 import { addFatal } from "./Alerts/slice";
 import { useEffect } from "react";
+import { BalanceView } from "./Balances/BalanceView";
 
 function loadList(context, request) {
   const url = new URL(request.url);
@@ -232,6 +233,11 @@ const router = createBrowserRouter(
       <Route path="balances" element={<BalanceList />} loader={({ request }) => loadList("balances", request)}>
         <Route
           path=":balanceId"
+          element={<BalanceView />}
+          loader={({ params }) => loadOne("balances", params.balanceId)}
+        />
+        <Route
+          path=":balanceId/edit"
           element={<BalanceEdit />}
           loader={({ params }) => loadOne("balances", params.balanceId)}
         />
