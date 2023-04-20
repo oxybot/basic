@@ -2,7 +2,6 @@ import { useLoaderData } from "react-router-dom";
 import pluralize from "pluralize";
 import { useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
-import EntityFieldView from "../Generic/EntityFieldView";
 import PageView from "../Generic/PageView";
 import Section from "../Generic/Section";
 import Sections from "../Generic/Sections";
