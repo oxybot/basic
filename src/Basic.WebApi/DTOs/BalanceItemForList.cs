@@ -9,7 +9,7 @@ namespace Basic.WebApi.DTOs;
 /// <summary>
 /// Represents the data of an balance item.
 /// </summary>
-public class BalanceItemForList
+public class BalanceItemForList : BaseEntityDTO
 {
     /// <summary>
     /// Gets or sets the unique identifier of the item.

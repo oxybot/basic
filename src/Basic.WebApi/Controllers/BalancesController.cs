@@ -66,7 +66,9 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     [Route("{identifier}")]
     public override BalanceForView GetOne(Guid identifier)
     {
-        return base.GetOne(identifier);
+        var entity = base.GetOne(identifier);
+        entity.Details = entity.Details.OrderBy(e => e.Order);
+        return entity;
     }
 
     /// <summary>
@@ -115,108 +117,6 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     }
 
     /// <summary>
-    /// Creates a new balance item.
-    /// </summary>
-    /// <param name="balanceId">The identifier of the balance.</param>
-    /// <param name="item">The balance item data.</param>
-    /// <returns>The balance item data after creation.</returns>
-    /// <response code="400">The provided data are invalid.</response>
-    /// <response code="404">The <paramref name="balanceId"/> is not associated to any balance.</response>
-    [HttpPost]
-    [AuthorizeRoles(Role.Time)]
-    [Route("{balanceId}/items")]
-    [Produces("application/json")]
-    public BalanceItemForList PostItem([FromRoute] Guid balanceId, BalanceItemForEdit item)
-    {
-        if (item is null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
-
-        var entity = this.Context.Set<Balance>().SingleOrDefault(e => e.Identifier == balanceId);
-        if (entity == null)
-        {
-            throw new NotFoundException("Unknown balance");
-        }
-
-        BalanceItem model = this.Mapper.Map<BalanceItem>(item);
-        model.Balance = entity;
-
-        this.Context.Set<BalanceItem>().Add(model);
-        this.Context.SaveChanges();
-
-        return this.Mapper.Map<BalanceItemForList>(model);
-    }
-
-    /// <summary>
-    /// Updates an existing balance item.
-    /// </summary>
-    /// <param name="balanceId">The identifier of the balance.</param>
-    /// <param name="itemId">The identifier of the updated item.</param>
-    /// <param name="item">The balance item data.</param>
-    /// <returns>The balance item data after update.</returns>
-    /// <response code="400">The provided data are invalid.</response>
-    /// <response code="404">The <paramref name="balanceId"/> is not associated to any balance.</response>
-    [HttpPut]
-    [AuthorizeRoles(Role.Time)]
-    [Route("{balanceId}/items/{itemId}")]
-    [Produces("application/json")]
-    public BalanceItemForList PutItem([FromRoute] Guid balanceId, Guid itemId, BalanceItemForEdit item)
-    {
-        if (item is null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
-
-        var entity = this.Context.Set<Balance>().SingleOrDefault(e => e.Identifier == balanceId);
-        if (entity == null)
-        {
-            throw new NotFoundException("Unknown balance");
-        }
-
-        var model = this.Context.Set<BalanceItem>().SingleOrDefault(e => e.Identifier == itemId && e.Balance == entity);
-        if (model == null)
-        {
-            throw new NotFoundException("Unknown balance item");
-        }
-
-        this.Mapper.Map(item, model);
-        this.Context.SaveChanges();
-
-        return this.Mapper.Map<BalanceItemForList>(model);
-    }
-
-    /// <summary>
-    /// Deletes a specific balance item.
-    /// </summary>
-    /// <param name="balanceId">The identifier of the balance.</param>
-    /// <param name="itemId">The identifier of the item to delete.</param>
-    /// <response code="404">No item is associated to the provided <paramref name="itemId"/>.</response>
-    [HttpDelete]
-    [AuthorizeRoles(Role.Client)]
-    [Route("{balanceId}/items/{itemId}")]
-    [Produces("application/json")]
-    public void DeleteItem([FromRoute] Guid balanceId, Guid itemId)
-    {
-        var balance = this.Context.Set<Balance>()
-            .SingleOrDefault(e => e.Identifier == balanceId);
-        if (balance == null)
-        {
-            throw new NotFoundException("Unknown balance");
-        }
-
-        var entity = this.Context.Set<BalanceItem>()
-            .SingleOrDefault(e => e.Identifier == itemId && e.Balance == balance);
-        if (entity == null)
-        {
-            throw new NotFoundException($"Not existing entity");
-        }
-
-        this.Context.Set<BalanceItem>().Remove(entity);
-        this.Context.SaveChanges();
-    }
-
-    /// <summary>
     /// Checks and maps <see cref="Balance.User"/> and <see cref="Balance.Category"/> info.
     /// </summary>
     /// <param name="balance">The event data.</param>
@@ -236,13 +136,13 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
         model.User = this.Context.Set<User>().SingleOrDefault(u => u.Identifier == balance.UserIdentifier);
         if (model.User == null)
         {
-            this.ModelState.AddModelError("UserIdentifier", "Invalid User");
+            this.ModelState.AddModelError(nameof(balance.UserIdentifier), "Invalid User");
         }
 
         model.Category = this.Context.Set<EventCategory>().SingleOrDefault(c => c.Identifier == balance.CategoryIdentifier);
         if (model.Category == null)
         {
-            this.ModelState.AddModelError("CategoryIdentifier", "Invalid Category");
+            this.ModelState.AddModelError(nameof(balance.CategoryIdentifier), "Invalid Category");
         }
 
         // Check conflict
@@ -251,6 +151,23 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
         {
             this.ModelState.AddModelError(string.Empty, "Such balance is already defined (Same user, category and year)");
         }
+
+        // Check details
+        if (model.Details.Count == 0)
+        {
+            this.ModelState.AddModelError(nameof(balance.Details), "At least one detail should be provided");
+        }
+
+        // Define order for details
+        var order = 0;
+        foreach (var item in model.Details)
+        {
+            item.Order = order;
+            order++;
+        }
+
+        // Compute sum of details
+        model.Allowed = model.Details.Sum(d => d.Value);
     }
 
     /// <summary>

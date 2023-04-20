@@ -3,6 +3,7 @@
 
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Basic.WebApi.DTOs;
 
@@ -35,9 +36,12 @@ public class BalanceForEdit : BaseEntityDTO
     public int? Year { get; set; }
 
     /// <summary>
-    /// Gets or sets the defined standard allowance for this year, in hours.
+    /// Gets or sets the associated items.
     /// </summary>
-    [Required]
-    [SwaggerSchema(Format = "hours")]
-    public decimal Allowed { get; set; }
+    [SwaggerSchema(ReadOnly = false)]
+    [SuppressMessage(
+        "Usage",
+        "CA2227:Collection properties should be read only",
+        Justification = "Required for Asp.Net Core binding")]
+    public ICollection<BalanceItemForEdit> Details { get; set; }
 }
