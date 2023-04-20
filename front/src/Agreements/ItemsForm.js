@@ -13,9 +13,9 @@ export default function ItemsForm({ entity, setEntity, errors = {} }) {
     setEntity(updated);
   }
 
-  function handleRemoveItem() {
+  function handleRemoveItem(index) {
     let updated = { ...entity, items: [...(entity.items || [])] };
-    updated.items.pop({});
+    updated.items.splice(index, 1);
     setEntity(updated);
   }
 
@@ -67,7 +67,7 @@ export default function ItemsForm({ entity, setEntity, errors = {} }) {
                     <button
                       type="button"
                       className="btn btn-outline-primary btn-sm btn-icon"
-                      onClick={() => handleRemoveItem()}
+                      onClick={() => handleRemoveItem(index)}
                     >
                       <IconMinus />
                     </button>
