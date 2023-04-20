@@ -118,6 +118,13 @@ public class Context : DbContext
             .Property(s => s.WorkingSchedule)
             .HasConversion<ScheduleConverter, ScheduleComparer>();
 
+        // Special configuration for Balance.Details
+        modelBuilder
+            .Entity<Balance>()
+            .HasMany(e => e.Details)
+            .WithOne(e => e.Balance)
+            .OnDelete(DeleteBehavior.Cascade);
+
         // Special configuration for Settings
         modelBuilder
             .Entity<Setting>()

@@ -174,7 +174,7 @@ namespace Basic.DataAccess.MySql.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("BalanceIdentifier")
+                    b.Property<Guid>("BalanceIdentifier")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
@@ -852,9 +852,13 @@ namespace Basic.DataAccess.MySql.Migrations
 
             modelBuilder.Entity("Basic.Model.BalanceItem", b =>
                 {
-                    b.HasOne("Basic.Model.Balance", null)
+                    b.HasOne("Basic.Model.Balance", "Balance")
                         .WithMany("Details")
-                        .HasForeignKey("BalanceIdentifier");
+                        .HasForeignKey("BalanceIdentifier")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Balance");
                 });
 
             modelBuilder.Entity("Basic.Model.Client", b =>
