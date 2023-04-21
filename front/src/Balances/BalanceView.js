@@ -23,7 +23,7 @@ function BalanceViewDetail() {
         <div className="card-header">
           <h3 className="card-title">Details</h3>
           <span className="badge ms-2 bg-green">{details.length || ""}</span>
-          <span className="h2 mb-0 ms-auto">{pluralize("hour", entity.allowed, true)}</span>
+          <span className="h2 mb-0 ms-auto">{pluralize("hour", entity.total, true)}</span>
         </div>
         <div className="card-body">
           {details.length === 0 && (

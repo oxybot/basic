@@ -167,7 +167,7 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
         }
 
         // Compute sum of details
-        model.Allowed = model.Details.Sum(d => d.Value);
+        model.Total = model.Details.Sum(d => d.Value);
     }
 
     /// <summary>

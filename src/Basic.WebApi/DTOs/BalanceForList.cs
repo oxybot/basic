@@ -39,9 +39,9 @@ public class BalanceForList : BaseEntityDTO
     public int Year { get; set; }
 
     /// <summary>
-    /// Gets or sets the defined standard allowance for this year, in hours.
+    /// Gets or sets the defined total allowance for this year, in hours.
     /// </summary>
     [Required]
     [SwaggerSchema(Format = "hours")]
-    public decimal Allowed { get; set; }
+    public decimal Total { get; set; }
 }

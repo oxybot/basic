@@ -42,28 +42,28 @@ public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, Ba
                 CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
                 UserIdentifier = this.TestServer.TestReferences.User.Identifier,
                 Year = DateTime.Today.Year,
-                Allowed = 100,
+                Total = 100,
             },
             CreateExpected = new()
             {
                 Category = this.TestServer.TestReferences.Category,
                 User = this.TestServer.TestReferences.User,
                 Year = DateTime.Today.Year,
-                Allowed = 100,
+                Total = 100,
             },
             UpdateContent = new
             {
                 CategoryIdentifier = this.TestServer.TestReferences.Category.Identifier,
                 UserIdentifier = this.TestServer.TestReferences.User.Identifier,
                 Year = DateTime.Today.Year,
-                Allowed = 130,
+                Total = 130,
             },
             UpdateExpected = new()
             {
                 Category = this.TestServer.TestReferences.Category,
                 User = this.TestServer.TestReferences.User,
                 Year = DateTime.Today.Year,
-                Allowed = 130,
+                Total = 130,
             },
         };
 

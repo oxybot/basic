@@ -150,11 +150,11 @@ namespace Basic.DataAccess.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Allowed")
-                        .HasColumnType("decimal(18,6)");
-
                     b.Property<Guid>("CategoryIdentifier")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<Guid>("UserIdentifier")
                         .HasColumnType("uniqueidentifier");

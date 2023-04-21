@@ -28,8 +28,8 @@ function CardForConsumption() {
         <h2 className="card-title">My Time-off Balances</h2>
         {!loading &&
           consumptions.map((consumption) => {
-            const withBalance = consumption.allowed !== null;
-            const balanceTotal = consumption.allowed;
+            const withBalance = consumption.total !== null;
+            const balanceTotal = consumption.total;
             const registeredTotal = consumption.taken + consumption.planned + consumption.requested;
             const max = Math.max(balanceTotal, registeredTotal);
             return (
@@ -37,7 +37,7 @@ function CardForConsumption() {
                 <h4>{consumption.category.displayName}</h4>
                 {withBalance && (
                   <div className="progress mb-1">
-                    <ProgressBar color="bg-cyan" value={consumption.allowed} max={max} title="Allowed" />
+                    <ProgressBar color="bg-cyan" value={consumption.total} max={max} title="Total Allowed" />
                   </div>
                 )}
                 <div className="progress">

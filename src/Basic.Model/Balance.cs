@@ -38,16 +38,19 @@ public class Balance : BaseModel
     public int Year { get; set; }
 
     /// <summary>
-    /// Gets or sets the defined standard allowance for this year, in hours.
+    /// Gets or sets the defined total allowance for this year, in hours.
     /// </summary>
+    /// <remarks>
+    /// This value is the sum of all <see cref="Details"/> values.
+    /// </remarks>
     [Required]
-    public decimal Allowed { get; set; }
+    public decimal Total { get; set; }
 
     /// <summary>
     /// Gets the details of the balance, if any.
     /// </summary>
     /// <remarks>
-    /// If the balance has detailed items, the <see cref="Allowed"/> value is expected
+    /// If the balance has detailed items, the <see cref="Total"/> value is expected
     /// to be the total value of all detailed items.
     /// </remarks>
     public virtual ICollection<BalanceItem> Details { get; }

@@ -17,16 +17,10 @@ public class ConsumptionForList : BaseEntityDTO
     public EntityReference Category { get; set; }
 
     /// <summary>
-    /// Gets or sets the allowed hours of the associated balance, if any.
+    /// Gets or sets the defined total allowance of the associated balance, if any.
     /// </summary>
     [SwaggerSchema(Format = "hours")]
-    public decimal? Allowed { get; set; }
-
-    /// <summary>
-    /// Gets or sets the transfered hours of the associated balance, if any.
-    /// </summary>
-    [SwaggerSchema(Format = "hours")]
-    public decimal? Transfered { get; set; }
+    public decimal? Total { get; set; }
 
     /// <summary>
     /// Gets or sets the number of hours of taken time-off (past and approved).

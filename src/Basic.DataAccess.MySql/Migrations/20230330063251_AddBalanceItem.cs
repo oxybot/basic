@@ -42,8 +42,7 @@ namespace Basic.DataAccess.MySql.Migrations
 
             migrationBuilder.Sql(@"
 insert into `BalanceItem` (`Identifier`, `BalanceIdentifier`, `Order`, `Description`, `Value`)
-select (SELECT UUID()), `Identifier`, 1, 'Allowed', `Allowed` from `Balance`
-where `Transfered` is not null and `Transfered` != 0");
+select (SELECT UUID()), `Identifier`, 1, 'Allowed', `Allowed` from `Balance`");
 
             migrationBuilder.Sql(@"
 insert into `BalanceItem` (`Identifier`, `BalanceIdentifier`, `Order`, `Description`, `Value`)
