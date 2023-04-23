@@ -164,6 +164,7 @@ public class CalendarController : BaseController
 
         User user = this.GetConnectedUser();
         var requested = this.Context.GetStatus("Requested");
+        model.CurrentStatus = requested;
         model.Statuses.Add(new EventStatus()
         {
             Status = requested,

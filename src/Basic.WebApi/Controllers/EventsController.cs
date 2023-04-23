@@ -222,6 +222,9 @@ public class EventsController
                 UpdatedBy = user,
             });
         }
+
+        // Update the current status
+        model.CurrentStatus = model.Statuses.OrderByDescending(s => s.UpdatedOn).First().Status;
     }
 
     /// <summary>

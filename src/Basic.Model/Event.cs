@@ -54,12 +54,9 @@ public class Event : BaseModel, IWithStatus<EventStatus>, IWithAttachments<Event
     public DateOnly EndDate { get; set; }
 
     /// <summary>
-    /// Gets the current status for this event.
+    /// Gets or sets the current status for this event.
     /// </summary>
-    public Status CurrentStatus
-    {
-        get { return this.Statuses.OrderByDescending(s => s.UpdatedOn).FirstOrDefault()?.Status; }
-    }
+    public virtual Status CurrentStatus { get; set; }
 
     /// <summary>
     /// Gets the history of statuses of the event.

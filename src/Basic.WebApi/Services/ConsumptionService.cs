@@ -63,11 +63,10 @@ public class ConsumptionService
             .Where(b => b.User == user && b.Year == startOfYear.Year).ToList();
         var groupedEvents = this.Context.Set<Event>()
             .Include(e => e.Category)
-            .Include(e => e.Statuses)
-                .ThenInclude(s => s.Status)
+            .Include(e => e.CurrentStatus)
             .Where(e => e.User == user && e.StartDate >= startOfYear && e.StartDate <= endOfYear && e.Category.Mapping == EventTimeMapping.TimeOff)
-            .ToList()
             .Where(e => e.CurrentStatus.IsActive)
+            .ToList()
             .GroupBy(e => e.Category);
 
         foreach (var category in groupedEvents)

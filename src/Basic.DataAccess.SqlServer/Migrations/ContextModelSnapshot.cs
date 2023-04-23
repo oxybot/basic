@@ -254,6 +254,9 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("CurrentStatusIdentifier")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("DurationFirstDay")
                         .HasColumnType("decimal(18,6)");
 
@@ -275,6 +278,8 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.HasKey("Identifier");
 
                     b.HasIndex("CategoryIdentifier");
+
+                    b.HasIndex("CurrentStatusIdentifier");
 
                     b.HasIndex("UserIdentifier");
 
@@ -947,6 +952,10 @@ namespace Basic.DataAccess.SqlServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Basic.Model.Status", "CurrentStatus")
+                        .WithMany()
+                        .HasForeignKey("CurrentStatusIdentifier");
+
                     b.HasOne("Basic.Model.User", "User")
                         .WithMany("Events")
                         .HasForeignKey("UserIdentifier")
@@ -954,6 +963,8 @@ namespace Basic.DataAccess.SqlServer.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("CurrentStatus");
 
                     b.Navigation("User");
                 });

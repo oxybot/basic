@@ -77,7 +77,7 @@ public class EventStatusesController : BaseController
     public IEnumerable<StatusReference> GetNext(Guid eventId)
     {
         var entity = this.Context.Set<Event>()
-            .Include(e => e.Statuses).ThenInclude(s => s.Status)
+            .Include(e => e.CurrentStatus)
             .SingleOrDefault(c => c.Identifier == eventId);
         if (entity == null)
         {
@@ -169,8 +169,9 @@ public class EventStatusesController : BaseController
         var user = this.GetConnectedUser();
         var status = new EventStatus() { Status = to, UpdatedBy = user, UpdatedOn = DateTime.UtcNow };
         entity.Statuses.Add(status);
-        this.Context.SaveChanges();
+        entity.CurrentStatus = to;
 
+        this.Context.SaveChanges();
         notification.EventStatusChanged(entity, status);
 
         return this.Mapper.Map<EntityReference>(status);

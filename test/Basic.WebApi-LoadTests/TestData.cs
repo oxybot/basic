@@ -72,6 +72,7 @@ public class TestData
         var requested = this.Context.Set<Status>().Single(s => s.Identifier == Status.Requested);
         this.Context.Set<Event>().ToList().ForEach(e =>
         {
+            e.Statuses = requested;
             e.Statuses.Add(new EventStatus()
             {
                 Status = requested,
