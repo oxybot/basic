@@ -127,6 +127,7 @@ public class EventStatusesController : BaseController
         }
 
         var entity = this.Context.Set<Event>()
+            .Include(e => e.User)
             .Include(e => e.Statuses)
             .Include(e => e.Category)
             .SingleOrDefault(c => c.Identifier == eventId);
