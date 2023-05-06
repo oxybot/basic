@@ -61,5 +61,8 @@ public class UserForList : BaseEntityDTO
     /// <summary>
     /// Gets or sets the roles assigned to the user.
     /// </summary>
+    [Display(GroupName = "Roles")]
+    [Sortable(false)]
+    [SwaggerSchema(Format = "list/role")]
     public IEnumerable<RoleForList> Roles { get; set; }
 }

@@ -9,6 +9,11 @@ import { useInRole } from "../Authentication";
 
 const get = { method: "GET" };
 
+const transform = (d) => {
+  d.fields = d.fields.filter((i) => i.name !== "roles");
+  return d;
+};
+
 function UserAttachmentList() {
   const definition = useDefinition("AttachmentForList");
   const { userId } = useParams();
@@ -28,10 +33,33 @@ function UserAttachmentList() {
 }
 
 function UserViewDetail() {
-  const definition = useDefinition("UserForView");
+  const definition = useDefinition("UserForView", transform);
   const entity = useLoaderData();
+  const roles = entity.roles || [];
 
-  return <EntityDetail definition={definition} entity={entity} />;
+  return (
+    <>
+      <EntityDetail definition={definition} entity={entity} />
+      <div className="card mb-3">
+        <div className="card-header">
+          <h3 className="card-title">Roles</h3>
+          <span className="badge ms-2 bg-green">{roles.length || ""}</span>
+        </div>
+        <div className="card-body">
+          {roles.length === 0 && (
+            <p>
+              <em>No specific role assigned</em>
+            </p>
+          )}
+          {roles.map((role, index) => (
+            <div key={index} className="badge me-2">
+              {role.code}
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
 }
 
 export function UserView({ backTo = null, full = false }) {

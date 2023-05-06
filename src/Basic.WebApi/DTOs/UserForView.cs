@@ -1,6 +1,7 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
+using Basic.WebApi.Framework;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
@@ -58,5 +59,8 @@ public class UserForView : BaseEntityDTO
     /// <summary>
     /// Gets or sets the roles assigned to the user.
     /// </summary>
+    [Display(GroupName = "Roles")]
+    [Sortable(false)]
+    [SwaggerSchema(Format = "list/role")]
     public IEnumerable<RoleForList> Roles { get; set; }
 }

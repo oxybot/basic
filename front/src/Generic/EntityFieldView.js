@@ -157,6 +157,13 @@ export default function EntityFieldView({ type, value, list = false }) {
     case "attachment":
       return <button>{value.mimeType}</button>;
 
+    case "list/role":
+      return value.map((item, index) => (
+        <div key={index} className="badge me-2">
+          {item.code}
+        </div>
+      ));
+
     default:
       console.warn("unknown field type: " + type + " - rendered as string");
       return value;
