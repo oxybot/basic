@@ -57,4 +57,9 @@ public class UserForList : BaseEntityDTO
     /// Gets or sets a value indicating whether the user is authorized to connect.
     /// </summary>
     public bool IsActive { get; set; }
+
+    /// <summary>
+    /// Gets or sets the roles assigned to the user.
+    /// </summary>
+    public IEnumerable<RoleForList> Roles { get; set; }
 }

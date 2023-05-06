@@ -218,6 +218,18 @@ public class UsersController : BaseModelController<User, UserForList, UserForVie
     }
 
     /// <inheritdoc />
+    protected override IQueryable<User> AddIncludesForList(IQueryable<User> query)
+    {
+        return query.Include(s => s.Roles);
+    }
+
+    /// <inheritdoc />
+    protected override IQueryable<User> AddIncludesForView(IQueryable<User> query)
+    {
+        return query.Include(s => s.Roles);
+    }
+
+    /// <inheritdoc />
     protected override void ExecuteExtraChecks(UserForEdit entity, User model)
     {
         if (entity is null)
