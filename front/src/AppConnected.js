@@ -20,7 +20,7 @@ import { MyEventList, MyEventView, MyPasswordEdit, ProfileEdit, ProfileView } fr
 import { ProductEdit, ProductList, ProductNew, ProductView } from "./Products";
 import { ScheduleEdit, ScheduleList, ScheduleNew, ScheduleView } from "./Schedules";
 import Settings from "./Settings";
-import { UserEdit, UserImport, UserList, UserNew, UserView } from "./Users";
+import { UserEdit, UserImport, UserList, UserNew, UserRolesEdit, UserView } from "./Users";
 import { apiFetch } from "./api";
 import { useDispatch } from "react-redux";
 import { disconnect } from "./Authentication/slice";
@@ -218,6 +218,11 @@ const router = createBrowserRouter(
         element={<UserEdit full />}
         loader={({ params }) => loadOne("users", params.userId)}
       />
+      <Route
+        path="/user/:userId/roles"
+        element={<UserRolesEdit />}
+        loader={({ params }) => loadOne("users", params.userId)}
+      />
       <Route path="/users" element={<UserList />} loader={({ request }) => loadList("users", request)}>
         <Route
           path=":userId"
@@ -225,6 +230,11 @@ const router = createBrowserRouter(
           loader={({ params }) => loadOne("users", params.userId)}
         />
         <Route path=":userId/edit" element={<UserEdit />} loader={({ params }) => loadOne("users", params.userId)} />
+        <Route
+          path=":userId/roles"
+          element={<UserRolesEdit />}
+          loader={({ params }) => loadOne("users", params.userId)}
+        />
         <Route path="new" element={<UserNew />} />
         <Route path="import" element={<UserImport />} />
       </Route>

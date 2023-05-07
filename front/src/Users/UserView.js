@@ -1,4 +1,4 @@
-import { useLoaderData, useParams } from "react-router-dom";
+import { Link, useLoaderData, useParams } from "react-router-dom";
 import { useApiFetch, useDefinition } from "../api";
 import EntityDetail from "../Generic/EntityDetail";
 import PageView from "../Generic/PageView";
@@ -35,6 +35,7 @@ function UserAttachmentList() {
 function UserViewDetail() {
   const definition = useDefinition("UserForView", transform);
   const entity = useLoaderData();
+  const isInRole = useInRole();
   const roles = entity.roles || [];
 
   return (
@@ -44,6 +45,11 @@ function UserViewDetail() {
         <div className="card-header">
           <h3 className="card-title">Roles</h3>
           <span className="badge ms-2 bg-green">{roles.length || ""}</span>
+          {isInRole("user") && (
+            <Link to="roles" className="btn btn-outline-primary ms-auto">
+              Set roles
+            </Link>
+          )}
         </div>
         <div className="card-body">
           {roles.length === 0 && (
