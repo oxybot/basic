@@ -1,7 +1,6 @@
 ﻿// Copyright (c) oxybot. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Basic.Model;
@@ -51,7 +50,6 @@ public class Role : BaseModel
     /// </summary>
     public Role()
     {
-        this.Users = new List<User>();
     }
 
     /// <summary>
@@ -61,9 +59,4 @@ public class Role : BaseModel
     [Unique]
     [MaxLength(50)]
     public string Code { get; set; }
-
-    /// <summary>
-    /// Gets the users with this role assigned.
-    /// </summary>
-    public virtual ICollection<User> Users { get; }
 }

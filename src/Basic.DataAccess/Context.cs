@@ -112,6 +112,11 @@ public class Context : DbContext
             }
         }
 
+        modelBuilder
+            .Entity<User>()
+            .HasMany(u => u.Roles)
+            .WithMany();
+
         // Special configuration for Schedule.WorkingSchedule
         modelBuilder
             .Entity<Schedule>()
@@ -189,7 +194,7 @@ public class Context : DbContext
         foreach (var role in roles)
         {
             modelBuilder.Entity("RoleUser")
-                .HasData(new { RolesIdentifier = role.Identifier, UsersIdentifier = demoUser.Identifier });
+                .HasData(new { RolesIdentifier = role.Identifier, UserIdentifier = demoUser.Identifier });
         }
 
         modelBuilder.Entity<Status>()

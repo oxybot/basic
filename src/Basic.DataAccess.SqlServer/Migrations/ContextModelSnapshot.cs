@@ -699,12 +699,12 @@ namespace Basic.DataAccess.SqlServer.Migrations
                     b.Property<Guid>("RolesIdentifier")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UsersIdentifier")
+                    b.Property<Guid>("UserIdentifier")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("RolesIdentifier", "UsersIdentifier");
+                    b.HasKey("RolesIdentifier", "UserIdentifier");
 
-                    b.HasIndex("UsersIdentifier");
+                    b.HasIndex("UserIdentifier");
 
                     b.ToTable("RoleUser");
 
@@ -712,37 +712,37 @@ namespace Basic.DataAccess.SqlServer.Migrations
                         new
                         {
                             RolesIdentifier = new Guid("8087c59d-7db0-4c40-aa35-742f6e11816f"),
-                            UsersIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
+                            UserIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
                         },
                         new
                         {
                             RolesIdentifier = new Guid("7a42dca4-c92c-408b-af26-6ac2db418312"),
-                            UsersIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
+                            UserIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
                         },
                         new
                         {
                             RolesIdentifier = new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"),
-                            UsersIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
+                            UserIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
                         },
                         new
                         {
                             RolesIdentifier = new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"),
-                            UsersIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
+                            UserIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
                         },
                         new
                         {
                             RolesIdentifier = new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"),
-                            UsersIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
+                            UserIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
                         },
                         new
                         {
                             RolesIdentifier = new Guid("a0b62b59-6440-4031-ac22-0a74be98a409"),
-                            UsersIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
+                            UserIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
                         },
                         new
                         {
                             RolesIdentifier = new Guid("e7f909f2-2af9-42d8-bfd0-5ca96022cba2"),
-                            UsersIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
+                            UserIdentifier = new Guid("d7467fee-1aec-4e72-9a29-72969c429ed5")
                         });
                 });
 
@@ -1130,7 +1130,7 @@ namespace Basic.DataAccess.SqlServer.Migrations
 
                     b.HasOne("Basic.Model.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersIdentifier")
+                        .HasForeignKey("UserIdentifier")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
