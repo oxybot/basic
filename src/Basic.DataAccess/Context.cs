@@ -142,27 +142,27 @@ public class Context : DbContext
             new Role()
             {
                 Identifier = new Guid("8087c59d-7db0-4c40-aa35-742f6e11816f"),
-                Code = Role.ClientRO,
+                Code = Role.ClientsRO,
             },
             new Role()
             {
                 Identifier = new Guid("7a42dca4-c92c-408b-af26-6ac2db418312"),
-                Code = Role.Client,
+                Code = Role.Clients,
             },
             new Role()
             {
                 Identifier = new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"),
-                Code = Role.TimeRO,
+                Code = Role.SchedulesRO,
             },
             new Role()
             {
                 Identifier = new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"),
-                Code = Role.Time,
+                Code = Role.Schedules,
             },
             new Role()
             {
                 Identifier = new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"),
-                Code = Role.User,
+                Code = Role.Users,
             },
             new Role()
             {

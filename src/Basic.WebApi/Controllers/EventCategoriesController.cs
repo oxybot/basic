@@ -60,7 +60,7 @@ public class EventCategoriesController : BaseModelController<EventCategory, Even
     /// <returns>The detailed data about the category identified by <paramref name="identifier"/>.</returns>
     /// <response code="404">No category is associated to the provided <paramref name="identifier"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override EventCategoryForList GetOne(Guid identifier)
@@ -75,7 +75,7 @@ public class EventCategoriesController : BaseModelController<EventCategory, Even
     /// <returns>The category data after creation.</returns>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     public override EventCategoryForList Post(EventCategoryForEdit category)
     {
@@ -91,7 +91,7 @@ public class EventCategoriesController : BaseModelController<EventCategory, Even
     /// <response code="400">The provided data are invalid.</response>
     /// <response code="404">No category is associated to the provided <paramref name="identifier"/>.</response>
     [HttpPut]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override EventCategoryForList Put(Guid identifier, EventCategoryForEdit category)
@@ -105,7 +105,7 @@ public class EventCategoriesController : BaseModelController<EventCategory, Even
     /// <param name="identifier">The identifier of the category to delete.</param>
     /// <response code="404">No category is associated to the provided <paramref name="identifier"/>.</response>
     [HttpDelete]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override void Delete(Guid identifier)

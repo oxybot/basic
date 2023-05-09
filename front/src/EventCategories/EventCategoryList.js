@@ -20,7 +20,7 @@ export function EventCategoryList() {
       elements={elements}
       selectedId={categoryId}
       texts={texts}
-      newRole="time"
+      newRole="schedules"
       sorting={sorting}
       setSorting={updateSorting}
     />

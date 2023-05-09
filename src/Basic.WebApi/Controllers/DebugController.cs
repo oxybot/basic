@@ -51,7 +51,7 @@ public class DebugController : BaseController
     /// </remarks>
     [HttpGet]
     [Produces("application/json")]
-    [AuthorizeRoles(Role.User)]
+    [AuthorizeRoles(Role.Users)]
     [Route("Message")]
     public void LogMessage(LogLevel level, string message)
     {
@@ -75,7 +75,7 @@ public class DebugController : BaseController
     /// </remarks>
     [HttpGet]
     [Produces("application/json")]
-    [AuthorizeRoles(Role.User)]
+    [AuthorizeRoles(Role.Users)]
     [Route("Exception")]
     [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Used to help the technical setup")]
     [SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Used to help the technical setup")]
@@ -115,7 +115,7 @@ public class DebugController : BaseController
     /// </returns>
     [HttpGet]
     [Produces("application/json")]
-    [AuthorizeRoles(Role.User)]
+    [AuthorizeRoles(Role.Users)]
     [Route("Errors")]
     public ListResult<UserForList> GetUsersWithError(string errorCode)
     {

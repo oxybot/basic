@@ -38,7 +38,7 @@ public class UserRolesController : BaseController
     /// <returns>The list of associated roles.</returns>
     /// <response code="404">No user is associated to the provided <paramref name="userId"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.User)]
+    [AuthorizeRoles(Role.Users)]
     [Produces("application/json")]
     public IEnumerable<EntityReference> GetAll([FromRoute] Guid userId)
     {
@@ -62,7 +62,7 @@ public class UserRolesController : BaseController
     /// <response code="404">No user is associated to the provided <paramref name="userId"/>.</response>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPut]
-    [AuthorizeRoles(Role.User)]
+    [AuthorizeRoles(Role.Users)]
     [Produces("application/json")]
     public IEnumerable<EntityReference> Put([FromRoute] Guid userId, IEnumerable<string> roles)
     {

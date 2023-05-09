@@ -48,7 +48,7 @@ public class EventsController
     /// <param name="sortAndFilter">The sort and filter options, is any.</param>
     /// <returns>The list of events.</returns>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules)]
     [Produces("application/json")]
     public ListResult<EventForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
@@ -83,7 +83,7 @@ public class EventsController
     /// <returns>The detailed data about the event identified by <paramref name="identifier"/>.</returns>
     /// <response code="404">No event is associated to the provided <paramref name="identifier"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override EventForView GetOne(Guid identifier)
@@ -100,7 +100,7 @@ public class EventsController
     /// <returns>The event data after creation.</returns>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     public override EventForList Post(EventForEdit @event)
     {
@@ -135,7 +135,7 @@ public class EventsController
     /// </remarks>
     /// <response code="404">No event is associated to the provided <paramref name="identifier"/>.</response>
     [HttpDelete]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override void Delete(Guid identifier)
@@ -159,7 +159,7 @@ public class EventsController
     /// <param name="identifier">The identifier of the event.</param>
     /// <returns>The linked entities information.</returns>
     [HttpGet]
-    [AuthorizeRoles(Role.Time, Role.TimeRO)]
+    [AuthorizeRoles(Role.Schedules, Role.SchedulesRO)]
     [Produces("application/json")]
     [Route("{identifier}/links")]
     public AttachmentLinks GetLinks(Guid identifier)

@@ -41,7 +41,7 @@ public class ClientsController : BaseModelController<Client, ClientForList, Clie
     /// <param name="sortAndFilter">The sort and filter options, is any.</param>
     /// <returns>The list of clients.</returns>
     [HttpGet]
-    [AuthorizeRoles(Role.ClientRO, Role.Client)]
+    [AuthorizeRoles(Role.ClientsRO, Role.Clients)]
     [Produces("application/json")]
     public ListResult<ClientForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
@@ -62,7 +62,7 @@ public class ClientsController : BaseModelController<Client, ClientForList, Clie
     /// <returns>The detailed data about the client identified by <paramref name="identifier"/>.</returns>
     /// <response code="404">No client is associated to the provided <paramref name="identifier"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.ClientRO, Role.Client)]
+    [AuthorizeRoles(Role.ClientsRO, Role.Clients)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override ClientForView GetOne(Guid identifier)
@@ -77,7 +77,7 @@ public class ClientsController : BaseModelController<Client, ClientForList, Clie
     /// <returns>The client data after creation.</returns>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Produces("application/json")]
     public override ClientForList Post(ClientForEdit client)
     {
@@ -93,7 +93,7 @@ public class ClientsController : BaseModelController<Client, ClientForList, Clie
     /// <response code="400">The provided data are invalid.</response>
     /// <response code="404">No client is associated to the provided <paramref name="identifier"/>.</response>
     [HttpPut]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override ClientForList Put(Guid identifier, ClientForEdit client)
@@ -107,7 +107,7 @@ public class ClientsController : BaseModelController<Client, ClientForList, Clie
     /// <param name="identifier">The identifier of the client to delete.</param>
     /// <response code="404">No client is associated to the provided <paramref name="identifier"/>.</response>
     [HttpDelete]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override void Delete(Guid identifier)
@@ -121,7 +121,7 @@ public class ClientsController : BaseModelController<Client, ClientForList, Clie
     /// <param name="identifier">The identifier of the client.</param>
     /// <returns>The linked entities information.</returns>
     [HttpGet]
-    [AuthorizeRoles(Role.ClientRO, Role.Client)]
+    [AuthorizeRoles(Role.ClientsRO, Role.Clients)]
     [Produces("application/json")]
     [Route("{identifier}/links")]
     public ClientLinks GetLinks(Guid identifier)

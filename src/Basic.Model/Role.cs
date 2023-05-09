@@ -11,29 +11,29 @@ namespace Basic.Model;
 public class Role : BaseModel
 {
     /// <summary>
-    /// The right to view all data related to clients.
-    /// </summary>
-    public const string ClientRO = "client-ro";
-
-    /// <summary>
     /// The right to view and manage all data related to clients.
     /// </summary>
-    public const string Client = "client";
+    public const string Clients = "clients";
 
     /// <summary>
-    /// The right to view time management information.
+    /// The right to view all data related to clients.
     /// </summary>
-    public const string TimeRO = "time-ro";
+    public const string ClientsRO = "clients-ro";
 
     /// <summary>
-    /// The right to view and manage time management information.
+    /// The right to view and manage personal schedules and associated events information.
     /// </summary>
-    public const string Time = "time";
+    public const string Schedules = "schedules";
+
+    /// <summary>
+    /// The right to view personal schedules and associated events information.
+    /// </summary>
+    public const string SchedulesRO = "schedules-ro";
 
     /// <summary>
     /// The right to view and manage the users.
     /// </summary>
-    public const string User = "user";
+    public const string Users = "users";
 
     /// <summary>
     /// The right to change the global options.

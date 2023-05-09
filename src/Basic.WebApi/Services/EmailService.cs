@@ -109,7 +109,7 @@ public class EmailService
 #pragma warning disable CA1307 // Specify StringComparison for clarity - removed to be convertible to SQL
 #pragma warning disable CA1309 // Use ordinal string comparison - removed to be convertible to SQL
         List<User> approvers = this.Context.Set<User>()
-            .Where(u => u.Roles.Any(r => r.Code.Equals(Role.Time)))
+            .Where(u => u.Roles.Any(r => r.Code.Equals(Role.Schedules)))
             .Where(u => u.IsActive)
             .Where(u => !string.IsNullOrEmpty(u.Email))
             .ToList();

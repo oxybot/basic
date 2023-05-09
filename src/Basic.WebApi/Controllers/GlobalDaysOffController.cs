@@ -39,7 +39,7 @@ public class GlobalDaysOffController : BaseModelController<GlobalDayOff, GlobalD
     /// <param name="sortAndFilter">The sort and filter options, is any.</param>
     /// <returns>The list of days-off.</returns>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules)]
     [Produces("application/json")]
     public ListResult<GlobalDayOffForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
@@ -60,7 +60,7 @@ public class GlobalDaysOffController : BaseModelController<GlobalDayOff, GlobalD
     /// <returns>The detailed data about the day-off identified by <paramref name="identifier"/>.</returns>
     /// <response code="404">No day-off is associated to the provided <paramref name="identifier"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override GlobalDayOffForList GetOne(Guid identifier)
@@ -75,7 +75,7 @@ public class GlobalDaysOffController : BaseModelController<GlobalDayOff, GlobalD
     /// <returns>The day-off data after creation.</returns>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     public override GlobalDayOffForList Post(GlobalDayOffForEdit category)
     {
@@ -91,7 +91,7 @@ public class GlobalDaysOffController : BaseModelController<GlobalDayOff, GlobalD
     /// <response code="400">The provided data are invalid.</response>
     /// <response code="404">No day-off is associated to the provided <paramref name="identifier"/>.</response>
     [HttpPut]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override GlobalDayOffForList Put(Guid identifier, GlobalDayOffForEdit category)
@@ -105,7 +105,7 @@ public class GlobalDaysOffController : BaseModelController<GlobalDayOff, GlobalD
     /// <param name="identifier">The identifier of the day-off to delete.</param>
     /// <response code="404">No day-off is associated to the provided <paramref name="identifier"/>.</response>
     [HttpDelete]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override void Delete(Guid identifier)

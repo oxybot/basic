@@ -41,7 +41,7 @@ public class AgreementsController : BaseModelController<Agreement, AgreementForL
     /// <param name="clientId">The identifier of the client to filter the result list, if any.</param>
     /// <returns>The list of agreements.</returns>
     [HttpGet]
-    [AuthorizeRoles(Role.ClientRO, Role.Client)]
+    [AuthorizeRoles(Role.ClientsRO, Role.Clients)]
     [Produces("application/json")]
     public ListResult<AgreementForList> GetAll(
         [FromServices] DefinitionsService definitions,
@@ -72,7 +72,7 @@ public class AgreementsController : BaseModelController<Agreement, AgreementForL
     /// <returns>The detailed data about the agreement identified by <paramref name="identifier"/>.</returns>
     /// <response code="404">No agreement is associated to the provided <paramref name="identifier"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.ClientRO, Role.Client)]
+    [AuthorizeRoles(Role.ClientsRO, Role.Clients)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override AgreementForView GetOne(Guid identifier)
@@ -87,7 +87,7 @@ public class AgreementsController : BaseModelController<Agreement, AgreementForL
     /// <returns>The agreement data after creation.</returns>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Produces("application/json")]
     public override AgreementForList Post(AgreementForEdit agreement)
     {
@@ -103,7 +103,7 @@ public class AgreementsController : BaseModelController<Agreement, AgreementForL
     /// <response code="400">The provided data are invalid.</response>
     /// <response code="404">No agreement is associated to the provided <paramref name="identifier"/>.</response>
     [HttpPut]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override AgreementForList Put(Guid identifier, AgreementForEdit agreement)
@@ -117,7 +117,7 @@ public class AgreementsController : BaseModelController<Agreement, AgreementForL
     /// <param name="identifier">The identifier of the agreement to delete.</param>
     /// <response code="404">No agreement is associated to the provided <paramref name="identifier"/>.</response>
     [HttpDelete]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override void Delete(Guid identifier)
@@ -134,7 +134,7 @@ public class AgreementsController : BaseModelController<Agreement, AgreementForL
     /// <response code="400">The provided data are invalid.</response>
     /// <response code="404">The <paramref name="agreementId"/> is not associated to any agreement.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Route("{agreementId}/items")]
     [Produces("application/json")]
     public AgreementItemForList PostItem([FromRoute] Guid agreementId, AgreementItemForEdit item)
@@ -179,7 +179,7 @@ public class AgreementsController : BaseModelController<Agreement, AgreementForL
     /// <response code="400">The provided data are invalid.</response>
     /// <response code="404">The <paramref name="agreementId"/> is not associated to any agreement.</response>
     [HttpPut]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Route("{agreementId}/items/{itemId}")]
     [Produces("application/json")]
     public AgreementItemForList PutItem([FromRoute] Guid agreementId, Guid itemId, AgreementItemForEdit item)
@@ -225,7 +225,7 @@ public class AgreementsController : BaseModelController<Agreement, AgreementForL
     /// <param name="itemId">The identifier of the item to delete.</param>
     /// <response code="404">No item is associated to the provided <paramref name="itemId"/>.</response>
     [HttpDelete]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Route("{agreementId}/items/{itemId}")]
     [Produces("application/json")]
     public void DeleteItem([FromRoute] Guid agreementId, Guid itemId)

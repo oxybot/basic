@@ -40,7 +40,7 @@ public class EventStatusesController : BaseController
     /// <returns>The statuses of the event.</returns>
     /// <response code="404">No event is associated to the provided <paramref name="eventId"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules)]
     [Produces("application/json")]
     public ListResult<ModelStatusForList> GetAll(Guid eventId)
     {
@@ -71,7 +71,7 @@ public class EventStatusesController : BaseController
     /// <returns>The possible statuses for the event.</returns>
     /// <response code="404">No event is associated to the provided <paramref name="eventId"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules)]
     [Produces("application/json")]
     [Route("Next")]
     public IEnumerable<StatusReference> GetNext(Guid eventId)
@@ -113,7 +113,7 @@ public class EventStatusesController : BaseController
     /// <returns>The identifier of the created status.</returns>
     /// <response code="404">No event is associated to the provided <paramref name="eventId"/>.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     public EntityReference EditStatus([FromServices] EmailService notification, Guid eventId, StatusUpdate update)
     {

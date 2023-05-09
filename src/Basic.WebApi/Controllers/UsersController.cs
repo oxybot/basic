@@ -40,7 +40,7 @@ public class UsersController : BaseModelController<User, UserForList, UserForVie
     /// <param name="sortAndFilter">The sort and filter options, is any.</param>
     /// <returns>The list of users.</returns>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules, Role.Users)]
     [Produces("application/json")]
     public ListResult<UserForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
@@ -61,7 +61,7 @@ public class UsersController : BaseModelController<User, UserForList, UserForVie
     /// <returns>The detailed data about the user identified by <paramref name="identifier"/>.</returns>
     /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules, Role.Users)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override UserForView GetOne(Guid identifier)
@@ -76,7 +76,7 @@ public class UsersController : BaseModelController<User, UserForList, UserForVie
     /// <returns>The user data after creation.</returns>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.User)]
+    [AuthorizeRoles(Role.Users)]
     [Produces("application/json")]
     public override UserForList Post(UserForEdit user)
     {
@@ -98,7 +98,7 @@ public class UsersController : BaseModelController<User, UserForList, UserForVie
     /// <response code="400">The provided data are invalid.</response>
     /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
     [HttpPut]
-    [AuthorizeRoles(Role.Time, Role.User)]
+    [AuthorizeRoles(Role.Schedules, Role.Users)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override UserForList Put(Guid identifier, UserForEdit user)
@@ -121,7 +121,7 @@ public class UsersController : BaseModelController<User, UserForList, UserForVie
     /// <response code="400">The provided data are invalid.</response>
     /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
     [HttpPut]
-    [AuthorizeRoles(Role.Time, Role.User)]
+    [AuthorizeRoles(Role.Schedules, Role.Users)]
     [Produces("application/json")]
     [Route("{identifier}/password")]
     public UserForList UpdatePassword(Guid identifier, PasswordForEdit password)
@@ -149,7 +149,7 @@ public class UsersController : BaseModelController<User, UserForList, UserForVie
     /// <param name="identifier">The identifier of the user to delete.</param>
     /// <response code="404">No user is associated to the provided <paramref name="identifier"/>.</response>
     [HttpDelete]
-    [AuthorizeRoles(Role.User)]
+    [AuthorizeRoles(Role.Users)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override void Delete(Guid identifier)
@@ -164,7 +164,7 @@ public class UsersController : BaseModelController<User, UserForList, UserForVie
     /// <param name="searchTerm">The search criteria.</param>
     /// <returns>The top results associated with <paramref name="searchTerm"/>.</returns>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time, Role.User)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules, Role.Users)]
     [Produces("application/json")]
     [Route("import")]
     public LdapUsers Import([FromServices] ExternalAuthenticatorService service, string searchTerm)
@@ -197,7 +197,7 @@ public class UsersController : BaseModelController<User, UserForList, UserForVie
     /// <param name="identifier">The identifier of the user.</param>
     /// <returns>The linked entities information.</returns>
     [HttpGet]
-    [AuthorizeRoles(Role.Time, Role.TimeRO)]
+    [AuthorizeRoles(Role.Schedules, Role.SchedulesRO)]
     [Produces("application/json")]
     [Route("{identifier}/links")]
     public AttachmentLinks GetLinks(Guid identifier)

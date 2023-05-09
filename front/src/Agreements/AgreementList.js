@@ -20,7 +20,7 @@ export function AgreementList() {
       elements={elements}
       selectedId={agreementId}
       texts={texts}
-      newRole="client"
+      newRole="clients"
       sorting={sorting}
       setSorting={updateSorting}
     />

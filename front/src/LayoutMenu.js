@@ -117,7 +117,7 @@ export default function LayoutMenu() {
               </li>
             </ul>
             {/* Client */}
-            {isInrole("client", "client-ro") && (
+            {isInrole("clients", "clients-ro") && (
               <>
                 <hr className="my-2" />
                 <ul className="navbar-nav">
@@ -149,7 +149,7 @@ export default function LayoutMenu() {
               </>
             )}
             {/* User */}
-            {isInrole("time", "time-ro", "user") && (
+            {isInrole("schedules", "schedules-ro", "users") && (
               <>
                 <hr className="my-2" />
                 <ul className="navbar-nav">
@@ -161,7 +161,7 @@ export default function LayoutMenu() {
                       <span className="nav-link-title">People</span>
                     </NavLink>
                   </li>
-                  {isInrole("time", "time-ro") && (
+                  {isInrole("schedules", "schedules-ro") && (
                     <>
                       <li className="nav-item">
                         <NavLink className="nav-link justify-content-start" to="/balances" onClick={closeMenu}>
@@ -193,7 +193,7 @@ export default function LayoutMenu() {
               </>
             )}
             {/* Settings */}
-            {isInrole("time", "time-ro") && (
+            {isInrole("schedules", "schedules-ro") && (
               <>
                 <hr className="my-2" />
                 <ul className="navbar-nav">

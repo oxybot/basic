@@ -20,7 +20,7 @@ export function ProductList() {
       elements={elements}
       selectedId={productId}
       texts={texts}
-      newRole="client"
+      newRole="clients"
       sorting={sorting}
       setSorting={updateSorting}
     />

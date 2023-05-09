@@ -37,7 +37,7 @@ public class AgreementAttachmentsController : BaseAttachmentsController<Agreemen
     /// <returns>The list of associated attachments.</returns>
     /// <response code="404">No agreement is associated to the provided <paramref name="agreementId"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.Client, Role.ClientRO)]
+    [AuthorizeRoles(Role.Clients, Role.ClientsRO)]
     [Produces("application/json")]
     public override IEnumerable<AttachmentForList> GetAll([FromRoute] Guid agreementId)
     {
@@ -53,7 +53,7 @@ public class AgreementAttachmentsController : BaseAttachmentsController<Agreemen
     /// <response code="404">No agreement is associated to the provided <paramref name="agreementId"/>.</response>
     /// <response code="404">No attachment is associated to the provided <paramref name="identifier"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.Client, Role.ClientRO)]
+    [AuthorizeRoles(Role.Clients, Role.ClientsRO)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override AttachmentForView GetOne([FromRoute] Guid agreementId, Guid identifier)
@@ -70,7 +70,7 @@ public class AgreementAttachmentsController : BaseAttachmentsController<Agreemen
     /// <response code="404">No agreement is associated to the provided <paramref name="agreementId"/>.</response>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Produces("application/json")]
     public override AttachmentForList Post([FromRoute] Guid agreementId, AttachmentForEdit entity)
     {
@@ -85,7 +85,7 @@ public class AgreementAttachmentsController : BaseAttachmentsController<Agreemen
     /// <response code="404">No agreement is associated to the provided <paramref name="agreementId"/>.</response>
     /// <response code="404">No attachment is associated to the provided <paramref name="identifier"/>.</response>
     [HttpDelete]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override void Delete([FromRoute] Guid agreementId, Guid identifier)

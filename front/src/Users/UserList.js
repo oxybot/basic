@@ -21,7 +21,7 @@ export function UserList() {
       elements={elements}
       selectedId={userId}
       texts={texts}
-      newRole="user"
+      newRole="users"
       sorting={sorting}
       setSorting={updateSorting}
     />

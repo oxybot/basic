@@ -20,7 +20,7 @@ export function ClientList() {
       elements={elements}
       selectedId={clientId}
       texts={texts}
-      newRole="client"
+      newRole="clients"
       sorting={sorting}
       setSorting={updateSorting}
     />

@@ -89,7 +89,7 @@ public abstract class BaseAttachmentsController<TModel, TAttachment> : BaseContr
     /// <response code="404">No entity is associated to the provided <paramref name="parentId"/>.</response>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.Client)]
+    [AuthorizeRoles(Role.Clients)]
     [Produces("application/json")]
     public virtual AttachmentForList Post([FromRoute] Guid parentId, AttachmentForEdit entity)
     {

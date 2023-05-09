@@ -37,7 +37,7 @@ public class EventAttachmentsController : BaseAttachmentsController<Event, Event
     /// <returns>The list of associated attachments.</returns>
     /// <response code="404">No event is associated to the provided <paramref name="eventId"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.Time, Role.TimeRO)]
+    [AuthorizeRoles(Role.Schedules, Role.SchedulesRO)]
     [Produces("application/json")]
     public override IEnumerable<AttachmentForList> GetAll([FromRoute] Guid eventId)
     {
@@ -53,7 +53,7 @@ public class EventAttachmentsController : BaseAttachmentsController<Event, Event
     /// <response code="404">No event is associated to the provided <paramref name="eventId"/>.</response>
     /// <response code="404">No attachment is associated to the provided <paramref name="identifier"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.Time, Role.TimeRO)]
+    [AuthorizeRoles(Role.Schedules, Role.SchedulesRO)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override AttachmentForView GetOne([FromRoute] Guid eventId, Guid identifier)
@@ -70,7 +70,7 @@ public class EventAttachmentsController : BaseAttachmentsController<Event, Event
     /// <response code="404">No event is associated to the provided <paramref name="eventId"/>.</response>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     public override AttachmentForList Post([FromRoute] Guid eventId, AttachmentForEdit entity)
     {
@@ -85,7 +85,7 @@ public class EventAttachmentsController : BaseAttachmentsController<Event, Event
     /// <response code="404">No event is associated to the provided <paramref name="eventId"/>.</response>
     /// <response code="404">No attachment is associated to the provided <paramref name="identifier"/>.</response>
     [HttpDelete]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override void Delete([FromRoute] Guid eventId, Guid identifier)

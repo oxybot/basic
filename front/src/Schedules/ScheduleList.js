@@ -20,7 +20,7 @@ export function ScheduleList() {
       elements={elements}
       selectedId={scheduleId}
       texts={texts}
-      newRole="time"
+      newRole="schedules"
       sorting={sorting}
       setSorting={updateSorting}
     />

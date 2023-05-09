@@ -20,7 +20,7 @@ export function BalanceList() {
       elements={elements}
       selectedId={balanceId}
       texts={texts}
-      newRole="time"
+      newRole="schedules"
       sorting={sorting}
       setSorting={updateSorting}
     />

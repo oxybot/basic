@@ -451,27 +451,27 @@ namespace Basic.DataAccess.MySql.Migrations
                         new
                         {
                             Identifier = new Guid("8087c59d-7db0-4c40-aa35-742f6e11816f"),
-                            Code = "client-ro"
+                            Code = "clients-ro"
                         },
                         new
                         {
                             Identifier = new Guid("7a42dca4-c92c-408b-af26-6ac2db418312"),
-                            Code = "client"
+                            Code = "clients"
                         },
                         new
                         {
                             Identifier = new Guid("964afeec-f83b-4c98-b4a5-121d2a53985d"),
-                            Code = "time-ro"
+                            Code = "schedules-ro"
                         },
                         new
                         {
                             Identifier = new Guid("7e2d06c8-7f25-4ff4-8c21-1d0f365970a5"),
-                            Code = "time"
+                            Code = "schedules"
                         },
                         new
                         {
                             Identifier = new Guid("65726f0e-d856-47e1-8493-ced5ee7cba70"),
-                            Code = "user"
+                            Code = "users"
                         },
                         new
                         {

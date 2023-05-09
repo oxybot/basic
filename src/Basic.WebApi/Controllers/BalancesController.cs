@@ -40,7 +40,7 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     /// <param name="sortAndFilter">The sort and filter options, is any.</param>
     /// <returns>The list of balances.</returns>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules)]
     [Produces("application/json")]
     public ListResult<BalanceForList> GetAll([FromServices] DefinitionsService definitions, [FromQuery] SortAndFilterModel sortAndFilter)
     {
@@ -61,7 +61,7 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     /// <returns>The detailed data about the balance identified by <paramref name="identifier"/>.</returns>
     /// <response code="404">No balance is associated to the provided <paramref name="identifier"/>.</response>
     [HttpGet]
-    [AuthorizeRoles(Role.TimeRO, Role.Time)]
+    [AuthorizeRoles(Role.SchedulesRO, Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override BalanceForView GetOne(Guid identifier)
@@ -78,7 +78,7 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     /// <returns>The balance data after creation.</returns>
     /// <response code="400">The provided data are invalid.</response>
     [HttpPost]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     public override BalanceForList Post(BalanceForEdit balance)
     {
@@ -94,7 +94,7 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     /// <response code="400">The provided data are invalid.</response>
     /// <response code="404">No balance is associated to the provided <paramref name="identifier"/>.</response>
     [HttpPut]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override BalanceForList Put(Guid identifier, BalanceForEdit balance)
@@ -108,7 +108,7 @@ public class BalancesController : BaseModelController<Balance, BalanceForList, B
     /// <param name="identifier">The identifier of the balance to delete.</param>
     /// <response code="404">No balance is associated to the provided <paramref name="identifier"/>.</response>
     [HttpDelete]
-    [AuthorizeRoles(Role.Time)]
+    [AuthorizeRoles(Role.Schedules)]
     [Produces("application/json")]
     [Route("{identifier}")]
     public override void Delete(Guid identifier)

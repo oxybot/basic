@@ -86,7 +86,7 @@ export function EventList() {
       elements={elements}
       selectedId={eventId}
       texts={texts}
-      newRole="time"
+      newRole="schedules"
       sorting={sorting}
       setSorting={updateSorting}
       filters={

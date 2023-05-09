@@ -20,7 +20,7 @@ export function GlobalDayOffList() {
       elements={elements}
       selectedId={dayOffId}
       texts={texts}
-      newRole="time"
+      newRole="schedules"
       sorting={sorting}
       setSorting={updateSorting}
     />
