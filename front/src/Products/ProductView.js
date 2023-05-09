@@ -15,7 +15,7 @@ export function ProductView({ backTo = null, full = false }) {
   const entity = useLoaderData();
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity} editRole="client">
+    <PageView backTo={backTo} full={full} entity={entity} editRole="clients">
       <Sections>
         <Section code="detail" element={<ProductViewDetail />}>
           Detail

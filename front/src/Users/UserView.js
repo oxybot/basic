@@ -45,7 +45,7 @@ function UserViewDetail() {
         <div className="card-header">
           <h3 className="card-title">Roles</h3>
           <span className="badge ms-2 bg-green">{roles.length || ""}</span>
-          {isInRole("user") && (
+          {isInRole("users") && (
             <Link to="roles" className="btn btn-outline-primary ms-auto">
               Set roles
             </Link>
@@ -75,7 +75,7 @@ export function UserView({ backTo = null, full = false }) {
   const isInRole = useInRole();
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity} editRole="user">
+    <PageView backTo={backTo} full={full} entity={entity} editRole="users">
       <Sections>
         <Section code="detail" element={<UserViewDetail />}>
           Detail

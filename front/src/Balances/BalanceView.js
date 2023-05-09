@@ -51,7 +51,7 @@ export function BalanceView({ backTo = null, full = false }) {
   const entity = useLoaderData();
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity} title={entity.title} editRole="time">
+    <PageView backTo={backTo} full={full} entity={entity} title={entity.title} editRole="schedules">
       <Sections>
         <Section code="detail" element={<BalanceViewDetail />}>
           Detail

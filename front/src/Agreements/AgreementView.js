@@ -65,7 +65,7 @@ export function AgreementView({ backTo = null, full = false }) {
   const entity = useLoaderData();
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity} title={entity.title} editRole="client">
+    <PageView backTo={backTo} full={full} entity={entity} title={entity.title} editRole="clients">
       <Sections>
         <Section code="detail" element={<AgreementViewDetail />}>
           Detail

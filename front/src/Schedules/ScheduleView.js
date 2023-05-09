@@ -16,7 +16,7 @@ export function ScheduleView({ backTo = null, full = false }) {
   const entity = useLoaderData();
 
   return (
-    <PageView backTo={backTo} full={full} entity={entity} title={entity?.user?.displayName || "-"} editRole="time">
+    <PageView backTo={backTo} full={full} entity={entity} title={entity?.user?.displayName || "-"} editRole="schedules">
       <Sections>
         <Section code="detail" element={<ScheduleViewDetail />}>
           Detail
