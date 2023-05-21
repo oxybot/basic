@@ -43,9 +43,17 @@ public class InvalidModelStateActionResult : IActionResult
         {
             if (pair.Value.Errors != null && pair.Value.Errors.Count > 0)
             {
-                var errors = pair.Value.Errors.Select(e => e.ErrorMessage).ToArray();
-                var key = string.Join('.', pair.Key.Split('.').Select(s => s.ToJsonFieldName()));
-                result.Add(key, errors);
+                if (pair.Key == "$")
+                {
+                    // Special case of failed Json conversion
+                    result.Add(string.Empty, new[] { "The received payload is invalid" });
+                }
+                else
+                {
+                    var errors = pair.Value.Errors.Select(e => e.ErrorMessage).ToArray();
+                    var key = string.Join('.', pair.Key.Split('.').Select(s => s.ToJsonFieldName()));
+                    result.Add(key, errors);
+                }
             }
         }
 

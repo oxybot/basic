@@ -43,11 +43,15 @@ export function UserRolesEdit({ full = false }) {
     setEntity({ ...entity, [name]: value });
   };
 
+  const convert = (entity) => {
+    return Object.keys(entity).reduce((a, k) => (entity[k] ? [...a, k] : a), []);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     apiFetch(["users", userId, "roles"], {
       method: "PUT",
-      body: JSON.stringify(entity),
+      body: JSON.stringify(convert(entity)),
     })
       .then(() => {
         navigate("./..");
@@ -97,8 +101,15 @@ export function UserRolesEdit({ full = false }) {
             {roles &&
               roles.values.map((role, index) => {
                 const field = { type: "boolean", name: role.code, displayName: role.code };
+                const fieldErrors = errors[role.code] || [];
                 return (
-                  <EntityFieldEdit key={index} field={field} entity={entity} errors={errors} onChange={handleChange} />
+                  <EntityFieldEdit
+                    key={index}
+                    field={field}
+                    entity={entity}
+                    errors={fieldErrors}
+                    onChange={handleChange}
+                  />
                 );
               })}
           </div>
