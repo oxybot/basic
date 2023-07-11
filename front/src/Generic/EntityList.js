@@ -1,4 +1,4 @@
-import { IconLoader } from "@tabler/icons";
+import { IconLoader } from "@tabler/icons-react";
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import clsx from "clsx";
 import { useMemo } from "react";

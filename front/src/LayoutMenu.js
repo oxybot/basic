@@ -11,7 +11,7 @@ import {
   IconCalendarTime,
   IconApiApp,
   IconBrandGithub,
-} from "@tabler/icons";
+} from "@tabler/icons-react";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";

@@ -1,8 +1,9 @@
-@import "~/node_modules/bootstrap/scss/functions";
-@import "~/node_modules/bootstrap/scss/variables";
-@import "~/node_modules/bootstrap/scss/maps";
-@import "~/node_modules/bootstrap/scss/mixins";
-@import "~/node_modules/bootstrap/scss/root";
+@import "~/node_modules/bootstrap/scss/_functions";
+@import "~/node_modules/bootstrap/scss/_variables";
+@import "~/node_modules/bootstrap/scss/_variables-dark";
+@import "~/node_modules/bootstrap/scss/_maps";
+@import "~/node_modules/bootstrap/scss/_mixins";
+@import "~/node_modules/bootstrap/scss/_root";
 
 @mixin card {
   .d-card {

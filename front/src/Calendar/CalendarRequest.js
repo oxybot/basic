@@ -1,4 +1,4 @@
-import { IconAlertTriangle, IconCheck, IconSend } from "@tabler/icons";
+import { IconAlertTriangle, IconCheck, IconSend } from "@tabler/icons-react";
 import clsx from "clsx";
 import pluralize from "pluralize";
 import { useState } from "react";

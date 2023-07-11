@@ -1,4 +1,4 @@
-import { IconAlertTriangle } from "@tabler/icons";
+import { IconAlertTriangle } from "@tabler/icons-react";
 
 export default function Modal({ id, title = null, text, confirm = null, cancel = null, onConfirm = () => {} }) {
   if (title === null) {

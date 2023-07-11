@@ -1,4 +1,4 @@
-import { IconAtom2 } from "@tabler/icons";
+import { IconAtom2 } from "@tabler/icons-react";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { Link, useRevalidator } from "react-router-dom";

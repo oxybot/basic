@@ -1,4 +1,4 @@
-import { IconMoodConfuzed, IconMoodNervous } from "@tabler/icons";
+import { IconMoodConfuzed, IconMoodNervous } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 import { alertsState, hideAlert, removeAlert } from "./slice";
 

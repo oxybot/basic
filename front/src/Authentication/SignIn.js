@@ -1,4 +1,4 @@
-import { IconAlertTriangle } from "@tabler/icons";
+import { IconAlertTriangle } from "@tabler/icons-react";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

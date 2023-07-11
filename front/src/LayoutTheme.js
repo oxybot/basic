@@ -1,4 +1,4 @@
-import { IconMoon, IconSun } from "@tabler/icons";
+import { IconMoon, IconSun } from "@tabler/icons-react";
 import clsx from "clsx";
 
 export default function LayoutTheme({ className = "btn nav-link" }) {

@@ -1,4 +1,4 @@
-import { IconCheck, IconX } from "@tabler/icons";
+import { IconCheck, IconX } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useLoaderData, useParams, useRevalidator } from "react-router-dom";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
