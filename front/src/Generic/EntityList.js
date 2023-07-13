@@ -85,16 +85,19 @@ export default function EntityList({
             table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className={clsx(definition.name.replace("ForList", "").toLowerCase(), {
-                  "table-active": row.original.identifier === selectedId,
-                })}
+                className={
+                  "entity-" +
+                  clsx(definition.name.replace("ForList", "").toLowerCase(), {
+                    "table-active": row.original.identifier === selectedId,
+                  })
+                }
                 onClick={() =>
                   baseTo !== null &&
                   navigate([baseTo, row.original.identifier].filter((i) => i).join("/") + "?" + searchParams)
                 }
               >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className={cell.column.id}>
+                  <td key={cell.id} className={"field-" + cell.column.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

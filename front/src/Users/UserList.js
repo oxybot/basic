@@ -2,6 +2,7 @@ import { useLoaderData, useParams } from "react-router-dom";
 import { useDefinition } from "../api";
 import { useSorting } from "../helpers/sorting";
 import UserPageList from "../Users/UserPageList";
+import "./UserList.scss";
 
 export function UserList() {
   const { userId } = useParams();
