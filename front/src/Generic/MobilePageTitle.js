@@ -1,4 +1,4 @@
-import { IconArrowLeft } from "@tabler/icons-react";
+import { IconArrowLeft } from "@tabler/icons";
 import { Link } from "react-router-dom";
 
 export default function MobilePageTitle({ back, children }) {

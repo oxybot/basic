@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons-react";
+import { IconEdit, IconChevronRight, IconChevronLeft } from "@tabler/icons";
 import { useInRole } from "../Authentication";
 import MobilePageTitle from "../Generic/MobilePageTitle";
 import clsx from "clsx";

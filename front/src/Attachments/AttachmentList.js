@@ -1,4 +1,4 @@
-import { IconLoader, IconDownload, IconCircleX } from "@tabler/icons-react";
+import { IconLoader, IconDownload, IconCircleX } from "@tabler/icons";
 import clsx from "clsx";
 import EntityFieldView from "../Generic/EntityFieldView";
 import { apiFetch } from "../api";

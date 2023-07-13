@@ -1,4 +1,4 @@
-import { IconAtom2, IconChevronRight } from "@tabler/icons-react";
+import { IconAtom2, IconChevronRight } from "@tabler/icons";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import pluralize from "pluralize";

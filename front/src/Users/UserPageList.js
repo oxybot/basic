@@ -1,4 +1,4 @@
-import { IconChevronsDown, IconPlus } from "@tabler/icons-react";
+import { IconChevronsDown, IconPlus } from "@tabler/icons";
 import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";
 import { useInRole } from "../Authentication";

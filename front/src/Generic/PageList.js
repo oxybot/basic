@@ -1,4 +1,4 @@
-import { IconFilter, IconPlus } from "@tabler/icons-react";
+import { IconFilter, IconPlus } from "@tabler/icons";
 import clsx from "clsx";
 import pluralize from "pluralize";
 import { Link, useOutlet } from "react-router-dom";

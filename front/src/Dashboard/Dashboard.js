@@ -1,4 +1,4 @@
-import { IconChevronRight } from "@tabler/icons-react";
+import { IconChevronRight } from "@tabler/icons";
 import clsx from "clsx";
 import pluralize from "pluralize";
 import { Link } from "react-router-dom";

@@ -1,4 +1,4 @@
-import { IconMinus, IconPlus } from "@tabler/icons-react";
+import { IconMinus, IconPlus } from "@tabler/icons";
 import clsx from "clsx";
 import { useDefinition } from "../api";
 import EntityFieldInput from "../Generic/EntityFieldInput";

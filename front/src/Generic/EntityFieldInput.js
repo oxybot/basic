@@ -1,4 +1,4 @@
-import { IconCurrencyEuro } from "@tabler/icons-react";
+import { IconCurrencyEuro } from "@tabler/icons";
 import clsx from "clsx";
 import EntityFieldInputColor from "./EntityFieldInputColor";
 import EntityFieldInputImage from "./EntityFieldInputImage";

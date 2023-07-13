@@ -1,4 +1,4 @@
-import { IconChevronLeft, IconChevronRight, IconLoader, IconPlus } from "@tabler/icons-react";
+import { IconChevronLeft, IconChevronRight, IconLoader, IconPlus } from "@tabler/icons";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import { useMemo } from "react";
