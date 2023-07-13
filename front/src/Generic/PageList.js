@@ -47,9 +47,7 @@ export default function PageList({
                 <h2 className="page-title">{texts.title}</h2>
                 <div className="text-muted mt-1">{totalText}</div>
               </div>
-              <div className="col lg-filters mt-auto">
-                {filters}
-              </div>
+              <div className="col lg-filters mt-auto">{filters}</div>
               <div className="col-auto ms-auto d-print-none">
                 <div className="d-flex">
                   {isInRole(newRole) && (

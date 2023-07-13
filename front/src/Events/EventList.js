@@ -89,12 +89,7 @@ export function EventList() {
       newRole="schedules"
       sorting={sorting}
       setSorting={updateSorting}
-      filters={
-        <EventFilters
-          status={filters?.status || null}
-          onStatusChange={handleStatusChange}
-        />
-      }
+      filters={<EventFilters status={filters?.status || null} onStatusChange={handleStatusChange} />}
       filtered={isFiltered(filters)}
     />
   );

@@ -39,9 +39,7 @@ export default function UserPageList({
             <div className="row align-items-center">
               <div className="col">
                 <h2 className="page-title">{texts.title}</h2>
-                <div className="text-muted mt-1">
-                  {elements ? pluralize("entry", elements.total, true) : "- entry"}
-                </div>
+                <div className="text-muted mt-1">{elements ? pluralize("entry", elements.total, true) : "- entry"}</div>
               </div>
               <div className="col-auto ms-auto d-print-none">
                 <div className="d-flex">

@@ -35,7 +35,7 @@ export default function EntityList({
   }, [definition]);
 
   const navigate = useNavigate();
-  const [searchParams,] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const table = useReactTable({
     data: elements,
