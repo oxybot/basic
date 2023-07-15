@@ -58,14 +58,14 @@ export default function LayoutMenu() {
           </div>
           <div className="offcanvas-body flex-column">
             <div className="offcanvas-body-title flex-row justify-content-between d-none d-lg-flex">
-              <h5 className="basic-title">
+              <h5 className="basic-title m-0">
                 <div className="basic-logo">B</div>
               </h5>
               <LayoutTheme />
             </div>
             {/* Profile */}
             <ul className="navbar-nav">
-              <li className="nav-item dropdown">
+              <li className="nav-item dropdown ps-lg-0">
                 <button
                   type="button"
                   className="nav-link dropdown-toggle collapsed justify-content-start d-flex lh-1 text-reset"
