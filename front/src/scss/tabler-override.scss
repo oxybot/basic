@@ -49,3 +49,8 @@
 body {
   overflow: auto;
 }
+
+// Update text muted color for better contrast
+[data-bs-theme="dark"] {
+  --tblr-muted: #7e8b9a;
+}
