@@ -138,16 +138,20 @@ th.required:after {
 }
 
 /* Update of the theme-dark default */
-.theme-dark ::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-}
+.theme-dark,
+[data-bs-theme="dark"] {
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
 
-.theme-dark input[type="file"].form-control::file-selector-button {
-  background-color: var(--tblr-border-color);
-}
-.theme-dark input[type="file"].form-control:hover::file-selector-button {
-  background-color: var(--tblr-btn-color);
-  color: var(--tblr-btn-color-text);
+  input[type="file"].form-control::file-selector-button {
+    background-color: var(--tblr-border-color);
+  }
+
+  input[type="file"].form-control:hover::file-selector-button {
+    background-color: var(--tblr-btn-color);
+    color: var(--tblr-btn-color-text);
+  }
 }
 
 /* Special style for nav buttons */
@@ -200,7 +204,8 @@ th.required:after {
   letter-spacing: 0.2rem;
 }
 
-.theme-dark .basic-text {
+.theme-dark .basic-text,
+[data-bs-theme="dark"] .basic-text {
   color: #ffffff;
 }
 

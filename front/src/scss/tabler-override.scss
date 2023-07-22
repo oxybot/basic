@@ -1,5 +1,4 @@
-/* Group form-selectgroup items as one group (like a btn-group)
- */
+// Group form-selectgroup items as one group (like a btn-group)
 .form-selectgroup {
   .form-selectgroup-item {
     margin: 0 0 0.5rem 0;
@@ -36,9 +35,9 @@
   }
 }
 
-/* Cancel default background style in dark mode
- */
-.theme-dark {
+// Cancel default background style in dark mode
+.theme-dark,
+[data-bs-theme="dark"] {
   .input-group-text,
   .markdown > table thead th,
   .table thead th {
@@ -46,8 +45,7 @@
   }
 }
 
-/* Cancel vertical scrollbar being always visible
- */
+// Cancel vertical scrollbar being always visible
 body {
   overflow: auto;
 }

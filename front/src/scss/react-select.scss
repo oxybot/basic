@@ -11,7 +11,8 @@
 }
 
 .required .react-select__control,
-.theme-dark .required .react-select__control {
+.theme-dark .required .react-select__control,
+[data-bs-theme="dark"] .required .react-select__control {
   background-color: #206bc411;
   flex-wrap: nowrap;
 }
@@ -25,7 +26,8 @@
   border-color: var(--tblr-danger);
 }
 
-.theme-dark {
+.theme-dark,
+[data-bs-theme="dark"] {
   .react-select__control,
   .react-select__menu {
     background-color: #1b2434;
