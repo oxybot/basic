@@ -2,6 +2,7 @@
   "name": "basic.front",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "yarn@3.6.1",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@tabler/core": "^1.0.0-beta19",
@@ -24,9 +25,9 @@
     "react-select": "^5.7.4"
   },
   "devDependencies": {
+    "got": "^13.0.0",
     "prettier": "^3.0.0",
-    "sass": "^1.64.0",
-    "got": "^13.0.0"
+    "sass": "^1.64.0"
   },
   "scripts": {
     "start": "react-scripts start",
