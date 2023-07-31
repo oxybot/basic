@@ -2501,7 +2501,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@popperjs/core@npm:^2.11.2":
+"@popperjs/core@npm:^2.11.7":
   version: 2.11.8
   resolution: "@popperjs/core@npm:2.11.8"
   checksum: e5c69fdebf52a4012f6a1f14817ca8e9599cb1be73dd1387e1785e2ed5e5f0862ff817f420a87c7fc532add1f88a12e25aeb010ffcbdc98eace3d55ce2139cf0
@@ -2791,24 +2791,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tabler/core@npm:^1.0.0-beta19":
-  version: 1.0.0-beta9
-  resolution: "@tabler/core@npm:1.0.0-beta9"
+"@tabler/core@npm:1.0.0-beta19":
+  version: 1.0.0-beta19
+  resolution: "@tabler/core@npm:1.0.0-beta19"
   dependencies:
-    "@popperjs/core": ^2.11.2
-    "@tabler/icons": ^1.53.0
-    bootstrap: 5.1.3
+    "@popperjs/core": ^2.11.7
+    bootstrap: 5.3.0-alpha3
   peerDependencies:
-    apexcharts: ^3.33.1
-    autosize: ^5.0.1
-    choices.js: ^10.1.0
-    countup.js: ^2.0.8
-    flatpickr: ^4.6.9
-    imask: ^6.4.2
-    jsvectormap: ^1.4.4
+    apexcharts: ^3.40.0
+    autosize: ^6.0.1
+    choices.js: ^10.2.0
+    countup.js: ^2.6.2
+    dropzone: ^6.0.0-beta.2
+    flatpickr: ^4.6.13
+    fslightbox: ^3.4.1
+    imask: ^6.6.1
+    jsvectormap: ^1.5.3
+    list.js: ^2.3.1
     litepicker: ^2.0.12
-    nouislider: ^15.5.1
-    tom-select: ^2.0.0
+    nouislider: ^15.7.0
+    plyr: ^3.7.8
+    star-rating.js: ^4.3.0
+    tinymce: ^6.4.2
+    tom-select: ^2.2.2
   peerDependenciesMeta:
     apexcharts:
       optional: true
@@ -2818,23 +2823,35 @@ __metadata:
       optional: true
     countup.js:
       optional: true
+    dropzone:
+      optional: true
     flatpickr:
+      optional: true
+    fslightbox:
       optional: true
     imask:
       optional: true
     jsvectormap:
       optional: true
+    list.js:
+      optional: true
     litepicker:
       optional: true
     nouislider:
       optional: true
+    plyr:
+      optional: true
+    star-rating.js:
+      optional: true
+    tinymce:
+      optional: true
     tom-select:
       optional: true
-  checksum: 1cb0c3ec379e3e239d9079613e1f98aa2d34a23a175e6396e2c1b21e28398488dc28a827502c741171d75b91554192f07931529bb7bb1ebb616826c113fd63c6
+  checksum: 478a44394d88a517f333a75a2ecf216cc5711f61e50f2b00c34f5ccc8d936ccb17d229e12d5fa300baef7d50a635a2d53666382a09187be230df59eca8884da5
   languageName: node
   linkType: hard
 
-"@tabler/icons@npm:1.119.0, @tabler/icons@npm:^1.53.0":
+"@tabler/icons@npm:1.119.0":
   version: 1.119.0
   resolution: "@tabler/icons@npm:1.119.0"
   peerDependencies:
@@ -4407,7 +4424,7 @@ __metadata:
   resolution: "basic.front@workspace:."
   dependencies:
     "@reduxjs/toolkit": ^1.9.5
-    "@tabler/core": ^1.0.0-beta19
+    "@tabler/core": 1.0.0-beta19
     "@tabler/icons": 1.119.0
     "@tanstack/react-table": ^8.9.3
     "@testing-library/jest-dom": ^5.17.0
@@ -4510,12 +4527,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap@npm:5.1.3":
-  version: 5.1.3
-  resolution: "bootstrap@npm:5.1.3"
+"bootstrap@npm:5.3.0-alpha3":
+  version: 5.3.0-alpha3
+  resolution: "bootstrap@npm:5.3.0-alpha3"
   peerDependencies:
-    "@popperjs/core": ^2.10.2
-  checksum: 301b5ed872efba061104cf22ac93568e3837867fb5527ab9326a51510fb752bd4883e1d488225c8be72f86d9d3a55ef5b166aa7fa62c2fdd077c3f05b65752f8
+    "@popperjs/core": ^2.11.7
+  checksum: 1739c40e4033c134e9dc51235e8018f267a9fc8114feba6a5b402f2ab0c68e67c363e2f243c79f252d1cf8fcde82262b04bbaaf6ea1695c37537c02f34ae4f79
   languageName: node
   linkType: hard
 
