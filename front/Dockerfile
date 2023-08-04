@@ -2,9 +2,8 @@ FROM node AS build
 
 WORKDIR /app
 
-COPY package.json .
-COPY yarn.lock .
-RUN yarn install 
+RUN corepack enable
+RUN corepack prepare yarn@stable --activate
 
 COPY . .
 RUN yarn build
