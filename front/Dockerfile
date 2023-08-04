@@ -6,6 +6,7 @@ RUN corepack enable
 RUN corepack prepare yarn@stable --activate
 
 COPY . .
+RUN yarn install
 RUN yarn build
 
 FROM nginx AS final
