@@ -3,6 +3,7 @@
 
 using Basic.WebApi.DTOs;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -13,7 +14,7 @@ namespace Basic.WebApi.Controllers;
 /// Tests the <see cref="BalancesController"/> class.
 /// </summary>
 [Collection("api")]
-public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, BalanceForList>
+public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, BalanceForView>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BalancesControllerTest"/> class.
@@ -35,7 +36,7 @@ public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, Ba
     [Fact]
     public Task CreateReadUpdateDeleteTest()
     {
-        var model = new TestCRUDModel<BalanceForList>()
+        var model = new TestCRUDModel<BalanceForView>()
         {
             CreateContent = new
             {
@@ -43,6 +44,7 @@ public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, Ba
                 UserIdentifier = this.TestServer.TestReferences.User.Identifier,
                 Year = DateTime.Today.Year,
                 Total = 100,
+                Details = new[] { new { Description = "Category", Value = 100 } },
             },
             CreateExpected = new()
             {
@@ -50,6 +52,7 @@ public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, Ba
                 User = this.TestServer.TestReferences.User,
                 Year = DateTime.Today.Year,
                 Total = 100,
+                Details = new[] { new BalanceItemForList { Description = "Category", Value = 100 } },
             },
             UpdateContent = new
             {
@@ -57,6 +60,7 @@ public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, Ba
                 UserIdentifier = this.TestServer.TestReferences.User.Identifier,
                 Year = DateTime.Today.Year,
                 Total = 130,
+                Details = new[] { new { Description = "Category", Value = 130 } },
             },
             UpdateExpected = new()
             {
@@ -64,9 +68,32 @@ public class BalancesControllerTest : BaseModelControllerTest<BalanceForList, Ba
                 User = this.TestServer.TestReferences.User,
                 Year = DateTime.Today.Year,
                 Total = 130,
+                Details = new[] { new BalanceItemForList { Description = "Category", Value = 130 } },
             },
         };
 
         return this.CreateReadUpdateDeleteTestAsync(model);
+    }
+
+    /// <inheritdoc />
+    protected override BalanceForView UpdateIdentifiers(BalanceForView entity, BalanceForView actual, Guid identifier)
+    {
+        base.UpdateIdentifiers(entity, actual, identifier);
+
+        if (entity is null || actual is null || entity.Details is null)
+        {
+            return entity;
+        }
+
+        foreach (var detail in entity.Details)
+        {
+            if (detail.Identifier == default)
+            {
+                detail.Identifier = actual.Details
+                    .FirstOrDefault(d => d.Description == detail.Description).Identifier;
+            }
+        }
+
+        return entity;
     }
 }

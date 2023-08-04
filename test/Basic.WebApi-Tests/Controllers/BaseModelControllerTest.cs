@@ -104,7 +104,7 @@ public abstract class BaseModelControllerTest<TForList, TForView>
             Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}/{identifier}, status code: {(int)response.StatusCode} {response.StatusCode}");
             var body = await this.TestServer.ReadAsJsonAsync<TForView>(response).ConfigureAwait(false);
             Assert.NotNull(body);
-            var expected = this.UpdateIdentifier(testModel.CreateExpected, (Guid)identifier);
+            var expected = this.UpdateIdentifiers(testModel.CreateExpected, body, (Guid)identifier);
             Assert.Equivalent(expected, body, strict: true);
         }
 
@@ -136,7 +136,7 @@ public abstract class BaseModelControllerTest<TForList, TForView>
                 Assert.True(response.IsSuccessStatusCode, $"Can't call GET {this.BaseUrl}/{identifier}, status code: {(int)response.StatusCode} {response.StatusCode}");
                 var body = await this.TestServer.ReadAsJsonAsync<TForView>(response).ConfigureAwait(false);
                 Assert.NotNull(body);
-                var expected = this.UpdateIdentifier(testModel.UpdateExpected, (Guid)identifier);
+                var expected = this.UpdateIdentifiers(testModel.UpdateExpected, body, (Guid)identifier);
                 Assert.Equivalent(expected, body, strict: true);
             }
         }
@@ -181,9 +181,14 @@ public abstract class BaseModelControllerTest<TForList, TForView>
     /// Updates a reference identifier with its expected value, if possible.
     /// </summary>
     /// <param name="entity">The entity to update.</param>
+    /// <param name="actual">The entity received by the API call.</param>
     /// <param name="identifier">The identifier associated with the entity.</param>
     /// <returns>The updated entity.</returns>
-    protected virtual TForView UpdateIdentifier(TForView entity, Guid identifier)
+    /// <remarks>
+    /// The default implementation only update the Identifier of <paramref name="entity"/>
+    /// based on the <paramref name="identifier"/> value.
+    /// </remarks>
+    protected virtual TForView UpdateIdentifiers(TForView entity, TForView actual, Guid identifier)
     {
         if (entity is null)
         {

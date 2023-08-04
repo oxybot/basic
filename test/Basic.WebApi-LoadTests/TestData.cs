@@ -63,28 +63,6 @@ public class TestData
     }
 
     /// <summary>
-    /// Generates the data for the <see cref="EventStatus"/> model.
-    /// </summary>
-    public void PopulateEventStatus()
-    {
-        this.Populate<Event>();
-
-        var requested = this.Context.Set<Status>().Single(s => s.Identifier == Status.Requested);
-        this.Context.Set<Event>().ToList().ForEach(e =>
-        {
-            e.CurrentStatus = requested;
-            e.Statuses.Add(new EventStatus()
-            {
-                Status = requested,
-                UpdatedBy = (User)this.GetRandomValueFor(typeof(User)),
-                UpdatedOn = (DateTime)this.GetRandomValueFor(typeof(DateTime)),
-            });
-        });
-
-        this.Context.SaveChanges();
-    }
-
-    /// <summary>
     /// Generates the data for a specific model class.
     /// </summary>
     /// <typeparam name="TModel">The reference model class.</typeparam>
@@ -96,6 +74,26 @@ public class TestData
             var entity = this.Create<TModel>();
             this.Context.Set<TModel>().Add(entity);
         }
+
+        this.Context.SaveChanges();
+    }
+
+    /// <summary>
+    /// Generates the data for the <see cref="EventStatus"/> model.
+    /// </summary>
+    public void PopulateEventStatus()
+    {
+        var requested = this.Context.Set<Status>().Single(s => s.Identifier == Status.Requested);
+        this.Context.Set<Event>().ToList().ForEach(e =>
+        {
+            e.CurrentStatus = requested;
+            e.Statuses.Add(new EventStatus()
+            {
+                Status = requested,
+                UpdatedBy = (User)this.GetRandomValueFor(typeof(User)),
+                UpdatedOn = (DateTime)this.GetRandomValueFor(typeof(DateTime)),
+            });
+        });
 
         this.Context.SaveChanges();
     }
@@ -178,6 +176,11 @@ public class TestData
         {
             var entities = this.Context.Set<User>();
             return entities.Skip(Random.Shared.Next(0, entities.Count())).Take(1).First();
+        }
+        else if (propertyType == typeof(Status))
+        {
+            // Fixed value to Requested - the call to PrepareEventStatus will randomize the Event.Status property
+            return this.Context.Set<Status>().First(s => s.Identifier == Status.Requested);
         }
         else
         {

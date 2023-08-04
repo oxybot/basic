@@ -37,10 +37,10 @@ public class UsersControllerTest : BaseModelControllerTest<UserForList, UserForV
     {
         var model = new TestCRUDModel<UserForView>()
         {
-            CreateContent = new { UserName = "test", DisplayName = "test User" },
-            CreateExpected = new() { UserName = "test", DisplayName = "test User" },
-            UpdateContent = new { UserName = "test", DisplayName = "test updated User", Email = "test@example.com" },
-            UpdateExpected = new() { UserName = "test", DisplayName = "test updated User", Email = "test@example.com" },
+            CreateContent = new { UserName = "test", DisplayName = "test User", Email = "test@example.com" },
+            CreateExpected = new() { UserName = "test", DisplayName = "test User", Email = "test@example.com", Roles = Array.Empty<RoleForList>() },
+            UpdateContent = new { UserName = "test", DisplayName = "test updated User", Email = "test-updated@example.com" },
+            UpdateExpected = new() { UserName = "test", DisplayName = "test updated User", Email = "test-updated@example.com", Roles = Array.Empty<RoleForList>() },
         };
 
         return this.CreateReadUpdateDeleteTestAsync(model);
