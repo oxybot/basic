@@ -165,11 +165,14 @@ public class MyController : BaseController
         if (entity.CurrentStatus.Identifier == Status.Requested
             || entity.CurrentStatus.Identifier == Status.Approved)
         {
-            // The event is cancellable by the user
-            return new[]
+            if (entity.StartDate < DateOnly.FromDateTime(DateTime.Today))
             {
-                this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Canceled),
-            }.Select(s => this.Mapper.Map<StatusReference>(s));
+                // The event is cancellable by the user
+                return this.Context.Set<Status>()
+                    .Where(s => s.Identifier == Status.Canceled)
+                    .ToArray()
+                    .Select(s => this.Mapper.Map<StatusReference>(s));
+            }
         }
 
         return Array.Empty<StatusReference>();

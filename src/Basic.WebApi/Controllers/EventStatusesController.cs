@@ -86,19 +86,18 @@ public class EventStatusesController : BaseController
 
         if (entity.CurrentStatus.Identifier == Status.Requested)
         {
-            return new[]
-            {
-                this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Approved),
-                this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Rejected),
-            }.Select(s => this.Mapper.Map<StatusReference>(s));
+            return this.Context.Set<Status>()
+                .Where(s => s.Identifier == Status.Approved || s.Identifier == Status.Rejected)
+                .ToArray()
+                .Select(s => this.Mapper.Map<StatusReference>(s));
         }
 
         if (entity.CurrentStatus.Identifier == Status.Approved)
         {
-            return new[]
-            {
-                this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Canceled),
-            }.Select(s => this.Mapper.Map<StatusReference>(s));
+            return this.Context.Set<Status>()
+                .Where(s => s.Identifier == Status.Canceled)
+                .ToArray()
+                .Select(s => this.Mapper.Map<StatusReference>(s));
         }
 
         return Array.Empty<StatusReference>();
@@ -160,6 +159,11 @@ public class EventStatusesController : BaseController
         else if (entity.CurrentStatus.Identifier != update.From)
         {
             this.ModelState.AddModelError("From", "The event is not in the right state");
+        }
+        else if (this.GetNext(eventId).All(s => s.Identifier != update.From))
+        {
+            // Check if the transition is valid for this event
+            this.ModelState.AddModelError("From", "This transition is not authorized for this event");
         }
 
         if (!this.ModelState.IsValid)
