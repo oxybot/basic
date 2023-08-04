@@ -143,6 +143,118 @@ public class MyController : BaseController
     }
 
     /// <summary>
+    /// Provides the possible future status for a specific event.
+    /// </summary>
+    /// <param name="eventId">The identifier of the event.</param>
+    /// <returns>The possible statuses for the event.</returns>
+    /// <response code="404">No event is associated to the provided <paramref name="eventId"/> for the current user.</response>
+    [HttpGet]
+    [Produces("application/json")]
+    [Route("Events/{eventId}/Statuses/Next")]
+    public IEnumerable<StatusReference> GetEventStatusesNext(Guid eventId)
+    {
+        var user = this.GetConnectedUser();
+        var entity = this.Context.Set<Event>()
+            .Include(e => e.CurrentStatus)
+            .SingleOrDefault(e => e.Identifier == eventId && e.User == user);
+        if (entity == null)
+        {
+            throw new NotFoundException("Not existing entity");
+        }
+
+        if (entity.CurrentStatus.Identifier == Status.Requested
+            || entity.CurrentStatus.Identifier == Status.Approved)
+        {
+            // The event is cancellable by the user
+            return new[]
+            {
+                this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == Status.Canceled),
+            }.Select(s => this.Mapper.Map<StatusReference>(s));
+        }
+
+        return Array.Empty<StatusReference>();
+    }
+
+    /// <summary>
+    /// Updates the current status of a specific event.
+    /// </summary>
+    /// <param name="notification">The notification service.</param>
+    /// <param name="eventId">The identifier of the event.</param>
+    /// <param name="update">The details of the update.</param>
+    /// <returns>The identifier of the created status.</returns>
+    /// <response code="404">No event is associated to the provided <paramref name="eventId"/> for the current user.</response>
+    [HttpPost]
+    [Produces("application/json")]
+    [Route("Events/{eventId}/Statuses")]
+    public EntityReference EditEventStatus([FromServices] EmailService notification, Guid eventId, StatusUpdate update)
+    {
+        if (notification is null)
+        {
+            throw new ArgumentNullException(nameof(notification));
+        }
+        else if (update is null)
+        {
+            throw new ArgumentNullException(nameof(update));
+        }
+
+        var user = this.GetConnectedUser();
+        var entity = this.Context.Set<Event>()
+            .Include(e => e.User)
+            .Include(e => e.Statuses)
+            .Include(e => e.Category)
+            .SingleOrDefault(e => e.Identifier == eventId && e.User == user);
+        if (entity == null)
+        {
+            throw new NotFoundException("Not existing entity");
+        }
+
+        var from = this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == update.From);
+        var to = this.Context.Set<Status>().SingleOrDefault(s => s.Identifier == update.To);
+
+        if (from == null)
+        {
+            this.ModelState.AddModelError("From", "The From status is invalid");
+        }
+
+        if (to == null)
+        {
+            this.ModelState.AddModelError("To", "The To status is invalid");
+        }
+
+        if (update.To == update.From)
+        {
+            this.ModelState.AddModelError("To", "The statuses From and To should be different");
+        }
+        else if (entity.CurrentStatus.Identifier == update.To)
+        {
+            this.ModelState.AddModelError(string.Empty, "A similar transition was already applied");
+        }
+        else if (entity.CurrentStatus.Identifier != update.From)
+        {
+            this.ModelState.AddModelError("From", "The event is not in the right state");
+        }
+        else if (this.GetEventStatusesNext(eventId).All(s => s.Identifier != update.From))
+        {
+            // Check if the transition is valid for this event
+            this.ModelState.AddModelError("From", "This transition is not authorized for this event");
+        }
+
+        if (!this.ModelState.IsValid)
+        {
+            throw new InvalidModelStateException(this.ModelState);
+        }
+
+        var status = new EventStatus() { Status = to, UpdatedBy = user, UpdatedOn = DateTime.UtcNow };
+        entity.Statuses.Add(status);
+        entity.CurrentStatus = to;
+
+        this.Context.SaveChanges();
+        notification.EventStatusChanged(entity, status);
+
+        return this.Mapper.Map<EntityReference>(status);
+    }
+
+    /// <summary>
     /// Retrieves the connected user data.
     /// </summary>
     /// <returns>The detailed data about the connected user.</returns>
