@@ -160,7 +160,7 @@ public class EventStatusesController : BaseController
         {
             this.ModelState.AddModelError("From", "The event is not in the right state");
         }
-        else if (this.GetNext(eventId).All(s => s.Identifier != update.From))
+        else if (this.GetNext(eventId).All(s => s.Identifier != update.To))
         {
             // Check if the transition is valid for this event
             this.ModelState.AddModelError("From", "This transition is not authorized for this event");
