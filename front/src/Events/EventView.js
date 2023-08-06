@@ -1,4 +1,3 @@
-import { IconCheck, IconX } from "@tabler/icons";
 import dayjs from "dayjs";
 import { useLoaderData, useParams, useRevalidator } from "react-router-dom";
 import { apiFetch, useApiFetch, useDefinition } from "../api";
@@ -8,8 +7,10 @@ import Sections from "../Generic/Sections";
 import Section from "../Generic/Section";
 import EntityList from "../Generic/EntityList";
 import AttachmentList from "../Attachments/AttachmentList";
-import { useInRole } from "../Authentication";
-import Modal from "../Generic/Modal";
+import { disconnect, useInRole } from "../Authentication";
+import { EventExtraMenu, EventModals } from "./components";
+import { useDispatch } from "react-redux";
+import { addError } from "../Alerts/slice";
 
 const transform = (d) => {
   d.fields = d.fields.filter((i) => i.name !== "attachments");
@@ -55,6 +56,7 @@ function StatusList() {
 
 export function EventView({ backTo = null, full = false }) {
   const revalidator = useRevalidator();
+  const dispatch = useDispatch();
   const { eventId } = useParams();
   const get = { method: "GET" };
   const entity = useLoaderData();
@@ -69,78 +71,12 @@ export function EventView({ backTo = null, full = false }) {
     }).then(() => {
       entity.currentStatus = newStatus;
       revalidator.revalidate();
-    });
-  }
-
-  function ExtraMenu() {
-    if (next.length === 0) {
-      return null;
-    }
-
-    return next.map((status, index) => {
-      switch (status.displayName) {
-        case "Approved":
-          return (
-            <button key={index} className="btn btn-success mx-1" onClick={() => handleStatusChange(status)}>
-              <IconCheck /> Approve
-            </button>
-          );
-        case "Rejected":
-          return (
-            <button key={index} className="btn btn-danger mx-1" data-bs-toggle="modal" data-bs-target="#modal-reject">
-              <IconX /> Reject
-            </button>
-          );
-        case "Canceled":
-          return (
-            <button key={index} className="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target="#modal-cancel">
-              <IconX /> Cancel
-            </button>
-          );
-        default:
-          return null;
-      }
-    });
-  }
-
-  function Modals() {
-    if (next.length === 0) {
-      return null;
-    }
-
-    return next.map((status, index) => {
-      switch (status.displayName) {
-        case "Approved":
-          return null;
-        case "Rejected":
-          return (
-            <Modal
-              key={index}
-              id="modal-reject"
-              title="Are you sure?"
-              text={`Do you really want to reject this ${entity.category.displayName} request from ${
-                entity.user.displayName
-              } starting ${dayjs(entity.startDate).format("DD MMM YYYY")}?`}
-              confirm="Reject"
-              onConfirm={() => handleStatusChange(status)}
-            />
-          );
-        case "Canceled":
-          return (
-            <Modal
-              key={index}
-              id="modal-cancel"
-              title="Are you sure?"
-              text={`Do you really want to cancel this ${entity.category.displayName} request from ${
-                entity.user.displayName
-              } starting ${dayjs(entity.startDate).format("DD MMM YYYY")}?`}
-              confirm="Yes"
-              cancel="No"
-              onConfirm={() => handleStatusChange(status)}
-            />
-          );
-        default:
-          return null;
+    }).catch((err) => {
+      if (err !== null && err.message === "401") {
+        dispatch(disconnect());
+      } else {
+        console.log(err);
+        dispatch(addError("Can't send this request", err.from));
       }
     });
   }
@@ -153,7 +89,7 @@ export function EventView({ backTo = null, full = false }) {
         title={entity.user ? entity.user.displayName + " - " + dayjs(entity.startDate).format("DD MMM YYYY") : null}
         entity={entity}
         editRole="noedit"
-        extraMenu={<ExtraMenu />}
+        extraMenu={<EventExtraMenu next={next} onStatusChange={handleStatusChange} />}
       >
         <Sections>
           <Section code="detail" element={<EventViewDetail />}>
@@ -170,7 +106,7 @@ export function EventView({ backTo = null, full = false }) {
           )}
         </Sections>
       </PageView>
-      <Modals />
+      <EventModals next={next} entity={entity} onStatusChange={handleStatusChange} />
     </>
   );
 }
