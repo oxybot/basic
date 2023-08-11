@@ -75,7 +75,7 @@ export function EventView({ backTo = null, full = false }) {
       if (err !== null && err.message === "401") {
         dispatch(disconnect());
       } else {
-        console.log(err);
+        console.error(err);
         dispatch(addError("Can't send this request", err.from));
       }
     });
