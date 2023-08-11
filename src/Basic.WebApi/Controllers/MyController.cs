@@ -165,7 +165,7 @@ public class MyController : BaseController
         if (entity.CurrentStatus.Identifier == Status.Requested
             || entity.CurrentStatus.Identifier == Status.Approved)
         {
-            if (entity.StartDate < DateOnly.FromDateTime(DateTime.Today))
+            if (entity.StartDate > DateOnly.FromDateTime(DateTime.Today))
             {
                 // The event is cancellable by the user
                 return this.Context.Set<Status>()
