@@ -35,6 +35,11 @@
   }
 }
 
+// Fix alert background
+.alert {
+  background-color: var(--tblr-bg-surface);
+}
+
 // Cancel default background style in dark mode
 .theme-dark,
 [data-bs-theme="dark"] {
