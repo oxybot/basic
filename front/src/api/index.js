@@ -52,8 +52,7 @@ export function useDefinition(type, transform = defaultTransform) {
       .then((definition) => transform(definition))
       .then((definition) => setDefinition(definition))
       .catch((err) => {
-        console.error("Server error");
-        console.log(err);
+        console.error("Server error", err);
         dispatch(addFatal("Server error", "Can't retrieve key information for this page."));
       });
   }, [dispatch, type, transform]);

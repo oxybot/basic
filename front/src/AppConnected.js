@@ -57,8 +57,8 @@ function loadList(context, request) {
   return apiFetch(`${context}?${params.toString()}`, { method: "GET" });
 }
 
-function loadOne(context, entityId) {
-  return apiFetch([context, entityId], { method: "GET" });
+function loadOne(...context) {
+  return apiFetch(context, { method: "GET" });
 }
 
 function ErrorElement() {
@@ -70,6 +70,7 @@ function ErrorElement() {
       dispatch(disconnect());
       revalidate();
     } else {
+      console.log("Route error", error);
       dispatch(addFatal("Server error", "Can't retrieve key information for this page."));
       revalidate();
     }
@@ -98,7 +99,12 @@ const router = createBrowserRouter(
         <Route
           path=":eventId"
           element={<MyEventView backTo="/my/events" />}
-          loader={({ params }) => loadOne("my/events", params.eventId)}
+          loader={async ({ params }) =>
+            await Promise.all([
+              loadOne("my/events", params.eventId),
+              loadOne("my/events", params.eventId, "statuses/next"),
+            ])
+          }
         />
         <Route path="new" element={<CalendarRequest />} />
       </Route>

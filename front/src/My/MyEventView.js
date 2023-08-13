@@ -12,9 +12,8 @@ import { disconnect } from "../Authentication";
 import { EventExtraMenu } from "../Events/components";
 import Modal from "../Generic/Modal";
 
-function EventViewDetail() {
+function EventViewDetail({ entity }) {
   const definition = useDefinition("EventForView");
-  const entity = useLoaderData();
 
   if (definition) {
     definition.fields = definition.fields.filter((f) => f.name !== "user");
@@ -66,8 +65,7 @@ export function MyEventView({ backTo = null, full = false }) {
   const revalidator = useRevalidator();
   const dispatch = useDispatch();
   const { eventId } = useParams();
-  const entity = useLoaderData();
-  const [, next] = useApiFetch(["My", "Events", eventId, "Statuses/Next"], { method: "GET" }, []);
+  const [entity, next] = useLoaderData();
 
   function handleStatusChange(newStatus) {
     apiFetch(["my", "events", eventId, "statuses"], {
@@ -99,7 +97,7 @@ export function MyEventView({ backTo = null, full = false }) {
         extraMenu={<EventExtraMenu next={next} onStatusChange={handleStatusChange} />}
       >
         <Sections>
-          <Section code="detail" element={<EventViewDetail />}>
+          <Section code="detail" element={<EventViewDetail entity={entity} />}>
             Detail
           </Section>
           <Section code="statuses" element={<StatusList eventId={eventId} />}>
