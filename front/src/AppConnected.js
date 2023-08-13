@@ -279,13 +279,17 @@ const router = createBrowserRouter(
       <Route
         path="/event/:eventId"
         element={<EventView full />}
-        loader={({ params }) => loadOne("events", params.eventId)}
+        loader={async ({ params }) =>
+          await Promise.all([loadOne("events", params.eventId), loadOne("events", params.eventId, "statuses/next")])
+        }
       />
       <Route path="/events" element={<EventList />} loader={({ request }) => loadList("events", request)}>
         <Route
           path=":eventId"
           element={<EventView backTo="/events" />}
-          loader={({ params }) => loadOne("events", params.eventId)}
+          loader={async ({ params }) =>
+            await Promise.all([loadOne("events", params.eventId), loadOne("events", params.eventId, "statuses/next")])
+          }
         />
         <Route path="new" element={<EventNew />} />
       </Route>

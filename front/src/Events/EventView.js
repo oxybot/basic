@@ -35,10 +35,8 @@ function EventAttachmentList() {
   );
 }
 
-function EventViewDetail() {
+function EventViewDetail({ entity }) {
   const definition = useDefinition("EventForView", transform);
-  const entity = useLoaderData();
-
   return <EntityDetail definition={definition} entity={entity} />;
 }
 
@@ -59,8 +57,7 @@ export function EventView({ backTo = null, full = false }) {
   const dispatch = useDispatch();
   const { eventId } = useParams();
   const get = { method: "GET" };
-  const entity = useLoaderData();
-  const [, next] = useApiFetch(["Events", eventId, "Statuses/Next"], get, []);
+  const [entity, next] = useLoaderData();
   const [, links] = useApiFetch(["Events", eventId, "links"], get, {});
   const isInRole = useInRole();
 
@@ -68,17 +65,19 @@ export function EventView({ backTo = null, full = false }) {
     apiFetch(["events", eventId, "statuses"], {
       method: "POST",
       body: JSON.stringify({ from: entity.currentStatus.identifier, to: newStatus.identifier }),
-    }).then(() => {
-      entity.currentStatus = newStatus;
-      revalidator.revalidate();
-    }).catch((err) => {
-      if (err !== null && err.message === "401") {
-        dispatch(disconnect());
-      } else {
-        console.error(err);
-        dispatch(addError("Can't send this request", err.from));
-      }
-    });
+    })
+      .then(() => {
+        entity.currentStatus = newStatus;
+        revalidator.revalidate();
+      })
+      .catch((err) => {
+        if (err !== null && err.message === "401") {
+          dispatch(disconnect());
+        } else {
+          console.error(err);
+          dispatch(addError("Can't send this request", err.from));
+        }
+      });
   }
 
   return (
@@ -92,7 +91,7 @@ export function EventView({ backTo = null, full = false }) {
         extraMenu={<EventExtraMenu next={next} onStatusChange={handleStatusChange} />}
       >
         <Sections>
-          <Section code="detail" element={<EventViewDetail />}>
+          <Section code="detail" element={<EventViewDetail entity={entity} />}>
             Detail
           </Section>
           <Section code="statuses" element={<StatusList />}>
