@@ -66,6 +66,27 @@ public class DebugController : BaseController
     }
 
     /// <summary>
+    /// Provides all known environment variables.
+    /// </summary>
+    /// <returns>
+    /// The list of known environment variables.
+    /// </returns>
+    [HttpGet]
+    [Produces("application/json")]
+    [AuthorizeRoles(Role.Users)]
+    [Route("Variables")]
+    public IEnumerable<string> LogVariables()
+    {
+        var results = new List<string>();
+        foreach (KeyValuePair<string, string> pair in Environment.GetEnvironmentVariables())
+        {
+            results.Add($"{pair.Key} = {pair.Value}");
+        }
+
+        return results;
+    }
+
+    /// <summary>
     /// Adds an exception log message defined by its level and content.
     /// </summary>
     /// <param name="level">The log level of the message.</param>
